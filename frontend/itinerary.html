@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Ops — Itinerary Builder</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/itinerary.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" integrity="sha512-qZvrmS2ekKPF2mSznTQsxqPgnpkI4DNTlrdUmTzrDgektczlKNRRhy5X5AAOnx5S09ydFYWWNSfdio1FsIDg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+<body>
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-logo"><span class="logo-icon">✈</span><span class="logo-text">Travel Ops</span></div>
+        <ul class="nav-links">
+            <li><a href="index.html"><span>📊</span> Dashboard</a></li>
+            <li><a href="leads.html"><span>🎯</span> Leads</a></li>
+            <li><a href="clients.html"><span>👥</span> Clients</a></li>
+            <li class="active"><a href="itinerary.html"><span>🗺</span> Itinerary Builder</a></li>
+            <li><a href="vendors.html"><span>🤝</span> Vendors</a></li>
+            <li><a href="invoices.html"><span>🧾</span> Invoices</a></li>
+            <li><a href="followups.html"><span>🔔</span> Follow-Ups</a></li>
+            <li><a href="reports.html"><span>📈</span> Reports</a></li>
+        </ul>
+        <div class="sidebar-user" id="sidebarUser"></div>
+    </nav>
+
+    <main class="main-content">
+        <header class="top-bar">
+            <button class="menu-toggle" id="menuToggle">☰</button>
+            <h1 class="page-title">Itinerary Builder</h1>
+            <div class="top-bar-right">
+                <button class="btn-secondary" id="loadItineraryBtn">📂 Load Saved</button>
+                <button class="btn-primary" id="newItineraryBtn">+ New Itinerary</button>
+                <button class="btn-logout" id="logoutBtn">Logout</button>
+            </div>
+        </header>
+
+        <div class="builder-layout">
+            <!-- LEFT: Config Panel -->
+            <div class="builder-config">
+                <div class="config-card">
+                    <h3>Trip Details</h3>
+                    <div class="form-group">
+                        <label>Title</label>
+                        <input type="text" id="iTitle" placeholder="e.g. Europe 10N - Smith Family">
+                    </div>
+                    <div class="form-group">
+                        <label>Client / Lead</label>
+                        <input type="text" id="iClientSearch" placeholder="Search client or lead...">
+                        <input type="hidden" id="iClientId">
+                    </div>
+                    <div class="form-group">
+                        <label>Destination *</label>
+                        <input type="text" id="iDestination" placeholder="e.g. Paris, Europe">
+                    </div>
+                    <div class="form-group">
+                        <label>Vendor</label>
+                        <select id="iVendor">
+                            <option value="">Select vendor...</option>
+                        </select>
+                    </div>
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label>Nights *</label>
+                            <input type="number" id="iNights" min="1" value="7" placeholder="7">
+                        </div>
+                        <div class="form-group">
+                            <label>Adults</label>
+                            <input type="number" id="iPaxAdults" min="1" value="2">
+                        </div>
+                        <div class="form-group">
+                            <label>Children</label>
+                            <input type="number" id="iPaxChildren" min="0" value="0">
+                        </div>
+                        <div class="form-group">
+                            <label>Hotel Category</label>
+                            <select id="iHotelCategory">
+                                <option value="budget">Budget (3★)</option>
+                                <option value="mid" selected>Mid-range (4★)</option>
+                                <option value="luxury">Luxury (5★)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="config-card">
+                    <h3>Inclusions</h3>
+                    <label class="toggle-row">
+                        <input type="checkbox" id="iIncludeFlights"> Flights
+                        <input type="number" id="iFlightCost" placeholder="₹/pax" class="inline-input hidden">
+                    </label>
+                    <label class="toggle-row">
+                        <input type="checkbox" id="iIncludeVisa"> Visa
+                        <span class="auto-tag">auto from vendor</span>
+                    </label>
+                    <label class="toggle-row">
+                        <input type="checkbox" id="iIncludeTransfers" checked> Transfers
+                    </label>
+                    <div class="form-group">
+                        <label>Meals</label>
+                        <select id="iMeals">
+                            <option value="none">Not Included</option>
+                            <option value="cp">CP – Breakfast Only</option>
+                            <option value="map">MAP – Breakfast + Dinner</option>
+                            <option value="ap">AP – All Meals</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="config-card">
+                    <h3>Pricing</h3>
+                    <div class="form-group">
+                        <label>Your Margin %</label>
+                        <input type="number" id="iMargin" min="0" max="40" value="15">
+                    </div>
+                    <div class="form-group">
+                        <label>Quote Valid Until</label>
+                        <input type="date" id="iValidUntil">
+                    </div>
+                    <div class="cost-breakdown" id="costBreakdown">
+                        <div class="cost-row"><span>Base Cost</span><span id="cbBase">₹0</span></div>
+                        <div class="cost-row"><span>Margin (15%)</span><span id="cbMargin">₹0</span></div>
+                        <div class="cost-row"><span>GST (5%)</span><span id="cbGst">₹0</span></div>
+                        <div class="cost-row total"><span>Total (per pax)</span><span id="cbPerPax">₹0</span></div>
+                        <div class="cost-row total highlight"><span>Total (all pax)</span><span id="cbTotal">₹0</span></div>
+                    </div>
+                    <button class="btn-primary full-width" id="recalcBtn">🔄 Recalculate</button>
+                </div>
+
+                <div class="config-card">
+                    <h3>Actions</h3>
+                    <button class="btn-primary full-width" id="saveItineraryBtn">💾 Save Itinerary</button>
+                    <button class="btn-secondary full-width mt-8" id="previewPdfBtn">👁 Preview PDF</button>
+                    <button class="btn-success full-width mt-8" id="generatePdfBtn">📄 Download PDF</button>
+                    <button class="btn-whatsapp full-width mt-8" id="sendWhatsappBtn">💬 Send via WhatsApp</button>
+                    <button class="btn-secondary full-width mt-8" id="createInvoiceBtn">🧾 Create Invoice</button>
+                </div>
+            </div>
+
+            <!-- RIGHT: Day Builder -->
+            <div class="builder-days">
+                <div class="days-header">
+                    <h3>Day-by-Day Itinerary</h3>
+                    <button class="btn-secondary" id="autoFillBtn">⚡ Auto-fill from vendor</button>
+                </div>
+                <div id="daysList"></div>
+                <button class="btn-add-day" id="addDayBtn">+ Add Day</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- PDF Preview Modal -->
+    <div class="modal hidden" id="pdfPreviewModal">
+        <div class="modal-overlay" id="pdfModalOverlay"></div>
+        <div class="modal-box modal-large">
+            <div class="modal-header">
+                <h2>Itinerary Preview</h2>
+                <button class="modal-close" id="closePdfModal">✕</button>
+            </div>
+            <div id="pdfPreviewContent" class="pdf-preview-area"></div>
+            <div class="form-actions">
+                <button class="btn-primary" id="downloadPdfBtn">⬇ Download PDF</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/supabase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/itinerary.js"></script>
+</body>
+</html>

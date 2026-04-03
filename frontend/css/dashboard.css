@@ -1,0 +1,183 @@
+/* ============================================================
+   TRAVEL OPS — Dashboard + Kanban styles
+   ============================================================ */
+
+/* Stats Grid */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 14px;
+    padding: 20px 24px;
+}
+
+.stat-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.stat-icon { font-size: 1.8rem; }
+.stat-label { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 4px; }
+.stat-value { font-size: 1.5rem; font-weight: 800; color: var(--text-primary); }
+
+/* Dashboard Sections */
+.dashboard-section {
+    padding: 0 24px 24px;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    padding-top: 8px;
+}
+
+.section-header h2 { font-size: 1rem; font-weight: 700; }
+
+.view-all { color: var(--primary); font-size: 0.85rem; text-decoration: none; }
+.view-all:hover { text-decoration: underline; }
+
+/* Follow-up List */
+.followup-list { display: flex; flex-direction: column; gap: 8px; }
+
+.followup-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.followup-item.overdue { border-left: 3px solid var(--danger); }
+.followup-item.today { border-left: 3px solid var(--warning); }
+
+.followup-name { font-weight: 600; }
+.followup-meta { font-size: 0.8rem; color: var(--text-muted); margin-top: 2px; }
+
+.followup-actions { display: flex; gap: 6px; flex-shrink: 0; }
+
+/* Pipeline Bar */
+.pipeline-bar {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.pipeline-stage {
+    flex: 1;
+    min-width: 100px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.pipeline-stage:hover { background: var(--bg-hover); }
+.pipeline-stage[data-stage="confirmed"] { border-color: rgba(16,185,129,0.4); }
+.pipeline-stage[data-stage="new"] { border-color: rgba(148,163,184,0.3); }
+
+.stage-count { display: block; font-size: 1.8rem; font-weight: 800; color: var(--primary); }
+.stage-label { font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+
+/* Kanban Board */
+.kanban-board {
+    display: flex;
+    gap: 12px;
+    padding: 0 24px 24px;
+    overflow-x: auto;
+    min-height: 400px;
+}
+
+.kanban-col {
+    flex: 0 0 220px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+}
+
+.kanban-col h3 {
+    padding: 12px 14px;
+    font-size: 0.88rem;
+    font-weight: 700;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.col-count { background: var(--bg-hover); padding: 1px 7px; border-radius: 20px; font-size: 0.75rem; font-weight: 400; }
+
+.kanban-cards { padding: 8px; display: flex; flex-direction: column; gap: 6px; min-height: 200px; }
+
+.kanban-card {
+    background: var(--bg-dark);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    cursor: pointer;
+    transition: border-color 0.15s;
+}
+
+.kanban-card:hover { border-color: var(--primary); }
+.kanban-card-name { font-weight: 600; font-size: 0.88rem; }
+.kanban-card-dest { font-size: 0.78rem; color: var(--text-muted); margin-top: 2px; }
+.kanban-card-date { font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; }
+
+/* Vendor Cards */
+.vendor-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 14px;
+    padding: 20px 24px;
+}
+
+.vendor-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px;
+    transition: border-color 0.15s;
+}
+
+.vendor-card:hover { border-color: var(--primary); }
+.vendor-card-name { font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
+.vendor-card-region { font-size: 0.82rem; color: var(--primary); margin-bottom: 10px; }
+.vendor-card-detail { font-size: 0.82rem; color: var(--text-muted); display: flex; gap: 8px; align-items: center; margin-bottom: 4px; }
+.vendor-card-actions { display: flex; gap: 8px; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border); }
+
+/* Follow-up Cards */
+.followup-cards { padding: 0 24px; display: flex; flex-direction: column; gap: 8px; }
+
+.fu-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.fu-card.overdue { border-left: 3px solid var(--danger); }
+.fu-card.today { border-left: 3px solid var(--warning); }
+.fu-card.upcoming { border-left: 3px solid var(--success); }
+.fu-card.done { opacity: 0.5; }
+
+.fu-type-icon { font-size: 1.4rem; flex-shrink: 0; }
+.fu-body { flex: 1; }
+.fu-lead-name { font-weight: 600; }
+.fu-meta { font-size: 0.8rem; color: var(--text-muted); margin-top: 2px; }
+.fu-message { font-size: 0.82rem; color: var(--text-primary); margin-top: 4px; font-style: italic; }
+.fu-actions { display: flex; gap: 6px; flex-shrink: 0; }

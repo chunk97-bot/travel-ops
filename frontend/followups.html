@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Ops — Follow-Ups</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-logo"><span class="logo-icon">✈</span><span class="logo-text">Travel Ops</span></div>
+        <ul class="nav-links">
+            <li><a href="index.html"><span>📊</span> Dashboard</a></li>
+            <li><a href="leads.html"><span>🎯</span> Leads</a></li>
+            <li><a href="clients.html"><span>👥</span> Clients</a></li>
+            <li><a href="itinerary.html"><span>🗺</span> Itinerary Builder</a></li>
+            <li><a href="vendors.html"><span>🤝</span> Vendors</a></li>
+            <li><a href="invoices.html"><span>🧾</span> Invoices</a></li>
+            <li class="active"><a href="followups.html"><span>🔔</span> Follow-Ups</a></li>
+            <li><a href="reports.html"><span>📈</span> Reports</a></li>
+        </ul>
+        <div class="sidebar-user" id="sidebarUser"></div>
+    </nav>
+
+    <main class="main-content">
+        <header class="top-bar">
+            <button class="menu-toggle" id="menuToggle">☰</button>
+            <h1 class="page-title">Follow-Ups</h1>
+            <div class="top-bar-right">
+                <button class="btn-primary" id="addFollowupBtn">+ Schedule Follow-up</button>
+                <button class="btn-logout" id="logoutBtn">Logout</button>
+            </div>
+        </header>
+
+        <!-- Tabs: Overdue / Today / Upcoming -->
+        <div class="tab-bar">
+            <button class="tab-btn active" data-tab="overdue">🔴 Overdue <span class="tab-count" id="countOverdue">0</span></button>
+            <button class="tab-btn" data-tab="today">🟡 Today <span class="tab-count" id="countToday">0</span></button>
+            <button class="tab-btn" data-tab="upcoming">🟢 Upcoming <span class="tab-count" id="countUpcoming">0</span></button>
+            <button class="tab-btn" data-tab="done">✅ Done</button>
+        </div>
+
+        <div class="followup-cards" id="followupCards">
+            <p class="loading">Loading follow-ups...</p>
+        </div>
+    </main>
+
+    <!-- Add Follow-up Modal -->
+    <div class="modal hidden" id="followupModal">
+        <div class="modal-overlay" id="followupModalOverlay"></div>
+        <div class="modal-box">
+            <div class="modal-header">
+                <h2>Schedule Follow-up</h2>
+                <button class="modal-close" id="closeFollowupModal">✕</button>
+            </div>
+            <form id="followupForm">
+                <div class="form-group">
+                    <label>Lead *</label>
+                    <input type="text" id="fuLeadSearch" placeholder="Search lead by name or phone...">
+                    <input type="hidden" id="fuLeadId">
+                </div>
+                <div class="form-group">
+                    <label>Type</label>
+                    <select id="fuType">
+                        <option value="call">📞 Call</option>
+                        <option value="whatsapp">💬 WhatsApp</option>
+                        <option value="email">📧 Email</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Due Date & Time *</label>
+                    <input type="datetime-local" id="fuDueDate" required>
+                </div>
+                <div class="form-group">
+                    <label>Message / Note</label>
+                    <textarea id="fuMessage" rows="3" placeholder="What to say / check about..."></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" id="cancelFollowupBtn">Cancel</button>
+                    <button type="submit" class="btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/supabase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/followups.js"></script>
+</body>
+</html>

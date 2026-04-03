@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Ops — Invoices</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" integrity="sha512-qZvrmS2ekKPF2mSznTQsxqPgnpkI4DNTlrdUmTzrDgektczlKNRRhy5X5AAOnx5S09ydFYWWNSfdio1FsIDg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+<body>
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-logo"><span class="logo-icon">✈</span><span class="logo-text">Travel Ops</span></div>
+        <ul class="nav-links">
+            <li><a href="index.html"><span>📊</span> Dashboard</a></li>
+            <li><a href="leads.html"><span>🎯</span> Leads</a></li>
+            <li><a href="clients.html"><span>👥</span> Clients</a></li>
+            <li><a href="itinerary.html"><span>🗺</span> Itinerary Builder</a></li>
+            <li><a href="vendors.html"><span>🤝</span> Vendors</a></li>
+            <li class="active"><a href="invoices.html"><span>🧾</span> Invoices</a></li>
+            <li><a href="followups.html"><span>🔔</span> Follow-Ups</a></li>
+            <li><a href="reports.html"><span>📈</span> Reports</a></li>
+        </ul>
+        <div class="sidebar-user" id="sidebarUser"></div>
+    </nav>
+
+    <main class="main-content">
+        <header class="top-bar">
+            <button class="menu-toggle" id="menuToggle">☰</button>
+            <h1 class="page-title">Invoices</h1>
+            <div class="top-bar-right">
+                <button class="btn-primary" id="newInvoiceBtn">+ New Invoice</button>
+                <button class="btn-logout" id="logoutBtn">Logout</button>
+            </div>
+        </header>
+
+        <!-- Summary Tiles -->
+        <section class="stats-grid">
+            <div class="stat-card"><div class="stat-icon">💰</div><div class="stat-info"><p class="stat-label">Total Billed (Month)</p><h2 class="stat-value" id="totalBilled">—</h2></div></div>
+            <div class="stat-card"><div class="stat-icon">✅</div><div class="stat-info"><p class="stat-label">Collected</p><h2 class="stat-value" id="totalCollected">—</h2></div></div>
+            <div class="stat-card"><div class="stat-icon urgent">⚠</div><div class="stat-info"><p class="stat-label">Pending</p><h2 class="stat-value urgent" id="totalPending">—</h2></div></div>
+            <div class="stat-card"><div class="stat-icon">📋</div><div class="stat-info"><p class="stat-label">GST Collected</p><h2 class="stat-value" id="totalGst">—</h2></div></div>
+        </section>
+
+        <!-- Filter Bar -->
+        <div class="filter-bar">
+            <input type="text" id="searchInvoices" placeholder="Search invoice no., client..." class="search-input">
+            <select id="filterStatus" class="filter-select">
+                <option value="">All Status</option>
+                <option value="draft">Draft</option>
+                <option value="sent">Sent</option>
+                <option value="partial">Partial</option>
+                <option value="paid">Paid</option>
+                <option value="overdue">Overdue</option>
+            </select>
+            <input type="month" id="filterMonth" class="filter-select">
+        </div>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Invoice #</th>
+                    <th>Client</th>
+                    <th>Destination</th>
+                    <th>Travel Date</th>
+                    <th>Amount</th>
+                    <th>GST</th>
+                    <th>Total</th>
+                    <th>Received</th>
+                    <th>Balance</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="invoiceTable">
+                <tr><td colspan="11" class="loading">Loading...</td></tr>
+            </tbody>
+        </table>
+    </main>
+
+    <!-- Invoice Modal -->
+    <div class="modal hidden" id="invoiceModal">
+        <div class="modal-overlay" id="invoiceModalOverlay"></div>
+        <div class="modal-box modal-large">
+            <div class="modal-header">
+                <h2 id="invoiceModalTitle">New Invoice</h2>
+                <button class="modal-close" id="closeInvoiceModal">✕</button>
+            </div>
+            <div id="invoiceFormArea">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Client *</label>
+                        <input type="text" id="invClientSearch" placeholder="Search client...">
+                        <input type="hidden" id="invClientId">
+                    </div>
+                    <div class="form-group">
+                        <label>Itinerary (optional)</label>
+                        <select id="invItinerary"><option value="">None</option></select>
+                    </div>
+                    <div class="form-group">
+                        <label>Travel Date</label>
+                        <input type="date" id="invTravelDate">
+                    </div>
+                    <div class="form-group">
+                        <label>No. of Pax</label>
+                        <input type="number" id="invPax" min="1" value="2">
+                    </div>
+                    <div class="form-group">
+                        <label>Base Amount (₹) *</label>
+                        <input type="number" id="invBaseAmount" placeholder="0.00">
+                    </div>
+                    <div class="form-group">
+                        <label>GST % <small>(5% for tour packages)</small></label>
+                        <input type="number" id="invGstPercent" value="5" min="0" max="28">
+                    </div>
+                    <div class="form-group">
+                        <label>TCS % <small>(5% on intl packages &gt;₹7L)</small></label>
+                        <input type="number" id="invTcsPercent" value="0" min="0" max="20">
+                    </div>
+                    <div class="form-group">
+                        <label>Due Date</label>
+                        <input type="date" id="invDueDate">
+                    </div>
+                    <div class="form-group full-width">
+                        <label>Notes</label>
+                        <textarea id="invNotes" rows="2"></textarea>
+                    </div>
+                </div>
+
+                <!-- Live Total -->
+                <div class="cost-breakdown">
+                    <div class="cost-row"><span>Base Amount</span><span id="invCbBase">₹0</span></div>
+                    <div class="cost-row"><span>GST</span><span id="invCbGst">₹0</span></div>
+                    <div class="cost-row"><span>TCS</span><span id="invCbTcs">₹0</span></div>
+                    <div class="cost-row total highlight"><span>Total Invoice</span><span id="invCbTotal">₹0</span></div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" id="cancelInvoiceBtn">Cancel</button>
+                    <button type="button" class="btn-primary" id="saveInvoiceBtn">Save Invoice</button>
+                    <button type="button" class="btn-success" id="saveAndPdfBtn">Save + PDF</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Record Payment Modal -->
+    <div class="modal hidden" id="paymentModal">
+        <div class="modal-overlay" id="paymentModalOverlay"></div>
+        <div class="modal-box">
+            <div class="modal-header">
+                <h2>Record Payment</h2>
+                <button class="modal-close" id="closePaymentModal">✕</button>
+            </div>
+            <div class="form-group">
+                <label>Invoice</label>
+                <p id="payInvoiceRef" class="read-only-field"></p>
+            </div>
+            <div class="form-group">
+                <label>Balance Due</label>
+                <p id="payBalance" class="read-only-field urgent"></p>
+            </div>
+            <div class="form-group">
+                <label>Amount Received (₹) *</label>
+                <input type="number" id="payAmount" placeholder="0.00">
+            </div>
+            <div class="form-group">
+                <label>Payment Mode</label>
+                <select id="payMode">
+                    <option value="upi">UPI</option>
+                    <option value="neft">NEFT / RTGS</option>
+                    <option value="cash">Cash</option>
+                    <option value="cheque">Cheque</option>
+                    <option value="card">Card</option>
+                    <option value="online">Online Portal</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Reference / UTR</label>
+                <input type="text" id="payRef" placeholder="e.g. UTR123456">
+            </div>
+            <div class="form-group">
+                <label>Date</label>
+                <input type="date" id="payDate">
+            </div>
+            <div class="form-actions">
+                <button class="btn-secondary" id="cancelPaymentBtn">Cancel</button>
+                <button class="btn-primary" id="savePaymentBtn">Record Payment</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/supabase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/invoices.js"></script>
+</body>
+</html>

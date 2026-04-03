@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Ops — Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-logo">
+            <span class="logo-icon">✈</span>
+            <span class="logo-text">Travel Ops</span>
+        </div>
+        <ul class="nav-links">
+            <li class="active"><a href="index.html"><span>📊</span> Dashboard</a></li>
+            <li><a href="leads.html"><span>🎯</span> Leads</a></li>
+            <li><a href="clients.html"><span>👥</span> Clients</a></li>
+            <li><a href="itinerary.html"><span>🗺</span> Itinerary Builder</a></li>
+            <li><a href="vendors.html"><span>🤝</span> Vendors</a></li>
+            <li><a href="invoices.html"><span>🧾</span> Invoices</a></li>
+            <li><a href="followups.html"><span>🔔</span> Follow-Ups</a></li>
+            <li><a href="reports.html"><span>📈</span> Reports</a></li>
+        </ul>
+        <div class="sidebar-user" id="sidebarUser"></div>
+    </nav>
+
+    <main class="main-content">
+        <header class="top-bar">
+            <button class="menu-toggle" id="menuToggle">☰</button>
+            <h1 class="page-title">Dashboard</h1>
+            <div class="top-bar-right">
+                <span id="dateDisplay"></span>
+                <button class="btn-logout" id="logoutBtn">Logout</button>
+            </div>
+        </header>
+
+        <!-- Stats Row -->
+        <section class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">🎯</div>
+                <div class="stat-info">
+                    <p class="stat-label">Leads Today</p>
+                    <h2 class="stat-value" id="statLeadsToday">—</h2>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🔔</div>
+                <div class="stat-info">
+                    <p class="stat-label">Follow-ups Due</p>
+                    <h2 class="stat-value urgent" id="statFollowups">—</h2>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">✅</div>
+                <div class="stat-info">
+                    <p class="stat-label">Confirmed This Month</p>
+                    <h2 class="stat-value" id="statConfirmed">—</h2>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">💰</div>
+                <div class="stat-info">
+                    <p class="stat-label">Revenue This Month</p>
+                    <h2 class="stat-value" id="statRevenue">—</h2>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🧾</div>
+                <div class="stat-info">
+                    <p class="stat-label">Invoices Pending</p>
+                    <h2 class="stat-value urgent" id="statInvoicesPending">—</h2>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📊</div>
+                <div class="stat-info">
+                    <p class="stat-label">Conversion Rate</p>
+                    <h2 class="stat-value" id="statConversion">—</h2>
+                </div>
+            </div>
+        </section>
+
+        <!-- Follow-ups Due Today -->
+        <section class="dashboard-section">
+            <div class="section-header">
+                <h2>Follow-ups Due Today</h2>
+                <a href="followups.html" class="view-all">View All →</a>
+            </div>
+            <div class="followup-list" id="followupList">
+                <p class="empty-state">Loading...</p>
+            </div>
+        </section>
+
+        <!-- Recent Leads -->
+        <section class="dashboard-section">
+            <div class="section-header">
+                <h2>Recent Leads</h2>
+                <a href="leads.html" class="view-all">View All →</a>
+            </div>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Destination</th>
+                        <th>Budget</th>
+                        <th>Stage</th>
+                        <th>Source</th>
+                        <th>Added</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="recentLeadsTable">
+                    <tr><td colspan="7" class="loading">Loading...</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Pipeline Summary -->
+        <section class="dashboard-section">
+            <div class="section-header">
+                <h2>Pipeline Overview</h2>
+            </div>
+            <div class="pipeline-bar" id="pipelineBar">
+                <div class="pipeline-stage" data-stage="new"><span class="stage-count" id="pNew">0</span><span class="stage-label">New</span></div>
+                <div class="pipeline-stage" data-stage="contacted"><span class="stage-count" id="pContacted">0</span><span class="stage-label">Contacted</span></div>
+                <div class="pipeline-stage" data-stage="quoted"><span class="stage-count" id="pQuoted">0</span><span class="stage-label">Quoted</span></div>
+                <div class="pipeline-stage" data-stage="negotiating"><span class="stage-count" id="pNegotiating">0</span><span class="stage-label">Negotiating</span></div>
+                <div class="pipeline-stage" data-stage="confirmed"><span class="stage-count" id="pConfirmed">0</span><span class="stage-label">Confirmed</span></div>
+            </div>
+        </section>
+    </main>
+
+    <script src="js/supabase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

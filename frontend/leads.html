@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Ops — Leads</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-logo"><span class="logo-icon">✈</span><span class="logo-text">Travel Ops</span></div>
+        <ul class="nav-links">
+            <li><a href="index.html"><span>📊</span> Dashboard</a></li>
+            <li class="active"><a href="leads.html"><span>🎯</span> Leads</a></li>
+            <li><a href="clients.html"><span>👥</span> Clients</a></li>
+            <li><a href="itinerary.html"><span>🗺</span> Itinerary Builder</a></li>
+            <li><a href="vendors.html"><span>🤝</span> Vendors</a></li>
+            <li><a href="invoices.html"><span>🧾</span> Invoices</a></li>
+            <li><a href="followups.html"><span>🔔</span> Follow-Ups</a></li>
+            <li><a href="reports.html"><span>📈</span> Reports</a></li>
+        </ul>
+        <div class="sidebar-user" id="sidebarUser"></div>
+    </nav>
+
+    <main class="main-content">
+        <header class="top-bar">
+            <button class="menu-toggle" id="menuToggle">☰</button>
+            <h1 class="page-title">Leads</h1>
+            <div class="top-bar-right">
+                <button class="btn-primary" id="addLeadBtn">+ New Lead</button>
+                <button class="btn-logout" id="logoutBtn">Logout</button>
+            </div>
+        </header>
+
+        <!-- Filter Bar -->
+        <div class="filter-bar">
+            <input type="text" id="searchLeads" placeholder="Search name, phone, destination..." class="search-input">
+            <select id="filterStage" class="filter-select">
+                <option value="">All Stages</option>
+                <option value="new">New</option>
+                <option value="contacted">Contacted</option>
+                <option value="quoted">Quoted</option>
+                <option value="negotiating">Negotiating</option>
+                <option value="confirmed">Confirmed</option>
+                <option value="lost">Lost</option>
+                <option value="cancelled">Cancelled</option>
+            </select>
+            <select id="filterSource" class="filter-select">
+                <option value="">All Sources</option>
+                <option value="instagram">Instagram</option>
+                <option value="whatsapp">WhatsApp</option>
+                <option value="referral">Referral</option>
+                <option value="walk_in">Walk-in</option>
+                <option value="website">Website</option>
+                <option value="phone">Phone</option>
+                <option value="facebook">Facebook</option>
+            </select>
+            <select id="filterAssigned" class="filter-select">
+                <option value="">All Staff</option>
+            </select>
+            <div class="view-toggle">
+                <button class="view-btn active" data-view="table" id="viewTable">☰ Table</button>
+                <button class="view-btn" data-view="kanban" id="viewKanban">⊞ Kanban</button>
+            </div>
+        </div>
+
+        <!-- Table View -->
+        <div id="tableView">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Phone</th>
+                        <th>Destination</th>
+                        <th>Travel Date</th>
+                        <th>Pax</th>
+                        <th>Budget</th>
+                        <th>Stage</th>
+                        <th>Source</th>
+                        <th>Assigned</th>
+                        <th>Score</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="leadsTable">
+                    <tr><td colspan="11" class="loading">Loading leads...</td></tr>
+                </tbody>
+            </table>
+            <div class="pagination" id="pagination"></div>
+        </div>
+
+        <!-- Kanban View -->
+        <div id="kanbanView" class="hidden">
+            <div class="kanban-board">
+                <div class="kanban-col" id="kanban-new"><h3>New <span class="col-count"></span></h3><div class="kanban-cards"></div></div>
+                <div class="kanban-col" id="kanban-contacted"><h3>Contacted <span class="col-count"></span></h3><div class="kanban-cards"></div></div>
+                <div class="kanban-col" id="kanban-quoted"><h3>Quoted <span class="col-count"></span></h3><div class="kanban-cards"></div></div>
+                <div class="kanban-col" id="kanban-negotiating"><h3>Negotiating <span class="col-count"></span></h3><div class="kanban-cards"></div></div>
+                <div class="kanban-col" id="kanban-confirmed"><h3>Confirmed <span class="col-count"></span></h3><div class="kanban-cards"></div></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Add/Edit Lead Modal -->
+    <div class="modal hidden" id="leadModal">
+        <div class="modal-overlay" id="leadModalOverlay"></div>
+        <div class="modal-box">
+            <div class="modal-header">
+                <h2 id="leadModalTitle">New Lead</h2>
+                <button class="modal-close" id="closeLeadModal">✕</button>
+            </div>
+            <form id="leadForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Full Name *</label>
+                        <input type="text" id="leadName" required placeholder="e.g. Rajesh Kumar">
+                    </div>
+                    <div class="form-group">
+                        <label>Phone *</label>
+                        <input type="tel" id="leadPhone" required placeholder="+91 98XXX XXXXX">
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="leadEmail" placeholder="email@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Source</label>
+                        <select id="leadSource">
+                            <option value="instagram">Instagram</option>
+                            <option value="whatsapp">WhatsApp</option>
+                            <option value="referral">Referral</option>
+                            <option value="walk_in">Walk-in</option>
+                            <option value="website">Website</option>
+                            <option value="phone">Phone</option>
+                            <option value="facebook">Facebook</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Destination</label>
+                        <input type="text" id="leadDestination" placeholder="e.g. Europe, Maldives">
+                    </div>
+                    <div class="form-group">
+                        <label>Trip Type</label>
+                        <select id="leadTripType">
+                            <option value="leisure">Leisure</option>
+                            <option value="honeymoon">Honeymoon</option>
+                            <option value="family">Family</option>
+                            <option value="corporate">Corporate</option>
+                            <option value="group">Group</option>
+                            <option value="luxury">Luxury</option>
+                            <option value="adventure">Adventure</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Travel Date</label>
+                        <input type="date" id="leadTravelDate">
+                    </div>
+                    <div class="form-group">
+                        <label>Return Date</label>
+                        <input type="date" id="leadReturnDate">
+                    </div>
+                    <div class="form-group">
+                        <label>Adults</label>
+                        <input type="number" id="leadPaxAdults" min="1" value="2">
+                    </div>
+                    <div class="form-group">
+                        <label>Children</label>
+                        <input type="number" id="leadPaxChildren" min="0" value="0">
+                    </div>
+                    <div class="form-group">
+                        <label>Budget Range</label>
+                        <select id="leadBudget">
+                            <option value="under1L">Under ₹1L</option>
+                            <option value="1L-3L">₹1L – ₹3L</option>
+                            <option value="3L-6L">₹3L – ₹6L</option>
+                            <option value="6L-10L">₹6L – ₹10L</option>
+                            <option value="10L+">₹10L+</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Assigned To</label>
+                        <select id="leadAssigned"></select>
+                    </div>
+                    <div class="form-group">
+                        <label>Stage</label>
+                        <select id="leadStage">
+                            <option value="new">New</option>
+                            <option value="contacted">Contacted</option>
+                            <option value="quoted">Quoted</option>
+                            <option value="negotiating">Negotiating</option>
+                            <option value="confirmed">Confirmed</option>
+                        </select>
+                    </div>
+                    <div class="form-group full-width">
+                        <label>Notes</label>
+                        <textarea id="leadNotes" rows="3" placeholder="Any specific requirements..."></textarea>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" id="cancelLeadBtn">Cancel</button>
+                    <button type="submit" class="btn-primary">Save Lead</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Lead Detail Drawer -->
+    <div class="drawer hidden" id="leadDrawer">
+        <div class="drawer-overlay" id="leadDrawerOverlay"></div>
+        <div class="drawer-panel">
+            <div class="drawer-header">
+                <h2 id="drawerLeadName">Lead Detail</h2>
+                <button class="modal-close" id="closeDrawer">✕</button>
+            </div>
+            <div class="drawer-body" id="drawerBody"></div>
+        </div>
+    </div>
+
+    <script src="js/supabase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/leads.js"></script>
+</body>
+</html>

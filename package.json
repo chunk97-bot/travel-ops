@@ -1,0 +1,14 @@
+{
+  "name": "travel-ops",
+  "version": "1.0.0",
+  "description": "Internal CRM and operations tool for travel agency",
+  "private": true,
+  "scripts": {
+    "preview": "npx serve frontend",
+    "deploy:whatsapp": "npx wrangler deploy workers/whatsapp-worker.js --name travel-ops-whatsapp",
+    "deploy:email": "npx wrangler deploy workers/email-worker.js --name travel-ops-email"
+  },
+  "devDependencies": {
+    "wrangler": "^3.0.0"
+  }
+}
