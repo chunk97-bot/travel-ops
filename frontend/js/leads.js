@@ -128,7 +128,7 @@ function renderTable(leads) {
     renderPagination(leads.length);
 }
 
-// ── Kanban render ─────────────────────────────────────────
+// ── Kanban render (with drag-drop) ────────────────────────
 function renderKanban(leads) {
     const stages = ['new','contacted','quoted','negotiating','confirmed'];
     stages.forEach(stage => {
@@ -137,16 +137,44 @@ function renderKanban(leads) {
         if (!col) return;
         const stageLeads = leads.filter(l => l.stage === stage);
         if (count) count.textContent = stageLeads.length;
+
+        // Drop zone events
+        col.ondragover = (e) => { e.preventDefault(); col.classList.add('drag-over'); };
+        col.ondragleave = () => col.classList.remove('drag-over');
+        col.ondrop = (e) => { e.preventDefault(); col.classList.remove('drag-over'); handleKanbanDrop(e, stage); };
+
         col.innerHTML = stageLeads.length
             ? stageLeads.map(l => `
-                <div class="kanban-card" onclick="openLeadDrawer('${l.id}')">
+                <div class="kanban-card" draggable="true" data-lead-id="${l.id}"
+                    ondragstart="event.dataTransfer.setData('text/plain','${l.id}')"
+                    onclick="openLeadDrawer('${l.id}')">
                     <div class="kanban-card-name">${escHtml(l.name)}</div>
                     <div class="kanban-card-dest">✈ ${escHtml(l.destination || 'TBD')}</div>
                     <div class="kanban-card-date">${formatDate(l.travel_date)} · ${escHtml(l.budget_range || '—')}</div>
+                    ${typeof scoreBadge === 'function' ? `<div style="margin-top:4px">${scoreBadge(l.lead_score || 0)}</div>` : ''}
                 </div>
             `).join('')
             : '<p style="text-align:center;color:var(--text-muted);font-size:0.8rem;padding:20px 0">Empty</p>';
     });
+}
+
+// ── Kanban Drag-Drop Handler ──────────────────────────────
+async function handleKanbanDrop(e, newStage) {
+    const leadId = e.dataTransfer.getData('text/plain');
+    if (!leadId) return;
+    const lead = allLeads.find(l => l.id === leadId);
+    if (!lead || lead.stage === newStage) return;
+
+    const { error } = await window.supabase.from('leads').update({ stage: newStage }).eq('id', leadId);
+    if (error) { showToast('Failed to move lead', 'error'); return; }
+
+    await autoCreateFollowup(leadId, newStage);
+    // Trigger workflow if available
+    if (typeof triggerWorkflow === 'function') {
+        triggerWorkflow('lead_stage_change', { lead_id: leadId, stage: newStage, previous_stage: lead.stage });
+    }
+    showToast(`Moved to ${newStage}`);
+    await loadLeads();
 }
 
 // ── Lead Drawer ───────────────────────────────────────────
@@ -189,6 +217,8 @@ async function openLeadDrawer(leadId) {
                 <button class="btn-secondary" style="font-size:0.82rem;padding:6px 12px" onclick="quickStageUpdate('${lead.id}')">↑ Move Stage</button>
                 <button class="btn-secondary" style="font-size:0.82rem;padding:6px 12px" onclick="window.location.href='itinerary.html?lead=${lead.id}'">🗺 Build Itinerary</button>
                 <button class="btn-secondary" style="font-size:0.82rem;padding:6px 12px" onclick="openEditLead('${lead.id}');closeDrawer('leadDrawer')">✏ Edit</button>
+                ${typeof openCallDialog === 'function' ? `<button class="btn-secondary" style="font-size:0.82rem;padding:6px 12px" onclick="openCallDialog('${escHtml(lead.phone)}','${lead.id}')">📞 Call</button>` : ''}
+                ${typeof openEmailComposer === 'function' && lead.email ? `<button class="btn-secondary" style="font-size:0.82rem;padding:6px 12px" onclick="openEmailComposer({to:'${escHtml(lead.email)}',leadId:'${lead.id}'})">📧 Email</button>` : ''}
             </div>
         </div>
 

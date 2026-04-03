@@ -220,8 +220,9 @@ function setupActions() {
     document.getElementById('previewPdfBtn')?.addEventListener('click', () => { buildPdfPreview(); openModal('pdfPreviewModal'); });
     document.getElementById('closePdfModal')?.addEventListener('click', () => closeModal('pdfPreviewModal'));
     document.getElementById('pdfModalOverlay')?.addEventListener('click', () => closeModal('pdfPreviewModal'));
-    document.getElementById('generatePdfBtn')?.addEventListener('click', downloadPdf);
-    document.getElementById('downloadPdfBtn')?.addEventListener('click', downloadPdf);
+    const pdfHandler = typeof downloadBrandedPdf === 'function' ? downloadBrandedPdf : downloadPdf;
+    document.getElementById('generatePdfBtn')?.addEventListener('click', pdfHandler);
+    document.getElementById('downloadPdfBtn')?.addEventListener('click', pdfHandler);
     document.getElementById('sendWhatsappBtn')?.addEventListener('click', sendWhatsapp);
     document.getElementById('recalcBtn')?.addEventListener('click', recalculate);
 }

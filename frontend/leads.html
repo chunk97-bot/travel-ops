@@ -79,6 +79,8 @@
                 <option value="">All Staff</option>
             </select>
             <button class="btn-secondary" id="myLeadsToggle" style="padding:7px 14px;font-size:0.85rem">👤 My Leads</button>
+            <button class="btn-secondary" style="padding:7px 14px;font-size:0.85rem" onclick="typeof openImportDialog==='function'&&openImportDialog('leads')">📥 Import CSV</button>
+            <button class="btn-secondary" style="padding:7px 14px;font-size:0.85rem" onclick="typeof scoreAllLeads==='function'&&scoreAllLeads().then(()=>loadLeads())">🎯 Rescore All</button>
             <div class="view-toggle">
                 <button class="view-btn active" data-view="table" id="viewTable">☰ Table</button>
                 <button class="view-btn" data-view="kanban" id="viewKanban">⊞ Kanban</button>
@@ -240,6 +242,12 @@
 
     <script src="js/supabase-config.js"></script>
     <script src="js/auth.js"></script>
+    <script src="js/lead-scoring.js"></script>
+    <script src="js/call-log.js"></script>
+    <script src="js/email-integration.js"></script>
+    <script src="js/data-import.js"></script>
+    <script src="js/workflow-rules.js"></script>
+    <script src="js/activity-timeline.js"></script>
     <script src="js/leads.js"></script>
 </body>
 </html>

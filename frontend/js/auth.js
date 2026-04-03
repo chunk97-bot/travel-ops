@@ -324,3 +324,107 @@ function showToast(message, type = 'success') {
     document.body.appendChild(toast);
     setTimeout(() => toast.remove(), 3500);
 }
+
+// ============================================================
+// FEATURE #10 — Global Search (across all modules)
+// ============================================================
+(function initGlobalSearch() {
+    const topBar = document.querySelector('.top-bar');
+    if (!topBar) return;
+    const wrapper = document.createElement('div');
+    wrapper.id = 'globalSearchWrap';
+    wrapper.style.cssText = 'position:relative;margin:0 16px;flex:1;max-width:360px;';
+    wrapper.innerHTML = `
+        <input type="text" id="globalSearchInput" placeholder="Search leads, clients, invoices..."
+            autocomplete="off"
+            style="width:100%;padding:7px 12px 7px 32px;border-radius:8px;border:1px solid var(--border);
+            background:var(--bg-input);color:var(--text-primary);font-size:0.85rem;">
+        <span style="position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:0.9rem;pointer-events:none">🔍</span>
+        <div id="globalSearchResults" style="display:none;position:absolute;top:40px;left:0;right:0;
+            background:var(--surface,#1e293b);border:1px solid var(--border);border-radius:10px;
+            box-shadow:0 8px 30px rgba(0,0,0,0.4);z-index:1001;max-height:400px;overflow-y:auto;"></div>`;
+    const title = topBar.querySelector('.page-title');
+    if (title) title.after(wrapper); else topBar.prepend(wrapper);
+
+    let _searchTimeout;
+    document.getElementById('globalSearchInput').addEventListener('input', (e) => {
+        clearTimeout(_searchTimeout);
+        const q = e.target.value.trim();
+        if (q.length < 2) { document.getElementById('globalSearchResults').style.display = 'none'; return; }
+        _searchTimeout = setTimeout(() => _runGlobalSearch(q), 300);
+    });
+    document.addEventListener('click', (e) => {
+        if (!wrapper.contains(e.target)) document.getElementById('globalSearchResults').style.display = 'none';
+    });
+    // Keyboard shortcut: Ctrl+K
+    document.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'k') { e.preventDefault(); document.getElementById('globalSearchInput').focus(); }
+    });
+})();
+
+async function _runGlobalSearch(query) {
+    const results = document.getElementById('globalSearchResults');
+    results.style.display = 'block';
+    results.innerHTML = '<p style="padding:12px;color:var(--text-muted);font-size:0.85rem">Searching...</p>';
+
+    const like = `%${query}%`;
+    const [leads, clients, invoices] = await Promise.all([
+        window.supabase.from('leads').select('id, name, phone, destination, stage').or(`name.ilike.${like},phone.ilike.${like},destination.ilike.${like}`).limit(5),
+        window.supabase.from('clients').select('id, name, phone, email').or(`name.ilike.${like},phone.ilike.${like},email.ilike.${like}`).limit(5),
+        window.supabase.from('invoices').select('id, invoice_number, clients(name), total_amount').or(`invoice_number.ilike.${like}`).limit(5),
+    ]);
+
+    let html = '';
+    if (leads.data?.length) {
+        html += '<div style="padding:6px 12px;font-size:0.72rem;color:var(--text-muted);text-transform:uppercase;font-weight:700">Leads</div>';
+        html += leads.data.map(l => `
+            <a href="leads.html" style="display:flex;align-items:center;gap:8px;padding:8px 12px;text-decoration:none;color:var(--text-primary);border-bottom:1px solid var(--border)"
+               onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='transparent'">
+                <span style="font-size:1.1rem">🎯</span>
+                <div style="flex:1"><div style="font-weight:600;font-size:0.85rem">${escHtml(l.name)}</div>
+                <div style="font-size:0.75rem;color:var(--text-muted)">${escHtml(l.destination||'')} · ${escHtml(l.stage)}</div></div>
+            </a>`).join('');
+    }
+    if (clients.data?.length) {
+        html += '<div style="padding:6px 12px;font-size:0.72rem;color:var(--text-muted);text-transform:uppercase;font-weight:700">Clients</div>';
+        html += clients.data.map(c => `
+            <a href="clients.html" style="display:flex;align-items:center;gap:8px;padding:8px 12px;text-decoration:none;color:var(--text-primary);border-bottom:1px solid var(--border)"
+               onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='transparent'">
+                <span style="font-size:1.1rem">👥</span>
+                <div style="flex:1"><div style="font-weight:600;font-size:0.85rem">${escHtml(c.name)}</div>
+                <div style="font-size:0.75rem;color:var(--text-muted)">${escHtml(c.phone||'')} ${c.email ? '· '+escHtml(c.email) : ''}</div></div>
+            </a>`).join('');
+    }
+    if (invoices.data?.length) {
+        html += '<div style="padding:6px 12px;font-size:0.72rem;color:var(--text-muted);text-transform:uppercase;font-weight:700">Invoices</div>';
+        html += invoices.data.map(i => `
+            <a href="invoices.html" style="display:flex;align-items:center;gap:8px;padding:8px 12px;text-decoration:none;color:var(--text-primary);border-bottom:1px solid var(--border)"
+               onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='transparent'">
+                <span style="font-size:1.1rem">🧾</span>
+                <div style="flex:1"><div style="font-weight:600;font-size:0.85rem">${escHtml(i.invoice_number)}</div>
+                <div style="font-size:0.75rem;color:var(--text-muted)">${escHtml(i.clients?.name||'')} · ${formatINR(i.total_amount)}</div></div>
+            </a>`).join('');
+    }
+    if (!html) html = '<p style="padding:16px;color:var(--text-muted);font-size:0.85rem;text-align:center">No results found</p>';
+    html += '<div style="padding:8px 12px;text-align:center;font-size:0.72rem;color:var(--text-muted)">Ctrl+K to search</div>';
+    results.innerHTML = html;
+}
+
+// ============================================================
+// FEATURE #14 — Multi-currency helper
+// ============================================================
+const CURRENCY_RATES = {
+    INR: 1, USD: 85.5, EUR: 92.3, GBP: 108.2, AED: 23.3,
+    SGD: 63.5, THB: 2.45, MYR: 18.9, AUD: 55.2, JPY: 0.57
+};
+function formatCurrency(amount, currency) {
+    if (!currency || currency === 'INR') return formatINR(amount);
+    const sym = { USD:'$', EUR:'€', GBP:'£', AED:'د.إ', SGD:'S$', THB:'฿', MYR:'RM', AUD:'A$', JPY:'¥' };
+    return (sym[currency]||currency+' ') + Number(amount).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+}
+function convertToINR(amount, fromCurrency) {
+    return amount * (CURRENCY_RATES[fromCurrency] || 1);
+}
+function convertFromINR(amountINR, toCurrency) {
+    return amountINR / (CURRENCY_RATES[toCurrency] || 1);
+}

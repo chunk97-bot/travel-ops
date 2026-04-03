@@ -595,6 +595,51 @@ body {
 .page-btn.active { background: var(--primary); color: #fff; }
 
 /* ============================================================
+   CALENDAR
+   ============================================================ */
+.cal-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.cal-header h3 { font-size: 1.1rem; min-width: 180px; text-align: center; }
+.cal-nav { padding: 4px 12px; font-size: 0.9rem; }
+.cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
+.cal-dow { text-align: center; font-size: 0.75rem; color: var(--text-muted); font-weight: 600; padding: 6px 0; text-transform: uppercase; }
+.cal-day { background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; min-height: 80px; padding: 4px; font-size: 0.8rem; }
+.cal-day.cal-empty { background: transparent; border-color: transparent; }
+.cal-day.cal-today { border-color: var(--primary); box-shadow: 0 0 0 1px var(--primary); }
+.cal-day.cal-has-events { background: rgba(59, 130, 246, 0.06); }
+.cal-num { font-weight: 600; font-size: 0.82rem; display: block; margin-bottom: 2px; }
+.cal-event { font-size: 0.7rem; padding: 1px 4px; margin-bottom: 1px; border-radius: 3px; background: var(--bg-hover); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cal-more { font-size: 0.68rem; color: var(--primary); cursor: pointer; }
+
+/* ============================================================
+   ACTIVITY TIMELINE
+   ============================================================ */
+.activity-timeline { display: flex; flex-direction: column; gap: 8px; }
+.timeline-item { display: flex; gap: 10px; position: relative; padding-left: 4px; }
+.timeline-dot { font-size: 1rem; flex-shrink: 0; width: 28px; text-align: center; }
+.timeline-content { flex: 1; background: var(--bg-input); border-radius: 6px; padding: 8px 12px; }
+.timeline-header { display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap; }
+.timeline-label { font-weight: 600; font-size: 0.85rem; text-transform: capitalize; }
+.timeline-by { font-size: 0.78rem; color: var(--text-muted); }
+.timeline-time { font-size: 0.75rem; color: var(--text-muted); margin-left: auto; }
+.timeline-detail { font-size: 0.82rem; color: var(--text-muted); margin-top: 3px; }
+
+/* ============================================================
+   KANBAN DRAG & DROP
+   ============================================================ */
+.kanban-card[draggable="true"] { cursor: grab; transition: transform 0.15s, box-shadow 0.15s; }
+.kanban-card[draggable="true"]:active { cursor: grabbing; }
+.kanban-card[draggable="true"]:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+.kanban-cards.drag-over { background: rgba(59, 130, 246, 0.1); border: 2px dashed var(--primary); border-radius: 8px; min-height: 60px; }
+
+/* ============================================================
+   IMPORT MODAL / DROP ZONE
+   ============================================================ */
+.import-dropzone { border: 2px dashed var(--border); border-radius: 10px; padding: 32px; text-align: center; color: var(--text-muted); transition: border-color 0.2s, background 0.2s; cursor: pointer; }
+.import-dropzone:hover, .import-dropzone.dragover { border-color: var(--primary); background: rgba(59, 130, 246, 0.05); }
+.import-preview-table { max-height: 280px; overflow: auto; margin-top: 12px; }
+.import-preview-table table { width: 100%; font-size: 0.8rem; }
+
+/* ============================================================
    RESPONSIVE
    ============================================================ */
 @media (max-width: 768px) {
@@ -606,4 +651,6 @@ body {
     .data-table { font-size: 0.8rem; }
     .data-table th, .data-table td { padding: 8px 8px; }
     .drawer-panel { width: 100%; }
+    .cal-grid { font-size: 0.7rem; }
+    .cal-day { min-height: 50px; }
 }

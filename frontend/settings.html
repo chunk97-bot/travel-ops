@@ -50,6 +50,39 @@
             <button class="btn-primary" onclick="saveSettings()">Save Settings</button>
         </div>
 
+        <!-- Workflow Automation Rules -->
+        <div class="dashboard-section">
+            <div class="section-header">
+                <h2>⚡ Workflow Automation Rules</h2>
+                <button class="btn-secondary" style="font-size:0.85rem;padding:6px 14px" onclick="typeof seedDefaultRules==='function'&&seedDefaultRules()">+ Seed Defaults</button>
+            </div>
+            <div id="workflowRulesContainer">
+                <p class="empty-state">Loading rules...</p>
+            </div>
+        </div>
+
+        <!-- Audit Trail -->
+        <div class="dashboard-section">
+            <div class="section-header">
+                <h2>📋 Audit Trail</h2>
+            </div>
+            <div id="auditTrailContainer">
+                <p class="empty-state">Loading audit trail...</p>
+            </div>
+        </div>
+
+        <!-- Web Lead Capture Embed Code -->
+        <div class="dashboard-section">
+            <div class="section-header">
+                <h2>🔗 Lead Capture Form Embed</h2>
+            </div>
+            <p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:10px">Copy this code and paste it on your website to capture leads directly into Travel Ops:</p>
+            <div style="background:var(--bg-input);border-radius:8px;padding:12px;font-family:monospace;font-size:0.82rem;word-break:break-all;color:var(--text-primary)">
+                &lt;iframe src="<span id="captureUrl">lead-capture.html</span>" width="100%" height="700" frameborder="0" style="border-radius:12px"&gt;&lt;/iframe&gt;
+            </div>
+            <button class="btn-secondary" style="margin-top:8px;font-size:0.85rem;padding:6px 14px" onclick="navigator.clipboard.writeText('<iframe src=&quot;'+document.getElementById('captureUrl').textContent+'&quot; width=&quot;100%&quot; height=&quot;700&quot; frameborder=&quot;0&quot;></iframe>');showToast('Embed code copied!')">📋 Copy Embed Code</button>
+        </div>
+
         <div class="settings-grid">
             <!-- Company Profile -->
             <div class="section-card">
@@ -195,6 +228,8 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabase-config.js"></script>
     <script src="js/auth.js"></script>
+    <script src="js/workflow-rules.js"></script>
+    <script src="js/audit-trail.js"></script>
     <script src="js/settings.js"></script>
 </body>
 </html>

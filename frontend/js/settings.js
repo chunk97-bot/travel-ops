@@ -24,6 +24,10 @@ const DB_KEYS = {
 document.addEventListener('DOMContentLoaded', () => {
     loadSettings();
     document.getElementById('saveSettingsBtn')?.addEventListener('click', saveSettings);
+    // Init workflow rules panel
+    if (typeof loadWorkflowRules === 'function') loadWorkflowRules();
+    // Init audit trail panel
+    if (typeof loadAuditTrail === 'function') loadAuditTrail('auditTrailContainer');
 });
 
 async function loadSettings() {

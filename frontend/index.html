@@ -6,6 +6,8 @@
     <title>Travel Ops — Dashboard</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#3b82f6">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
@@ -167,10 +169,29 @@
                 <div class="pipeline-stage" data-stage="confirmed"><span class="stage-count" id="pConfirmed">0</span><span class="stage-label">Confirmed</span></div>
             </div>
         </section>
+
+        <!-- Calendar View -->
+        <section class="dashboard-section">
+            <div class="section-header">
+                <h2>📅 Calendar</h2>
+            </div>
+            <div id="calendarContainer"></div>
+        </section>
     </main>
 
     <script src="js/supabase-config.js"></script>
     <script src="js/auth.js"></script>
+    <script src="js/calendar-view.js"></script>
     <script src="js/dashboard.js"></script>
+    <script>
+        // PWA Service Worker registration
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js').catch(() => {});
+        }
+        // Init calendar after dashboard loads
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof initCalendar === 'function') initCalendar('calendarContainer');
+        });
+    </script>
 </body>
 </html>
