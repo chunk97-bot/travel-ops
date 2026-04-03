@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Board — Travel Ops</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-config.js"></script>
+    <script src="js/auth.js" defer></script>
+    <style>
+        .board-header { display:flex; gap:12px; flex-wrap:wrap; align-items:center; margin-bottom:20px; }
+        .board-header select { padding:8px 12px; background:var(--surface); border:1px solid var(--border); border-radius:8px; color:var(--text); }
+        .board-cols { display:grid; grid-template-columns: repeat(3, 1fr); gap:16px; }
+        @media(max-width:900px){ .board-cols{grid-template-columns:1fr;} }
+        .board-col { background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:12px; padding:16px; }
+        .board-col-title { font-weight:700; font-size:0.88rem; margin-bottom:14px; display:flex; align-items:center; gap:8px; }
+        .task-card { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:14px; margin-bottom:10px; cursor:pointer; transition:border-color 0.2s; }
+        .task-card:hover { border-color:var(--primary); }
+        .task-card .tclient { font-weight:600; font-size:0.88rem; margin-bottom:4px; }
+        .task-card .ttype { font-size:0.75rem; color:var(--text-muted); }
+        .task-card .tdue { font-size:0.75rem; margin-top:6px; }
+        .task-card.overdue { border-color:#ef4444; }
+        .task-card.overdue .tdue { color:#f87171; font-weight:600; }
+        .task-card.today { border-color:#f59e0b; }
+        .task-card.today .tdue { color:#fbbf24; font-weight:600; }
+        .task-card .tstaff { font-size:0.7rem; background:rgba(99,102,241,0.2); color:#818cf8; padding:2px 6px; border-radius:4px; display:inline-block; margin-top:4px; }
+        .count-badge { background:rgba(255,255,255,0.08); border-radius:50px; padding:2px 8px; font-size:0.75rem; }
+        .empty-col { color:var(--text-muted); font-size:0.83rem; text-align:center; padding:20px 0; }
+        /* Upcoming trips section */
+        .trips-table { width:100%; border-collapse:collapse; }
+        .trips-table th, .trips-table td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--border); font-size:0.85rem; }
+        .trips-table th { color:var(--text-muted); font-weight:600; background:rgba(255,255,255,0.03); }
+        .days-badge { border-radius:6px; padding:2px 8px; font-size:0.78rem; font-weight:600; }
+    </style>
+</head>
+<body>
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-logo"><span class="logo-icon">✈</span><span class="logo-text">Travel Ops</span></div>
+        <ul class="nav-links">
+            <li><a href="index.html"><span>📊</span> Dashboard</a></li>
+            <li><a href="leads.html"><span>🎯</span> Leads</a></li>
+            <li><a href="clients.html"><span>👥</span> Clients</a></li>
+            <li><a href="quotations.html"><span>📋</span> Quotations</a></li>
+            <li><a href="bookings.html"><span>🗓</span> Bookings</a></li>
+            <li><a href="invoices.html"><span>🧾</span> Invoices</a></li>
+            <li><a href="followups.html"><span>🔔</span> Follow-Ups</a></li>
+            <li class="active"><a href="task-board.html"><span>✅</span> Task Board</a></li>
+            <li><a href="campaigns.html"><span>📢</span> Campaigns</a></li>
+            <li><a href="reports.html"><span>📈</span> Reports</a></li>
+            <li><a href="settings.html"><span>⚙</span> Settings</a></li>
+        </ul>
+        <div class="sidebar-user" id="sidebarUser"></div>
+    </nav>
+
+    <main class="main-content">
+        <header class="top-bar">
+            <button class="menu-toggle" id="menuToggle">☰</button>
+            <h1 class="page-title">Task Board</h1>
+            <div class="top-bar-right">
+                <span id="dateDisplay"></span>
+                <button class="btn-logout" id="logoutBtn">Logout</button>
+            </div>
+        </header>
+
+        <div class="page-content">
+            <div class="board-header">
+                <span style="font-size:0.9rem;font-weight:600;">Today: <span id="todayLabel"></span></span>
+                <select id="staffViewFilter" onchange="loadBoard()">
+                    <option value="mine">My Tasks</option>
+                    <option value="all">All Staff</option>
+                </select>
+                <select id="staffPicker" onchange="loadBoard()" style="display:none;">
+                    <option value="">All Staff</option>
+                </select>
+            </div>
+
+            <!-- Follow-up columns -->
+            <h3 style="margin:0 0 12px;font-size:0.95rem;">Follow-Ups</h3>
+            <div class="board-cols">
+                <div class="board-col">
+                    <div class="board-col-title" style="color:#f87171;">⚠ Overdue <span class="count-badge" id="countOverdue">0</span></div>
+                    <div id="colOverdue"></div>
+                </div>
+                <div class="board-col">
+                    <div class="board-col-title" style="color:#fbbf24;">📅 Today <span class="count-badge" id="countToday">0</span></div>
+                    <div id="colToday"></div>
+                </div>
+                <div class="board-col">
+                    <div class="board-col-title" style="color:#60a5fa;">🔜 Upcoming (7 days) <span class="count-badge" id="countUpcoming">0</span></div>
+                    <div id="colUpcoming"></div>
+                </div>
+            </div>
+
+            <!-- Upcoming trips -->
+            <h3 style="margin:28px 0 12px;font-size:0.95rem;">Upcoming Trips (Next 14 Days)</h3>
+            <div class="card">
+                <table class="trips-table">
+                    <thead><tr><th>Client</th><th>Destination</th><th>Travel Date</th><th>Days Away</th><th>Status</th><th>Action</th></tr></thead>
+                    <tbody id="tripsBody"><tr><td colspan="6" style="text-align:center;padding:24px;color:var(--text-muted);">Loading…</td></tr></tbody>
+                </table>
+            </div>
+
+            <!-- Outstanding invoices -->
+            <h3 style="margin:28px 0 12px;font-size:0.95rem;">Pending Invoice Collections</h3>
+            <div class="card">
+                <table class="trips-table">
+                    <thead><tr><th>Invoice #</th><th>Client</th><th>Amount Due</th><th>Due Date</th><th>Overdue By</th></tr></thead>
+                    <tbody id="invoiceBody"><tr><td colspan="5" style="text-align:center;padding:24px;color:var(--text-muted);">Loading…</td></tr></tbody>
+                </table>
+            </div>
+
+            <!-- Expiring documents -->
+            <h3 style="margin:28px 0 12px;font-size:0.95rem;">Documents Expiring in 30 Days</h3>
+            <div class="card">
+                <table class="trips-table">
+                    <thead><tr><th>Client</th><th>Document Type</th><th>Expiry Date</th><th>Days Left</th></tr></thead>
+                    <tbody id="docsBody"><tr><td colspan="4" style="text-align:center;padding:24px;color:var(--text-muted);">Loading…</td></tr></tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/task-board.js"></script>
+</body>
+</html>

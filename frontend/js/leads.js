@@ -7,12 +7,31 @@ let currentPage = 1;
 const PAGE_SIZE = 20;
 let currentView = 'table';
 let editingLeadId = null;
+let myLeadsOnly = false;
+let currentUserId = null;
 
 // ── Init ──────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', async () => {
+    currentUserId = await getCurrentUserId();
+    // Sales role defaults to My Leads view
+    if (typeof hasRole === 'function' && hasRole(['sales'])) {
+        myLeadsOnly = true;
+    }
     await loadLeads();
     await loadStaffOptions(document.getElementById('filterAssigned'));
     await loadStaffOptions(document.getElementById('leadAssigned'), false);
+
+    // My Leads toggle
+    const myLeadsBtn = document.getElementById('myLeadsToggle');
+    if (myLeadsBtn) {
+        myLeadsBtn.classList.toggle('active', myLeadsOnly);
+        myLeadsBtn.addEventListener('click', () => {
+            myLeadsOnly = !myLeadsOnly;
+            myLeadsBtn.classList.toggle('active', myLeadsOnly);
+            currentPage = 1;
+            filterAndRender();
+        });
+    }
 
     // Filters
     ['searchLeads','filterStage','filterSource','filterAssigned'].forEach(id => {
@@ -37,11 +56,17 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 // ── Load leads from Supabase ──────────────────────────────
 async function loadLeads() {
-    const { data, error } = await window.supabase
+    let query = window.supabase
         .from('leads')
         .select(`*, staff_profiles(name)`)
         .order('created_at', { ascending: false });
 
+    // Assignment enforcement: sales role only sees their own leads by default
+    if (myLeadsOnly && currentUserId) {
+        query = query.eq('assigned_to', currentUserId);
+    }
+
+    const { data, error } = await query;
     if (error) { showToast('Failed to load leads', 'error'); return; }
     allLeads = data || [];
     filterAndRender();

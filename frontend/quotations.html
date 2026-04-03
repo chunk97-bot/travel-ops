@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quotations — Travel Ops</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
+    <script src="js/supabase-config.js"></script>
+    <script src="js/auth.js" defer></script>
+    <style>
+        .quotes-toolbar { display:flex; gap:12px; flex-wrap:wrap; margin-bottom:20px; align-items:center; }
+        .quotes-toolbar input, .quotes-toolbar select { flex:1; min-width:140px; max-width:220px; }
+        .quote-table { width:100%; border-collapse:collapse; }
+        .quote-table th, .quote-table td { padding:12px 14px; text-align:left; border-bottom:1px solid var(--border); font-size:0.87rem; }
+        .quote-table th { background:rgba(255,255,255,0.04); font-weight:600; color:var(--text-muted); }
+        .quote-table tbody tr:hover { background:rgba(255,255,255,0.03); }
+        .badge-draft      { background:rgba(107,114,128,0.25); color:#9ca3af; }
+        .badge-sent       { background:rgba(59,130,246,0.2); color:#60a5fa; }
+        .badge-accepted   { background:rgba(16,185,129,0.2); color:#34d399; }
+        .badge-rejected   { background:rgba(239,68,68,0.2); color:#f87171; }
+        .badge-expired    { background:rgba(245,158,11,0.2); color:#fbbf24; }
+        .quote-actions button { background:transparent; border:1px solid var(--border); border-radius:6px; padding:4px 10px; cursor:pointer; font-size:0.78rem; color:var(--text); margin-right:4px; }
+        .quote-actions button:hover { background:var(--primary); color:#000; border-color:var(--primary); }
+        /* Drawer */
+        .drawer { position:fixed; right:-520px; top:0; width:520px; height:100vh; background:var(--surface); border-left:1px solid var(--border); z-index:800; transition:right 0.3s; overflow-y:auto; padding:28px 24px; box-shadow:-8px 0 40px rgba(0,0,0,0.5); }
+        .drawer.open { right:0; }
+        .drawer h2 { margin:0 0 20px; font-size:1.2rem; }
+        .form-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+        .form-group { margin-bottom:14px; }
+        .form-group label { display:block; font-size:0.8rem; color:var(--text-muted); margin-bottom:5px; }
+        .form-group input, .form-group select, .form-group textarea { width:100%; padding:8px 12px; background:rgba(255,255,255,0.06); border:1px solid var(--border); border-radius:8px; color:var(--text); font-size:0.88rem; box-sizing:border-box; }
+        .form-group textarea { resize:vertical; min-height:80px; }
+        .items-table { width:100%; border-collapse:collapse; margin-bottom:12px; }
+        .items-table th, .items-table td { padding:7px 8px; font-size:0.8rem; border-bottom:1px solid var(--border); }
+        .items-table input { background:transparent; border:none; color:var(--text); width:100%; padding:2px; font-size:0.8rem; }
+        .items-table input:focus { outline:1px solid var(--primary); border-radius:4px; }
+        .totals-row { display:flex; justify-content:flex-end; }
+        .totals-box { background:rgba(255,255,255,0.04); border:1px solid var(--border); border-radius:10px; padding:14px 18px; min-width:220px; margin-top:8px; }
+        .totals-box .row { display:flex; justify-content:space-between; font-size:0.85rem; margin-bottom:6px; }
+        .totals-box .row.total { font-weight:700; font-size:1rem; color:var(--primary); border-top:1px solid var(--border); padding-top:6px; }
+        .btn-add-row { background:transparent; border:1px dashed var(--border); border-radius:6px; padding:6px 14px; cursor:pointer; color:var(--text-muted); font-size:0.82rem; }
+        .btn-add-row:hover { border-color:var(--primary); color:var(--primary); }
+        .drawer-footer { display:flex; gap:10px; margin-top:20px; flex-wrap:wrap; }
+        .btn-primary { background:var(--primary); color:#000; border:none; border-radius:8px; padding:10px 20px; font-weight:700; cursor:pointer; }
+        .btn-secondary { background:transparent; border:1px solid var(--border); border-radius:8px; padding:10px 20px; color:var(--text); cursor:pointer; }
+    </style>
+</head>
+<body>
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-logo"><span class="logo-icon">✈</span><span class="logo-text">Travel Ops</span></div>
+        <ul class="nav-links">
+            <li><a href="index.html"><span>📊</span> Dashboard</a></li>
+            <li><a href="leads.html"><span>🎯</span> Leads</a></li>
+            <li><a href="clients.html"><span>👥</span> Clients</a></li>
+            <li class="active"><a href="quotations.html"><span>📋</span> Quotations</a></li>
+            <li><a href="bookings.html"><span>🗓</span> Bookings</a></li>
+            <li><a href="invoices.html"><span>🧾</span> Invoices</a></li>
+            <li><a href="followups.html"><span>🔔</span> Follow-Ups</a></li>
+            <li><a href="task-board.html"><span>✅</span> Task Board</a></li>
+            <li><a href="campaigns.html"><span>📢</span> Campaigns</a></li>
+            <li><a href="reports.html"><span>📈</span> Reports</a></li>
+            <li><a href="settings.html"><span>⚙</span> Settings</a></li>
+        </ul>
+        <div class="sidebar-user" id="sidebarUser"></div>
+    </nav>
+
+    <main class="main-content">
+        <header class="top-bar">
+            <button class="menu-toggle" id="menuToggle">☰</button>
+            <h1 class="page-title">Quotations</h1>
+            <div class="top-bar-right">
+                <span id="dateDisplay"></span>
+                <button class="btn btn-primary" onclick="openNewQuote()">+ New Quote</button>
+                <button class="btn-logout" id="logoutBtn">Logout</button>
+            </div>
+        </header>
+
+        <div class="page-content">
+            <div class="quotes-toolbar">
+                <input type="search" id="quoteSearch" placeholder="Search by quote no, lead, destination…">
+                <select id="quoteStatusFilter">
+                    <option value="">All Statuses</option>
+                    <option value="draft">Draft</option>
+                    <option value="sent">Sent</option>
+                    <option value="accepted">Accepted</option>
+                    <option value="rejected">Rejected</option>
+                    <option value="expired">Expired</option>
+                </select>
+                <select id="quoteStaffFilter"><option value="">All Staff</option></select>
+            </div>
+
+            <div class="card">
+                <table class="quote-table">
+                    <thead>
+                        <tr>
+                            <th>Quote No</th>
+                            <th>Client / Lead</th>
+                            <th>Destination</th>
+                            <th>Travel Date</th>
+                            <th>Pax</th>
+                            <th>Total</th>
+                            <th>Valid Until</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="quotesTableBody">
+                        <tr><td colspan="9" style="text-align:center;padding:40px;color:var(--text-muted);">Loading…</td></tr>
+                    </tbody>
+                </table>
+                <div id="quotesPagination" style="padding:12px 0;display:flex;gap:8px;justify-content:center;"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Quote Drawer -->
+    <div class="drawer" id="quoteDrawer">
+        <h2 id="drawerTitle">New Quotation</h2>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>Lead</label>
+                <select id="qLeadId"><option value="">Select lead…</option></select>
+            </div>
+            <div class="form-group">
+                <label>Client</label>
+                <select id="qClientId"><option value="">Select client…</option></select>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>Destination</label>
+                <input type="text" id="qDestination" placeholder="e.g. Goa, Rajasthan…">
+            </div>
+            <div class="form-group">
+                <label>Nights</label>
+                <input type="number" id="qNights" value="2" min="1">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>Travel Date</label>
+                <input type="date" id="qTravelDate">
+            </div>
+            <div class="form-group">
+                <label>Valid Until</label>
+                <input type="date" id="qValidUntil">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>Pax Count</label>
+                <input type="number" id="qPaxCount" value="2" min="1">
+            </div>
+            <div class="form-group">
+                <label>GST %</label>
+                <select id="qGstPct">
+                    <option value="0">0%</option>
+                    <option value="5" selected>5%</option>
+                    <option value="12">12%</option>
+                    <option value="18">18%</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Line Items -->
+        <p style="font-size:0.85rem;font-weight:600;margin:12px 0 6px;">Quote Items</p>
+        <table class="items-table">
+            <thead>
+                <tr>
+                    <th style="width:40%">Description</th>
+                    <th style="width:15%">Qty</th>
+                    <th style="width:20%">Rate (₹)</th>
+                    <th style="width:20%">Amount (₹)</th>
+                    <th style="width:5%"></th>
+                </tr>
+            </thead>
+            <tbody id="quoteItemsBody"></tbody>
+        </table>
+        <button class="btn-add-row" onclick="addItemRow()">+ Add Item</button>
+
+        <div class="totals-row">
+            <div class="totals-box">
+                <div class="row"><span>Subtotal</span><span id="qSubtotal">₹0</span></div>
+                <div class="row"><span>Discount</span><span>₹<input type="number" id="qDiscount" value="0" min="0" style="width:80px;background:transparent;border:1px solid var(--border);border-radius:4px;padding:2px 6px;color:var(--text);" onchange="recalcTotals()"></span></div>
+                <div class="row"><span>GST (<span id="qGstLabel">5</span>%)</span><span id="qGst">₹0</span></div>
+                <div class="row total"><span>Total</span><span id="qTotal">₹0</span></div>
+            </div>
+        </div>
+
+        <div class="form-row" style="margin-top:12px;">
+            <div class="form-group">
+                <label>Inclusions</label>
+                <textarea id="qInclusions" placeholder="What's included…"></textarea>
+            </div>
+            <div class="form-group">
+                <label>Exclusions</label>
+                <textarea id="qExclusions" placeholder="Not included…"></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Notes / Terms</label>
+            <textarea id="qNotes" placeholder="Payment terms, cancellation policy…"></textarea>
+        </div>
+        <div class="form-group">
+            <label>Status</label>
+            <select id="qStatus">
+                <option value="draft">Draft</option>
+                <option value="sent">Sent</option>
+                <option value="accepted">Accepted</option>
+                <option value="rejected">Rejected</option>
+                <option value="expired">Expired</option>
+            </select>
+        </div>
+
+        <div class="drawer-footer">
+            <button class="btn-primary" onclick="saveQuote()">💾 Save Quote</button>
+            <button class="btn-secondary" onclick="downloadQuotePdf()">📄 Download PDF</button>
+            <button id="convertInvoiceBtn" class="btn-secondary" style="display:none;" onclick="convertToInvoice()">🧾 Convert to Invoice</button>
+            <button class="btn-secondary" onclick="closeQuoteDrawer()">Cancel</button>
+        </div>
+    </div>
+    <div id="drawerOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:799;" onclick="closeQuoteDrawer()"></div>
+
+    <script src="js/quotations.js"></script>
+</body>
+</html>

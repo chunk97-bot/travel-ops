@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campaigns — Travel Ops</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-config.js"></script>
+    <script src="js/auth.js" defer></script>
+    <style>
+        .campaigns-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:20px; }
+        @media(max-width:768px){.campaigns-grid{grid-template-columns:1fr;}}
+        .campaign-card { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:20px; position:relative; }
+        .campaign-card .camp-name { font-weight:700; font-size:1rem; margin-bottom:6px; }
+        .campaign-card .camp-meta { font-size:0.8rem; color:var(--text-muted); }
+        .campaign-card .camp-progress { margin-top:12px; background:rgba(255,255,255,0.06); border-radius:4px; height:6px; overflow:hidden; }
+        .campaign-card .camp-progress-bar { height:100%; background:var(--primary); border-radius:4px; transition:width 0.5s; }
+        .camp-status-draft    { color:#9ca3af; }
+        .camp-status-running  { color:#60a5fa; }
+        .camp-status-completed{ color:#34d399; }
+        .camp-status-failed   { color:#f87171; }
+        .camp-actions { position:absolute; top:14px; right:14px; display:flex; gap:6px; }
+        .camp-actions button { background:transparent; border:1px solid var(--border); border-radius:6px; padding:4px 10px; cursor:pointer; font-size:0.78rem; color:var(--text); }
+        .camp-actions button:hover { background:var(--primary); color:#000; border-color:var(--primary); }
+        /* Modal */
+        .modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:900; align-items:center; justify-content:center; }
+        .modal-overlay.open { display:flex; }
+        .modal-box { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:28px; width:min(560px,95vw); max-height:90vh; overflow-y:auto; }
+        .modal-box h2 { margin:0 0 20px; font-size:1.1rem; }
+        .form-group { margin-bottom:14px; }
+        .form-group label { display:block; font-size:0.8rem; color:var(--text-muted); margin-bottom:5px; }
+        .form-group input, .form-group select, .form-group textarea { width:100%; padding:8px 12px; background:rgba(255,255,255,0.06); border:1px solid var(--border); border-radius:8px; color:var(--text); font-size:0.88rem; box-sizing:border-box; }
+        .form-group textarea { resize:vertical; min-height:100px; }
+        .modal-footer { display:flex; gap:10px; margin-top:20px; justify-content:flex-end; }
+        .btn-primary { background:var(--primary); color:#000; border:none; border-radius:8px; padding:10px 20px; font-weight:700; cursor:pointer; }
+        .btn-secondary { background:transparent; border:1px solid var(--border); border-radius:8px; padding:10px 20px; color:var(--text); cursor:pointer; }
+        .preview-box { background:rgba(255,255,255,0.04); border:1px solid var(--border); border-radius:8px; padding:12px; margin-top:8px; font-size:0.82rem; line-height:1.5; white-space:pre-wrap; }
+        .recipients-badge { background:rgba(99,102,241,0.2); color:#818cf8; border-radius:6px; padding:4px 10px; font-size:0.8rem; font-weight:600; }
+    </style>
+</head>
+<body>
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-logo"><span class="logo-icon">✈</span><span class="logo-text">Travel Ops</span></div>
+        <ul class="nav-links">
+            <li><a href="index.html"><span>📊</span> Dashboard</a></li>
+            <li><a href="leads.html"><span>🎯</span> Leads</a></li>
+            <li><a href="clients.html"><span>👥</span> Clients</a></li>
+            <li><a href="quotations.html"><span>📋</span> Quotations</a></li>
+            <li><a href="bookings.html"><span>🗓</span> Bookings</a></li>
+            <li><a href="invoices.html"><span>🧾</span> Invoices</a></li>
+            <li><a href="followups.html"><span>🔔</span> Follow-Ups</a></li>
+            <li><a href="task-board.html"><span>✅</span> Task Board</a></li>
+            <li class="active"><a href="campaigns.html"><span>📢</span> Campaigns</a></li>
+            <li><a href="reports.html"><span>📈</span> Reports</a></li>
+            <li><a href="settings.html"><span>⚙</span> Settings</a></li>
+        </ul>
+        <div class="sidebar-user" id="sidebarUser"></div>
+    </nav>
+
+    <main class="main-content">
+        <header class="top-bar">
+            <button class="menu-toggle" id="menuToggle">☰</button>
+            <h1 class="page-title">Campaigns</h1>
+            <div class="top-bar-right">
+                <span id="dateDisplay"></span>
+                <button class="btn btn-primary" onclick="openNewCampaign()">+ New Campaign</button>
+                <button class="btn-logout" id="logoutBtn">Logout</button>
+            </div>
+        </header>
+
+        <div class="page-content">
+            <!-- Stats row -->
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;">
+                <div class="stat-card"><div class="stat-icon">📢</div><div class="stat-info"><p class="stat-label">Total Campaigns</p><h2 class="stat-value" id="statTotal">—</h2></div></div>
+                <div class="stat-card"><div class="stat-icon">✅</div><div class="stat-info"><p class="stat-label">Completed</p><h2 class="stat-value" id="statCompleted">—</h2></div></div>
+                <div class="stat-card"><div class="stat-icon">📨</div><div class="stat-info"><p class="stat-label">Messages Sent</p><h2 class="stat-value" id="statSent">—</h2></div></div>
+                <div class="stat-card"><div class="stat-icon">📋</div><div class="stat-info"><p class="stat-label">Draft / Scheduled</p><h2 class="stat-value" id="statDraft">—</h2></div></div>
+            </div>
+
+            <h3 style="margin-bottom:14px;">All Campaigns</h3>
+            <div class="campaigns-grid" id="campaignsGrid">
+                <div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text-muted);">Loading…</div>
+            </div>
+        </div>
+    </main>
+
+    <!-- New Campaign Modal -->
+    <div class="modal-overlay" id="campaignModal">
+        <div class="modal-box">
+            <h2 id="campModalTitle">New Campaign</h2>
+
+            <div class="form-group">
+                <label>Campaign Name</label>
+                <input type="text" id="campName" placeholder="e.g. Monsoon Goa Offer — June 2025">
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                <div class="form-group">
+                    <label>Channel</label>
+                    <select id="campChannel">
+                        <option value="whatsapp">WhatsApp</option>
+                        <option value="email">Email</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Target Audience</label>
+                    <select id="campAudience" onchange="previewRecipients()">
+                        <option value="all_clients">All Clients</option>
+                        <option value="segment_hni">HNI Segment</option>
+                        <option value="segment_corporate">Corporate Segment</option>
+                        <option value="segment_leisure">Leisure Segment</option>
+                        <option value="balance_due">Clients with Balance Due</option>
+                        <option value="upcoming_trip">Upcoming Trip (next 30 days)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Use Template (optional)</label>
+                <select id="campTemplate" onchange="fillMessageFromTemplate()">
+                    <option value="">— Write custom message —</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Message Body <small style="color:var(--text-muted);">(Use {name}, {destination} as placeholders)</small></label>
+                <textarea id="campMessage" placeholder="Hi {name}, we have an exclusive offer for you! 🌴…" oninput="updatePreview()"></textarea>
+            </div>
+
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                <span style="font-size:0.82rem;color:var(--text-muted);">Preview</span>
+                <span class="recipients-badge" id="recipientsBadge">— recipients</span>
+            </div>
+            <div class="preview-box" id="campPreview">Your message preview will appear here…</div>
+
+            <div class="form-group" style="margin-top:14px;">
+                <label>Schedule (optional — leave blank to send now)</label>
+                <input type="datetime-local" id="campSchedule">
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeCampaignModal()">Cancel</button>
+                <button class="btn-primary" onclick="saveCampaign(false)">💾 Save Draft</button>
+                <button class="btn-primary" style="background:#10b981;" onclick="saveCampaign(true)">🚀 Send Now</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/campaigns.js"></script>
+</body>
+</html>

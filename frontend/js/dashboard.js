@@ -8,6 +8,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         loadFollowupsToday(),
         loadRecentLeads(),
         loadPipeline(),
+        loadBirthdayWidget(),
+        loadNotificationBadge(),
     ]);
 });
 
@@ -112,4 +114,80 @@ async function loadPipeline() {
         const el = document.getElementById(`p${stage.charAt(0).toUpperCase() + stage.slice(1)}`);
         if (el) el.textContent = count;
     });
+}
+
+// ── Birthday & Anniversary Widget ────────────────────────
+async function loadBirthdayWidget() {
+    const el = document.getElementById('birthdayWidget');
+    if (!el) return;
+
+    const today = new Date();
+    const in7Days = new Date(today);
+    in7Days.setDate(today.getDate() + 7);
+    const todayMD = `${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+    const in7MD = `${String(in7Days.getMonth() + 1).padStart(2, '0')}-${String(in7Days.getDate()).padStart(2, '0')}`;
+
+    // Query clients with matching DOB month-day range
+    const { data: birthdays } = await window.supabase
+        .from('clients')
+        .select('id, name, phone, dob, anniversary')
+        .not('dob', 'is', null);
+
+    const { data: anniversaries } = await window.supabase
+        .from('clients')
+        .select('id, name, phone, anniversary')
+        .not('anniversary', 'is', null);
+
+    const thisWeekBirthdays = (birthdays || []).filter(c => {
+        if (!c.dob) return false;
+        const md = c.dob.slice(5); // MM-DD
+        return md >= todayMD && md <= in7MD;
+    });
+
+    const thisWeekAnniversaries = (anniversaries || []).filter(c => {
+        if (!c.anniversary) return false;
+        const md = c.anniversary.slice(5);
+        return md >= todayMD && md <= in7MD;
+    });
+
+    const items = [
+        ...thisWeekBirthdays.map(c => ({ ...c, type: '🎂', label: 'Birthday', date: c.dob })),
+        ...thisWeekAnniversaries.map(c => ({ ...c, type: '💍', label: 'Anniversary', date: c.anniversary })),
+    ];
+
+    if (!items.length) {
+        el.innerHTML = '<p style="color:var(--text-muted);font-size:0.85rem">No birthdays or anniversaries this week 🎉</p>';
+        return;
+    }
+
+    el.innerHTML = items.map(item => `
+        <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)">
+            <span style="font-size:1.3rem">${item.type}</span>
+            <div style="flex:1">
+                <div style="font-weight:600">${escHtml(item.name)}</div>
+                <div style="font-size:0.78rem;color:var(--text-muted)">${item.label} · ${formatDate(item.date)}</div>
+            </div>
+            ${item.phone ? `<a href="https://wa.me/91${item.phone.replace(/\D/g,'')}" target="_blank" class="btn-primary" style="padding:4px 10px;font-size:0.78rem">💬 Wish</a>` : ''}
+        </div>
+    `).join('');
+}
+
+// ── Notification Badge ────────────────────────────────────
+async function loadNotificationBadge() {
+    const badge = document.getElementById('notifBadge');
+    if (!badge) return;
+    try {
+        const userId = await getCurrentUserId();
+        const { count } = await window.supabase
+            .from('notifications')
+            .select('id', { count: 'exact' })
+            .eq('user_id', userId)
+            .eq('is_read', false);
+        if (count > 0) {
+            badge.textContent = count > 99 ? '99+' : count;
+            badge.style.display = 'inline-block';
+        } else {
+            badge.style.display = 'none';
+        }
+    } catch (_) { /* notifications table may not exist yet */ }
 }

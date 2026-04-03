@@ -204,6 +204,29 @@ async function savePayment() {
     const newStatus = newReceived >= (inv?.total_amount || 0) ? 'paid' : 'partial';
     await window.supabase.from('invoices').update({ status: newStatus }).eq('id', invoiceId);
 
+    // Auto-calculate commission when invoice fully paid
+    if (newStatus === 'paid' && inv) {
+        try {
+            const createdBy = inv.created_by;
+            const { data: staffRow } = await window.supabase
+                .from('staff_profiles')
+                .select('commission_percent')
+                .eq('user_id', createdBy)
+                .single();
+            const pct = staffRow?.commission_percent || 0;
+            if (pct > 0) {
+                const commAmt = Math.round((inv.total_amount * pct) / 100);
+                await window.supabase.from('staff_commissions').insert({
+                    staff_id: createdBy,
+                    invoice_id: invoiceId,
+                    commission_percent: pct,
+                    commission_amount: commAmt,
+                    status: 'pending',
+                });
+            }
+        } catch (_) { /* commission insert is best-effort */ }
+    }
+
     showToast('Payment recorded');
     closeModal('paymentModal');
     await loadInvoices();

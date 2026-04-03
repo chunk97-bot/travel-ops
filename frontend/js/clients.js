@@ -4,11 +4,31 @@
 
 let allClients = [];
 let editingClientId = null;
+let clientPage = 1;
+const CLIENT_PAGE_SIZE = 30;
+let clientTotal = 0;
+let clientSearchQ = '';
+let clientSegFilter = '';
+let clientTagFilter = '';
 
 document.addEventListener('DOMContentLoaded', async () => {
     await loadClients();
     document.getElementById('addClientBtn')?.addEventListener('click', openAddClient);
-    document.getElementById('searchClients')?.addEventListener('input', filterClients);
+    document.getElementById('searchClients')?.addEventListener('input', e => {
+        clientSearchQ = e.target.value.toLowerCase();
+        clientPage = 1;
+        loadClients();
+    });
+    document.getElementById('filterSegment')?.addEventListener('change', e => {
+        clientSegFilter = e.target.value;
+        clientPage = 1;
+        loadClients();
+    });
+    document.getElementById('filterTag')?.addEventListener('change', e => {
+        clientTagFilter = e.target.value;
+        clientPage = 1;
+        loadClients();
+    });
     document.getElementById('closeClientModal')?.addEventListener('click', () => closeModal('clientModal'));
     document.getElementById('cancelClientBtn')?.addEventListener('click', () => closeModal('clientModal'));
     document.getElementById('clientModalOverlay')?.addEventListener('click', () => closeModal('clientModal'));
@@ -17,28 +37,40 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 async function loadClients() {
-    const { data } = await window.supabase
+    let query = window.supabase
         .from('clients')
-        .select('*, client_visas(count), invoices(count)')
+        .select('*, client_visas(count), invoices(count)', { count: 'exact' })
         .order('name');
+
+    if (clientSearchQ) {
+        query = query.or(`name.ilike.%${clientSearchQ}%,phone.ilike.%${clientSearchQ}%,email.ilike.%${clientSearchQ}%`);
+    }
+    if (clientSegFilter) query = query.eq('segment', clientSegFilter);
+
+    const start = (clientPage - 1) * CLIENT_PAGE_SIZE;
+    query = query.range(start, start + CLIENT_PAGE_SIZE - 1);
+
+    const { data, count } = await query;
     allClients = data || [];
+    clientTotal = count || 0;
     renderClientGrid(allClients);
-    document.getElementById('clientCount').textContent = allClients.length;
+    renderClientPagination();
+    document.getElementById('clientCount').textContent = clientTotal;
 }
 
-function filterClients() {
-    const q = document.getElementById('searchClients')?.value.toLowerCase() || '';
-    const seg = document.getElementById('filterSegment')?.value || '';
-    const filtered = allClients.filter(c => {
-        if (seg && c.segment !== seg) return false;
-        if (q) {
-            const hay = [c.name, c.email, c.phone, c.city].join(' ').toLowerCase();
-            if (!hay.includes(q)) return false;
-        }
-        return true;
-    });
-    renderClientGrid(filtered);
+function renderClientPagination() {
+    const el = document.getElementById('clientPagination');
+    if (!el) return;
+    const pages = Math.ceil(clientTotal / CLIENT_PAGE_SIZE);
+    if (pages <= 1) { el.innerHTML = ''; return; }
+    el.innerHTML = Array.from({ length: pages }, (_, i) =>
+        `<button class="page-btn ${clientPage === i + 1 ? 'active' : ''}" onclick="goClientPage(${i + 1})">${i + 1}</button>`
+    ).join('');
 }
+
+function goClientPage(p) { clientPage = p; loadClients(); }
+
+
 
 function renderClientGrid(clients) {
     const grid = document.getElementById('clientGrid');
@@ -50,6 +82,7 @@ function renderClientGrid(clients) {
                 <div class="client-name">${escHtml(c.name)}</div>
                 <div class="client-sub">${escHtml(c.phone || '')} ${c.email ? '· ' + escHtml(c.email) : ''}</div>
                 <div class="client-sub">${c.city ? '📍 ' + escHtml(c.city) : ''} ${c.segment ? '· ' + escHtml(c.segment) : ''}</div>
+                ${c.tags?.length ? `<div class="client-tags">${c.tags.map(t => `<span class="tag">${escHtml(t)}</span>`).join('')}</div>` : ''}
             </div>
             <div class="client-stats">
                 <div class="client-stat">${c.invoices?.[0]?.count || 0} trips</div>
@@ -88,10 +121,26 @@ function openEditClient(clientId) {
 async function saveClient() {
     const name = document.getElementById('cName')?.value.trim();
     if (!name) { showToast('Name is required', 'error'); return; }
+    const phone = document.getElementById('cPhone')?.value.trim() || null;
+    const email = document.getElementById('cEmail')?.value.trim() || null;
+
+    // Duplicate detection (skip for self when editing)
+    if (phone || email) {
+        let dupQuery = window.supabase.from('clients').select('id, name');
+        if (phone && email) dupQuery = dupQuery.or(`phone.eq.${phone},email.eq.${email}`);
+        else if (phone) dupQuery = dupQuery.eq('phone', phone);
+        else dupQuery = dupQuery.eq('email', email);
+        const { data: dups } = await dupQuery;
+        const realDups = (dups || []).filter(d => d.id !== editingClientId);
+        if (realDups.length) {
+            if (!confirm(`A client with this phone/email already exists: "${realDups[0].name}". Save anyway?`)) return;
+        }
+    }
+
     const payload = {
         name,
-        email: document.getElementById('cEmail')?.value.trim() || null,
-        phone: document.getElementById('cPhone')?.value.trim() || null,
+        email,
+        phone,
         alt_phone: document.getElementById('cAltPhone')?.value.trim() || null,
         dob: document.getElementById('cDob')?.value || null,
         anniversary: document.getElementById('cAnniversary')?.value || null,
