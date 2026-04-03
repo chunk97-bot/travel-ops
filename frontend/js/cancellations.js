@@ -1,10 +1,13 @@
 // ============================================================
 // cancellations.js — Booking Cancellation & Refund Tracking
+//                    with Policy Template auto-charge
 // ============================================================
 
 let allCancellations = [];
+let cancPolicies = [];
 
 document.addEventListener('DOMContentLoaded', async () => {
+    await loadCancPolicies();
     await loadCancellations();
     document.getElementById('addCancBtn')?.addEventListener('click', openAddCancellation);
     document.getElementById('closeCancModal')?.addEventListener('click', () => closeModal('cancModal'));
@@ -16,7 +19,58 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Live fee calculation
     document.getElementById('cancGrossAmount')?.addEventListener('input', calcRefund);
     document.getElementById('cancCharge')?.addEventListener('input', calcRefund);
+    document.getElementById('cancPolicyId')?.addEventListener('change', applyPolicy);
+    document.getElementById('cancTravelDate')?.addEventListener('change', applyPolicy);
 });
+
+async function loadCancPolicies() {
+    const { data } = await window.supabase.from('cancellation_policies').select('*').order('name');
+    cancPolicies = data || [];
+    const sel = document.getElementById('cancPolicyId');
+    if (sel) {
+        sel.innerHTML = '<option value="">— No Policy (Manual) —</option>' +
+            cancPolicies.map(p => `<option value="${p.id}">${escHtml(p.name)}</option>`).join('');
+    }
+}
+
+function applyPolicy() {
+    const policyId = document.getElementById('cancPolicyId')?.value;
+    const travelDateStr = document.getElementById('cancTravelDate')?.value;
+    const cancelledOnStr = document.getElementById('cancCancelledOn')?.value || new Date().toISOString().slice(0, 10);
+    const gross = parseFloat(document.getElementById('cancGrossAmount')?.value || 0);
+    const ruleEl = document.getElementById('cancPolicyRule');
+
+    if (!policyId || !travelDateStr || !gross) {
+        if (ruleEl) ruleEl.textContent = '';
+        return;
+    }
+
+    const policy = cancPolicies.find(p => p.id === policyId);
+    if (!policy || !policy.rules) { if (ruleEl) ruleEl.textContent = ''; return; }
+
+    const travelDate = new Date(travelDateStr);
+    const cancelDate = new Date(cancelledOnStr);
+    const daysBefore = Math.max(0, Math.ceil((travelDate - cancelDate) / 86400000));
+
+    // rules is JSONB array: [{min_days, max_days, charge_percent}]
+    const rules = Array.isArray(policy.rules) ? policy.rules : [];
+    let matchedRule = null;
+    for (const rule of rules) {
+        const min = rule.min_days ?? 0;
+        const max = rule.max_days ?? 9999;
+        if (daysBefore >= min && daysBefore <= max) { matchedRule = rule; break; }
+    }
+
+    if (matchedRule) {
+        const chargePct = matchedRule.charge_percent || 0;
+        const charge = Math.round(gross * chargePct / 100);
+        document.getElementById('cancCharge').value = charge;
+        if (ruleEl) ruleEl.textContent = `Policy: ${escHtml(policy.name)} — ${daysBefore} days before travel → ${chargePct}% charge (${formatINR(charge)})`;
+        calcRefund();
+    } else {
+        if (ruleEl) ruleEl.textContent = `No matching rule for ${daysBefore} days before travel`;
+    }
+}
 
 async function loadCancellations() {
     const { data } = await window.supabase
@@ -127,15 +181,36 @@ async function saveCancellation() {
     const charge    = parseFloat(document.getElementById('cancCharge')?.value || 0);
     if (!bookingId) { showToast('Select a booking', 'error'); return; }
 
+    const policyId = document.getElementById('cancPolicyId')?.value || null;
+    const policyRule = document.getElementById('cancPolicyRule')?.textContent?.trim() || null;
+
+    // Check approval threshold for refund
+    const refundAmt = Math.max(0, gross - charge);
+    if (typeof needsApproval === 'function' && await needsApproval('refund', refundAmt)) {
+        const payload = {
+            booking_id: bookingId, gross_amount: gross,
+            cancellation_charge: charge, refund_amount: refundAmt,
+            cancelled_on: document.getElementById('cancCancelledOn')?.value || null,
+            reason: document.getElementById('cancReason')?.value?.trim() || null,
+            policy_id: policyId, policy_rule_applied: policyRule,
+            refund_status: 'pending', created_by: await getCurrentUserId(),
+        };
+        const { data: record } = await window.supabase.from('cancellations').insert(payload).select('id').single();
+        if (record) await requestApproval('refund', record.id, refundAmt);
+        await window.supabase.from('bookings').update({ status: 'cancelled' }).eq('id', bookingId);
+        showToast('Cancellation submitted for approval');
+        closeModal('cancModal');
+        await loadCancellations();
+        return;
+    }
+
     const payload = {
-        booking_id: bookingId,
-        gross_amount: gross,
-        cancellation_charge: charge,
-        refund_amount: Math.max(0, gross - charge),
+        booking_id: bookingId, gross_amount: gross,
+        cancellation_charge: charge, refund_amount: refundAmt,
         cancelled_on: document.getElementById('cancCancelledOn')?.value || null,
         reason: document.getElementById('cancReason')?.value?.trim() || null,
-        refund_status: 'pending',
-        created_by: await getCurrentUserId(),
+        policy_id: policyId, policy_rule_applied: policyRule,
+        refund_status: 'pending', created_by: await getCurrentUserId(),
     };
     const { error } = await window.supabase.from('cancellations').insert(payload);
     if (error) { showToast('Save failed: ' + error.message, 'error'); return; }

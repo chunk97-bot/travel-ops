@@ -129,12 +129,58 @@ async function saveDocument() {
     const fileName = document.getElementById('dFileName')?.value.trim();
     if (!clientId || !docType || !fileName) { showToast('Client, type and file name are required', 'error'); return; }
 
+    let fileUrl = document.getElementById('dFileUrl')?.value.trim() || null;
+    let filePath = null;
+    let fileSize = null;
+    let mimeType = null;
+
+    // Upload file to Supabase Storage if selected
+    const fileInput = document.getElementById('dFileInput');
+    const file = fileInput?.files?.[0];
+    if (file) {
+        if (file.size > 10 * 1024 * 1024) { showToast('File too large (max 10 MB)', 'error'); return; }
+        const progressDiv = document.getElementById('uploadProgress');
+        const bar = document.getElementById('uploadBar');
+        const label = document.getElementById('uploadLabel');
+        if (progressDiv) progressDiv.style.display = 'block';
+        if (bar) bar.style.width = '30%';
+        if (label) label.textContent = 'Uploading...';
+
+        const ext = file.name.split('.').pop();
+        const safeName = fileName.replace(/[^a-zA-Z0-9_-]/g, '_');
+        const storagePath = `documents/${clientId}/${Date.now()}_${safeName}.${ext}`;
+
+        const { data: uploadData, error: uploadError } = await window.supabase.storage
+            .from('travel-ops-docs')
+            .upload(storagePath, file, { contentType: file.type, upsert: false });
+
+        if (uploadError) {
+            if (progressDiv) progressDiv.style.display = 'none';
+            showToast('Upload failed: ' + uploadError.message, 'error');
+            return;
+        }
+        if (bar) bar.style.width = '80%';
+
+        const { data: urlData } = window.supabase.storage
+            .from('travel-ops-docs')
+            .getPublicUrl(storagePath);
+        fileUrl = urlData?.publicUrl || null;
+        filePath = storagePath;
+        fileSize = file.size;
+        mimeType = file.type;
+        if (bar) bar.style.width = '100%';
+        if (label) label.textContent = 'Upload complete!';
+    }
+
     const { error } = await window.supabase.from('documents').insert({
         client_id:   clientId,
         booking_id:  document.getElementById('dBookingId')?.value || null,
         doc_type:    docType,
         file_name:   fileName,
-        file_url:    document.getElementById('dFileUrl')?.value.trim() || null,
+        file_url:    fileUrl,
+        file_path:   filePath,
+        file_size:   fileSize,
+        mime_type:   mimeType,
         expiry_date: document.getElementById('dExpiry')?.value || null,
         notes:       document.getElementById('dNotes')?.value.trim() || null,
         uploaded_by: await getCurrentUserId(),
@@ -142,6 +188,8 @@ async function saveDocument() {
     if (error) { showToast('Failed: ' + error.message, 'error'); return; }
     showToast('Document saved');
     closeModal('docModal');
+    const progressDiv = document.getElementById('uploadProgress');
+    if (progressDiv) progressDiv.style.display = 'none';
     await loadDocuments();
 }
 

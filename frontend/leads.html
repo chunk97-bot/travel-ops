@@ -25,6 +25,7 @@
             <li><a href="followups.html"><span>🔔</span> Follow-Ups</a></li>
             <li><a href="quotations.html"><span>📋</span> Quotations</a></li>
             <li><a href="bookings.html"><span>🗓</span> Bookings</a></li>
+            <li><a href="group-bookings.html"><span>👥</span> Group Bookings</a></li>
             <li><a href="cancellations.html"><span>❌</span> Cancellations</a></li>
             <li><a href="expenses.html"><span>💸</span> Expenses</a></li>
             <li><a href="receipts.html"><span>🧾</span> Receipts</a></li>
@@ -99,6 +100,7 @@
                         <th>Pax</th>
                         <th>Budget</th>
                         <th>Stage</th>
+                        <th>SLA</th>
                         <th>Source</th>
                         <th>Assigned</th>
                         <th>Score</th>
@@ -106,7 +108,7 @@
                     </tr>
                 </thead>
                 <tbody id="leadsTable">
-                    <tr><td colspan="11" class="loading">Loading leads...</td></tr>
+                    <tr><td colspan="12" class="loading">Loading leads...</td></tr>
                 </tbody>
             </table>
             <div class="pagination" id="pagination"></div>
@@ -242,12 +244,17 @@
 
     <script src="js/supabase-config.js"></script>
     <script src="js/auth.js"></script>
+    <script src="js/theme-toggle.js"></script>
     <script src="js/lead-scoring.js"></script>
     <script src="js/call-log.js"></script>
     <script src="js/email-integration.js"></script>
     <script src="js/data-import.js"></script>
     <script src="js/workflow-rules.js"></script>
     <script src="js/activity-timeline.js"></script>
+    <script src="js/duplicate-detect.js"></script>
     <script src="js/leads.js"></script>
+    <script src="js/sla-timers.js"></script>
+    <script src="js/comments.js"></script>
+    <script src="js/bulk-operations.js"></script>
 </body>
 </html>

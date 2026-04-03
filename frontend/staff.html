@@ -51,6 +51,21 @@
             </div>
         </header>
 
+        <!-- Commission Tiers -->
+        <div class="section-title" style="padding:1.25rem 1.5rem 0.5rem;font-size:0.85rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em">Commission Tiers</div>
+        <div class="stats-row" id="tierCards" style="padding:0 1.5rem 1rem">
+            <div class="stat-card" style="border-left:4px solid #cd7f32"><div class="stat-label">Bronze</div><div class="stat-value">3%</div><div style="font-size:0.75rem;color:var(--text-muted)">₹0 – ₹5L revenue</div></div>
+            <div class="stat-card" style="border-left:4px solid #c0c0c0"><div class="stat-label">Silver</div><div class="stat-value">5%</div><div style="font-size:0.75rem;color:var(--text-muted)">₹5L – ₹15L revenue</div></div>
+            <div class="stat-card" style="border-left:4px solid #ffd700"><div class="stat-label">Gold</div><div class="stat-value">7%</div><div style="font-size:0.75rem;color:var(--text-muted)">₹15L – ₹30L revenue</div></div>
+            <div class="stat-card" style="border-left:4px solid #e5e4e2"><div class="stat-label">Platinum</div><div class="stat-value">10%</div><div style="font-size:0.75rem;color:var(--text-muted)">₹30L+ revenue</div></div>
+        </div>
+
+        <!-- Commission Stats -->
+        <div class="stats-row" style="padding:0 1.5rem 0.5rem">
+            <div class="stat-card"><div class="stat-value" id="commPending">—</div><div class="stat-label">Pending</div></div>
+            <div class="stat-card"><div class="stat-value" id="commPaid">—</div><div class="stat-label">Paid</div></div>
+        </div>
+
         <!-- Staff Cards -->
         <div class="section-title" style="padding:1.25rem 1.5rem 0.5rem;font-size:0.85rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em">Team</div>
         <div class="vendor-grid" id="staffGrid" style="padding:0 1.5rem 1rem"></div>
@@ -71,7 +86,7 @@
         <div class="table-container">
             <table class="data-table">
                 <thead>
-                    <tr><th>Staff</th><th>Trip / Booking</th><th>Sale Value</th><th>Comm %</th><th>Commission</th><th>Status</th><th>Actions</th></tr>
+                    <tr><th>Staff</th><th>Booking</th><th>Sale Value</th><th>%</th><th>Commission</th><th>Status</th><th>Actions</th></tr>
                 </thead>
                 <tbody id="commTable"></tbody>
             </table>
@@ -142,6 +157,7 @@
                     <option value="pending">Pending</option><option value="approved">Approved</option><option value="paid">Paid</option>
                 </select>
             </div>
+            <div class="form-group"><label>Notes</label><textarea id="commNotes" class="form-control" rows="2"></textarea></div>
         </div>
         <div class="modal-footer">
             <button class="btn-secondary" onclick="closeModal('commModal')">Cancel</button>

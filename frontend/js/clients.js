@@ -46,6 +46,7 @@ async function loadClients() {
         query = query.or(`name.ilike.%${clientSearchQ}%,phone.ilike.%${clientSearchQ}%,email.ilike.%${clientSearchQ}%`);
     }
     if (clientSegFilter) query = query.eq('segment', clientSegFilter);
+    if (clientTagFilter) query = query.contains('tags', [clientTagFilter]);
 
     const start = (clientPage - 1) * CLIENT_PAGE_SIZE;
     query = query.range(start, start + CLIENT_PAGE_SIZE - 1);
@@ -194,6 +195,10 @@ async function openClientDrawer(clientId) {
             <p>Segment: <strong>${escHtml(c.segment || '—')}</strong></p>
         </div>
         <div class="drawer-section">
+            <h4>🏷 Tags</h4>
+            <div id="tagEditor_${clientId}"></div>
+        </div>
+        <div class="drawer-section">
             <h4>Trip History (${invoices?.length || 0})</h4>
             ${(invoices || []).map(i => `
                 <div style="display:flex;justify-content:space-between;font-size:0.85rem;padding:4px 0;border-bottom:1px solid var(--border)">
@@ -211,6 +216,11 @@ async function openClientDrawer(clientId) {
         </div>` : ''}
         ${c.notes ? `<div class="drawer-section"><h4>Notes</h4><p>${escHtml(c.notes)}</p></div>` : ''}
         <div class="drawer-section">
+            <h4>⭐ Feedback</h4>
+            <div id="feedbackSummary_${clientId}"><p style="color:var(--text-muted);font-size:0.85rem">Loading...</p></div>
+            <button class="btn-primary-sm" style="margin-top:8px" onclick="openFeedbackForm('${clientId}')">+ Collect Feedback</button>
+        </div>
+        <div class="drawer-section">
             <h4>Activity Timeline</h4>
             <div id="clientActivityTimeline"><p style="color:var(--text-muted);font-size:0.85rem">Loading...</p></div>
         </div>
@@ -225,6 +235,14 @@ async function openClientDrawer(clientId) {
     // Load activity timeline
     if (typeof loadActivityTimeline === 'function') {
         loadActivityTimeline(document.getElementById('clientActivityTimeline'), { clientId });
+    }
+    // Load tag editor
+    if (typeof renderTagEditor === 'function') {
+        renderTagEditor(`tagEditor_${clientId}`, clientId, c.tags);
+    }
+    // Load feedback summary
+    if (typeof loadFeedbackSummary === 'function') {
+        loadFeedbackSummary(`feedbackSummary_${clientId}`, clientId);
     }
 }
 

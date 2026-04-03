@@ -105,8 +105,16 @@
                 </div>
             </div>
             <div class="form-row">
-                <div class="form-group"><label>Amount (₹) *</label>
-                    <input type="number" id="vpAmount" class="form-control" placeholder="Gross amount">
+                <div class="form-group"><label>Currency</label>
+                    <select id="vpCurrency" class="form-control" onchange="onCurrencyChange()"></select>
+                </div>
+                <div class="form-group"><label>Exchange Rate (1 unit = ₹)</label>
+                    <input type="number" id="vpExRate" class="form-control" step="0.01" value="1" oninput="recalcTds()">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group"><label>Amount *</label>
+                    <input type="number" id="vpAmount" class="form-control" placeholder="Gross amount in selected currency">
                 </div>
                 <div class="form-group"><label>TDS %</label>
                     <select id="vpTdsPct" class="form-control">
@@ -120,6 +128,7 @@
             <div class="form-row" style="background:var(--surface);padding:0.75rem;border-radius:8px;margin-bottom:0.5rem">
                 <div class="form-group"><label>TDS Amount</label><div id="vpTdsAmt" style="color:var(--danger);font-weight:600">₹0</div></div>
                 <div class="form-group"><label>Net Payable</label><div id="vpNetAmt" style="color:var(--success);font-weight:600;font-size:1.1rem">₹0</div></div>
+                <div class="form-group"><label>Amount in ₹</label><div id="vpAmountINR" style="color:var(--primary);font-weight:600;font-size:1.1rem">₹0</div></div>
             </div>
             <div class="form-row">
                 <div class="form-group"><label>Payment Mode</label>

@@ -587,6 +587,42 @@ body {
 .tab-btn { background: var(--bg-card); border: 1px solid var(--border); color: var(--text-muted); padding: 7px 16px; border-radius: 8px; cursor: pointer; font-size: 0.88rem; font-weight: 600; }
 .tab-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
 .tab-count { background: rgba(255,255,255,0.15); padding: 1px 7px; border-radius: 20px; font-size: 0.75rem; margin-left: 4px; }
+
+/* ============================================================
+   TAG EDITOR
+   ============================================================ */
+.tag-editor { padding: 4px 0; }
+.client-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+.tag { background: rgba(99,102,241,0.15); color: #a5b4fc; padding: 3px 10px; border-radius: 20px; font-size: 0.78rem; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; }
+.btn-primary-sm { background: var(--primary); color: #fff; padding: 4px 10px; border: none; border-radius: 6px; font-size: 0.78rem; cursor: pointer; font-weight: 600; }
+.btn-primary-sm:hover { filter: brightness(1.1); }
+.btn-danger-sm { background: var(--danger); color: #fff; padding: 4px 10px; border: none; border-radius: 6px; font-size: 0.78rem; cursor: pointer; font-weight: 600; }
+.btn-danger-sm:hover { filter: brightness(1.1); }
+
+/* ============================================================
+   GROUP BOOKING BADGES
+   ============================================================ */
+.badge-planning { background: rgba(148,163,184,0.15); color: #94a3b8; }
+.badge-confirmed { background: rgba(16,185,129,0.15); color: #34d399; }
+.badge-travelling { background: rgba(59,130,246,0.15); color: #60a5fa; }
+.badge-completed { background: rgba(99,102,241,0.15); color: #a5b4fc; }
+.badge-cancelled { background: rgba(239,68,68,0.15); color: #f87171; }
+
+/* ============================================================
+   MODAL LARGE (group detail)
+   ============================================================ */
+.modal-large { max-width: 780px; }
+
+/* ============================================================
+   FOLLOWUP ITEMS — URGENCY
+   ============================================================ */
+.followup-item.overdue { background: rgba(239,68,68,0.04); margin: 0 -10px; padding: 10px; border-radius: 8px; }
+.followup-item.today { background: rgba(245,158,11,0.04); margin: 0 -10px; padding: 10px; border-radius: 8px; }
+
+/* ============================================================
+   EMPTY STATE
+   ============================================================ */
+.empty-state { text-align: center; color: var(--text-muted); font-size: 0.88rem; padding: 24px 0; }
 .view-toggle { display: flex; gap: 4px; }
 .view-btn { background: var(--bg-card); border: 1px solid var(--border); color: var(--text-muted); padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.82rem; }
 .view-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }

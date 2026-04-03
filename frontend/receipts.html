@@ -51,56 +51,63 @@
             </div>
         </header>
 
+        <div class="stats-row">
+            <div class="stat-card"><div class="stat-value" id="statTotalReceived">₹0</div><div class="stat-label">Total Received</div></div>
+            <div class="stat-card"><div class="stat-value" id="statThisMonth">₹0</div><div class="stat-label">This Month</div></div>
+            <div class="stat-card"><div class="stat-value" id="statCount">0</div><div class="stat-label">Total Receipts</div></div>
+        </div>
+
         <div class="filter-bar">
-            <input type="text" id="searchRct" class="search-input" placeholder="Search receipt no., client...">
-            <input type="month" id="filterRctMonth" class="filter-select">
+            <input type="text" id="rcpSearch" class="search-input" placeholder="Search receipt no., client...">
         </div>
 
         <div class="table-container">
             <table class="data-table">
                 <thead>
-                    <tr><th>Receipt No.</th><th>Date</th><th>Client / Lead</th><th>Invoice</th><th>Amount</th><th>Mode</th><th>Reference</th><th>Actions</th></tr>
+                    <tr><th>Receipt No.</th><th>Client</th><th>Amount</th><th>Mode</th><th>Date</th><th>Invoice</th><th>Actions</th></tr>
                 </thead>
-                <tbody id="receiptTable"></tbody>
+                <tbody id="rcpTableBody"></tbody>
             </table>
         </div>
     </main>
 
-    <div class="modal-overlay" id="rctModalOverlay" onclick="closeModal('rctModal')"></div>
-    <div class="modal" id="rctModal">
+    <div class="modal-overlay" id="rcpModalOverlay" onclick="closeModal('rcpModal')"></div>
+    <div class="modal" id="rcpModal">
         <div class="modal-header">
             <h2>New Receipt</h2>
-            <button class="modal-close" id="closeRctModal">✕</button>
+            <button class="modal-close" id="closeRcpModal">✕</button>
         </div>
         <div class="modal-body">
-            <div class="form-row">
-                <div class="form-group"><label>Client</label>
-                    <select id="rClientId" class="form-control"><option value="">— Select —</option></select>
+            <form id="rcpForm">
+                <input type="hidden" id="rcpId">
+                <div class="form-row">
+                    <div class="form-group"><label>Client *</label>
+                        <select id="rcpClientId" class="form-control"><option value="">— Select —</option></select>
+                    </div>
+                    <div class="form-group"><label>Invoice (optional)</label>
+                        <select id="rcpInvoiceId" class="form-control"><option value="">— Select (optional) —</option></select>
+                    </div>
                 </div>
-                <div class="form-group"><label>Invoice (optional)</label>
-                    <select id="rInvoiceId" class="form-control"><option value="">— Link Invoice —</option></select>
+                <div class="form-row">
+                    <div class="form-group"><label>Amount (₹) *</label><input type="number" id="rcpAmount" class="form-control"></div>
+                    <div class="form-group"><label>Payment Date *</label><input type="date" id="rcpPaymentDate" class="form-control"></div>
                 </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group"><label>Amount (₹) *</label><input type="number" id="rAmount" class="form-control"></div>
-                <div class="form-group"><label>Payment Date *</label><input type="date" id="rDate" class="form-control"></div>
-            </div>
-            <div class="form-row">
-                <div class="form-group"><label>Payment Mode</label>
-                    <select id="rMode" class="form-control">
-                        <option value="upi">UPI</option><option value="cash">Cash</option>
-                        <option value="neft">NEFT/RTGS</option><option value="cheque">Cheque</option>
-                        <option value="card">Card</option><option value="online">Online</option>
-                    </select>
+                <div class="form-row">
+                    <div class="form-group"><label>Payment Mode</label>
+                        <select id="rcpPaymentMode" class="form-control">
+                            <option value="upi">UPI</option><option value="cash">Cash</option>
+                            <option value="neft">NEFT/RTGS</option><option value="cheque">Cheque</option>
+                            <option value="card">Card</option><option value="online">Online</option>
+                        </select>
+                    </div>
+                    <div class="form-group"><label>Reference / UTR</label><input type="text" id="rcpRef" class="form-control"></div>
                 </div>
-                <div class="form-group"><label>Reference / UTR</label><input type="text" id="rRef" class="form-control"></div>
-            </div>
-            <div class="form-group"><label>Notes</label><textarea id="rNotes" class="form-control" rows="2"></textarea></div>
+                <div class="form-group"><label>Notes</label><textarea id="rcpNotes" class="form-control" rows="2"></textarea></div>
+            </form>
         </div>
         <div class="modal-footer">
-            <button class="btn-secondary" onclick="closeModal('rctModal')">Cancel</button>
-            <button class="btn-secondary" id="saveAndPrintRctBtn">Save & Print</button>
-            <button class="btn-primary" id="saveRctBtn">Save</button>
+            <button class="btn-secondary" id="cancelRcpBtn">Cancel</button>
+            <button class="btn-primary" id="saveRcpBtn">Save</button>
         </div>
     </div>
 

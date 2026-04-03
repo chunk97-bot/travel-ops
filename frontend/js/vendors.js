@@ -1,5 +1,5 @@
 // ============================================================
-// vendors.js — Vendor master + pricing catalogue
+// vendors.js — Vendor master + pricing + ratings + management
 // ============================================================
 
 let allVendors = [];
@@ -13,14 +13,30 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('closeVendorModal')?.addEventListener('click', () => closeModal('vendorModal'));
     document.getElementById('cancelVendorBtn')?.addEventListener('click', () => closeModal('vendorModal'));
     document.getElementById('vendorModalOverlay')?.addEventListener('click', () => closeModal('vendorModal'));
-    document.getElementById('saveVendorBtn')?.addEventListener('click', saveVendor);
+    document.getElementById('vendorForm')?.addEventListener('submit', e => { e.preventDefault(); saveVendor(); });
     document.getElementById('closePricingModal')?.addEventListener('click', () => closeModal('pricingModal'));
     document.getElementById('cancelPricingBtn')?.addEventListener('click', () => closeModal('pricingModal'));
     document.getElementById('pricingModalOverlay')?.addEventListener('click', () => closeModal('pricingModal'));
     document.getElementById('addPricingRowBtn')?.addEventListener('click', addPricingRow);
     document.getElementById('searchVendors')?.addEventListener('input', filterVendors);
     document.getElementById('filterCategory')?.addEventListener('change', filterVendors);
+    // Review modal
+    document.getElementById('closeReviewModal')?.addEventListener('click', () => closeModal('reviewModal'));
+    document.getElementById('saveReviewBtn')?.addEventListener('click', saveReview);
 });
+
+function renderStars(rating, interactive = false, targetId = '') {
+    const n = Math.round(rating || 0);
+    return [1,2,3,4,5].map(i =>
+        `<span style="cursor:${interactive?'pointer':'default'};font-size:1.1rem;color:${i <= n ? '#ffd700' : '#555'}"
+            ${interactive ? `onclick="setRatingStars('${targetId}',${i})"` : ''}>★</span>`
+    ).join('');
+}
+
+function setRatingStars(targetId, val) {
+    const el = document.getElementById(targetId);
+    if (el) { el.dataset.rating = val; el.innerHTML = renderStars(val, true, targetId); }
+}
 
 async function loadVendors() {
     const { data } = await window.supabase
@@ -28,38 +44,66 @@ async function loadVendors() {
         .select('*, vendor_pricing(count)')
         .order('name');
     allVendors = data || [];
+
+    // Load vendor reviews for average ratings
+    const { data: reviews } = await window.supabase.from('vendor_reviews').select('vendor_id, rating');
+    const ratingMap = {};
+    (reviews || []).forEach(rv => {
+        if (!ratingMap[rv.vendor_id]) ratingMap[rv.vendor_id] = [];
+        ratingMap[rv.vendor_id].push(rv.rating);
+    });
+    allVendors.forEach(v => {
+        const arr = ratingMap[v.id] || [];
+        v._avgRating = arr.length ? (arr.reduce((a, b) => a + b, 0) / arr.length) : (v.rating || 0);
+        v._reviewCount = arr.length;
+    });
+
     renderVendorGrid(allVendors);
 }
 
 function renderVendorGrid(vendors) {
     const grid = document.getElementById('vendorGrid');
     if (!vendors.length) { grid.innerHTML = '<div class="empty-state">No vendors yet. Add your first vendor.</div>'; return; }
-    grid.innerHTML = vendors.map(v => `
-        <div class="vendor-card">
+    const now = new Date();
+    grid.innerHTML = vendors.map(v => {
+        const contractExpiry = v.contract_expiry ? new Date(v.contract_expiry) : null;
+        const daysToExpiry = contractExpiry ? Math.ceil((contractExpiry - now) / 86400000) : null;
+        const expiryWarning = daysToExpiry !== null && daysToExpiry <= 30;
+        const reliability = v.payment_reliability || 'unknown';
+        const reliabilityColors = { excellent: '#10b981', good: '#6366f1', average: '#f59e0b', poor: '#ef4444', unknown: '#666' };
+        return `
+        <div class="vendor-card" style="${v.preferred ? 'border:1px solid #ffd700;' : ''}">
             <div class="vendor-card-header">
                 <div>
-                    <div class="vendor-name">${escHtml(v.name)}</div>
-                    <div class="vendor-cat">${escHtml(v.category)}</div>
+                    <div class="vendor-name">
+                        ${escHtml(v.name)}
+                        ${v.preferred ? '<span style="color:#ffd700;font-size:0.8rem;margin-left:4px" title="Preferred Vendor">⭐ Preferred</span>' : ''}
+                    </div>
+                    <div class="vendor-cat">${escHtml(v.category || v.region || '')}</div>
+                    <div style="margin-top:4px">${renderStars(v._avgRating)} <span style="font-size:0.75rem;color:var(--text-muted)">(${v._reviewCount})</span></div>
                 </div>
                 <div class="vendor-badge ${v.status === 'active' ? 'badge-active' : 'badge-inactive'}">
-                    ${v.status}
+                    ${v.status || 'active'}
                 </div>
             </div>
             <div class="vendor-info">
-                ${v.phone ? `<div>📞 ${escHtml(v.phone)}</div>` : ''}
-                ${v.email ? `<div>✉️ ${escHtml(v.email)}</div>` : ''}
+                ${v.phone || v.contact_phone ? `<div>📞 ${escHtml(v.phone || v.contact_phone)}</div>` : ''}
+                ${v.email || v.contact_email ? `<div>✉️ ${escHtml(v.email || v.contact_email)}</div>` : ''}
                 ${v.location ? `<div>📍 ${escHtml(v.location)}</div>` : ''}
                 ${v.gst_number ? `<div>🧾 GST: ${escHtml(v.gst_number)}</div>` : ''}
+                ${contractExpiry ? `<div style="color:${expiryWarning ? '#ef4444' : 'var(--text-muted)'}">📅 Contract: ${contractExpiry.toLocaleDateString()}${expiryWarning ? ' ⚠️ Expiring Soon!' : ''}</div>` : ''}
+                <div style="margin-top:4px"><span style="display:inline-block;padding:2px 8px;border-radius:10px;font-size:0.72rem;background:${reliabilityColors[reliability]};color:#fff">Payment: ${reliability}</span></div>
             </div>
             <div class="vendor-card-actions">
                 <button class="btn-secondary" onclick="openPricingModal('${v.id}')">
                     💰 Pricing (${v.vendor_pricing?.[0]?.count || 0})
                 </button>
+                <button class="btn-secondary" onclick="openReviewModal('${v.id}')">⭐ Review</button>
                 <button class="btn-secondary" onclick="openEditVendor('${v.id}')">Edit</button>
                 <button class="btn-danger" onclick="deleteVendor('${v.id}')">Delete</button>
             </div>
         </div>
-    `).join('');
+    `}).join('');
 }
 
 function filterVendors() {
@@ -89,30 +133,50 @@ function openEditVendor(vendorId) {
     editingVendorId = vendorId;
     document.getElementById('vendorModalTitle').textContent = 'Edit Vendor';
     document.getElementById('vName').value = v.name || '';
-    document.getElementById('vCategory').value = v.category || '';
-    document.getElementById('vPhone').value = v.phone || '';
-    document.getElementById('vEmail').value = v.email || '';
-    document.getElementById('vLocation').value = v.location || '';
-    document.getElementById('vGst').value = v.gst_number || '';
-    document.getElementById('vBank').value = v.bank_details || '';
-    document.getElementById('vNotes').value = v.notes || '';
-    document.getElementById('vStatus').value = v.status || 'active';
+    const catEl = document.getElementById('vCategory');
+    const regEl = document.getElementById('vRegion');
+    if (catEl) catEl.value = v.category || '';
+    if (regEl) regEl.value = v.region || '';
+    document.getElementById('vContactName') && (document.getElementById('vContactName').value = v.contact_name || '');
+    document.getElementById('vContactPhone') && (document.getElementById('vContactPhone').value = v.contact_phone || v.phone || '');
+    document.getElementById('vContactEmail') && (document.getElementById('vContactEmail').value = v.contact_email || v.email || '');
+    document.getElementById('vPhone') && (document.getElementById('vPhone').value = v.phone || '');
+    document.getElementById('vEmail') && (document.getElementById('vEmail').value = v.email || '');
+    document.getElementById('vLocation') && (document.getElementById('vLocation').value = v.location || '');
+    document.getElementById('vGst') && (document.getElementById('vGst').value = v.gst_number || '');
+    document.getElementById('vBank') && (document.getElementById('vBank').value = v.bank_details || '');
+    document.getElementById('vCommission') && (document.getElementById('vCommission').value = v.commission || '');
+    document.getElementById('vPaymentTerms') && (document.getElementById('vPaymentTerms').value = v.payment_terms || '');
+    document.getElementById('vContractUntil') && (document.getElementById('vContractUntil').value = v.contract_expiry || '');
+    document.getElementById('vPreferred') && (document.getElementById('vPreferred').checked = !!v.preferred);
+    document.getElementById('vPaymentReliability') && (document.getElementById('vPaymentReliability').value = v.payment_reliability || 'unknown');
+    document.getElementById('vNotes') && (document.getElementById('vNotes').value = v.notes || '');
+    document.getElementById('vStatus') && (document.getElementById('vStatus').value = v.status || 'active');
     openModal('vendorModal');
 }
 
 async function saveVendor() {
     const name = document.getElementById('vName')?.value.trim();
-    const category = document.getElementById('vCategory')?.value;
-    if (!name || !category) { showToast('Name and category are required', 'error'); return; }
+    if (!name) { showToast('Vendor name is required', 'error'); return; }
 
     const payload = {
-        name, category,
-        phone: document.getElementById('vPhone')?.value.trim() || null,
-        email: document.getElementById('vEmail')?.value.trim() || null,
-        location: document.getElementById('vLocation')?.value.trim() || null,
-        gst_number: document.getElementById('vGst')?.value.trim() || null,
-        bank_details: document.getElementById('vBank')?.value.trim() || null,
-        notes: document.getElementById('vNotes')?.value.trim() || null,
+        name,
+        region: document.getElementById('vRegion')?.value || null,
+        category: document.getElementById('vCategory')?.value || null,
+        contact_name: document.getElementById('vContactName')?.value?.trim() || null,
+        contact_phone: document.getElementById('vContactPhone')?.value?.trim() || null,
+        contact_email: document.getElementById('vContactEmail')?.value?.trim() || null,
+        phone: document.getElementById('vPhone')?.value?.trim() || null,
+        email: document.getElementById('vEmail')?.value?.trim() || null,
+        location: document.getElementById('vLocation')?.value?.trim() || null,
+        gst_number: document.getElementById('vGst')?.value?.trim() || null,
+        bank_details: document.getElementById('vBank')?.value?.trim() || null,
+        commission: parseFloat(document.getElementById('vCommission')?.value) || null,
+        payment_terms: document.getElementById('vPaymentTerms')?.value?.trim() || null,
+        contract_expiry: document.getElementById('vContractUntil')?.value || null,
+        preferred: document.getElementById('vPreferred')?.checked || false,
+        payment_reliability: document.getElementById('vPaymentReliability')?.value || 'unknown',
+        notes: document.getElementById('vNotes')?.value?.trim() || null,
         status: document.getElementById('vStatus')?.value || 'active',
         created_by: await getCurrentUserId(),
     };
@@ -203,4 +267,36 @@ async function deletePricingRow(rowId) {
     const { error } = await window.supabase.from('vendor_pricing').delete().eq('id', rowId);
     if (error) { showToast('Failed: ' + error.message, 'error'); return; }
     await loadVendorPricing(pricingVendorId);
+}
+
+// ── Review Modal ──────────────────────────────────────────
+
+function openReviewModal(vendorId) {
+    const v = allVendors.find(x => x.id === vendorId);
+    if (!v) return;
+    document.getElementById('reviewVendorId').value = vendorId;
+    document.getElementById('reviewVendorName').textContent = v.name;
+    const starsEl = document.getElementById('reviewStars');
+    if (starsEl) { starsEl.dataset.rating = 0; starsEl.innerHTML = renderStars(0, true, 'reviewStars'); }
+    document.getElementById('reviewComment')?.value && (document.getElementById('reviewComment').value = '');
+    openModal('reviewModal');
+}
+
+async function saveReview() {
+    const vendorId = document.getElementById('reviewVendorId')?.value;
+    const rating = parseInt(document.getElementById('reviewStars')?.dataset.rating) || 0;
+    const comment = document.getElementById('reviewComment')?.value?.trim() || null;
+    if (!vendorId || !rating) { showToast('Select a star rating', 'error'); return; }
+    const { error } = await window.supabase.from('vendor_reviews').insert({
+        vendor_id: vendorId, rating, comment,
+        reviewed_by: await getCurrentUserId(),
+    });
+    if (error) { showToast('Failed: ' + error.message, 'error'); return; }
+    // Update vendor's average rating
+    const { data: reviews } = await window.supabase.from('vendor_reviews').select('rating').eq('vendor_id', vendorId);
+    const avg = reviews?.length ? reviews.reduce((s, r) => s + r.rating, 0) / reviews.length : rating;
+    await window.supabase.from('vendors').update({ rating: Math.round(avg * 10) / 10 }).eq('id', vendorId);
+    showToast('Review submitted');
+    closeModal('reviewModal');
+    await loadVendors();
 }

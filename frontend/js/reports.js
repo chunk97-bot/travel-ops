@@ -33,6 +33,7 @@ async function loadAll() {
         loadExpenseBreakdown(),
         loadTopClients(),
         loadStaffPerformance(),
+        loadPnL(),
     ]);
 }
 
@@ -310,4 +311,102 @@ function exportExpenses() {
         { key: 'description', label: 'Description' }, { key: 'amount', label: 'Amount' },
         { key: 'paid_to', label: 'Paid To' }, { key: 'mode', label: 'Mode' },
     ], 'expenses-export');
+}
+
+// ============================================================
+// P&L Statement
+// ============================================================
+let pnlChart = null;
+let pnlData = [];
+
+async function loadPnL() {
+    const year = getYear();
+    const from = `${year}-01-01`;
+    const to = `${year}-12-31`;
+
+    const [invoicesRes, vendorRes, expensesRes, commissionsRes] = await Promise.all([
+        window.supabase.from('invoices').select('issue_date, total_amount').gte('issue_date', from).lte('issue_date', to).eq('status', 'paid'),
+        window.supabase.from('vendor_payments').select('payment_date, amount_inr, amount, status').gte('payment_date', from).lte('payment_date', to).eq('status', 'paid'),
+        window.supabase.from('expenses').select('expense_date, amount').gte('expense_date', from).lte('expense_date', to),
+        window.supabase.from('staff_commissions').select('created_at, amount, status').gte('created_at', from).lte('created_at', `${year + 1}-01-01`).in('status', ['approved', 'paid']),
+    ]);
+
+    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const revenue = Array(12).fill(0);
+    const vendorCosts = Array(12).fill(0);
+    const expenses = Array(12).fill(0);
+
+    (invoicesRes.data || []).forEach(i => { revenue[new Date(i.issue_date).getMonth()] += parseFloat(i.total_amount) || 0; });
+    (vendorRes.data || []).forEach(v => { vendorCosts[new Date(v.payment_date).getMonth()] += parseFloat(v.amount_inr || v.amount) || 0; });
+    (expensesRes.data || []).forEach(e => { expenses[new Date(e.expense_date).getMonth()] += parseFloat(e.amount) || 0; });
+    (commissionsRes.data || []).forEach(c => { expenses[new Date(c.created_at).getMonth()] += parseFloat(c.amount) || 0; });
+
+    const totalRevenue = revenue.reduce((a, b) => a + b, 0);
+    const totalVendor = vendorCosts.reduce((a, b) => a + b, 0);
+    const totalExpenses = expenses.reduce((a, b) => a + b, 0);
+    const netProfit = totalRevenue - totalVendor - totalExpenses;
+
+    setTxt('pnlRevenue', formatINR(totalRevenue));
+    setTxt('pnlVendorCosts', formatINR(totalVendor));
+    setTxt('pnlExpenses', formatINR(totalExpenses));
+    const profitEl = document.getElementById('pnlNetProfit');
+    if (profitEl) {
+        profitEl.textContent = formatINR(netProfit);
+        profitEl.style.color = netProfit >= 0 ? 'var(--success)' : 'var(--danger)';
+    }
+
+    // Monthly table
+    pnlData = months.map((m, i) => {
+        const profit = revenue[i] - vendorCosts[i] - expenses[i];
+        const margin = revenue[i] > 0 ? ((profit / revenue[i]) * 100).toFixed(1) : '0.0';
+        return { month: m, revenue: revenue[i], costs: vendorCosts[i], expenses: expenses[i], profit, margin };
+    });
+    const tbody = document.getElementById('pnlTableBody');
+    if (tbody) {
+        tbody.innerHTML = pnlData.map(r => `
+            <tr>
+                <td>${r.month}</td>
+                <td>${formatINR(r.revenue)}</td>
+                <td style="color:var(--danger)">${formatINR(r.costs)}</td>
+                <td style="color:var(--warning)">${formatINR(r.expenses)}</td>
+                <td style="color:${r.profit >= 0 ? 'var(--success)' : 'var(--danger)'}; font-weight:700">${formatINR(r.profit)}</td>
+                <td>${r.margin}%</td>
+            </tr>
+        `).join('');
+    }
+
+    // Chart
+    if (pnlChart) pnlChart.destroy();
+    const ctx = document.getElementById('pnlChart');
+    if (ctx) {
+        pnlChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: months,
+                datasets: [
+                    { label: 'Revenue', data: revenue, backgroundColor: 'rgba(16,185,129,0.7)', borderRadius: 4 },
+                    { label: 'Vendor Costs', data: vendorCosts, backgroundColor: 'rgba(239,68,68,0.7)', borderRadius: 4 },
+                    { label: 'Expenses', data: expenses, backgroundColor: 'rgba(245,158,11,0.7)', borderRadius: 4 },
+                    { label: 'Net Profit', data: pnlData.map(r => r.profit), type: 'line', borderColor: '#6366f1', borderWidth: 2, fill: false, tension: 0.3, pointRadius: 3 },
+                ],
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { position: 'bottom' } },
+                scales: { y: { beginAtZero: true } },
+            },
+        });
+    }
+}
+
+function exportPnL() {
+    if (!pnlData.length) { showToast('No P&L data', 'error'); return; }
+    const rows = [['Month','Revenue','Vendor Costs','Expenses','Net Profit','Margin %']];
+    pnlData.forEach(r => rows.push([r.month, r.revenue, r.costs, r.expenses, r.profit, r.margin]));
+    const csv = rows.map(r => r.map(v => `"${v}"`).join(',')).join('\n');
+    const blob = new Blob(['\ufeff' + csv], { type: 'text/csv' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `pnl-report-${getYear()}.csv`; a.click();
+    showToast('P&L exported');
 }

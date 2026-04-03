@@ -24,6 +24,7 @@
             <li><a href="followups.html"><span>🔔</span> Follow-Ups</a></li>
             <li><a href="quotations.html"><span>📋</span> Quotations</a></li>
             <li><a href="bookings.html"><span>🗓</span> Bookings</a></li>
+            <li><a href="group-bookings.html"><span>👥</span> Group Bookings</a></li>
             <li><a href="cancellations.html"><span>❌</span> Cancellations</a></li>
             <li><a href="expenses.html"><span>💸</span> Expenses</a></li>
             <li><a href="receipts.html"><span>🧾</span> Receipts</a></li>
@@ -62,9 +63,20 @@
             </select>
             <select id="filterTag" class="filter-select">
                 <option value="">All Tags</option>
-                <option value="vip">VIP</option>
-                <option value="repeat">Repeat</option>
-                <option value="referral">Referral</option>
+                <option value="VIP">VIP</option>
+                <option value="Repeat">Repeat</option>
+                <option value="Referral">Referral</option>
+                <option value="Corporate">Corporate</option>
+                <option value="Honeymoon">Honeymoon</option>
+                <option value="Family">Family</option>
+                <option value="Solo">Solo</option>
+                <option value="Group">Group</option>
+                <option value="Budget">Budget</option>
+                <option value="Luxury">Luxury</option>
+                <option value="Adventure">Adventure</option>
+                <option value="Senior">Senior</option>
+                <option value="Student">Student</option>
+                <option value="NRI">NRI</option>
             </select>
             <span style="margin-left:auto;color:var(--text-muted);font-size:0.85rem">Total: <strong id="clientCount" style="color:var(--primary)">0</strong></span>
         </div>
@@ -142,6 +154,10 @@
     <script src="js/activity-timeline.js"></script>
     <script src="js/email-integration.js"></script>
     <script src="js/call-log.js"></script>
+    <script src="js/client-tags.js"></script>
+    <script src="js/feedback.js"></script>
+    <script src="js/theme-toggle.js"></script>
     <script src="js/clients.js"></script>
+    <script src="js/rfm-scoring.js"></script>
 </body>
 </html>

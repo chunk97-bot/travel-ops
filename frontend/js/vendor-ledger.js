@@ -36,6 +36,7 @@ async function loadVendorLedger() {
 
     renderLedger(allVendorRows);
     renderSummary(allVendorRows);
+    renderAging();
 }
 
 function renderSummary(rows) {
@@ -192,4 +193,39 @@ async function reconcileVendor(vendorId) {
     `;
     document.getElementById('ledgerDrawer').classList.remove('hidden');
     document.getElementById('ledgerDrawerOverlay').classList.remove('hidden');
+}
+
+// ============================================================
+// Aging Analysis
+// ============================================================
+async function renderAging() {
+    const { data: payments } = await window.supabase
+        .from('vendor_payments')
+        .select('amount, amount_inr, due_date, status')
+        .neq('status', 'paid');
+
+    const today = new Date();
+    const buckets = { d030: [], d3160: [], d6190: [], d90plus: [] };
+
+    (payments || []).forEach(p => {
+        if (!p.due_date) return;
+        const due = new Date(p.due_date);
+        const diffDays = Math.floor((today - due) / (1000 * 60 * 60 * 24));
+        const amt = parseFloat(p.amount_inr || p.amount) || 0;
+        if (diffDays <= 30) buckets.d030.push(amt);
+        else if (diffDays <= 60) buckets.d3160.push(amt);
+        else if (diffDays <= 90) buckets.d6190.push(amt);
+        else buckets.d90plus.push(amt);
+    });
+
+    const sum = arr => arr.reduce((a, b) => a + b, 0);
+    const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+    set('aging030', formatINR(sum(buckets.d030)));
+    set('aging030Count', buckets.d030.length + ' payments');
+    set('aging3160', formatINR(sum(buckets.d3160)));
+    set('aging3160Count', buckets.d3160.length + ' payments');
+    set('aging6190', formatINR(sum(buckets.d6190)));
+    set('aging6190Count', buckets.d6190.length + ' payments');
+    set('aging90plus', formatINR(sum(buckets.d90plus)));
+    set('aging90plusCount', buckets.d90plus.length + ' payments');
 }

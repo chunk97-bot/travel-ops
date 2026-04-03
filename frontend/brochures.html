@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Ops — Brochure Builder</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-logo">
+            <span class="logo-icon">✈</span>
+            <span class="logo-text">Travel Ops</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html"><span>📊</span> Dashboard</a></li>
+            <li><a href="leads.html"><span>🎯</span> Leads</a></li>
+            <li><a href="clients.html"><span>👥</span> Clients</a></li>
+            <li><a href="vendors.html"><span>🤝</span> Vendors</a></li>
+            <li class="active"><a href="brochures.html"><span>🖼</span> Brochures</a></li>
+            <li><a href="invoices.html"><span>🧾</span> Invoices</a></li>
+        </ul>
+    </nav>
+
+    <main class="main-content">
+        <div class="page-header">
+            <h1>🖼 Brochure Builder</h1>
+            <div class="header-actions">
+                <button class="btn-primary" id="newBrochureBtn">+ Create Brochure</button>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-grid" id="brochureStats" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:20px"></div>
+
+        <!-- Filter -->
+        <div class="filter-bar" style="display:flex;gap:10px;margin-bottom:16px">
+            <input type="text" id="searchBrochures" placeholder="Search brochures..." class="form-input" style="max-width:250px">
+            <select id="filterStyle" class="form-input" style="max-width:160px">
+                <option value="">All Styles</option>
+                <option value="classic">Classic</option>
+                <option value="modern">Modern</option>
+                <option value="luxury">Luxury</option>
+                <option value="adventure">Adventure</option>
+                <option value="minimal">Minimal</option>
+            </select>
+        </div>
+
+        <!-- Brochure Cards Grid -->
+        <div id="brochuresGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px">
+            <p style="color:var(--text-muted)">Loading...</p>
+        </div>
+    </main>
+
+    <!-- Create/Edit Brochure Modal -->
+    <div class="modal-overlay hidden" id="brochureModalOverlay">
+        <div class="modal" style="max-width:820px;max-height:90vh;overflow-y:auto">
+            <div class="modal-header">
+                <h2 id="brochureModalTitle">Create Brochure</h2>
+                <button class="btn-icon" id="closeBrochureModal">&times;</button>
+            </div>
+            <form id="brochureForm">
+                <div class="modal-body">
+                    <!-- Row 1: Basic Info -->
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+                        <div class="form-group">
+                            <label>Brochure Name *</label>
+                            <input type="text" id="brName" class="form-input" placeholder="e.g. Maldives Honeymoon Package" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Destination</label>
+                            <input type="text" id="brDestination" class="form-input" placeholder="e.g. Maldives">
+                        </div>
+                        <div class="form-group">
+                            <label>Client</label>
+                            <select id="brClient" class="form-input"><option value="">None</option></select>
+                        </div>
+                        <div class="form-group">
+                            <label>Template Style</label>
+                            <select id="brStyle" class="form-input">
+                                <option value="classic">Classic</option>
+                                <option value="modern">Modern</option>
+                                <option value="luxury">Luxury</option>
+                                <option value="adventure">Adventure</option>
+                                <option value="minimal">Minimal</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Row 2: Branding -->
+                    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px">
+                        <div class="form-group">
+                            <label>Agency Logo URL</label>
+                            <input type="url" id="brLogo" class="form-input" placeholder="https://...">
+                        </div>
+                        <div class="form-group">
+                            <label>Cover Image URL</label>
+                            <input type="url" id="brCover" class="form-input" placeholder="https://...">
+                        </div>
+                        <div class="form-group">
+                            <label>Brand Color</label>
+                            <input type="color" id="brColor" class="form-input" value="#0078C8" style="height:38px">
+                        </div>
+                    </div>
+
+                    <!-- Row 3: Price -->
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+                        <div class="form-group">
+                            <label>Total Price</label>
+                            <input type="number" id="brPrice" class="form-input" min="0" step="0.01">
+                        </div>
+                        <div class="form-group">
+                            <label>Currency</label>
+                            <select id="brCurrency" class="form-input">
+                                <option value="INR">INR</option>
+                                <option value="USD">USD</option>
+                                <option value="EUR">EUR</option>
+                                <option value="GBP">GBP</option>
+                                <option value="AED">AED</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Sections Builder -->
+                    <h4 style="margin-bottom:8px">Itinerary Sections</h4>
+                    <div id="brSections" style="margin-bottom:16px"></div>
+                    <button type="button" class="btn-secondary" id="addSectionBtn" style="margin-bottom:16px">+ Add Section</button>
+
+                    <!-- Inclusions / Exclusions / Terms -->
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+                        <div class="form-group">
+                            <label>Inclusions</label>
+                            <textarea id="brInclusions" class="form-input" rows="3" placeholder="One per line"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Exclusions</label>
+                            <textarea id="brExclusions" class="form-input" rows="3" placeholder="One per line"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Terms & Conditions</label>
+                        <textarea id="brTerms" class="form-input" rows="2" placeholder="Payment terms, cancellation policy..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" id="cancelBrochureBtn">Cancel</button>
+                    <button type="button" class="btn-secondary" onclick="previewBrochure()" style="margin-left:8px">👁 Preview</button>
+                    <button type="submit" class="btn-primary" style="margin-left:8px">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Preview Modal (fullscreen) -->
+    <div class="modal-overlay hidden" id="previewOverlay" style="z-index:1100">
+        <div style="width:90vw;max-width:900px;height:90vh;background:#fff;border-radius:12px;overflow-y:auto;position:relative">
+            <div style="position:sticky;top:0;z-index:10;background:#fff;padding:12px 20px;display:flex;justify-content:space-between;border-bottom:1px solid #eee">
+                <strong style="color:#333">Brochure Preview</strong>
+                <div>
+                    <button class="btn-primary" style="padding:4px 12px;font-size:0.82rem" onclick="downloadBrochurePdf()">⬇ PDF</button>
+                    <button class="btn-icon" style="color:#333;font-size:1.2rem" onclick="document.getElementById('previewOverlay').classList.add('hidden')">&times;</button>
+                </div>
+            </div>
+            <div id="brochurePreviewContent" style="padding:40px"></div>
+        </div>
+    </div>
+
+    <script src="js/supabase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/brochures.js"></script>
+</body>
+</html>

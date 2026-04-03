@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Ops — Customer Journey</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        .journey-search { max-width:400px;margin:0 auto 24px;position:relative }
+        .journey-search input { width:100%;padding:10px 12px 10px 36px;border-radius:10px;border:1px solid var(--border);background:var(--bg-input);color:var(--text-primary);font-size:0.95rem }
+        .journey-search .icon { position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:1rem }
+        .journey-dropdown { position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:8px;z-index:100;max-height:200px;overflow-y:auto;display:none }
+        .journey-dropdown div { padding:8px 12px;cursor:pointer;font-size:0.85rem }
+        .journey-dropdown div:hover { background:rgba(255,255,255,0.05) }
+        .journey-header { text-align:center;margin-bottom:32px }
+        .journey-header h2 { font-size:1.3rem;margin:0 }
+        .journey-header p { color:var(--text-muted);font-size:0.85rem }
+        .journey-stats { display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:16px 0 24px }
+        .j-stat { background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 20px;text-align:center;min-width:120px }
+        .j-stat .val { font-size:1.3rem;font-weight:700 }
+        .j-stat .lbl { font-size:0.75rem;color:var(--text-muted) }
+        .timeline { position:relative;padding:0;max-width:700px;margin:0 auto }
+        .timeline::before { content:'';position:absolute;left:24px;top:0;bottom:0;width:3px;background:var(--border);border-radius:2px }
+        .tl-item { position:relative;padding:0 0 24px 56px }
+        .tl-dot { position:absolute;left:16px;top:4px;width:20px;height:20px;border-radius:50%;border:3px solid;display:flex;align-items:center;justify-content:center;font-size:0.65rem;background:var(--bg-main,#0f172a) }
+        .tl-content { background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 16px }
+        .tl-date { font-size:0.72rem;color:var(--text-muted);margin-bottom:4px }
+        .tl-title { font-weight:700;font-size:0.9rem }
+        .tl-sub { font-size:0.8rem;color:var(--text-muted);margin-top:2px }
+        .tl-tag { display:inline-block;font-size:0.7rem;padding:2px 8px;border-radius:4px;margin-top:4px }
+        .empty-journey { text-align:center;padding:48px;color:var(--text-muted) }
+    </style>
+</head>
+<body>
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-logo">
+            <span class="logo-icon">✈</span>
+            <span class="logo-text">Travel Ops</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html"><span>📊</span> Dashboard</a></li>
+            <li><a href="leads.html"><span>🎯</span> Leads</a></li>
+            <li><a href="clients.html"><span>👥</span> Clients</a></li>
+            <li class="active"><a href="journey.html"><span>🗺</span> Customer Journey</a></li>
+            <li><a href="invoices.html"><span>🧾</span> Invoices</a></li>
+            <li><a href="bookings.html"><span>🗓</span> Bookings</a></li>
+        </ul>
+        <div class="sidebar-user" id="sidebarUser"></div>
+    </nav>
+
+    <main class="main-content">
+        <header class="top-bar">
+            <button class="menu-toggle" id="menuToggle">☰</button>
+            <h1 class="page-title">Customer Journey Map</h1>
+            <div class="top-bar-right">
+                <button class="btn-logout" id="logoutBtn">Logout</button>
+            </div>
+        </header>
+
+        <div class="journey-search">
+            <span class="icon">🔍</span>
+            <input type="text" id="journeyClientSearch" placeholder="Search client by name or phone..." autocomplete="off">
+            <div class="journey-dropdown" id="journeyDropdown"></div>
+        </div>
+
+        <div id="journeyContent">
+            <div class="empty-journey">
+                <div style="font-size:3rem;margin-bottom:12px">🗺</div>
+                <h3>Select a client to view their journey</h3>
+                <p>Search above to see the full timeline — from first inquiry to completed trips</p>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/supabase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/journey.js"></script>
+</body>
+</html>

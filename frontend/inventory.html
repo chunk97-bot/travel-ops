@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Ops — Supplier Inventory</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-logo">
+            <span class="logo-icon">✈</span>
+            <span class="logo-text">Travel Ops</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html"><span>📊</span> Dashboard</a></li>
+            <li><a href="leads.html"><span>🎯</span> Leads</a></li>
+            <li><a href="clients.html"><span>👥</span> Clients</a></li>
+            <li><a href="vendors.html"><span>🤝</span> Vendors</a></li>
+            <li class="active"><a href="inventory.html"><span>📦</span> Supplier Inventory</a></li>
+            <li><a href="invoices.html"><span>🧾</span> Invoices</a></li>
+            <li><a href="bookings.html"><span>🗓</span> Bookings</a></li>
+        </ul>
+    </nav>
+
+    <main class="main-content">
+        <div class="page-header">
+            <h1>📦 Supplier Inventory</h1>
+            <div class="header-actions">
+                <button class="btn-primary" id="addInventoryBtn">+ Add Inventory</button>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-grid" id="inventoryStats" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:20px"></div>
+
+        <!-- Filters -->
+        <div class="filter-bar" style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px">
+            <input type="text" id="searchInventory" placeholder="Search inventory..." class="form-input" style="max-width:250px">
+            <select id="filterVendor" class="form-input" style="max-width:200px">
+                <option value="">All Vendors</option>
+            </select>
+            <select id="filterType" class="form-input" style="max-width:160px">
+                <option value="">All Types</option>
+                <option value="room">Room</option>
+                <option value="seat">Seat</option>
+                <option value="transfer">Transfer</option>
+                <option value="activity">Activity</option>
+                <option value="package">Package</option>
+            </select>
+            <select id="filterSeason" class="form-input" style="max-width:140px">
+                <option value="">All Seasons</option>
+                <option value="regular">Regular</option>
+                <option value="peak">Peak</option>
+                <option value="off-peak">Off-Peak</option>
+            </select>
+        </div>
+
+        <!-- Inventory Table -->
+        <div class="table-wrap">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Inventory</th>
+                        <th>Vendor</th>
+                        <th>Type</th>
+                        <th>Destination</th>
+                        <th>Total</th>
+                        <th>Available</th>
+                        <th>Rate</th>
+                        <th>Season</th>
+                        <th>Valid</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="inventoryTable">
+                    <tr><td colspan="11" class="loading">Loading inventory...</td></tr>
+                </tbody>
+            </table>
+            <div class="pagination" id="pagination"></div>
+        </div>
+    </main>
+
+    <!-- Add/Edit Inventory Modal -->
+    <div class="modal-overlay hidden" id="inventoryModalOverlay">
+        <div class="modal" style="max-width:620px">
+            <div class="modal-header">
+                <h2 id="inventoryModalTitle">Add Inventory</h2>
+                <button class="btn-icon" id="closeInventoryModal">&times;</button>
+            </div>
+            <form id="inventoryForm">
+                <div class="modal-body" style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+                    <div class="form-group">
+                        <label>Vendor *</label>
+                        <select id="invVendor" class="form-input" required></select>
+                    </div>
+                    <div class="form-group">
+                        <label>Inventory Name *</label>
+                        <input type="text" id="invName" class="form-input" placeholder="e.g. Deluxe Room, Economy Seat" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Destination</label>
+                        <input type="text" id="invDestination" class="form-input" placeholder="e.g. Maldives, Goa">
+                    </div>
+                    <div class="form-group">
+                        <label>Type</label>
+                        <select id="invType" class="form-input">
+                            <option value="room">Room</option>
+                            <option value="seat">Seat</option>
+                            <option value="transfer">Transfer</option>
+                            <option value="activity">Activity</option>
+                            <option value="package">Package</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Total Allotment</label>
+                        <input type="number" id="invTotal" class="form-input" min="0" value="0">
+                    </div>
+                    <div class="form-group">
+                        <label>Available</label>
+                        <input type="number" id="invAvailable" class="form-input" min="0" value="0">
+                    </div>
+                    <div class="form-group">
+                        <label>Rate / Unit</label>
+                        <input type="number" id="invRate" class="form-input" min="0" step="0.01" value="0">
+                    </div>
+                    <div class="form-group">
+                        <label>Currency</label>
+                        <select id="invCurrency" class="form-input">
+                            <option value="INR">INR</option>
+                            <option value="USD">USD</option>
+                            <option value="EUR">EUR</option>
+                            <option value="GBP">GBP</option>
+                            <option value="AED">AED</option>
+                            <option value="SGD">SGD</option>
+                            <option value="THB">THB</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Season</label>
+                        <select id="invSeason" class="form-input">
+                            <option value="regular">Regular</option>
+                            <option value="peak">Peak</option>
+                            <option value="off-peak">Off-Peak</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Release Days</label>
+                        <input type="number" id="invReleaseDays" class="form-input" min="0" value="7">
+                    </div>
+                    <div class="form-group">
+                        <label>Valid From</label>
+                        <input type="date" id="invValidFrom" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label>Valid Until</label>
+                        <input type="date" id="invValidUntil" class="form-input">
+                    </div>
+                    <div class="form-group" style="grid-column:span 2">
+                        <label>Notes</label>
+                        <textarea id="invNotes" class="form-input" rows="2"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" id="cancelInventoryBtn">Cancel</button>
+                    <button type="submit" class="btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Allotment Modal -->
+    <div class="modal-overlay hidden" id="allotmentModalOverlay">
+        <div class="modal" style="max-width:560px">
+            <div class="modal-header">
+                <h2 id="allotmentModalTitle">Book Allotment</h2>
+                <button class="btn-icon" id="closeAllotmentModal">&times;</button>
+            </div>
+            <form id="allotmentForm">
+                <div class="modal-body" style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+                    <div class="form-group" style="grid-column:span 2">
+                        <label>Client Name *</label>
+                        <input type="text" id="alClientName" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Quantity *</label>
+                        <input type="number" id="alQuantity" class="form-input" min="1" value="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Hold Until</label>
+                        <input type="datetime-local" id="alHeldUntil" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label>Check-in</label>
+                        <input type="date" id="alCheckIn" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label>Check-out</label>
+                        <input type="date" id="alCheckOut" class="form-input">
+                    </div>
+                    <div class="form-group" style="grid-column:span 2">
+                        <label>Notes</label>
+                        <textarea id="alNotes" class="form-input" rows="2"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" id="cancelAllotmentBtn">Cancel</button>
+                    <button type="submit" class="btn-primary">Book Allotment</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Allotments Drawer -->
+    <div class="drawer-overlay hidden" id="allotmentDrawerOverlay"></div>
+    <div class="drawer hidden" id="allotmentDrawer">
+        <div class="drawer-header">
+            <h3>Allotments</h3>
+            <button class="btn-icon" id="closeAllotmentDrawer">&times;</button>
+        </div>
+        <div class="drawer-body" id="allotmentDrawerBody"></div>
+    </div>
+
+    <script src="js/supabase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/inventory.js"></script>
+</body>
+</html>

@@ -136,9 +136,19 @@
                 <input type="text" id="dFileName" class="form-control" placeholder="e.g. Ramesh_Passport.pdf">
             </div>
             <div class="form-group">
-                <label>File URL (Supabase Storage or Google Drive link)</label>
+                <label>Upload File</label>
+                <input type="file" id="dFileInput" class="form-control" accept=".pdf,.jpg,.jpeg,.png,.webp,.doc,.docx">
+                <small style="color:var(--text-muted)">Max 10 MB — PDF, images, or Word docs</small>
+                <div id="uploadProgress" style="display:none;margin-top:6px">
+                    <div style="background:var(--border);border-radius:4px;height:6px;overflow:hidden">
+                        <div id="uploadBar" style="background:var(--primary);height:100%;width:0%;transition:width 0.3s"></div>
+                    </div>
+                    <small id="uploadLabel" style="color:var(--text-muted)">Uploading...</small>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Or paste a link (Google Drive, etc.)</label>
                 <input type="url" id="dFileUrl" class="form-control" placeholder="https://...">
-                <small style="color:var(--text-muted)">Paste the public link after uploading to Supabase Storage</small>
             </div>
             <div class="form-row">
                 <div class="form-group">

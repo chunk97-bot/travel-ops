@@ -368,10 +368,13 @@ async function _runGlobalSearch(query) {
     results.innerHTML = '<p style="padding:12px;color:var(--text-muted);font-size:0.85rem">Searching...</p>';
 
     const like = `%${query}%`;
-    const [leads, clients, invoices] = await Promise.all([
+    const [leads, clients, invoices, bookings, vendors, quotations] = await Promise.all([
         window.supabase.from('leads').select('id, name, phone, destination, stage').or(`name.ilike.${like},phone.ilike.${like},destination.ilike.${like}`).limit(5),
         window.supabase.from('clients').select('id, name, phone, email').or(`name.ilike.${like},phone.ilike.${like},email.ilike.${like}`).limit(5),
         window.supabase.from('invoices').select('id, invoice_number, clients(name), total_amount').or(`invoice_number.ilike.${like}`).limit(5),
+        window.supabase.from('bookings').select('id, booking_ref, destination, clients(name), status').or(`booking_ref.ilike.${like},destination.ilike.${like}`).limit(5),
+        window.supabase.from('vendors').select('id, name, category, city').or(`name.ilike.${like},category.ilike.${like},city.ilike.${like}`).limit(5),
+        window.supabase.from('quotations').select('id, quote_number, clients(name), total_amount, status').or(`quote_number.ilike.${like}`).limit(4),
     ]);
 
     let html = '';
@@ -405,26 +408,168 @@ async function _runGlobalSearch(query) {
                 <div style="font-size:0.75rem;color:var(--text-muted)">${escHtml(i.clients?.name||'')} · ${formatINR(i.total_amount)}</div></div>
             </a>`).join('');
     }
+    if (bookings.data?.length) {
+        html += '<div style="padding:6px 12px;font-size:0.72rem;color:var(--text-muted);text-transform:uppercase;font-weight:700">Bookings</div>';
+        html += bookings.data.map(b => `
+            <a href="bookings.html" style="display:flex;align-items:center;gap:8px;padding:8px 12px;text-decoration:none;color:var(--text-primary);border-bottom:1px solid var(--border)"
+               onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='transparent'">
+                <span style="font-size:1.1rem">🗓</span>
+                <div style="flex:1"><div style="font-weight:600;font-size:0.85rem">${escHtml(b.booking_ref)}</div>
+                <div style="font-size:0.75rem;color:var(--text-muted)">${escHtml(b.clients?.name||'')} · ${escHtml(b.destination||'')} · ${escHtml(b.status)}</div></div>
+            </a>`).join('');
+    }
+    if (vendors.data?.length) {
+        html += '<div style="padding:6px 12px;font-size:0.72rem;color:var(--text-muted);text-transform:uppercase;font-weight:700">Vendors</div>';
+        html += vendors.data.map(v => `
+            <a href="vendors.html" style="display:flex;align-items:center;gap:8px;padding:8px 12px;text-decoration:none;color:var(--text-primary);border-bottom:1px solid var(--border)"
+               onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='transparent'">
+                <span style="font-size:1.1rem">🤝</span>
+                <div style="flex:1"><div style="font-weight:600;font-size:0.85rem">${escHtml(v.name)}</div>
+                <div style="font-size:0.75rem;color:var(--text-muted)">${escHtml(v.category||'')} ${v.city ? '· '+escHtml(v.city) : ''}</div></div>
+            </a>`).join('');
+    }
+    if (quotations.data?.length) {
+        html += '<div style="padding:6px 12px;font-size:0.72rem;color:var(--text-muted);text-transform:uppercase;font-weight:700">Quotations</div>';
+        html += quotations.data.map(q => `
+            <a href="quotations.html" style="display:flex;align-items:center;gap:8px;padding:8px 12px;text-decoration:none;color:var(--text-primary);border-bottom:1px solid var(--border)"
+               onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='transparent'">
+                <span style="font-size:1.1rem">📋</span>
+                <div style="flex:1"><div style="font-weight:600;font-size:0.85rem">${escHtml(q.quote_number)}</div>
+                <div style="font-size:0.75rem;color:var(--text-muted)">${escHtml(q.clients?.name||'')} · ${formatINR(q.total_amount)}</div></div>
+            </a>`).join('');
+    }
     if (!html) html = '<p style="padding:16px;color:var(--text-muted);font-size:0.85rem;text-align:center">No results found</p>';
     html += '<div style="padding:8px 12px;text-align:center;font-size:0.72rem;color:var(--text-muted)">Ctrl+K to search</div>';
     results.innerHTML = html;
 }
-
-// ============================================================
-// FEATURE #14 — Multi-currency helper
-// ============================================================
-const CURRENCY_RATES = {
+let CURRENCY_RATES = {
     INR: 1, USD: 85.5, EUR: 92.3, GBP: 108.2, AED: 23.3,
-    SGD: 63.5, THB: 2.45, MYR: 18.9, AUD: 55.2, JPY: 0.57
+    SGD: 63.5, THB: 2.45, MYR: 18.9, AUD: 55.2, JPY: 0.57,
+    SAR: 22.8, CHF: 96.5, CAD: 62.1, NZD: 50.8, LKR: 0.28,
+    IDR: 0.0054, PHP: 1.5, VND: 0.0035, KRW: 0.0625, ZAR: 4.65
 };
+let CURRENCY_SYMBOLS = {
+    INR:'₹', USD:'$', EUR:'€', GBP:'£', AED:'د.إ', SGD:'S$', THB:'฿',
+    MYR:'RM', AUD:'A$', JPY:'¥', SAR:'ر.س', CHF:'CHF', CAD:'C$',
+    NZD:'NZ$', LKR:'Rs', IDR:'Rp', PHP:'₱', VND:'₫', KRW:'₩', ZAR:'R'
+};
+
+// Load rates from DB on startup (falls back to hardcoded)
+(async function loadCurrencyRates() {
+    try {
+        const { data } = await window.supabase.from('currency_rates').select('currency, rate_to_inr, symbol');
+        if (data && data.length) {
+            data.forEach(r => {
+                CURRENCY_RATES[r.currency] = parseFloat(r.rate_to_inr);
+                if (r.symbol) CURRENCY_SYMBOLS[r.currency] = r.symbol;
+            });
+        }
+    } catch (_) { /* fallback to hardcoded rates */ }
+})();
+
 function formatCurrency(amount, currency) {
+    if (!amount && amount !== 0) return '—';
     if (!currency || currency === 'INR') return formatINR(amount);
-    const sym = { USD:'$', EUR:'€', GBP:'£', AED:'د.إ', SGD:'S$', THB:'฿', MYR:'RM', AUD:'A$', JPY:'¥' };
-    return (sym[currency]||currency+' ') + Number(amount).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+    const sym = CURRENCY_SYMBOLS[currency] || currency + ' ';
+    return sym + Number(amount).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
 }
 function convertToINR(amount, fromCurrency) {
+    if (!fromCurrency || fromCurrency === 'INR') return amount;
     return amount * (CURRENCY_RATES[fromCurrency] || 1);
 }
 function convertFromINR(amountINR, toCurrency) {
+    if (!toCurrency || toCurrency === 'INR') return amountINR;
     return amountINR / (CURRENCY_RATES[toCurrency] || 1);
+}
+function getExchangeRate(currency) {
+    return CURRENCY_RATES[currency] || 1;
+}
+function getCurrencyOptions() {
+    return Object.keys(CURRENCY_RATES).sort();
+}
+function buildCurrencySelect(selectEl, selected = 'INR') {
+    if (!selectEl) return;
+    selectEl.innerHTML = getCurrencyOptions().map(c =>
+        `<option value="${c}" ${c === selected ? 'selected' : ''}>${c} (${CURRENCY_SYMBOLS[c] || c})</option>`
+    ).join('');
+}
+
+// ============================================================
+// Approval Workflows
+// ============================================================
+const APPROVAL_THRESHOLDS = {
+    expense: 50000,           // Expenses above ₹50,000
+    vendor_payment: 200000,   // Vendor payments above ₹2,00,000
+    invoice: 500000,          // Invoices above ₹5,00,000
+    quotation_discount: 15,   // Quotation discount above 15%
+    refund: 100000,           // Refunds above ₹1,00,000
+    commission: 25000,        // Commission above ₹25,000
+};
+
+async function needsApproval(type, amount) {
+    const threshold = APPROVAL_THRESHOLDS[type];
+    if (!threshold) return false;
+    const role = await getCurrentUserRole();
+    // Admins and managers bypass approval
+    if (role === 'admin' || role === 'manager' || role === 'owner') return false;
+    return amount > threshold;
+}
+
+async function requestApproval(type, recordId, amount, notes = '') {
+    const userId = await getCurrentUserId();
+    const { data, error } = await window.supabase.from('approval_requests').insert({
+        type,
+        record_id: recordId,
+        requested_by: userId,
+        amount,
+        notes: notes || null,
+        status: 'pending',
+    }).select('id').single();
+    if (error) { showToast('Approval request failed: ' + error.message, 'error'); return null; }
+    showToast(`Approval requested (₹${amount?.toLocaleString('en-IN')}). Awaiting manager approval.`, 'info');
+    return data?.id;
+}
+
+async function loadPendingApprovals() {
+    const role = await getCurrentUserRole();
+    if (role !== 'admin' && role !== 'manager' && role !== 'owner') return [];
+    const { data } = await window.supabase
+        .from('approval_requests')
+        .select('*')
+        .eq('status', 'pending')
+        .order('created_at', { ascending: false });
+    return data || [];
+}
+
+async function approveRequest(approvalId) {
+    const userId = await getCurrentUserId();
+    const { error } = await window.supabase.from('approval_requests').update({
+        status: 'approved', reviewed_by: userId, reviewed_at: new Date().toISOString(),
+    }).eq('id', approvalId);
+    if (error) { showToast('Approval failed: ' + error.message, 'error'); return false; }
+    showToast('Approved!');
+    return true;
+}
+
+async function rejectRequest(approvalId, reviewNotes = '') {
+    const userId = await getCurrentUserId();
+    const { error } = await window.supabase.from('approval_requests').update({
+        status: 'rejected', reviewed_by: userId, reviewed_at: new Date().toISOString(),
+        review_notes: reviewNotes || null,
+    }).eq('id', approvalId);
+    if (error) { showToast('Rejection failed: ' + error.message, 'error'); return false; }
+    showToast('Request rejected');
+    return true;
+}
+
+// Show approval panel in notification bell area (for managers/admins)
+async function renderApprovalBadge() {
+    const pending = await loadPendingApprovals();
+    if (!pending.length) return;
+    const badge = document.getElementById('approvalBadge');
+    if (badge) {
+        badge.textContent = pending.length;
+        badge.style.display = 'inline-flex';
+        badge.title = `${pending.length} pending approval(s)`;
+    }
 }

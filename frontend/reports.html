@@ -24,6 +24,7 @@
             <li><a href="followups.html"><span>🔔</span> Follow-Ups</a></li>
             <li><a href="quotations.html"><span>📋</span> Quotations</a></li>
             <li><a href="bookings.html"><span>🗓</span> Bookings</a></li>
+            <li><a href="group-bookings.html"><span>👥</span> Group Bookings</a></li>
             <li><a href="cancellations.html"><span>❌</span> Cancellations</a></li>
             <li><a href="expenses.html"><span>💸</span> Expenses</a></li>
             <li><a href="receipts.html"><span>🧾</span> Receipts</a></li>
@@ -102,6 +103,38 @@
             </table>
         </div>
 
+        <!-- P&L Statement (Feature: Profit & Loss) -->
+        <div class="section-card">
+            <h3>📊 Profit & Loss Statement</h3>
+            <p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:12px">Revenue, costs, and net profit breakdown</p>
+            <div class="stats-grid" style="grid-template-columns:repeat(4,1fr);margin-bottom:16px">
+                <div class="stat-card"><div class="stat-label">Total Revenue</div><div class="stat-value" id="pnlRevenue">—</div></div>
+                <div class="stat-card"><div class="stat-label">Vendor Costs</div><div class="stat-value" id="pnlVendorCosts" style="color:var(--danger)">—</div></div>
+                <div class="stat-card"><div class="stat-label">Operating Expenses</div><div class="stat-value" id="pnlExpenses" style="color:var(--warning)">—</div></div>
+                <div class="stat-card"><div class="stat-label">Net Profit</div><div class="stat-value" id="pnlNetProfit" style="color:var(--success)">—</div></div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+                <div>
+                    <canvas id="pnlChart" height="280"></canvas>
+                </div>
+                <div>
+                    <table class="data-table" style="font-size:0.85rem">
+                        <thead><tr><th>Month</th><th>Revenue</th><th>Costs</th><th>Expenses</th><th>Profit</th><th>Margin</th></tr></thead>
+                        <tbody id="pnlTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+            <div style="margin-top:12px;text-align:right">
+                <button class="btn-secondary" onclick="exportPnL()">📥 Export P&L CSV</button>
+            </div>
+        </div>
+
+        <!-- Revenue Trends (Enhancement) -->
+        <div class="section-card">
+            <h3>📈 Revenue Trends & Pipeline Value</h3>
+            <div id="revenueTrendsContainer"></div>
+        </div>
+
         <!-- Backup & Export (Enhancement #13) -->
         <div class="section-card">
             <h3>📤 Backup & Export</h3>
@@ -120,6 +153,13 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
     <script src="js/supabase-config.js"></script>
     <script src="js/auth.js"></script>
+    <script src="js/theme-toggle.js"></script>
+    <script src="js/revenue-trends.js"></script>
     <script src="js/reports.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof initRevenueTrends === 'function') initRevenueTrends('revenueTrendsContainer');
+        });
+    </script>
 </body>
 </html>

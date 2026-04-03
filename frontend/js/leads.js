@@ -330,22 +330,24 @@ async function saveLead(e) {
     const phone = document.getElementById('leadPhone').value.trim();
     const email = document.getElementById('leadEmail').value.trim() || null;
 
-    // ── Duplicate Lead Detection (Enhancement #4) ────────
-    if (!editingLeadId) {
-        const dupes = [];
-        if (phone) {
-            const { data: phoneDupes } = await window.supabase.from('leads').select('id, name, stage').eq('phone', phone).limit(1);
-            if (phoneDupes?.length) dupes.push(`Phone match: ${phoneDupes[0].name} (${phoneDupes[0].stage})`);
-        }
-        if (email) {
-            const { data: emailDupes } = await window.supabase.from('leads').select('id, name, stage').eq('email', email).limit(1);
-            if (emailDupes?.length) dupes.push(`Email match: ${emailDupes[0].name} (${emailDupes[0].stage})`);
-        }
-        if (dupes.length && !confirm(`⚠️ Possible duplicate lead detected!\n\n${dupes.join('\n')}\n\nContinue adding this lead?`)) {
-            return;
+    // ── Enhanced Duplicate Lead Detection ────────
+    if (!editingLeadId && typeof checkDuplicateLead === 'function') {
+        const name = document.getElementById('leadName').value.trim();
+        const dupes = await checkDuplicateLead(phone, email, name);
+        if (dupes.length) {
+            return new Promise(resolve => {
+                showDuplicateWarning(dupes, async () => {
+                    await _doSaveLead(phone, email, userId);
+                    resolve();
+                });
+            });
         }
     }
 
+    await _doSaveLead(phone, email, userId);
+}
+
+async function _doSaveLead(phone, email, userId) {
     const payload = {
         name: document.getElementById('leadName').value.trim(),
         phone,

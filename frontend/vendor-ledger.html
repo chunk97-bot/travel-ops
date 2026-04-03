@@ -83,6 +83,33 @@
             </div>
         </section>
 
+        <!-- Aging Analysis -->
+        <section class="dashboard-section" style="padding:0 1.5rem">
+            <h3 style="margin-bottom:12px;font-size:1rem">📊 Aging Analysis</h3>
+            <div class="stats-grid" style="grid-template-columns:repeat(4,1fr);margin-bottom:16px">
+                <div class="stat-card" style="border-left:3px solid var(--success)">
+                    <div class="stat-label">0-30 Days</div>
+                    <div class="stat-value" id="aging030">₹0</div>
+                    <div style="font-size:0.78rem;color:var(--text-muted)" id="aging030Count">0 payments</div>
+                </div>
+                <div class="stat-card" style="border-left:3px solid var(--warning)">
+                    <div class="stat-label">31-60 Days</div>
+                    <div class="stat-value" id="aging3160">₹0</div>
+                    <div style="font-size:0.78rem;color:var(--text-muted)" id="aging3160Count">0 payments</div>
+                </div>
+                <div class="stat-card" style="border-left:3px solid #f97316">
+                    <div class="stat-label">61-90 Days</div>
+                    <div class="stat-value" id="aging6190">₹0</div>
+                    <div style="font-size:0.78rem;color:var(--text-muted)" id="aging6190Count">0 payments</div>
+                </div>
+                <div class="stat-card" style="border-left:3px solid var(--danger)">
+                    <div class="stat-label">90+ Days</div>
+                    <div class="stat-value" id="aging90plus">₹0</div>
+                    <div style="font-size:0.78rem;color:var(--text-muted)" id="aging90plusCount">0 payments</div>
+                </div>
+            </div>
+        </section>
+
         <!-- Vendor Table -->
         <section class="dashboard-section">
             <table class="data-table" id="vendorLedgerTable">

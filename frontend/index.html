@@ -27,6 +27,7 @@
             <li><a href="followups.html"><span>🔔</span> Follow-Ups</a></li>
             <li><a href="quotations.html"><span>📋</span> Quotations</a></li>
             <li><a href="bookings.html"><span>🗓</span> Bookings</a></li>
+            <li><a href="group-bookings.html"><span>👥</span> Group Bookings</a></li>
             <li><a href="cancellations.html"><span>❌</span> Cancellations</a></li>
             <li><a href="expenses.html"><span>💸</span> Expenses</a></li>
             <li><a href="receipts.html"><span>🧾</span> Receipts</a></li>
@@ -146,14 +147,37 @@
             </table>
         </section>
 
-        <!-- Birthdays & Anniversaries -->
+        <!-- Follow-up Reminders (Enhanced) -->
+        <section class="dashboard-section">
+            <div class="section-header">
+                <h2>🔔 Follow-up Reminders</h2>
+                <a href="followups.html" class="view-all">View All →</a>
+            </div>
+            <div id="followupReminders"></div>
+        </section>
+
+        <!-- Birthdays & Anniversaries (Enhanced with auto-greet) -->
         <section class="dashboard-section">
             <div class="section-header">
                 <h2>🎂 Birthdays & Anniversaries This Week</h2>
             </div>
-            <div id="birthdayWidget">
-                <p class="empty-state">Loading...</p>
+            <div id="birthdayGreetWidget"></div>
+        </section>
+
+        <!-- Pipeline Value -->
+        <section class="dashboard-section">
+            <div class="section-header">
+                <h2>💰 Pipeline Value</h2>
             </div>
+            <div id="pipelineValueWidget"></div>
+        </section>
+
+        <!-- Recent Feedback -->
+        <section class="dashboard-section">
+            <div class="section-header">
+                <h2>⭐ Recent Feedback</h2>
+            </div>
+            <div id="feedbackWidget"></div>
         </section>
 
         <!-- Pipeline Summary -->
@@ -181,16 +205,25 @@
 
     <script src="js/supabase-config.js"></script>
     <script src="js/auth.js"></script>
+    <script src="js/theme-toggle.js"></script>
     <script src="js/calendar-view.js"></script>
+    <script src="js/followup-reminders.js"></script>
+    <script src="js/birthday-greet.js"></script>
+    <script src="js/revenue-trends.js"></script>
+    <script src="js/feedback.js"></script>
     <script src="js/dashboard.js"></script>
     <script>
         // PWA Service Worker registration
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('sw.js').catch(() => {});
         }
-        // Init calendar after dashboard loads
+        // Init calendar + new widgets after dashboard loads
         document.addEventListener('DOMContentLoaded', () => {
             if (typeof initCalendar === 'function') initCalendar('calendarContainer');
+            if (typeof initFollowupReminders === 'function') initFollowupReminders('followupReminders');
+            if (typeof initBirthdayGreet === 'function') initBirthdayGreet('birthdayGreetWidget');
+            if (typeof initPipelineValue === 'function') initPipelineValue('pipelineValueWidget');
+            if (typeof loadFeedbackWidget === 'function') loadFeedbackWidget('feedbackWidget');
         });
     </script>
 </body>

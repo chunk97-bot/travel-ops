@@ -84,6 +84,7 @@ function renderTable() {
                 <td class="quote-actions">
                     <button onclick="openEditQuote('${escHtml(r.id)}')">Edit</button>
                     <button onclick="downloadPdfById('${escHtml(r.id)}')">PDF</button>
+                    <button onclick="viewVersionHistory('${escHtml(r.id)}')" title="Version History">🕒</button>
                     ${r.status === 'accepted' ? `<button onclick="convertToInvoiceById('${escHtml(r.id)}')">→ Invoice</button>` : ''}
                 </td>
             </tr>`;
@@ -217,9 +218,8 @@ function getItemsFromTable() {
     }).filter(i => i.description);
 }
 
-// ── Save Quote ────────────────────────────────────────────────
+// ── Save Quote (with versioning) ──────────────────────────────
 async function saveQuote() {
-    const subtotal = quotesData; // placeholder — parse from DOM
     const rows = document.querySelectorAll('#quoteItemsBody tr');
     let base = 0;
     rows.forEach(row => {
@@ -232,6 +232,22 @@ async function saveQuote() {
     const gstAmt = Math.round(taxable * gstPct / 100);
     const total = taxable + gstAmt;
     const userId = await getCurrentUserId();
+
+    // If editing, snapshot current version before saving changes
+    if (editingQuoteId) {
+        const { data: current } = await window.supabase.from('quotations').select('*').eq('id', editingQuoteId).single();
+        if (current) {
+            const changeNotes = prompt('Brief note about this change (optional):') || '';
+            const versionNumber = (current.version || 1);
+            await window.supabase.from('quote_versions').insert({
+                quote_id: editingQuoteId,
+                version_number: versionNumber,
+                snapshot: current,
+                change_notes: changeNotes || null,
+                created_by: userId,
+            });
+        }
+    }
 
     const payload = {
         lead_id: document.getElementById('qLeadId').value || null,
@@ -257,86 +273,226 @@ async function saveQuote() {
 
     let error;
     if (editingQuoteId) {
+        payload.version = (quotesData.find(q => q.id === editingQuoteId)?.version || 1) + 1;
         ({ error } = await window.supabase.from('quotations').update(payload).eq('id', editingQuoteId));
     } else {
+        payload.version = 1;
         ({ error } = await window.supabase.from('quotations').insert(payload));
     }
 
     if (error) { showToast('Save failed: ' + error.message, 'error'); return; }
-    showToast(editingQuoteId ? 'Quote updated' : 'Quote created');
+    showToast(editingQuoteId ? 'Quote updated (v' + (payload.version) + ')' : 'Quote created');
     closeQuoteDrawer();
     loadQuotes();
     logAudit(editingQuoteId ? 'update' : 'create', 'quotations', editingQuoteId, { destination: payload.destination });
 }
 
-// ── PDF Generation ────────────────────────────────────────────
+// ── Version History ──────────────────────────────────────────
+async function viewVersionHistory(quoteId) {
+    const { data: versions } = await window.supabase
+        .from('quote_versions')
+        .select('*')
+        .eq('quote_id', quoteId)
+        .order('version_number', { ascending: false });
+
+    if (!versions?.length) { showToast('No previous versions found', 'info'); return; }
+
+    const body = document.getElementById('ledgerDrawerBody') || document.createElement('div');
+    // Use the ledger drawer if available, or create a simple alert
+    const html = `
+        <h4 style="margin-bottom:12px">Version History (${versions.length} versions)</h4>
+        <div style="max-height:400px;overflow-y:auto">
+        ${versions.map(v => {
+            const s = v.snapshot || {};
+            return `<div style="border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:8px">
+                <div style="display:flex;justify-content:space-between;margin-bottom:6px">
+                    <strong>v${v.version_number}</strong>
+                    <span style="color:var(--text-muted);font-size:0.8rem">${formatDate(v.created_at)}</span>
+                </div>
+                <div style="font-size:0.85rem;color:var(--text-muted)">
+                    Total: ${formatINR(s.total_amount)} | Pax: ${s.pax_count || '—'} | Items: ${(s.itinerary||[]).length}
+                </div>
+                ${v.change_notes ? `<div style="font-size:0.82rem;margin-top:4px;color:var(--primary)">📝 ${escHtml(v.change_notes)}</div>` : ''}
+                <button class="btn-secondary" style="padding:3px 8px;font-size:0.78rem;margin-top:6px" onclick="restoreVersion('${quoteId}','${v.id}')">Restore this version</button>
+            </div>`;
+        }).join('')}
+        </div>
+    `;
+
+    // Show in a simple overlay
+    let overlay = document.getElementById('versionOverlay');
+    if (!overlay) {
+        overlay = document.createElement('div');
+        overlay.id = 'versionOverlay';
+        overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:9999;display:flex;align-items:center;justify-content:center';
+        document.body.appendChild(overlay);
+    }
+    overlay.innerHTML = `<div style="background:var(--bg-card,#1e293b);border-radius:12px;padding:24px;max-width:500px;width:90%;max-height:80vh;overflow-y:auto;color:var(--text,#fff)">
+        ${html}
+        <button class="btn-secondary" style="margin-top:12px;width:100%" onclick="document.getElementById('versionOverlay').remove()">Close</button>
+    </div>`;
+}
+
+async function restoreVersion(quoteId, versionId) {
+    if (!confirm('Restore this version? Current changes will be saved as a new version first.')) return;
+    const { data: version } = await window.supabase.from('quote_versions').select('snapshot').eq('id', versionId).single();
+    if (!version?.snapshot) { showToast('Version data not found', 'error'); return; }
+    const s = version.snapshot;
+    // Save current as version first
+    const userId = await getCurrentUserId();
+    const { data: current } = await window.supabase.from('quotations').select('*').eq('id', quoteId).single();
+    if (current) {
+        await window.supabase.from('quote_versions').insert({
+            quote_id: quoteId, version_number: current.version || 1, snapshot: current,
+            change_notes: 'Auto-saved before restore', created_by: userId,
+        });
+    }
+    // Restore
+    const { error } = await window.supabase.from('quotations').update({
+        destination: s.destination, nights: s.nights, travel_date: s.travel_date, valid_until: s.valid_until,
+        pax_count: s.pax_count, gst_percent: s.gst_percent, gst_amount: s.gst_amount,
+        base_amount: s.base_amount, discount: s.discount, total_amount: s.total_amount,
+        inclusions: s.inclusions, exclusions: s.exclusions, notes: s.notes, itinerary: s.itinerary,
+        version: (current?.version || 1) + 1, updated_at: new Date().toISOString(),
+    }).eq('id', quoteId);
+    if (error) { showToast('Restore failed', 'error'); return; }
+    document.getElementById('versionOverlay')?.remove();
+    showToast('Version restored!');
+    await loadQuotes();
+}
+
+// ── PDF Generation (Professional Design) ──────────────────────
 async function downloadQuotePdf() {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
     const settings = await loadSettings();
-    const y = { val: 20 };
-    const line = () => { doc.line(15, y.val, 195, y.val); y.val += 6; };
-    const text = (t, x, size=11, bold=false) => {
-        doc.setFontSize(size); doc.setFont('helvetica', bold ? 'bold' : 'normal');
-        doc.text(String(t), x, y.val); y.val += 6;
-    };
+    const agencyName = settings.agency_name || 'Travel Agency';
+    const agencyPhone = settings.phone || '';
+    const agencyEmail = settings.email || '';
+    const agencyAddr = settings.address || '';
+    let y = 0;
 
-    // Header
-    doc.setFillColor(30, 41, 59); doc.rect(0, 0, 210, 28, 'F');
-    doc.setTextColor(255,255,255); doc.setFontSize(18); doc.setFont('helvetica','bold');
-    doc.text(settings.agency_name || 'Travel Agency', 15, 18);
-    doc.setFontSize(10); doc.setFont('helvetica','normal');
-    doc.text('QUOTATION', 185, 18, { align:'right' });
-    doc.setTextColor(0,0,0); y.val = 36;
+    // ── Cover Page ──────────────────────────────────────────
+    // Dark header band
+    doc.setFillColor(15, 23, 42); doc.rect(0, 0, 210, 55, 'F');
 
+    // Agency name
+    doc.setTextColor(255, 255, 255); doc.setFontSize(22); doc.setFont('helvetica', 'bold');
+    doc.text(agencyName, 15, 25);
+
+    // "QUOTATION" badge
+    doc.setFillColor(99, 102, 241); doc.roundedRect(145, 10, 50, 14, 3, 3, 'F');
+    doc.setFontSize(11); doc.setTextColor(255, 255, 255);
+    doc.text('QUOTATION', 170, 19, { align: 'center' });
+
+    // Agency contact under header
+    doc.setFontSize(8); doc.setTextColor(200, 200, 200);
+    if (agencyPhone) doc.text(agencyPhone, 15, 35);
+    if (agencyEmail) doc.text(agencyEmail, 15, 41);
+    if (agencyAddr) doc.text(agencyAddr, 15, 47);
+
+    y = 65;
+    doc.setTextColor(30, 41, 59);
+
+    // Quote metadata row
     const qNum = document.getElementById('drawerTitle').textContent.includes('QT-')
         ? document.getElementById('drawerTitle').textContent.replace('Edit ', '') : 'New Quote';
-    text(`Quote: ${qNum}  |  Date: ${new Date().toLocaleDateString('en-IN')}`, 15, 10);
-    text(`Destination: ${document.getElementById('qDestination').value}  |  Travel: ${document.getElementById('qTravelDate').value || 'TBD'}`, 15, 10);
-    text(`Valid Until: ${document.getElementById('qValidUntil').value || 'TBD'}  |  Pax: ${document.getElementById('qPaxCount').value}`, 15, 10);
-    y.val += 4; line();
+    doc.setFontSize(10); doc.setFont('helvetica', 'normal');
+    doc.setFillColor(241, 245, 249); doc.roundedRect(14, y - 6, 182, 28, 3, 3, 'F');
+    doc.text(`Quote No: ${qNum}`, 18, y);
+    doc.text(`Date: ${new Date().toLocaleDateString('en-IN')}`, 110, y);
+    y += 8;
+    doc.text(`Destination: ${document.getElementById('qDestination').value || 'TBD'}`, 18, y);
+    doc.text(`Travel Date: ${document.getElementById('qTravelDate').value || 'TBD'}`, 110, y);
+    y += 8;
+    doc.text(`No. of Pax: ${document.getElementById('qPaxCount').value}`, 18, y);
+    doc.text(`Valid Until: ${document.getElementById('qValidUntil').value || 'TBD'}`, 110, y);
+    y += 14;
 
-    text('Items', 15, 12, true); y.val += 2;
-    doc.setFontSize(9);
-    doc.text('Description', 15, y.val); doc.text('Qty', 110, y.val); doc.text('Rate', 140, y.val); doc.text('Amount', 170, y.val);
-    y.val += 5; line();
+    // ── Line Items Table ──────────────────────────────────────
+    // Table header
+    doc.setFillColor(99, 102, 241); doc.rect(14, y, 182, 9, 'F');
+    doc.setTextColor(255, 255, 255); doc.setFontSize(9); doc.setFont('helvetica', 'bold');
+    doc.text('#', 18, y + 6); doc.text('Description', 26, y + 6); doc.text('Qty', 120, y + 6);
+    doc.text('Rate', 140, y + 6); doc.text('Amount', 170, y + 6);
+    y += 12;
 
-    getItemsFromTable().forEach(item => {
-        doc.setFontSize(10);
-        doc.text(String(item.description).substring(0,55), 15, y.val);
-        doc.text(String(item.qty), 110, y.val);
-        doc.text(`₹${item.rate.toLocaleString('en-IN')}`, 135, y.val);
-        doc.text(`₹${item.amount.toLocaleString('en-IN')}`, 165, y.val);
-        y.val += 7;
+    const items = getItemsFromTable();
+    doc.setTextColor(30, 41, 59); doc.setFont('helvetica', 'normal'); doc.setFontSize(9);
+    items.forEach((item, idx) => {
+        if (y > 260) { doc.addPage(); y = 20; }
+        if (idx % 2 === 0) { doc.setFillColor(248, 250, 252); doc.rect(14, y - 4, 182, 8, 'F'); }
+        doc.text(String(idx + 1), 18, y);
+        doc.text(String(item.description).substring(0, 50), 26, y);
+        doc.text(String(item.qty), 122, y);
+        doc.text('₹' + item.rate.toLocaleString('en-IN'), 137, y);
+        doc.text('₹' + item.amount.toLocaleString('en-IN'), 167, y);
+        y += 8;
     });
-    y.val += 4; line();
+    y += 4;
 
+    // ── Totals Box ──────────────────────────────────────────
+    doc.setDrawColor(200); doc.line(14, y, 196, y); y += 6;
     const discount = parseFloat(document.getElementById('qDiscount').value || 0);
     const gstPct = parseFloat(document.getElementById('qGstPct').value || 0);
-    const subtotalEl = document.getElementById('qSubtotal').textContent;
-    const gstEl = document.getElementById('qGst').textContent;
-    const totalEl = document.getElementById('qTotal').textContent;
-    doc.setFontSize(10);
-    doc.text('Subtotal:', 140, y.val); doc.text(subtotalEl, 170, y.val); y.val += 6;
-    if (discount > 0) { doc.text('Discount:', 140, y.val); doc.text(`-₹${discount.toLocaleString('en-IN')}`, 170, y.val); y.val += 6; }
-    doc.text(`GST (${gstPct}%):`, 140, y.val); doc.text(gstEl, 170, y.val); y.val += 6;
-    doc.setFont('helvetica','bold'); doc.setFontSize(12);
-    doc.text('TOTAL:', 140, y.val); doc.text(totalEl, 170, y.val); y.val += 10;
+    const subtotalText = document.getElementById('qSubtotal').textContent;
+    const gstText = document.getElementById('qGst').textContent;
+    const totalText = document.getElementById('qTotal').textContent;
 
-    if (document.getElementById('qInclusions').value) {
-        doc.setFont('helvetica','bold'); doc.setFontSize(11);
-        doc.text('Inclusions', 15, y.val); y.val += 6;
-        doc.setFont('helvetica','normal'); doc.setFontSize(9);
-        doc.text(document.getElementById('qInclusions').value, 15, y.val, { maxWidth: 180 }); y.val += 20;
-    }
-    if (document.getElementById('qNotes').value) {
-        doc.setFont('helvetica','bold'); doc.setFontSize(11);
-        doc.text('Terms & Notes', 15, y.val); y.val += 6;
-        doc.setFont('helvetica','normal'); doc.setFontSize(9);
-        doc.text(document.getElementById('qNotes').value, 15, y.val, { maxWidth: 180 });
+    doc.setFontSize(10); doc.setFont('helvetica', 'normal');
+    doc.text('Subtotal:', 140, y); doc.text(subtotalText, 190, y, { align: 'right' }); y += 7;
+    if (discount > 0) { doc.text('Discount:', 140, y); doc.text('-₹' + discount.toLocaleString('en-IN'), 190, y, { align: 'right' }); y += 7; }
+    doc.text(`GST (${gstPct}%):`, 140, y); doc.text(gstText, 190, y, { align: 'right' }); y += 8;
+
+    // Grand total highlight
+    doc.setFillColor(99, 102, 241); doc.roundedRect(130, y - 5, 66, 12, 2, 2, 'F');
+    doc.setTextColor(255, 255, 255); doc.setFontSize(12); doc.setFont('helvetica', 'bold');
+    doc.text('TOTAL:', 134, y + 3); doc.text(totalText, 192, y + 3, { align: 'right' });
+    y += 16; doc.setTextColor(30, 41, 59);
+
+    // ── Inclusions / Exclusions ──────────────────────────────
+    const inclusions = document.getElementById('qInclusions').value;
+    const exclusions = document.getElementById('qExclusions').value;
+    if (inclusions || exclusions) {
+        if (y > 230) { doc.addPage(); y = 20; }
+        if (inclusions) {
+            doc.setFontSize(11); doc.setFont('helvetica', 'bold'); doc.setTextColor(16, 185, 129);
+            doc.text('✓ Inclusions', 15, y); y += 6;
+            doc.setFontSize(9); doc.setFont('helvetica', 'normal'); doc.setTextColor(30, 41, 59);
+            const iLines = doc.splitTextToSize(inclusions, 175);
+            doc.text(iLines, 18, y); y += iLines.length * 4.5 + 6;
+        }
+        if (exclusions) {
+            doc.setFontSize(11); doc.setFont('helvetica', 'bold'); doc.setTextColor(239, 68, 68);
+            doc.text('✗ Exclusions', 15, y); y += 6;
+            doc.setFontSize(9); doc.setFont('helvetica', 'normal'); doc.setTextColor(30, 41, 59);
+            const eLines = doc.splitTextToSize(exclusions, 175);
+            doc.text(eLines, 18, y); y += eLines.length * 4.5 + 6;
+        }
     }
 
-    doc.save(`Quote-${Date.now()}.pdf`);
+    // ── Terms & Notes ──────────────────────────────────────
+    const notes = document.getElementById('qNotes').value;
+    if (notes) {
+        if (y > 240) { doc.addPage(); y = 20; }
+        doc.setFontSize(11); doc.setFont('helvetica', 'bold'); doc.setTextColor(100);
+        doc.text('Terms & Conditions', 15, y); y += 6;
+        doc.setFontSize(8); doc.setFont('helvetica', 'normal'); doc.setTextColor(80);
+        const nLines = doc.splitTextToSize(notes, 175);
+        doc.text(nLines, 18, y); y += nLines.length * 4 + 6;
+    }
+
+    // ── Footer ──────────────────────────────────────────────
+    const pageCount = doc.internal.getNumberOfPages();
+    for (let p = 1; p <= pageCount; p++) {
+        doc.setPage(p);
+        doc.setFillColor(241, 245, 249); doc.rect(0, 282, 210, 15, 'F');
+        doc.setFontSize(7); doc.setTextColor(150);
+        doc.text(`${agencyName} — Thank you for choosing us!`, 105, 289, { align: 'center' });
+        doc.text(`Page ${p} of ${pageCount}`, 195, 289, { align: 'right' });
+    }
+
+    doc.save(`Quote-${qNum.replace(/\s/g, '-')}-${Date.now()}.pdf`);
 }
 
 async function downloadPdfById(id) {

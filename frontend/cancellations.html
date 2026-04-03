@@ -46,90 +46,116 @@
             <button class="menu-toggle" id="menuToggle">☰</button>
             <h1 class="page-title">Cancellations & Refunds</h1>
             <div class="top-bar-right">
-                <button class="btn-primary" id="addCancelBtn">+ New Cancellation</button>
+                <button class="btn-primary" id="addCancBtn">+ New Cancellation</button>
                 <button class="btn-logout" id="logoutBtn">Logout</button>
             </div>
         </header>
 
-        <div class="stats-row" id="cancelStats">
-            <div class="stat-card"><div class="stat-value" id="sCancelTotal">0</div><div class="stat-label">Total Cancellations</div></div>
-            <div class="stat-card"><div class="stat-value" id="sCancelAmount">₹0</div><div class="stat-label">Total Refundable</div></div>
-            <div class="stat-card"><div class="stat-value" id="sCancelCharges">₹0</div><div class="stat-label">Cancellation Charges</div></div>
-            <div class="stat-card"><div class="stat-value" id="sCancelPending">0</div><div class="stat-label">Refund Pending</div></div>
+        <div class="stats-row">
+            <div class="stat-card"><div class="stat-value" id="statTotalRefunds">₹0</div><div class="stat-label">Total Refundable</div></div>
+            <div class="stat-card"><div class="stat-value" id="statPending">0</div><div class="stat-label">Refund Pending</div></div>
+            <div class="stat-card"><div class="stat-value" id="statCompleted">0</div><div class="stat-label">Completed</div></div>
         </div>
 
         <div class="filter-bar">
-            <input type="text" id="searchCancel" class="search-input" placeholder="Search client or booking...">
-            <select id="filterCancelStatus" class="filter-select">
+            <input type="text" id="cancSearch" class="search-input" placeholder="Search client or booking...">
+            <select id="filterCancStatus" class="filter-select">
                 <option value="">All Statuses</option>
                 <option value="pending">Refund Pending</option>
-                <option value="partial">Partial Refund</option>
+                <option value="processing">Processing</option>
                 <option value="completed">Fully Refunded</option>
-                <option value="no_refund">No Refund</option>
+                <option value="waived">Waived</option>
             </select>
-            <input type="month" id="filterCancelMonth" class="filter-select">
         </div>
 
         <div class="table-container">
             <table class="data-table">
                 <thead>
                     <tr>
-                        <th>Date</th>
-                        <th>Client / Lead</th>
-                        <th>Booking / Invoice</th>
-                        <th>Total Paid</th>
+                        <th>Booking</th>
+                        <th>Client</th>
+                        <th>Gross Amount</th>
                         <th>Cancel Charge</th>
                         <th>Refund Amount</th>
-                        <th>Refund Status</th>
+                        <th>Status</th>
+                        <th>Date</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
-                <tbody id="cancelTable"></tbody>
+                <tbody id="cancTableBody"></tbody>
             </table>
         </div>
     </main>
 
-    <div class="modal-overlay" id="cancelModalOverlay" onclick="closeModal('cancelModal')"></div>
-    <div class="modal" id="cancelModal">
+    <!-- Cancellation Modal -->
+    <div class="modal-overlay" id="cancModalOverlay" onclick="closeModal('cancModal')"></div>
+    <div class="modal" id="cancModal">
         <div class="modal-header">
-            <h2 id="cancelModalTitle">New Cancellation</h2>
-            <button class="modal-close" id="closeCancelModal">✕</button>
+            <h2>New Cancellation</h2>
+            <button class="modal-close" id="closeCancModal">✕</button>
         </div>
         <div class="modal-body">
-            <input type="hidden" id="cEditId">
-            <div class="form-row">
-                <div class="form-group"><label>Client</label>
-                    <select id="cClientId" class="form-control"><option value="">— Select —</option></select>
+            <form id="cancForm">
+                <div class="form-row">
+                    <div class="form-group"><label>Booking *</label>
+                        <select id="cancBookingId" class="form-control"><option value="">— Select Booking —</option></select>
+                    </div>
+                    <div class="form-group"><label>Cancellation Date</label>
+                        <input type="date" id="cancCancelledOn" class="form-control">
+                    </div>
                 </div>
-                <div class="form-group"><label>Booking (optional)</label>
-                    <select id="cBookingId" class="form-control"><option value="">— Link Booking —</option></select>
+                <div class="form-row">
+                    <div class="form-group"><label>Travel Date (for policy calc)</label>
+                        <input type="date" id="cancTravelDate" class="form-control">
+                    </div>
+                    <div class="form-group"><label>Cancellation Policy</label>
+                        <select id="cancPolicyId" class="form-control"><option value="">— No Policy (Manual) —</option></select>
+                    </div>
                 </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group"><label>Cancellation Date *</label><input type="date" id="cDate" class="form-control"></div>
-                <div class="form-group"><label>Total Amount Paid (₹) *</label><input type="number" id="cTotalPaid" class="form-control" oninput="calcRefund()"></div>
-            </div>
-            <div class="form-row">
-                <div class="form-group"><label>Cancellation Charges (₹) *</label><input type="number" id="cCharges" class="form-control" value="0" oninput="calcRefund()"></div>
-                <div class="form-group"><label>Refund Amount (₹)</label><input type="number" id="cRefundAmt" class="form-control" readonly style="background:rgba(0,212,255,0.1)"></div>
-            </div>
-            <div class="form-row">
-                <div class="form-group"><label>Refund Status</label>
-                    <select id="cRefStatus" class="form-control">
-                        <option value="pending">Pending</option>
-                        <option value="partial">Partial</option>
-                        <option value="completed">Completed</option>
-                        <option value="no_refund">No Refund</option>
-                    </select>
+                <div id="cancPolicyRule" style="color:var(--primary);font-size:0.82rem;padding:0 0 0.75rem;min-height:1.2em"></div>
+                <div class="form-row">
+                    <div class="form-group"><label>Gross Amount (₹) *</label>
+                        <input type="number" id="cancGrossAmount" class="form-control">
+                    </div>
+                    <div class="form-group"><label>Cancellation Charge (₹)</label>
+                        <input type="number" id="cancCharge" class="form-control" value="0">
+                    </div>
                 </div>
-                <div class="form-group"><label>Refund Date</label><input type="date" id="cRefDate" class="form-control"></div>
-            </div>
-            <div class="form-group"><label>Reason for Cancellation</label><textarea id="cReason" class="form-control" rows="2"></textarea></div>
-            <div class="form-group"><label>Notes</label><textarea id="cNotes" class="form-control" rows="2"></textarea></div>
+                <div class="form-group">
+                    <label>Refund Amount</label>
+                    <div id="cancRefundPreview" style="color:var(--success);font-weight:700;font-size:1.1rem;padding:0.25rem 0">—</div>
+                    <input type="hidden" id="cancRefundAmount">
+                </div>
+                <div class="form-group"><label>Reason</label><textarea id="cancReason" class="form-control" rows="2"></textarea></div>
+            </form>
         </div>
         <div class="modal-footer">
-            <button class="btn-secondary" onclick="closeModal('cancelModal')">Cancel</button>
-            <button class="btn-primary" id="saveCancelBtn">Save</button>
+            <button class="btn-secondary" id="cancelCancBtn">Cancel</button>
+            <button class="btn-primary" id="saveCancBtn">Save</button>
+        </div>
+    </div>
+
+    <!-- Refund Modal -->
+    <div class="modal-overlay" id="refundModalOverlay" onclick="closeModal('refundModal')"></div>
+    <div class="modal" id="refundModal" style="max-width:400px">
+        <div class="modal-header">
+            <h2>Process Refund</h2>
+            <button class="modal-close" id="closeRefundModal">✕</button>
+        </div>
+        <div class="modal-body">
+            <input type="hidden" id="refundCancId">
+            <div class="form-group"><label>Refund Amount</label><div id="refundAmountDisplay" style="font-weight:700;font-size:1.1rem;color:var(--success)">—</div></div>
+            <div class="form-group"><label>Refund Mode *</label>
+                <select id="refundMode" class="form-control">
+                    <option value="">— Select —</option><option value="upi">UPI</option><option value="neft">NEFT/RTGS</option>
+                    <option value="cheque">Cheque</option><option value="cash">Cash</option>
+                </select>
+            </div>
+            <div class="form-group"><label>Reference / UTR</label><input type="text" id="refundRef" class="form-control"></div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-secondary" id="cancelRefundBtn">Cancel</button>
+            <button class="btn-primary" id="confirmRefundBtn">Confirm Refund</button>
         </div>
     </div>
 
