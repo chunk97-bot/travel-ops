@@ -38,6 +38,11 @@ async function loadSettings() {
         .eq('user_id', userId)
         .single();
     if (!data) return;
+    // Populate lead capture embed URL with agency website
+    const captureUrlEl = document.getElementById('captureUrl');
+    if (captureUrlEl && data.website) {
+        captureUrlEl.textContent = data.website.replace(/\/$/, '') + '/lead-capture.html';
+    }
     FIELDS.forEach(id => {
         const key = DB_KEYS[id];
         const el  = document.getElementById(id);

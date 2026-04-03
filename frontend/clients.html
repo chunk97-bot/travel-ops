@@ -125,18 +125,23 @@
     </div>
 
     <!-- Client Detail Drawer -->
-    <div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
-    <div class="drawer" id="clientDrawer">
-        <div class="drawer-header">
-            <h2 id="drawerClientName">Client Details</h2>
-            <button class="modal-close" onclick="closeDrawer()">✕</button>
+    <div class="drawer hidden" id="clientDrawer">
+        <div class="drawer-overlay" id="drawerOverlay"></div>
+        <div class="drawer-panel">
+            <div class="drawer-header">
+                <h2 id="drawerClientName">Client Details</h2>
+                <button class="modal-close" onclick="closeDrawer('clientDrawer')">✕</button>
+            </div>
+            <div class="drawer-body" id="drawerBody"></div>
         </div>
-        <div class="drawer-body" id="drawerBody"></div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabase-config.js"></script>
     <script src="js/auth.js"></script>
+    <script src="js/activity-timeline.js"></script>
+    <script src="js/email-integration.js"></script>
+    <script src="js/call-log.js"></script>
     <script src="js/clients.js"></script>
 </body>
 </html>

@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('cancelClientBtn')?.addEventListener('click', () => closeModal('clientModal'));
     document.getElementById('clientModalOverlay')?.addEventListener('click', () => closeModal('clientModal'));
     document.getElementById('saveClientBtn')?.addEventListener('click', saveClient);
-    document.getElementById('drawerOverlay')?.addEventListener('click', closeDrawer);
+    document.getElementById('drawerOverlay')?.addEventListener('click', () => closeDrawer('clientDrawer'));
 });
 
 async function loadClients() {
@@ -173,7 +173,7 @@ async function openClientDrawer(clientId) {
     document.getElementById('drawerClientName').textContent = c.name;
     const body = document.getElementById('drawerBody');
     body.innerHTML = '<div style="color:var(--text-muted)">Loading...</div>';
-    openDrawer();
+    openDrawer('clientDrawer');
 
     // Load trips + invoices for this client
     const [{ data: invoices }, { data: visas }] = await Promise.all([
@@ -210,11 +210,22 @@ async function openClientDrawer(clientId) {
             ${visas.map(v => `<div style="font-size:0.85rem;padding:3px 0">${escHtml(v.country)} — ${escHtml(v.visa_type || '')} · Expiry: ${formatDate(v.expiry_date)}</div>`).join('')}
         </div>` : ''}
         ${c.notes ? `<div class="drawer-section"><h4>Notes</h4><p>${escHtml(c.notes)}</p></div>` : ''}
-        <div style="margin-top:1rem;display:flex;gap:0.5rem">
-            <button class="btn-secondary" onclick="openEditClient('${clientId}');closeDrawer()">Edit</button>
+        <div class="drawer-section">
+            <h4>Activity Timeline</h4>
+            <div id="clientActivityTimeline"><p style="color:var(--text-muted);font-size:0.85rem">Loading...</p></div>
+        </div>
+        <div style="margin-top:1rem;display:flex;gap:0.5rem;flex-wrap:wrap">
+            <button class="btn-secondary" onclick="openEditClient('${clientId}');closeDrawer('clientDrawer')">Edit</button>
+            ${typeof openCallDialog === 'function' && c.phone ? `<button class="btn-secondary" onclick="openCallDialog('${escHtml(c.phone)}',null,'${clientId}')">📞 Call</button>` : ''}
+            ${typeof openEmailComposer === 'function' && c.email ? `<button class="btn-secondary" onclick="openEmailComposer({to:'${escHtml(c.email)}',clientId:'${clientId}'})">📧 Email</button>` : ''}
             <button class="btn-danger" onclick="deleteClient('${clientId}')">Delete</button>
         </div>
     `;
+
+    // Load activity timeline
+    if (typeof loadActivityTimeline === 'function') {
+        loadActivityTimeline(document.getElementById('clientActivityTimeline'), { clientId });
+    }
 }
 
 async function deleteClient(clientId) {
@@ -222,6 +233,6 @@ async function deleteClient(clientId) {
     const { error } = await window.supabase.from('clients').delete().eq('id', clientId);
     if (error) { showToast('Failed: ' + error.message, 'error'); return; }
     showToast('Client deleted');
-    closeDrawer();
+    closeDrawer('clientDrawer');
     await loadClients();
 }

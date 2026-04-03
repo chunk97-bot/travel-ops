@@ -3,7 +3,7 @@
 // Uses email-worker.js (Cloudflare Worker with Resend API)
 // ============================================================
 
-const EMAIL_WORKER_URL = 'https://travel-ops-email.<YOUR_SUBDOMAIN>.workers.dev';
+const EMAIL_WORKER_URL = 'https://travel-ops-email.chunky199701.workers.dev';
 
 // Open compose email dialog (called from lead/client drawer)
 function openEmailComposer({ to, leadId, clientId, subject, prefillBody }) {

@@ -82,6 +82,12 @@
         async function submitCapture(e) {
             e.preventDefault();
             const btn = document.getElementById('capSubmit');
+
+            if (!window.supabase) {
+                alert('System error. Please try again later.');
+                return;
+            }
+
             btn.disabled = true;
             btn.textContent = 'Submitting...';
 
