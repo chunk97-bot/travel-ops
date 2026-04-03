@@ -146,6 +146,13 @@ async function saveBooking() {
 
     showToast('Booking created: ' + booking.booking_ref);
     closeModal('bookingModal');
+
+    // ── WhatsApp Trip Updates (Enhancement #1) ────────
+    const clientPhone = document.getElementById('bClientPhone')?.value?.trim();
+    if (clientPhone) {
+        sendWhatsAppUpdate(clientPhone, `✅ Booking confirmed!\n\nRef: ${booking.booking_ref}\nDestination: ${destination}\nTravel: ${bookingPayload.travel_date}\nPax: ${bookingPayload.pax_count}\n\nYour trip is being prepared. We'll share your itinerary & documents soon!`);
+    }
+
     await loadBookings();
 }
 
@@ -153,8 +160,20 @@ async function openBookingDrawer(bookingId) {
     const b = allBookings.find(x => x.id === bookingId);
     if (!b) return;
     document.getElementById('drawerBookingRef').textContent = b.booking_ref;
+
+    // ── P&L per Trip (Enhancement #12) ────────────────
+    const serviceCost = (b.booking_services || []).reduce((s, svc) => s + (svc.cost_price || 0), 0);
+    const { data: invoiceData } = await window.supabase.from('invoices').select('total_amount').eq('itinerary_id', b.itinerary_id).or(`client_id.eq.${b.client_id}`);
+    const revenue = invoiceData?.reduce((s, i) => s + (i.total_amount || 0), 0) || 0;
+    const { data: tripExpenses } = await window.supabase.from('expenses').select('amount').ilike('description', `%${b.booking_ref}%`);
+    const extraExpenses = tripExpenses?.reduce((s, e) => s + (e.amount || 0), 0) || 0;
+    const totalCost = serviceCost + extraExpenses;
+    const profit = revenue - totalCost;
+    const margin = revenue > 0 ? ((profit / revenue) * 100).toFixed(1) : '0';
+
     const body = document.getElementById('bDrawerBody');
     body.innerHTML = `
+        ${renderTripTimeline(b)}
         <div class="drawer-section">
             <h4>Trip Details</h4>
             <p><strong>Destination:</strong> ${escHtml(b.destination)}</p>
@@ -175,6 +194,15 @@ async function openBookingDrawer(bookingId) {
             `).join('') || '<p style="color:var(--text-muted)">No services added</p>'}
         </div>
         ${b.notes ? `<div class="drawer-section"><h4>Notes</h4><p>${escHtml(b.notes)}</p></div>` : ''}
+        <div class="drawer-section">
+            <h4>💰 Trip P&L</h4>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:0.85rem">
+                <div>Revenue: <strong style="color:var(--success)">${formatINR(revenue)}</strong></div>
+                <div>Service Cost: <strong>${formatINR(serviceCost)}</strong></div>
+                <div>Other Expenses: <strong>${formatINR(extraExpenses)}</strong></div>
+                <div>Profit: <strong style="color:${profit >= 0 ? 'var(--success)' : 'var(--danger)'}">${formatINR(profit)} (${margin}%)</strong></div>
+            </div>
+        </div>
         <div style="margin-top:1rem;display:flex;gap:0.5rem;flex-wrap:wrap">
             <select id="bStatusChange" class="form-control" style="flex:1">
                 ${['tentative','confirmed','on_trip','completed','cancelled'].map(s => `<option value="${s}" ${b.status===s?'selected':''}>${s.replace('_',' ')}</option>`).join('')}
@@ -189,6 +217,19 @@ async function updateStatus(bookingId) {
     const status = document.getElementById('bStatusChange')?.value;
     const { error } = await window.supabase.from('bookings').update({ status }).eq('id', bookingId);
     if (error) { showToast('Failed: ' + error.message, 'error'); return; }
+
+    // ── WhatsApp Trip Updates (Enhancement #1) ────────
+    const b = allBookings.find(x => x.id === bookingId);
+    const phone = b?.clients?.phone;
+    if (phone) {
+        const msgs = {
+            confirmed: `✅ Booking ${b.booking_ref} is confirmed! We're preparing your ${escHtml(b.destination)} trip.`,
+            on_trip: `✈️ Have an amazing trip to ${escHtml(b.destination)}! Safe travels. Ref: ${b.booking_ref}`,
+            completed: `🏠 Welcome back from ${escHtml(b.destination)}! Hope you had a great trip. Share your feedback anytime!`,
+        };
+        if (msgs[status]) sendWhatsAppUpdate(phone, msgs[status]);
+    }
+
     showToast('Status updated');
     closeDrawer();
     await loadBookings();
@@ -200,4 +241,60 @@ async function deleteBooking(bookingId) {
     if (error) { showToast('Failed: ' + error.message, 'error'); return; }
     showToast('Deleted');
     await loadBookings();
+}
+
+// ============================================================
+// Enhancement #1 — WhatsApp Trip Updates
+// ============================================================
+const WHATSAPP_WORKER = ''; // Set to your deployed worker URL
+async function sendWhatsAppUpdate(phone, message) {
+    if (!WHATSAPP_WORKER) {
+        // Fallback: open WhatsApp web directly
+        const cleanPhone = phone.replace(/\D/g, '').replace(/^0/, '');
+        const fullPhone = cleanPhone.startsWith('91') ? cleanPhone : `91${cleanPhone}`;
+        window.open(`https://wa.me/${fullPhone}?text=${encodeURIComponent(message)}`, '_blank');
+        return;
+    }
+    try {
+        await fetch(WHATSAPP_WORKER, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ to: phone, message }),
+        });
+    } catch { /* silent fail — non-blocking */ }
+}
+
+// ============================================================
+// Enhancement #2 — Real-Time Trip Status Timeline
+// ============================================================
+function renderTripTimeline(booking) {
+    const stages = [
+        { key: 'tentative', icon: '📝', label: 'Enquiry Received' },
+        { key: 'confirmed', icon: '✅', label: 'Booking Confirmed' },
+        { key: 'on_trip',   icon: '✈️', label: 'On Trip' },
+        { key: 'completed', icon: '🏠', label: 'Trip Completed' },
+    ];
+    const currentIdx = stages.findIndex(s => s.key === booking.status);
+    const isCancelled = booking.status === 'cancelled';
+
+    return `
+        <div style="display:flex;align-items:center;gap:0;padding:12px 0;overflow-x:auto">
+            ${stages.map((s, i) => {
+                const done = i <= currentIdx && !isCancelled;
+                const active = i === currentIdx && !isCancelled;
+                return `
+                    <div style="display:flex;flex-direction:column;align-items:center;min-width:80px;position:relative">
+                        <div style="width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+                            font-size:1rem;${done ? 'background:var(--primary);' : 'background:var(--bg-input);border:2px solid var(--border);'}
+                            ${active ? 'box-shadow:0 0 0 3px rgba(59,130,246,0.3);' : ''}">
+                            ${done ? s.icon : ''}
+                        </div>
+                        <div style="font-size:0.72rem;margin-top:4px;color:${done ? 'var(--text-primary)' : 'var(--text-muted)'};font-weight:${active ? '700' : '400'};text-align:center">${s.label}</div>
+                    </div>
+                    ${i < stages.length - 1 ? `<div style="flex:1;height:2px;background:${i < currentIdx && !isCancelled ? 'var(--primary)' : 'var(--border)'};min-width:20px;margin-top:-16px"></div>` : ''}
+                `;
+            }).join('')}
+            ${isCancelled ? '<div style="margin-left:12px"><span class="badge badge-cancelled">❌ Cancelled</span></div>' : ''}
+        </div>
+    `;
 }

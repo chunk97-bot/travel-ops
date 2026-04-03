@@ -9,28 +9,36 @@
 </head>
 <body>
     <nav class="sidebar" id="sidebar">
-        <div class="sidebar-logo"><span class="logo-icon">✈</span><span class="logo-text">Travel Ops</span></div>
+        <div class="sidebar-logo">
+            <span class="logo-icon">✈</span>
+            <span class="logo-text">Travel Ops</span>
+        </div>
         <ul class="nav-links">
             <li><a href="index.html"><span>📊</span> Dashboard</a></li>
             <li><a href="leads.html"><span>🎯</span> Leads</a></li>
             <li><a href="clients.html"><span>👥</span> Clients</a></li>
-            <li><a href="bookings.html"><span>🎫</span> Bookings</a></li>
             <li><a href="itinerary.html"><span>🗺</span> Itinerary Builder</a></li>
             <li><a href="packages.html"><span>📦</span> Packages</a></li>
             <li><a href="vendors.html"><span>🤝</span> Vendors</a></li>
-            <li><a href="vendor-payments.html"><span>💸</span> Vendor Payments</a></li>
             <li><a href="invoices.html"><span>🧾</span> Invoices</a></li>
+            <li><a href="followups.html"><span>🔔</span> Follow-Ups</a></li>
+            <li><a href="quotations.html"><span>📋</span> Quotations</a></li>
+            <li><a href="bookings.html"><span>🗓</span> Bookings</a></li>
+            <li><a href="cancellations.html"><span>❌</span> Cancellations</a></li>
+            <li><a href="expenses.html"><span>💸</span> Expenses</a></li>
             <li><a href="receipts.html"><span>🧾</span> Receipts</a></li>
-            <li><a href="expenses.html"><span>💰</span> Expenses</a></li>
-            <li><a href="cancellations.html"><span>↩</span> Cancellations</a></li>
+            <li><a href="vendor-payments.html"><span>💼</span> Vendor Payments</a></li>
+            <li><a href="vendor-ledger.html"><span>📒</span> Vendor Ledger</a></li>
             <li><a href="tcs-tracker.html"><span>🏛</span> TCS Tracker</a></li>
             <li><a href="staff.html"><span>👤</span> Staff</a></li>
-            <li><a href="templates.html"><span>💬</span> Templates</a></li>
-            <li><a href="followups.html"><span>🔔</span> Follow-Ups</a></li>
-            <li class="active"><a href="reports.html"><span>📈</span> Reports</a></li>
+            <li><a href="templates.html"><span>✉</span> Templates</a></li>
+            <li><a href="campaigns.html"><span>📢</span> Campaigns</a></li>
+            <li><a href="task-board.html"><span>✅</span> Task Board</a></li>
             <li><a href="documents.html"><span>📁</span> Documents</a></li>
+            <li class="active"><a href="reports.html"><span>📈</span> Reports</a></li>
             <li><a href="settings.html"><span>⚙</span> Settings</a></li>
         </ul>
+        <div class="sidebar-user" id="sidebarUser"></div>
     </nav>
 
     <main class="main-content">
@@ -83,6 +91,28 @@
                 <thead><tr><th>#</th><th>Client</th><th>Bookings</th><th>Total Revenue</th></tr></thead>
                 <tbody id="topClientsBody"></tbody>
             </table>
+        </div>
+
+        <!-- Staff Performance Board (Enhancement #6) -->
+        <div class="section-card">
+            <h3>🏆 Staff Performance Board</h3>
+            <table class="data-table">
+                <thead><tr><th>Rank</th><th>Staff</th><th>Leads</th><th>Confirmed</th><th>Conv%</th><th>Bookings</th><th>Revenue</th></tr></thead>
+                <tbody id="staffPerformanceBody"></tbody>
+            </table>
+        </div>
+
+        <!-- Backup & Export (Enhancement #13) -->
+        <div class="section-card">
+            <h3>📤 Backup & Export</h3>
+            <p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:12px">Export data as CSV for CA, auditor, or backup</p>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+                <button class="btn-secondary" onclick="exportLeads()">📥 Leads</button>
+                <button class="btn-secondary" onclick="exportClients()">📥 Clients</button>
+                <button class="btn-secondary" onclick="exportInvoices()">📥 Invoices</button>
+                <button class="btn-secondary" onclick="exportExpenses()">📥 Expenses</button>
+                <button class="btn-secondary" onclick="exportReport()">📥 Revenue Report</button>
+            </div>
         </div>
     </main>
 

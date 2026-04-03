@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         loadPipeline(),
         loadBirthdayWidget(),
         loadNotificationBadge(),
+        loadDashboardKPIs(),
     ]);
 });
 
@@ -190,4 +191,41 @@ async function loadNotificationBadge() {
             badge.style.display = 'none';
         }
     } catch (_) { /* notifications table may not exist yet */ }
+}
+
+// ============================================================
+// Enhancement #3 — Dashboard KPIs
+// ============================================================
+async function loadDashboardKPIs() {
+    const kpiEl = document.getElementById('kpiSection');
+    if (!kpiEl) return;
+
+    const now = new Date();
+    const year = now.getFullYear();
+    const monthStart = new Date(year, now.getMonth(), 1).toISOString();
+    const yearStart = `${year}-01-01`;
+    const yearEnd = `${year + 1}-01-01`;
+
+    const [bookingsData, leadsYtd, revenueYtd, expensesYtd] = await Promise.all([
+        window.supabase.from('bookings').select('id, created_at').gte('created_at', yearStart).lt('created_at', yearEnd),
+        window.supabase.from('leads').select('id, stage, created_at').gte('created_at', yearStart).lt('created_at', yearEnd),
+        window.supabase.from('invoices').select('total_amount, created_at').in('status', ['paid','partial']).gte('created_at', yearStart).lt('created_at', yearEnd),
+        window.supabase.from('expenses').select('amount').gte('expense_date', yearStart).lt('expense_date', yearEnd),
+    ]);
+
+    const totalBookingsYtd = bookingsData.data?.length || 0;
+    const totalLeadsYtd = leadsYtd.data?.length || 0;
+    const confirmedLeads = leadsYtd.data?.filter(l => l.stage === 'confirmed').length || 0;
+    const conversionRate = totalLeadsYtd > 0 ? ((confirmedLeads / totalLeadsYtd) * 100).toFixed(1) : '0';
+    const revenueTotal = revenueYtd.data?.reduce((s, i) => s + (i.total_amount || 0), 0) || 0;
+    const expensesTotal = expensesYtd.data?.reduce((s, e) => s + (e.amount || 0), 0) || 0;
+    const avgDealSize = totalBookingsYtd > 0 ? Math.round(revenueTotal / totalBookingsYtd) : 0;
+    const profitMargin = revenueTotal > 0 ? (((revenueTotal - expensesTotal) / revenueTotal) * 100).toFixed(1) : '0';
+
+    kpiEl.innerHTML = `
+        <div class="stat-card"><span class="stat-icon">📊</span><div class="stat-info"><div class="stat-label">Conversion Rate (YTD)</div><div class="stat-value">${conversionRate}%</div></div></div>
+        <div class="stat-card"><span class="stat-icon">💰</span><div class="stat-info"><div class="stat-label">Avg Deal Size</div><div class="stat-value">${formatINR(avgDealSize)}</div></div></div>
+        <div class="stat-card"><span class="stat-icon">📈</span><div class="stat-info"><div class="stat-label">Revenue (YTD)</div><div class="stat-value">${formatINR(revenueTotal)}</div></div></div>
+        <div class="stat-card"><span class="stat-icon">📉</span><div class="stat-info"><div class="stat-label">Profit Margin</div><div class="stat-value">${profitMargin}%</div></div></div>
+    `;
 }

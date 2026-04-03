@@ -3,83 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vendor Ledger — TravelOps</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <title>Travel Ops — Vendor Ledger</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
 </head>
 <body>
-    <div class="app-layout">
-        <!-- Sidebar -->
-        <aside class="sidebar" id="sidebar"></aside>
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-logo">
+            <span class="logo-icon">✈</span>
+            <span class="logo-text">Travel Ops</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html"><span>📊</span> Dashboard</a></li>
+            <li><a href="leads.html"><span>🎯</span> Leads</a></li>
+            <li><a href="clients.html"><span>👥</span> Clients</a></li>
+            <li><a href="itinerary.html"><span>🗺</span> Itinerary Builder</a></li>
+            <li><a href="packages.html"><span>📦</span> Packages</a></li>
+            <li><a href="vendors.html"><span>🤝</span> Vendors</a></li>
+            <li><a href="invoices.html"><span>🧾</span> Invoices</a></li>
+            <li><a href="followups.html"><span>🔔</span> Follow-Ups</a></li>
+            <li><a href="quotations.html"><span>📋</span> Quotations</a></li>
+            <li><a href="bookings.html"><span>🗓</span> Bookings</a></li>
+            <li><a href="cancellations.html"><span>❌</span> Cancellations</a></li>
+            <li><a href="expenses.html"><span>💸</span> Expenses</a></li>
+            <li><a href="receipts.html"><span>🧾</span> Receipts</a></li>
+            <li><a href="vendor-payments.html"><span>💼</span> Vendor Payments</a></li>
+            <li class="active"><a href="vendor-ledger.html"><span>📒</span> Vendor Ledger</a></li>
+            <li><a href="tcs-tracker.html"><span>🏛</span> TCS Tracker</a></li>
+            <li><a href="staff.html"><span>👤</span> Staff</a></li>
+            <li><a href="templates.html"><span>✉</span> Templates</a></li>
+            <li><a href="campaigns.html"><span>📢</span> Campaigns</a></li>
+            <li><a href="task-board.html"><span>✅</span> Task Board</a></li>
+            <li><a href="documents.html"><span>📁</span> Documents</a></li>
+            <li><a href="reports.html"><span>📈</span> Reports</a></li>
+            <li><a href="settings.html"><span>⚙</span> Settings</a></li>
+        </ul>
+        <div class="sidebar-user" id="sidebarUser"></div>
+    </nav>
 
-        <!-- Main Content -->
-        <main class="main-content">
-            <div class="page-header">
-                <div>
-                    <h1>Vendor Ledger</h1>
-                    <p class="page-subtitle">Running balance owed to each vendor across all bookings</p>
-                </div>
-                <div style="display:flex;gap:0.75rem;align-items:center">
-                    <input type="text" id="searchVendors" placeholder="Search vendor..." class="search-input" style="width:220px">
+    <main class="main-content">
+        <header class="top-bar">
+            <button class="menu-toggle" id="menuToggle">☰</button>
+            <h1 class="page-title">Vendor Ledger</h1>
+            <div class="top-bar-right">
+                <input type="text" id="searchVendors" placeholder="Search vendor..." class="search-input" style="width:220px">
+                <button class="btn-logout" id="logoutBtn">Logout</button>
+            </div>
+        </header>
+
+        <!-- Summary Stats -->
+        <section class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">📄</div>
+                <div class="stat-info">
+                    <p class="stat-label">Total Billed</p>
+                    <h2 class="stat-value" id="totalBilled">₹0</h2>
                 </div>
             </div>
-
-            <!-- Summary Stats -->
-            <div class="stats-grid" style="margin-bottom:1.5rem">
-                <div class="stat-card">
-                    <div class="stat-value" id="totalBilled">₹0</div>
-                    <div class="stat-label">Total Billed</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="totalPaid">₹0</div>
-                    <div class="stat-label">Total Paid</div>
-                </div>
-                <div class="stat-card" style="border-color:var(--danger)">
-                    <div class="stat-value" id="totalOutstanding" style="color:var(--danger)">₹0</div>
-                    <div class="stat-label">Outstanding Balance</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="vendorCount">0</div>
-                    <div class="stat-label">Vendors with Balance</div>
+            <div class="stat-card">
+                <div class="stat-icon">✅</div>
+                <div class="stat-info">
+                    <p class="stat-label">Total Paid</p>
+                    <h2 class="stat-value" id="totalPaid">₹0</h2>
                 </div>
             </div>
-
-            <!-- Vendor Table -->
-            <div class="card">
-                <table class="data-table" id="vendorLedgerTable">
-                    <thead>
-                        <tr>
-                            <th>Vendor</th>
-                            <th>Category</th>
-                            <th>Total Billed</th>
-                            <th>Total Paid</th>
-                            <th>Balance Due</th>
-                            <th>Last Activity</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody id="ledgerBody">
-                        <tr><td colspan="7" class="empty-state">Loading…</td></tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- Booking Breakdown Drawer -->
-            <div class="drawer-overlay hidden" id="ledgerDrawerOverlay"></div>
-            <div class="drawer hidden" id="ledgerDrawer">
-                <div class="drawer-header">
-                    <h3 id="drawerVendorName">Vendor Breakdown</h3>
-                    <button class="btn-icon" id="closeLedgerDrawer">✕</button>
-                </div>
-                <div class="drawer-body" id="ledgerDrawerBody">
-                    <p style="color:var(--text-muted)">Loading…</p>
+            <div class="stat-card">
+                <div class="stat-icon">⚠</div>
+                <div class="stat-info">
+                    <p class="stat-label">Outstanding</p>
+                    <h2 class="stat-value urgent" id="totalOutstanding">₹0</h2>
                 </div>
             </div>
-        </main>
+            <div class="stat-card">
+                <div class="stat-icon">🤝</div>
+                <div class="stat-info">
+                    <p class="stat-label">Vendors with Balance</p>
+                    <h2 class="stat-value" id="vendorCount">0</h2>
+                </div>
+            </div>
+        </section>
+
+        <!-- Vendor Table -->
+        <section class="dashboard-section">
+            <table class="data-table" id="vendorLedgerTable">
+                <thead>
+                    <tr>
+                        <th>Vendor</th>
+                        <th>Category</th>
+                        <th>Total Billed</th>
+                        <th>Total Paid</th>
+                        <th>Balance Due</th>
+                        <th>Last Activity</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="ledgerBody">
+                    <tr><td colspan="7" class="empty-state">Loading…</td></tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <!-- Breakdown Drawer -->
+    <div class="drawer hidden" id="ledgerDrawer">
+        <div class="drawer-overlay" id="ledgerDrawerOverlay"></div>
+        <div class="drawer-panel">
+            <div class="drawer-header">
+                <h3 id="drawerVendorName">Vendor Breakdown</h3>
+                <button class="modal-close" id="closeLedgerDrawer">✕</button>
+            </div>
+            <div class="drawer-body" id="ledgerDrawerBody">
+                <p style="color:var(--text-muted)">Loading…</p>
+            </div>
+        </div>
     </div>
 
-    <script src="../js/supabase-config.js"></script>
-    <script src="../js/auth.js"></script>
-    <script src="../js/sidebar.js"></script>
-    <script src="../js/vendor-ledger.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/vendor-ledger.js"></script>
 </body>
 </html>

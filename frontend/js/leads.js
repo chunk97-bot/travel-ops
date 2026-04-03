@@ -254,6 +254,10 @@ async function quickStageUpdate(leadId) {
     if (!nextStage) { showToast('Already at final stage'); return; }
     const { error } = await window.supabase.from('leads').update({ stage: nextStage }).eq('id', leadId);
     if (error) { showToast('Failed to update stage', 'error'); return; }
+
+    // ── Follow-up Automation (Enhancement #5) ─────────
+    await autoCreateFollowup(leadId, nextStage);
+
     showToast(`Moved to ${nextStage}`);
     await loadLeads();
     openLeadDrawer(leadId);
@@ -293,10 +297,29 @@ async function openEditLead(leadId) {
 async function saveLead(e) {
     e.preventDefault();
     const userId = await getCurrentUserId();
+    const phone = document.getElementById('leadPhone').value.trim();
+    const email = document.getElementById('leadEmail').value.trim() || null;
+
+    // ── Duplicate Lead Detection (Enhancement #4) ────────
+    if (!editingLeadId) {
+        const dupes = [];
+        if (phone) {
+            const { data: phoneDupes } = await window.supabase.from('leads').select('id, name, stage').eq('phone', phone).limit(1);
+            if (phoneDupes?.length) dupes.push(`Phone match: ${phoneDupes[0].name} (${phoneDupes[0].stage})`);
+        }
+        if (email) {
+            const { data: emailDupes } = await window.supabase.from('leads').select('id, name, stage').eq('email', email).limit(1);
+            if (emailDupes?.length) dupes.push(`Email match: ${emailDupes[0].name} (${emailDupes[0].stage})`);
+        }
+        if (dupes.length && !confirm(`⚠️ Possible duplicate lead detected!\n\n${dupes.join('\n')}\n\nContinue adding this lead?`)) {
+            return;
+        }
+    }
+
     const payload = {
         name: document.getElementById('leadName').value.trim(),
-        phone: document.getElementById('leadPhone').value.trim(),
-        email: document.getElementById('leadEmail').value.trim() || null,
+        phone,
+        email,
         source: document.getElementById('leadSource').value,
         destination: document.getElementById('leadDestination').value.trim() || null,
         trip_type: document.getElementById('leadTripType').value,
@@ -344,3 +367,28 @@ function renderPagination(total) {
 }
 
 function goPage(p) { currentPage = p; filterAndRender(); }
+
+// ── Follow-up Automation (Enhancement #5) ─────────────────
+// Auto-create follow-ups when leads move stage
+async function autoCreateFollowup(leadId, newStage) {
+    const rules = {
+        contacted: { type: 'call', daysAfter: 1, message: 'Follow up — gauge interest after first contact' },
+        quoted:    { type: 'whatsapp', daysAfter: 2, message: 'Check if client reviewed the quotation' },
+        negotiating: { type: 'call', daysAfter: 1, message: 'Follow up on negotiation / price discussion' },
+        confirmed: { type: 'whatsapp', daysAfter: 0, message: 'Send booking confirmation details' },
+    };
+    const rule = rules[newStage];
+    if (!rule) return;
+
+    const dueDate = new Date();
+    dueDate.setDate(dueDate.getDate() + rule.daysAfter);
+
+    await window.supabase.from('follow_ups').insert({
+        lead_id: leadId,
+        type: rule.type,
+        due_date: dueDate.toISOString().split('T')[0],
+        message: rule.message,
+        is_done: false,
+        created_by: await getCurrentUserId(),
+    });
+}

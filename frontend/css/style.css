@@ -289,6 +289,284 @@ body {
 .drawer-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.5); }
 .drawer-panel { position: absolute; right: 0; top: 0; bottom: 0; width: 480px; background: var(--bg-card); border-left: 1px solid var(--border); display: flex; flex-direction: column; }
 .drawer-header { display: flex; justify-content: space-between; align-items: center; padding: 18px 20px; border-bottom: 1px solid var(--border); }
+.drawer-section { padding: 16px 20px; border-bottom: 1px solid var(--border); }
+.drawer-section h4 { font-size: 0.88rem; font-weight: 700; margin-bottom: 8px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; }
+.drawer-footer { padding: 14px 20px; border-top: 1px solid var(--border); display: flex; gap: 10px; justify-content: flex-end; }
+
+/* ============================================================
+   MODAL BODY / FOOTER
+   ============================================================ */
+.modal-body { padding: 0; max-height: 65vh; overflow-y: auto; }
+.modal-footer { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border); }
+.modal-lg { max-width: 900px; }
+
+/* ============================================================
+   FORM HELPERS
+   ============================================================ */
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.form-control {
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 12px;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    outline: none;
+    width: 100%;
+    font-family: inherit;
+}
+.form-control:focus { border-color: var(--primary); }
+.form-control option { background: var(--bg-card); }
+
+/* ============================================================
+   TABLE CONTAINER
+   ============================================================ */
+.table-container { padding: 0 24px; overflow-x: auto; }
+
+/* ============================================================
+   SMALL BUTTON VARIANTS
+   ============================================================ */
+.btn-primary-sm { background: var(--primary); color: #fff; padding: 4px 10px; border: none; border-radius: 6px; cursor: pointer; font-size: 0.78rem; font-weight: 600; }
+.btn-primary-sm:hover { background: var(--primary-hover); }
+.btn-danger-sm { background: var(--danger); color: #fff; padding: 4px 10px; border: none; border-radius: 6px; cursor: pointer; font-size: 0.78rem; font-weight: 600; }
+.btn-danger-sm:hover { background: #dc2626; }
+.btn-icon { background: none; border: none; color: var(--text-muted); cursor: pointer; padding: 4px 8px; border-radius: 6px; font-size: 1rem; }
+.btn-icon:hover { background: var(--bg-hover); color: var(--text-primary); }
+
+/* ============================================================
+   TEXT UTILITIES
+   ============================================================ */
+.text-success { color: var(--success); }
+.text-warning { color: var(--warning); }
+.text-danger { color: var(--danger); }
+.fw-600 { font-weight: 600; }
+
+/* ============================================================
+   EXTRA BADGE VARIANTS
+   ============================================================ */
+.badge-info { background: rgba(59,130,246,0.15); color: #60a5fa; }
+.badge-success { background: rgba(16,185,129,0.15); color: #34d399; }
+.badge-active { background: rgba(16,185,129,0.15); color: #34d399; }
+.badge-inactive { background: rgba(107,114,128,0.15); color: #9ca3af; }
+
+/* ============================================================
+   PAGE CONTENT WRAPPER
+   ============================================================ */
+.page-content { padding: 0 24px 24px; }
+
+/* ============================================================
+   PAGE HEADER (Reports etc.)
+   ============================================================ */
+.page-header { display: flex; justify-content: space-between; align-items: center; padding: 16px 24px; }
+.page-header h1 { font-size: 1.2rem; font-weight: 700; }
+.page-subtitle { font-size: 0.85rem; color: var(--text-muted); margin-top: 2px; }
+.header-actions { display: flex; gap: 10px; align-items: center; }
+.select-input {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    color: var(--text-primary);
+    border-radius: 8px;
+    padding: 7px 12px;
+    font-size: 0.88rem;
+    outline: none;
+}
+.select-input:focus { border-color: var(--primary); }
+
+/* ============================================================
+   CHARTS (Reports page)
+   ============================================================ */
+.charts-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; padding: 0 24px 24px; }
+.chart-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px;
+}
+.chart-card h3 { font-size: 0.92rem; font-weight: 700; margin-bottom: 12px; }
+.section-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px;
+    margin: 0 24px 14px;
+}
+.section-card h3 { font-size: 0.92rem; font-weight: 700; margin-bottom: 12px; }
+
+/* ============================================================
+   STAT INFO (Dashboard stat cards)
+   ============================================================ */
+.stat-info { display: flex; flex-direction: column; }
+
+/* ============================================================
+   NOTIF BADGE (Top bar notification count)
+   ============================================================ */
+.notif-badge { background: var(--danger); color: #fff; font-size: 0.7rem; font-weight: 700; padding: 2px 6px; border-radius: 20px; }
+.notif-badge:empty { display: none; }
+
+/* ============================================================
+   CLIENT CARDS (Clients page grid)
+   ============================================================ */
+.client-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px;
+    display: flex;
+    gap: 14px;
+    transition: border-color 0.15s;
+    cursor: pointer;
+}
+.client-card:hover { border-color: var(--primary); }
+.client-avatar { width: 42px; height: 42px; border-radius: 50%; background: var(--bg-hover); display: flex; align-items: center; justify-content: center; font-weight: 700; color: var(--primary); font-size: 1rem; flex-shrink: 0; }
+.client-info { flex: 1; min-width: 0; }
+.client-name { font-weight: 700; font-size: 0.95rem; }
+.client-sub { font-size: 0.82rem; color: var(--text-muted); margin-top: 2px; }
+.client-stats { display: flex; gap: 12px; margin-top: 8px; }
+.client-stat { font-size: 0.78rem; color: var(--text-muted); }
+.client-stat strong { color: var(--text-primary); }
+.client-tags { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 8px; }
+.tag { display: inline-block; font-size: 0.72rem; padding: 2px 8px; border-radius: 20px; background: rgba(59,130,246,0.12); color: #60a5fa; }
+
+/* ============================================================
+   STAFF CARDS
+   ============================================================ */
+.staff-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px;
+    text-align: center;
+    transition: border-color 0.15s;
+}
+.staff-card:hover { border-color: var(--primary); }
+.staff-avatar { width: 52px; height: 52px; border-radius: 50%; background: var(--bg-hover); margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.3rem; color: var(--primary); }
+.staff-name { font-weight: 700; font-size: 0.95rem; }
+.staff-role { font-size: 0.82rem; color: var(--text-muted); margin-top: 2px; }
+.staff-meta { font-size: 0.78rem; color: var(--text-muted); margin-top: 6px; }
+
+/* ============================================================
+   TEMPLATE CARDS (Message templates)
+   ============================================================ */
+.tpl-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.tpl-card:hover { border-color: var(--primary); }
+.tpl-card-header { display: flex; justify-content: space-between; align-items: flex-start; }
+.tpl-name { font-weight: 700; font-size: 0.92rem; }
+.tpl-subject { font-size: 0.82rem; color: var(--text-muted); margin-top: 2px; }
+.tpl-body { font-size: 0.82rem; color: var(--text-muted); white-space: pre-wrap; max-height: 80px; overflow: hidden; }
+.tpl-badges { display: flex; gap: 6px; margin-top: 4px; }
+.tpl-actions { display: flex; gap: 6px; margin-top: auto; }
+
+/* ============================================================
+   VENDOR CARD EXTRAS
+   ============================================================ */
+.vendor-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+.vendor-name { font-weight: 700; font-size: 1rem; }
+.vendor-cat { font-size: 0.82rem; color: var(--text-muted); margin-top: 2px; }
+.vendor-info { font-size: 0.85rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 10px; }
+.vendor-badge { display: inline-block; font-size: 0.72rem; padding: 2px 8px; border-radius: 20px; background: rgba(59,130,246,0.12); color: #60a5fa; }
+.vendor-card-actions { display: flex; gap: 6px; margin-top: auto; }
+.pricing-header { font-weight: 600; font-size: 0.88rem; margin: 12px 0 6px; color: var(--text-primary); }
+
+/* ============================================================
+   FOLLOW-UP CARDS (Expanded for followups page)
+   ============================================================ */
+.followup-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; padding: 0 24px; }
+.followup-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+}
+.followup-card.overdue { border-left: 3px solid var(--danger); }
+.followup-card.today { border-left: 3px solid var(--warning); }
+.followup-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.followup-lead { font-weight: 700; font-size: 0.95rem; }
+.followup-type { font-size: 0.82rem; color: var(--text-muted); }
+.followup-date { font-size: 0.82rem; color: var(--text-muted); margin-top: 4px; }
+.followup-notes { font-size: 0.82rem; color: var(--text-muted); margin-top: 6px; font-style: italic; }
+
+/* ============================================================
+   SERVICE ROW (Bookings)
+   ============================================================ */
+.service-row-fields { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); }
+.service-row-fields .form-control { flex: 1; min-width: 120px; }
+
+/* ============================================================
+   FUNNEL (Reports)
+   ============================================================ */
+.funnel-row { display: flex; align-items: center; gap: 10px; padding: 6px 0; }
+.funnel-label { min-width: 100px; font-size: 0.85rem; color: var(--text-muted); }
+.funnel-bar-wrap { flex: 1; background: var(--bg-input); border-radius: 4px; height: 22px; overflow: hidden; }
+.funnel-bar { height: 100%; background: var(--primary); border-radius: 4px; transition: width 0.3s; }
+.funnel-count { min-width: 36px; text-align: right; font-weight: 700; font-size: 0.85rem; }
+
+/* ============================================================
+   PAGINATION
+   ============================================================ */
+.page-btn {
+    padding: 5px 12px;
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+    color: var(--text-primary);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.82rem;
+}
+.page-btn:hover { background: var(--bg-hover); }
+.page-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+.page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* ============================================================
+   REQUIRED FIELD INDICATOR
+   ============================================================ */
+.required { color: var(--danger); }
+
+/* ============================================================
+   ROW AMOUNT (Invoice/Quote line items)
+   ============================================================ */
+.row-amount { font-weight: 700; color: var(--text-primary); min-width: 80px; text-align: right; }
+
+/* ============================================================
+   LOGIN PAGE
+   ============================================================ */
+.login-box { max-width: 400px; margin: 120px auto; background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 32px; text-align: center; }
+.login-logo { font-size: 2rem; margin-bottom: 8px; }
+.login-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 4px; }
+.login-sub { color: var(--text-muted); font-size: 0.88rem; margin-bottom: 24px; }
+.login-error { color: var(--danger); font-size: 0.85rem; margin-bottom: 12px; display: none; }
+
+/* ============================================================
+   MOBILE RESPONSIVE
+   ============================================================ */
+@media (max-width: 768px) {
+    .sidebar { transform: translateX(-100%); transition: transform 0.25s; }
+    .sidebar.open { transform: translateX(0); }
+    .main-content { margin-left: 0; }
+    .menu-toggle { display: block; }
+    .drawer-panel { width: 100%; }
+    .filter-bar { padding: 10px 16px; }
+    .stats-grid { padding: 14px 16px; grid-template-columns: repeat(2, 1fr); }
+    .vendor-grid { padding: 14px 16px; grid-template-columns: 1fr; }
+    .kanban-board { padding: 0 16px 16px; }
+    .dashboard-section { padding: 0 16px 16px; }
+    .charts-row { grid-template-columns: 1fr; padding: 0 16px 16px; }
+    .form-row { grid-template-columns: 1fr; }
+    .form-grid { grid-template-columns: 1fr; }
+    .modal-box { width: 95%; padding: 18px; }
+    .data-table { margin: 0 16px; width: calc(100% - 32px); font-size: 0.82rem; }
+    .page-header { flex-direction: column; align-items: flex-start; gap: 8px; padding: 14px 16px; }
+    .client-card { flex-direction: column; }
+    .followup-cards { grid-template-columns: 1fr; padding: 0 16px; }
+    .top-bar { padding: 10px 16px; }
+}
 .drawer-body { flex: 1; overflow-y: auto; padding: 20px; }
 
 /* ============================================================

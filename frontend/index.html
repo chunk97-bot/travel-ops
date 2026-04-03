@@ -6,6 +6,7 @@
     <title>Travel Ops — Dashboard</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
     <nav class="sidebar" id="sidebar">
@@ -22,7 +23,21 @@
             <li><a href="vendors.html"><span>🤝</span> Vendors</a></li>
             <li><a href="invoices.html"><span>🧾</span> Invoices</a></li>
             <li><a href="followups.html"><span>🔔</span> Follow-Ups</a></li>
+            <li><a href="quotations.html"><span>📋</span> Quotations</a></li>
+            <li><a href="bookings.html"><span>🗓</span> Bookings</a></li>
+            <li><a href="cancellations.html"><span>❌</span> Cancellations</a></li>
+            <li><a href="expenses.html"><span>💸</span> Expenses</a></li>
+            <li><a href="receipts.html"><span>🧾</span> Receipts</a></li>
+            <li><a href="vendor-payments.html"><span>💼</span> Vendor Payments</a></li>
+            <li><a href="vendor-ledger.html"><span>📒</span> Vendor Ledger</a></li>
+            <li><a href="tcs-tracker.html"><span>🏛</span> TCS Tracker</a></li>
+            <li><a href="staff.html"><span>👤</span> Staff</a></li>
+            <li><a href="templates.html"><span>✉</span> Templates</a></li>
+            <li><a href="campaigns.html"><span>📢</span> Campaigns</a></li>
+            <li><a href="task-board.html"><span>✅</span> Task Board</a></li>
+            <li><a href="documents.html"><span>📁</span> Documents</a></li>
             <li><a href="reports.html"><span>📈</span> Reports</a></li>
+            <li><a href="settings.html"><span>⚙</span> Settings</a></li>
         </ul>
         <div class="sidebar-user" id="sidebarUser"></div>
     </nav>
@@ -33,6 +48,7 @@
             <h1 class="page-title">Dashboard</h1>
             <div class="top-bar-right">
                 <span id="dateDisplay"></span>
+                <span class="notif-badge" id="notifBadge" style="display:none;background:var(--danger);color:#fff;border-radius:50%;padding:2px 7px;font-size:0.75rem;font-weight:700;cursor:pointer"></span>
                 <button class="btn-logout" id="logoutBtn">Logout</button>
             </div>
         </header>
@@ -83,6 +99,16 @@
             </div>
         </section>
 
+        <!-- KPI Section (Enhancement #3) -->
+        <section class="dashboard-section">
+            <div class="section-header">
+                <h2>Year-to-Date Performance</h2>
+            </div>
+            <div class="stats-grid" id="kpiSection">
+                <p class="empty-state">Loading KPIs...</p>
+            </div>
+        </section>
+
         <!-- Follow-ups Due Today -->
         <section class="dashboard-section">
             <div class="section-header">
@@ -116,6 +142,16 @@
                     <tr><td colspan="7" class="loading">Loading...</td></tr>
                 </tbody>
             </table>
+        </section>
+
+        <!-- Birthdays & Anniversaries -->
+        <section class="dashboard-section">
+            <div class="section-header">
+                <h2>🎂 Birthdays & Anniversaries This Week</h2>
+            </div>
+            <div id="birthdayWidget">
+                <p class="empty-state">Loading...</p>
+            </div>
         </section>
 
         <!-- Pipeline Summary -->

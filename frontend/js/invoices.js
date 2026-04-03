@@ -235,18 +235,277 @@ async function savePayment() {
 async function downloadInvoicePdf(invoiceId) {
     const inv = allInvoices.find(i => i.id === invoiceId);
     if (!inv) return;
+
+    // Fetch agency settings for letterhead
+    let agency = {};
+    try {
+        const { data } = await window.supabase
+            .from('agency_settings')
+            .select('*')
+            .limit(1)
+            .single();
+        if (data) agency = data;
+    } catch (_) {}
+
+    // Fetch booking services for line items
+    let services = [];
+    if (inv.itinerary_id) {
+        try {
+            const { data } = await window.supabase
+                .from('booking_services')
+                .select('service_type, vendor_name, amount, notes')
+                .eq('itinerary_id', inv.itinerary_id);
+            if (data) services = data;
+        } catch (_) {}
+    }
+
     const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
-    doc.setFontSize(18); doc.text('TAX INVOICE', 20, 20);
-    doc.setFontSize(11); doc.text(`Invoice No: ${inv.invoice_number}`, 20, 35);
-    doc.text(`Date: ${formatDate(inv.invoice_number)}`, 20, 43);
-    doc.text(`Client: ${inv.clients?.name || '—'}`, 20, 51);
-    doc.text(`Travel Date: ${formatDate(inv.travel_date)}`, 20, 59);
-    doc.text('─'.repeat(70), 20, 65);
-    doc.text(`Base Amount:  ${formatINR(inv.base_amount)}`, 20, 75);
-    doc.text(`GST (${inv.gst_percent}%):    ${formatINR(inv.gst_amount)}`, 20, 83);
-    if (inv.tcs_amount > 0) doc.text(`TCS (${inv.tcs_percent}%):    ${formatINR(inv.tcs_amount)}`, 20, 91);
-    doc.text('─'.repeat(70), 20, 98);
-    doc.setFontSize(13); doc.text(`TOTAL:  ${formatINR(inv.total_amount)}`, 20, 108);
+    const doc = new jsPDF('p', 'mm', 'a4'); // A4 portrait
+    const pw = 210; // page width
+    const lm = 15;  // left margin
+    const rm = 195;  // right margin x
+    let y = 15;
+
+    // ── Helper: draw a horizontal line ──────────────────────
+    const hLine = (yPos, color) => {
+        doc.setDrawColor(...(color || [0, 120, 200]));
+        doc.setLineWidth(0.5);
+        doc.line(lm, yPos, rm, yPos);
+    };
+
+    // ── HEADER BAR ──────────────────────────────────────────
+    doc.setFillColor(0, 120, 200);
+    doc.rect(0, 0, pw, 32, 'F');
+
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(20);
+    doc.setFont('helvetica', 'bold');
+    doc.text(agency.agency_name || 'Travel Agency', lm, 14);
+
+    doc.setFontSize(9);
+    doc.setFont('helvetica', 'normal');
+    const tagParts = [];
+    if (agency.phone) tagParts.push(agency.phone);
+    if (agency.email) tagParts.push(agency.email);
+    if (agency.website) tagParts.push(agency.website);
+    if (tagParts.length) doc.text(tagParts.join('  |  '), lm, 22);
+    if (agency.address) doc.text(agency.address, lm, 28);
+
+    // "TAX INVOICE" label right-aligned
+    doc.setFontSize(14);
+    doc.setFont('helvetica', 'bold');
+    doc.text('TAX INVOICE', rm, 14, { align: 'right' });
+
+    // ── GSTIN / PAN row ─────────────────────────────────────
+    y = 38;
+    doc.setTextColor(0, 0, 0);
+    doc.setFontSize(8);
+    doc.setFont('helvetica', 'normal');
+    const taxParts = [];
+    if (agency.gstin) taxParts.push(`GSTIN: ${agency.gstin}`);
+    if (agency.pan_number) taxParts.push(`PAN: ${agency.pan_number}`);
+    if (agency.iata_number) taxParts.push(`IATA: ${agency.iata_number}`);
+    if (taxParts.length) {
+        doc.text(taxParts.join('    |    '), lm, y);
+        y += 6;
+    }
+
+    // ── INVOICE META (left) + BILL TO (right) ───────────────
+    hLine(y, [200, 200, 200]);
+    y += 6;
+
+    doc.setFontSize(9);
+    doc.setFont('helvetica', 'bold');
+    doc.text('Invoice Details', lm, y);
+    doc.text('Bill To', 115, y);
+    y += 5;
+
+    doc.setFont('helvetica', 'normal');
+    doc.text(`Invoice No:  ${inv.invoice_number}`, lm, y);
+    doc.text(inv.clients?.name || '—', 115, y);
+    y += 5;
+    doc.text(`Invoice Date:  ${formatDate(inv.invoice_date || inv.created_at)}`, lm, y);
+    if (inv.clients?.phone) doc.text(`Phone: ${inv.clients.phone}`, 115, y);
+    y += 5;
+    doc.text(`Travel Date:  ${formatDate(inv.travel_date)}`, lm, y);
+    y += 5;
+    if (inv.due_date) {
+        doc.text(`Due Date:  ${formatDate(inv.due_date)}`, lm, y);
+        y += 5;
+    }
+    doc.text(`Pax:  ${inv.pax_count || 1}`, lm, y);
+    y += 3;
+
+    // ── LINE ITEMS TABLE ────────────────────────────────────
+    y += 4;
+    hLine(y, [0, 120, 200]);
+    y += 1;
+
+    // Table header
+    doc.setFillColor(240, 247, 255);
+    doc.rect(lm, y, rm - lm, 7, 'F');
+    y += 5;
+    doc.setFontSize(8);
+    doc.setFont('helvetica', 'bold');
+    doc.text('#', lm + 2, y);
+    doc.text('Description', lm + 10, y);
+    doc.text('HSN/SAC', 110, y);
+    doc.text('Amount', rm - 2, y, { align: 'right' });
+    y += 4;
+    hLine(y, [200, 200, 200]);
+    y += 4;
+
+    doc.setFont('helvetica', 'normal');
+    // HSN/SAC mapping for common travel services
+    const hsnMap = {
+        'flight': '996411', 'hotel': '996311', 'transport': '996412',
+        'visa': '998599', 'insurance': '997133', 'cruise': '996416',
+        'activity': '999799', 'package': '998551', 'train': '996413',
+        'other': '998599'
+    };
+
+    if (services.length > 0) {
+        services.forEach((s, i) => {
+            const sType = (s.service_type || 'other').toLowerCase();
+            const hsn = hsnMap[sType] || '998599';
+            const desc = `${s.service_type || 'Service'}${s.vendor_name ? ' - ' + s.vendor_name : ''}`;
+            doc.text(`${i + 1}`, lm + 2, y);
+            doc.text(desc.substring(0, 55), lm + 10, y);
+            doc.text(hsn, 110, y);
+            doc.text(formatINR(s.amount || 0), rm - 2, y, { align: 'right' });
+            y += 6;
+        });
+    } else {
+        // Single line item from invoice
+        const desc = inv.notes?.split('\n')[0] || 'Travel Services';
+        doc.text('1', lm + 2, y);
+        doc.text(desc.substring(0, 55), lm + 10, y);
+        doc.text('998551', 110, y); // Tour operator SAC
+        doc.text(formatINR(inv.base_amount), rm - 2, y, { align: 'right' });
+        y += 6;
+    }
+
+    hLine(y, [200, 200, 200]);
+    y += 5;
+
+    // ── TOTALS (right-aligned block) ────────────────────────
+    const labelX = 130;
+    const valX = rm - 2;
+
+    doc.setFontSize(9);
+    doc.text('Base Amount', labelX, y);
+    doc.text(formatINR(inv.base_amount), valX, y, { align: 'right' });
+    y += 6;
+
+    doc.text(`GST @ ${inv.gst_percent || 0}%`, labelX, y);
+    doc.text(formatINR(inv.gst_amount || 0), valX, y, { align: 'right' });
+    y += 6;
+
+    if (inv.tcs_amount > 0) {
+        doc.text(`TCS @ ${inv.tcs_percent || 0}%`, labelX, y);
+        doc.text(formatINR(inv.tcs_amount), valX, y, { align: 'right' });
+        y += 6;
+    }
+
+    // Total row
+    hLine(y - 2, [0, 120, 200]);
+    y += 3;
+    doc.setFillColor(0, 120, 200);
+    doc.rect(labelX - 2, y - 5, rm - labelX + 4, 9, 'F');
+    doc.setTextColor(255, 255, 255);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(11);
+    doc.text('TOTAL', labelX, y);
+    doc.text(formatINR(inv.total_amount), valX, y, { align: 'right' });
+    y += 10;
+
+    // Amount in words
+    doc.setTextColor(0, 0, 0);
+    doc.setFont('helvetica', 'italic');
+    doc.setFontSize(8);
+    doc.text(`Amount in words: ${amountToWords(inv.total_amount)} only`, lm, y);
+    y += 6;
+
+    // Payment received
+    if (inv.received > 0) {
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(8);
+        doc.setTextColor(0, 150, 0);
+        doc.text(`Received: ${formatINR(inv.received)}`, lm, y);
+        if (inv.balance > 0) {
+            doc.setTextColor(200, 0, 0);
+            doc.text(`Balance Due: ${formatINR(inv.balance)}`, lm + 60, y);
+        }
+        y += 6;
+    }
+
+    // ── BANK DETAILS ────────────────────────────────────────
+    if (agency.bank_name || agency.upi_id) {
+        y += 2;
+        hLine(y, [200, 200, 200]);
+        y += 6;
+        doc.setTextColor(0, 0, 0);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(9);
+        doc.text('Payment Details', lm, y);
+        y += 5;
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(8);
+        if (agency.bank_name) {
+            doc.text(`Bank: ${agency.bank_name}`, lm, y); y += 4;
+            doc.text(`A/C No: ${agency.bank_account_number || '—'}`, lm, y); y += 4;
+            doc.text(`IFSC: ${agency.bank_ifsc || '—'}`, lm, y);
+            doc.text(`Type: ${(agency.bank_account_type || 'current').toUpperCase()}`, lm + 60, y);
+            y += 4;
+        }
+        if (agency.upi_id) {
+            doc.text(`UPI: ${agency.upi_id}`, lm, y); y += 4;
+        }
+    }
+
+    // ── TERMS & FOOTER ──────────────────────────────────────
+    y += 4;
+    hLine(y, [200, 200, 200]);
+    y += 5;
+    doc.setFontSize(7);
+    doc.setTextColor(100, 100, 100);
+    const terms = agency.invoice_footer || `Payment due within ${agency.payment_terms_days || 7} days of invoice date. All disputes subject to ${agency.state || 'Karnataka'} jurisdiction.`;
+    const splitTerms = doc.splitTextToSize(terms, rm - lm);
+    doc.text(splitTerms, lm, y);
+    y += splitTerms.length * 3 + 4;
+
+    doc.text('This is a computer-generated invoice and does not require a signature.', pw / 2, y, { align: 'center' });
+
+    // ── SAVE ────────────────────────────────────────────────
     doc.save(`${inv.invoice_number}.pdf`);
+}
+
+// ── Convert number to Indian English words ──────────────────
+function amountToWords(num) {
+    if (!num || num <= 0) return 'Zero';
+    num = Math.round(num);
+    const ones = ['','One','Two','Three','Four','Five','Six','Seven','Eight','Nine',
+        'Ten','Eleven','Twelve','Thirteen','Fourteen','Fifteen','Sixteen','Seventeen','Eighteen','Nineteen'];
+    const tens = ['','','Twenty','Thirty','Forty','Fifty','Sixty','Seventy','Eighty','Ninety'];
+
+    function twoDigit(n) {
+        if (n < 20) return ones[n];
+        return tens[Math.floor(n / 10)] + (n % 10 ? ' ' + ones[n % 10] : '');
+    }
+    function threeDigit(n) {
+        if (n >= 100) return ones[Math.floor(n / 100)] + ' Hundred' + (n % 100 ? ' ' + twoDigit(n % 100) : '');
+        return twoDigit(n);
+    }
+
+    const crore = Math.floor(num / 10000000);
+    const lakh = Math.floor((num % 10000000) / 100000);
+    const thousand = Math.floor((num % 100000) / 1000);
+    const rest = num % 1000;
+
+    let words = '';
+    if (crore) words += threeDigit(crore) + ' Crore ';
+    if (lakh) words += twoDigit(lakh) + ' Lakh ';
+    if (thousand) words += twoDigit(thousand) + ' Thousand ';
+    if (rest) words += threeDigit(rest);
+    return 'Rupees ' + words.trim();
 }

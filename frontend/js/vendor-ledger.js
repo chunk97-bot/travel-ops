@@ -79,6 +79,8 @@ function renderLedger(rows) {
             <td>
                 <button class="btn-secondary" style="padding:4px 10px;font-size:0.78rem"
                     onclick="openVendorBreakdown('${r.id}')">Breakdown</button>
+                <button class="btn-primary" style="padding:4px 10px;font-size:0.78rem;margin-left:4px"
+                    onclick="reconcileVendor('${r.id}')">Reconcile</button>
             </td>
         </tr>
     `).join('');
@@ -145,4 +147,49 @@ function openVendorBreakdown(vendorId) {
 function closeLedgerDrawer() {
     document.getElementById('ledgerDrawer').classList.add('hidden');
     document.getElementById('ledgerDrawerOverlay').classList.add('hidden');
+}
+
+// ============================================================
+// Enhancement #11 — Expense Reconciliation
+// ============================================================
+async function reconcileVendor(vendorId) {
+    const vendor = allVendorRows.find(r => r.id === vendorId);
+    if (!vendor) return;
+
+    const { data: services } = await window.supabase
+        .from('booking_services')
+        .select('id, description, cost_price, service_type, bookings(booking_ref)')
+        .eq('vendor_id', vendorId);
+
+    const totalServicesCost = (services || []).reduce((s, svc) => s + (svc.cost_price || 0), 0);
+    const diff = totalServicesCost - vendor.totalBilled;
+
+    document.getElementById('drawerVendorName').textContent = vendor.name + ' — Reconciliation';
+    const body = document.getElementById('ledgerDrawerBody');
+    body.innerHTML = `
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px">
+            <div style="background:var(--bg-input);padding:12px;border-radius:8px;text-align:center">
+                <div style="font-size:0.78rem;color:var(--text-muted)">Services Owed</div>
+                <div style="font-size:1.2rem;font-weight:700">${formatINR(totalServicesCost)}</div>
+            </div>
+            <div style="background:var(--bg-input);padding:12px;border-radius:8px;text-align:center">
+                <div style="font-size:0.78rem;color:var(--text-muted)">Billed</div>
+                <div style="font-size:1.2rem;font-weight:700">${formatINR(vendor.totalBilled)}</div>
+            </div>
+            <div style="background:var(--bg-input);padding:12px;border-radius:8px;text-align:center">
+                <div style="font-size:0.78rem;color:var(--text-muted)">Discrepancy</div>
+                <div style="font-size:1.2rem;font-weight:700;color:${Math.abs(diff) < 1 ? 'var(--success)' : 'var(--danger)'}">${formatINR(diff)}</div>
+            </div>
+        </div>
+        <h4 style="margin-bottom:8px;font-size:0.88rem;color:var(--text-muted)">Linked Booking Services</h4>
+        ${(services || []).length ? services.map(svc => `
+            <div style="padding:6px 0;border-bottom:1px solid var(--border);font-size:0.85rem">
+                <strong>${escHtml(svc.service_type)}</strong> — ${escHtml(svc.description || '')}
+                ${svc.bookings ? `<span style="color:var(--text-muted);margin-left:6px">(${escHtml(svc.bookings.booking_ref)})</span>` : ''}
+                <span style="float:right;font-weight:700">${formatINR(svc.cost_price)}</span>
+            </div>
+        `).join('') : '<p style="color:var(--text-muted)">No services linked to this vendor</p>'}
+    `;
+    document.getElementById('ledgerDrawer').classList.remove('hidden');
+    document.getElementById('ledgerDrawerOverlay').classList.remove('hidden');
 }

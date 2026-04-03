@@ -32,6 +32,7 @@ async function loadAll() {
         loadFunnel(),
         loadExpenseBreakdown(),
         loadTopClients(),
+        loadStaffPerformance(),
     ]);
 }
 
@@ -209,4 +210,104 @@ async function exportReport() {
     const blob = new Blob([csv], { type: 'text/csv' });
     const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
     a.download = `revenue-report-${year}.csv`; a.click();
+}
+
+// ============================================================
+// Enhancement #6 — Staff Performance Board
+// ============================================================
+async function loadStaffPerformance() {
+    const container = document.getElementById('staffPerformanceBody');
+    if (!container) return;
+    const year = getYear();
+    const from = `${year}-01-01`;
+    const to = `${year + 1}-01-01`;
+
+    const [staffData, leadsData, bookingsData, invoicesData] = await Promise.all([
+        window.supabase.from('staff_profiles').select('id, name, role').eq('is_active', true),
+        window.supabase.from('leads').select('id, stage, assigned_to').gte('created_at', from).lt('created_at', to),
+        window.supabase.from('bookings').select('id, created_by').gte('created_at', from).lt('created_at', to),
+        window.supabase.from('invoices').select('total_amount, created_by, status').in('status', ['paid','partial']).gte('created_at', from).lt('created_at', to),
+    ]);
+
+    const staff = staffData.data || [];
+    const leads = leadsData.data || [];
+    const bookings = bookingsData.data || [];
+    const invoices = invoicesData.data || [];
+
+    const board = staff.map(s => {
+        const myLeads = leads.filter(l => l.assigned_to === s.id);
+        const myConfirmed = myLeads.filter(l => l.stage === 'confirmed').length;
+        const myBookings = bookings.filter(b => b.created_by === s.id).length;
+        const myRevenue = invoices.filter(i => i.created_by === s.id).reduce((sum, i) => sum + (i.total_amount || 0), 0);
+        const convRate = myLeads.length > 0 ? ((myConfirmed / myLeads.length) * 100).toFixed(0) : 0;
+        return { name: s.name, role: s.role, leads: myLeads.length, confirmed: myConfirmed, bookings: myBookings, revenue: myRevenue, convRate };
+    }).sort((a, b) => b.revenue - a.revenue);
+
+    container.innerHTML = board.length ? board.map((s, i) => `
+        <tr>
+            <td>${i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : i + 1}</td>
+            <td><strong>${escHtml(s.name)}</strong><br><span style="font-size:0.75rem;color:var(--text-muted)">${escHtml(s.role)}</span></td>
+            <td>${s.leads}</td>
+            <td>${s.confirmed}</td>
+            <td>${s.convRate}%</td>
+            <td>${s.bookings}</td>
+            <td>${formatINR(s.revenue)}</td>
+        </tr>
+    `).join('') : '<tr><td colspan="7" class="empty-state">No staff data</td></tr>';
+}
+
+// ============================================================
+// Enhancement #13 — Backup & Export (CSV for any table)
+// ============================================================
+async function exportTable(tableName, columns, filename) {
+    const { data, error } = await window.supabase.from(tableName).select(columns.map(c => c.key).join(', ')).order('created_at', { ascending: false });
+    if (error || !data?.length) { showToast('No data to export', 'error'); return; }
+
+    const header = columns.map(c => c.label);
+    const rows = data.map(row => columns.map(c => {
+        const val = c.key.includes('.') ? c.key.split('.').reduce((o, k) => o?.[k], row) : row[c.key];
+        return String(val ?? '').replace(/"/g, '""');
+    }));
+
+    const csv = [header, ...rows].map(r => r.map(v => `"${v}"`).join(',')).join('\n');
+    const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `${filename}-${new Date().toISOString().split('T')[0]}.csv`;
+    a.click();
+    showToast(`Exported ${data.length} rows`);
+}
+
+function exportLeads() {
+    exportTable('leads', [
+        { key: 'name', label: 'Name' }, { key: 'phone', label: 'Phone' }, { key: 'email', label: 'Email' },
+        { key: 'destination', label: 'Destination' }, { key: 'travel_date', label: 'Travel Date' },
+        { key: 'stage', label: 'Stage' }, { key: 'source', label: 'Source' }, { key: 'budget_range', label: 'Budget' },
+        { key: 'created_at', label: 'Created' },
+    ], 'leads-export');
+}
+
+function exportClients() {
+    exportTable('clients', [
+        { key: 'name', label: 'Name' }, { key: 'phone', label: 'Phone' }, { key: 'email', label: 'Email' },
+        { key: 'city', label: 'City' }, { key: 'segment', label: 'Segment' },
+        { key: 'total_revenue', label: 'Revenue' }, { key: 'total_trips', label: 'Trips' },
+        { key: 'created_at', label: 'Since' },
+    ], 'clients-export');
+}
+
+function exportInvoices() {
+    exportTable('invoices', [
+        { key: 'invoice_number', label: 'Invoice No' }, { key: 'total_amount', label: 'Amount' },
+        { key: 'gst_amount', label: 'GST' }, { key: 'status', label: 'Status' },
+        { key: 'created_at', label: 'Date' },
+    ], 'invoices-export');
+}
+
+function exportExpenses() {
+    exportTable('expenses', [
+        { key: 'expense_date', label: 'Date' }, { key: 'category', label: 'Category' },
+        { key: 'description', label: 'Description' }, { key: 'amount', label: 'Amount' },
+        { key: 'paid_to', label: 'Paid To' }, { key: 'mode', label: 'Mode' },
+    ], 'expenses-export');
 }
