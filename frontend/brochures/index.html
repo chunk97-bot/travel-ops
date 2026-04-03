@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[YOUR AGENCY NAME] — Travel Package Catalog 2025–26</title>
+    <meta name="description" content="Premium travel packages for Indian travelers — India, Southeast Asia, Europe, Maldives, Dubai">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="brochure.css">
+</head>
+<body>
+
+<!-- ╔══════════════════════════════════════════════════╗
+     ║  CATALOG HEADER                                  ║
+     ╚══════════════════════════════════════════════════╝ -->
+<header class="catalog-header">
+    <div class="header-inner">
+        <div class="agency-logo">
+            <span class="logo-icon">✈</span>
+            <div>
+                <div class="agency-name">[YOUR AGENCY NAME]</div>
+                <div class="agency-tagline">Premium Travel Experiences · Est. 2025</div>
+            </div>
+        </div>
+        <div class="header-meta">
+            <span>📞 +91-XXXXXXXXXX</span>
+            <span>📧 info@youragency.com</span>
+            <span>Trust Badges: IATA · TAAI · TAFI</span>
+            <span>Travel Catalog 2025–26</span>
+        </div>
+    </div>
+</header>
+
+<!-- ╔══════════════════════════════════════════════════╗
+     ║  FILTER BAR (digital only)                       ║
+     ╚══════════════════════════════════════════════════╝ -->
+<nav class="filter-bar no-print" aria-label="Filter packages by destination">
+    <button class="filter-btn active" data-filter="all">🌍 All Packages</button>
+    <button class="filter-btn" data-filter="domestic">🇮🇳 India</button>
+    <button class="filter-btn" data-filter="asia">🌏 SE Asia</button>
+    <button class="filter-btn" data-filter="europe">🇪🇺 Europe</button>
+    <button class="filter-btn" data-filter="maldives">🇲🇻 Maldives</button>
+    <button class="filter-btn" data-filter="dubai">🇦🇪 Dubai</button>
+</nav>
+
+<!-- ╔══════════════════════════════════════════════════╗
+     ║  PACKAGE GRID — rendered by JS                   ║
+     ╚══════════════════════════════════════════════════╝ -->
+<main class="packages-grid" id="packagesGrid" aria-label="Package catalog">
+    <!-- Cards injected by renderCatalog() -->
+</main>
+
+<!-- FOOTER -->
+<footer class="catalog-footer">
+    <strong>[YOUR AGENCY NAME]</strong> &nbsp;|&nbsp;
+    📞 +91-XXXXXXXXXX &nbsp;|&nbsp; 📧 info@youragency.com &nbsp;|&nbsp; Bengaluru, India
+    <br>
+    <span>All prices are indicative and per person on twin sharing basis unless noted. GST @ 5%, international flights, and visa charges are extra. Prices subject to availability and season.</span>
+</footer>
+
+<!-- PRINT BUTTON (floating) -->
+<button class="print-fab no-print" onclick="window.print()" aria-label="Print catalog">🖨️ Print Catalog</button>
+
+<!-- ──────────────────────────────────────────────────── -->
+<!--  DATA + RENDER SCRIPT                               -->
+<!-- ──────────────────────────────────────────────────── -->
+<script src="packages-data.js"></script>
+<script>
+(function () {
+    'use strict';
+
+    // ── Helpers ──────────────────────────────────────────────
+
+    function escHtml(str) {
+        if (!str) return '';
+        return String(str)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;');
+    }
+
+    function formatPrice(n) {
+        return '₹' + n.toLocaleString('en-IN');
+    }
+
+    function getBadgeStyle(type) {
+        const styles = window.BADGE_STYLES || {};
+        const s = styles[type] || { bg: '#6b7280', color: '#fff' };
+        return `background:${s.bg};color:${s.color};`;
+    }
+
+    // ── Build a single package card ───────────────────────────
+
+    function buildCard(pkg) {
+        const regionInfo = (window.PACKAGE_REGIONS || {})[pkg.region] || {};
+        const gradient   = pkg.gradient || ['#1e3a5f', '#0077b6'];
+        const gradStyle  = `background: linear-gradient(145deg, ${gradient[0]}, ${gradient[1]});`;
+        const badgeStyle = getBadgeStyle(pkg.badgeType);
+
+        const highlightsHTML = (pkg.highlights || []).map(h =>
+            `<li>${escHtml(h)}</li>`
+        ).join('');
+
+        const inclusionsHTML = (pkg.inclusions || []).map(i =>
+            `<span class="incl-tag">${escHtml(i)}</span>`
+        ).join('');
+
+        const citiesText = escHtml((pkg.cities || []).join(' · '));
+
+        return `
+<article class="package-card" data-region="${escHtml(pkg.region)}" data-id="${escHtml(pkg.id)}">
+
+    <!-- HEADER -->
+    <div class="card-header" style="${gradStyle}">
+        ${pkg.badge ? `<span class="card-badge" style="${badgeStyle}">${escHtml(pkg.badge)}</span>` : ''}
+        <div class="card-region-label">${escHtml(pkg.flag)} ${escHtml(regionInfo.label || pkg.region)}</div>
+        <div class="card-name">${escHtml(pkg.name)}</div>
+        <div class="card-subtitle">${escHtml(pkg.subtitle)}</div>
+    </div>
+
+    <!-- META / ROUTE BAR -->
+    <div class="card-meta">
+        <span class="card-duration">⏱ ${escHtml(pkg.duration)}</span>
+        <span class="card-cities">${citiesText}</span>
+    </div>
+
+    <!-- BODY -->
+    <div class="card-body">
+        <div>
+            <div class="section-label">Highlights</div>
+            <ul class="highlights-list">${highlightsHTML}</ul>
+        </div>
+        <div>
+            <div class="section-label">Package Inclusions</div>
+            <div class="inclusions-tags">${inclusionsHTML}</div>
+        </div>
+    </div>
+
+    <!-- FOOTER / PRICE -->
+    <div class="card-footer">
+        <div class="price-block">
+            <div class="price-from">Starting from</div>
+            <div class="price-value">${formatPrice(pkg.priceFrom)}</div>
+            <div class="price-note">${escHtml(pkg.priceNote)}</div>
+        </div>
+        <button class="cta-btn" onclick="openEnquiry('${escHtml(pkg.id)}')">Enquire Now →</button>
+    </div>
+
+</article>`;
+    }
+
+    // ── Build a region section (header + 3-per-row grid) ──────
+
+    function buildRegionSection(region, packages) {
+        const regionInfo = (window.PACKAGE_REGIONS || {})[region] || { label: region, flag: '' };
+        const cardsHTML  = packages.map(buildCard).join('');
+
+        return `
+<div class="region-section" data-region-section="${escHtml(region)}">
+    <div class="region-header">
+        <h2>${escHtml(regionInfo.flag)} ${escHtml(regionInfo.label)} Packages</h2>
+        <div class="region-line"></div>
+    </div>
+    <div class="packages-row">${cardsHTML}</div>
+</div>`;
+    }
+
+    // ── Render full catalog ───────────────────────────────────
+
+    function renderCatalog(filterRegion) {
+        const grid    = document.getElementById('packagesGrid');
+        const pkgs    = window.TRAVEL_PACKAGES || [];
+        const regions = ['domestic', 'asia', 'europe', 'maldives', 'dubai'];
+
+        let html = '';
+
+        if (filterRegion === 'all' || !filterRegion) {
+            // Group by region in order
+            regions.forEach(region => {
+                const regionPkgs = pkgs.filter(p => p.region === region);
+                if (regionPkgs.length) {
+                    html += buildRegionSection(region, regionPkgs);
+                }
+            });
+        } else {
+            // Single region — no header needed, just the row
+            const regionPkgs = pkgs.filter(p => p.region === filterRegion);
+            if (regionPkgs.length) {
+                html += buildRegionSection(filterRegion, regionPkgs);
+            } else {
+                html = '<p style="padding:40px;color:#94a3b8;text-align:center;">No packages found for this region.</p>';
+            }
+        }
+
+        grid.innerHTML = html;
+    }
+
+    // ── Filter buttons ────────────────────────────────────────
+
+    function initFilters() {
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                renderCatalog(btn.dataset.filter);
+            });
+        });
+    }
+
+    // ── Enquiry handler ───────────────────────────────────────
+
+    window.openEnquiry = function (packageId) {
+        const pkg = (window.TRAVEL_PACKAGES || []).find(p => p.id === packageId);
+        if (!pkg) return;
+        const phone = '+91-XXXXXXXXXX';
+        const msg   = encodeURIComponent(
+            `Hi, I'm interested in the *${pkg.name}* (${pkg.duration}) package. `
+            + `Please share availability and pricing details. Thank you!`
+        );
+        // Opens WhatsApp enquiry — replace number with real one
+        window.open(`https://wa.me/${phone.replace(/\D/g, '')}?text=${msg}`, '_blank', 'noopener');
+    };
+
+    // ── Init ──────────────────────────────────────────────────
+
+    document.addEventListener('DOMContentLoaded', () => {
+        renderCatalog('all');
+        initFilters();
+    });
+
+})();
+</script>
+
+</body>
+</html>

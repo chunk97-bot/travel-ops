@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Metro Cities & Desert 3N/4D Packages — Batch 10</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#D4AF37;--dark:#0a1628;--navy:#1e3a5f;--card:#fff;--border:#e2e8f0;--radius:14px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#1e293b;line-height:1.6}
+.site-header{background:linear-gradient(135deg,#0a1628,#1e3a5f);border-bottom:3px solid var(--gold);padding:22px 40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.logo{font-family:'Playfair Display',serif;font-size:24px;color:var(--gold);letter-spacing:.04em}
+.logo span{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:rgba(240,244,248,.65);display:block;font-family:'Inter',sans-serif;font-weight:400;margin-top:2px}
+.header-right{color:rgba(240,244,248,.65);font-size:12px;text-align:right;line-height:1.8}
+.batch-title{background:linear-gradient(90deg,#1a0a00,#7a3800);color:#fff;padding:18px 40px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.batch-title h1{font-family:'Playfair Display',serif;font-size:20px;font-weight:700}
+.batch-title p{font-size:13px;opacity:.8;margin-top:3px}
+.badge-count{background:var(--gold);color:#1a1a1a;font-size:11px;font-weight:800;padding:4px 12px;border-radius:20px;white-space:nowrap;letter-spacing:.06em;flex-shrink:0}
+.filter-bar{background:#fff;border-bottom:1px solid var(--border);padding:12px 40px;display:flex;gap:8px;flex-wrap:wrap;position:sticky;top:0;z-index:50;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.filter-btn{background:#f8fafc;border:1px solid var(--border);color:#64748b;padding:7px 16px;border-radius:30px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s}
+.filter-btn:hover,.filter-btn.active{background:var(--gold);border-color:var(--gold);color:#1a1a1a}
+.main{max-width:1400px;margin:0 auto;padding:32px 40px 80px}
+.pkg-card{background:var(--card);border-radius:var(--radius);box-shadow:0 4px 24px rgba(0,0,0,.12);margin-bottom:40px;overflow:hidden}
+.pkg-hero{padding:24px 28px 20px;color:#fff;position:relative;min-height:130px;display:flex;flex-direction:column;justify-content:flex-end}
+.pkg-hero::before{content:'';position:absolute;inset:0;background:rgba(0,0,0,.22)}
+.pkg-badge{position:absolute;top:16px;right:16px;padding:4px 12px;border-radius:20px;font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;z-index:2}
+.pkg-type-chip{position:absolute;top:16px;left:16px;background:rgba(255,255,255,.15);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,.25);color:#fff;font-size:10px;font-weight:700;padding:4px 10px;border-radius:20px;z-index:2;letter-spacing:.06em;text-transform:uppercase}
+.pkg-title{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;line-height:1.15;position:relative;z-index:2}
+.pkg-subtitle{font-size:13px;opacity:.85;margin-top:4px;position:relative;z-index:2;font-style:italic}
+.pkg-meta-row{position:relative;z-index:2;display:flex;gap:20px;margin-top:12px;flex-wrap:wrap}
+.meta-pill{background:rgba(255,255,255,.15);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,.2);color:#fff;font-size:11px;font-weight:600;padding:4px 12px;border-radius:20px}
+.pkg-body{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0}
+.pkg-section{padding:20px 24px;border-right:1px solid var(--border)}
+.pkg-section:last-child{border-right:none}
+.sec-title{font-size:10px;letter-spacing:.18em;text-transform:uppercase;font-weight:800;color:#94a3b8;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.sec-title::after{content:'';flex:1;height:1px;background:var(--border)}
+.hl-list{list-style:none;display:flex;flex-direction:column;gap:7px}
+.hl-list li{font-size:13px;color:#374151;display:flex;align-items:flex-start;gap:8px;line-height:1.45}
+.hl-list li::before{content:'›';color:var(--gold);font-size:18px;line-height:1;flex-shrink:0;font-weight:700}
+.itin-day{margin-bottom:14px}
+.itin-day:last-child{margin-bottom:0}
+.day-label{background:#f8fafc;border-left:3px solid var(--gold);padding:5px 10px;font-size:11px;font-weight:800;color:#1e3a5f;letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}
+.day-title{font-size:13px;font-weight:700;color:#111827;margin-bottom:4px}
+.day-acts{list-style:none;display:flex;flex-direction:column;gap:4px}
+.day-acts li{font-size:12px;color:#4b5563;padding-left:14px;position:relative;line-height:1.5}
+.day-acts li::before{content:'·';position:absolute;left:3px;color:#94a3b8;font-size:16px;line-height:1.1}
+.pricing-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.price-box{background:#f8fafc;border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center}
+.price-star{font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#64748b;margin-bottom:4px}
+.price-hotels{font-size:10px;color:#94a3b8;margin-bottom:6px;line-height:1.4}
+.price-val{font-size:18px;font-weight:800;color:#0f172a;letter-spacing:-.02em}
+.price-sub{font-size:10px;color:#94a3b8;margin-top:2px}
+.incl-list{list-style:none;margin-bottom:14px;display:flex;flex-direction:column;gap:5px}
+.incl-list li{font-size:12px;display:flex;align-items:flex-start;gap:7px;line-height:1.45}
+.incl-list li.incl::before{content:'✓';color:#16a34a;font-weight:800;flex-shrink:0;font-size:11px;margin-top:2px}
+.incl-list li.excl::before{content:'✗';color:#dc2626;font-weight:800;flex-shrink:0;font-size:11px;margin-top:2px}
+.pkg-footer{padding:14px 24px;background:#f8fafc;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.ex-cities{display:flex;flex-wrap:wrap;gap:6px}
+.ex-chip{background:#eff6ff;border:1px solid #bfdbfe;color:#1d4ed8;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px}
+.cta-group{display:flex;gap:10px}
+.btn-whatsapp{background:#25D366;color:#fff;border:none;padding:9px 18px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.btn-enquire{background:linear-gradient(135deg,var(--gold),#b8932a);color:#1a1a1a;border:none;padding:9px 18px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit}
+.note-chip{background:#fef3c7;border:1px solid #fcd34d;color:#92400e;font-size:10px;padding:3px 8px;border-radius:6px;display:inline-block;margin-top:6px}
+.print-fab{position:fixed;bottom:28px;right:28px;background:var(--gold);color:#1a1a1a;border:none;padding:12px 22px;border-radius:40px;font-size:13px;font-weight:700;cursor:pointer;box-shadow:0 4px 20px rgba(212,175,55,.5);z-index:999;font-family:inherit}
+@media(max-width:1100px){.pkg-body{grid-template-columns:1fr 1fr}}
+@media(max-width:700px){.pkg-body{grid-template-columns:1fr}.pkg-section{border-right:none;border-bottom:1px solid var(--border)}.main{padding:20px 16px}.filter-bar,.site-header,.batch-title{padding:12px 20px}}
+@media print{@page{size:A4 portrait;margin:10mm 12mm}*{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}.print-fab,.filter-bar,.btn-whatsapp,.btn-enquire{display:none!important}body{background:#fff}.pkg-card{box-shadow:none;border:1pt solid #dde1e7;margin-bottom:20pt;page-break-inside:avoid}.pkg-body{grid-template-columns:1fr 1fr 1fr!important}.main{padding:0}}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="logo">[YOUR AGENCY NAME]<span>Premium Travel · Est. 2025 · Bengaluru</span></div>
+  <div class="header-right">📞 +91-XXXXXXXXXX &nbsp;|&nbsp; 📧 info@youragency.com<br>IATA · TAAI · TAFI &nbsp;|&nbsp; 2025–26 Season</div>
+</header>
+
+<div class="batch-title">
+  <div>
+    <h1>🏙️ Metro Cities, Desert & Kumaon Hills — 3 Nights / 4 Days</h1>
+    <p>Hyderabad · Mumbai · Jaisalmer · Nainital · Chennai &nbsp;|&nbsp; 4★ &amp; 5★ &nbsp;|&nbsp; 1 NEW Destination</p>
+  </div>
+  <div class="badge-count">BATCH 10 · 5 PACKAGES · 3N/4D</div>
+</div>
+
+<nav class="filter-bar" id="filterBar">
+  <button class="filter-btn active" data-f="all">All Packages</button>
+  <button class="filter-btn" data-f="hyderabad">Hyderabad</button>
+  <button class="filter-btn" data-f="mumbai">Mumbai</button>
+  <button class="filter-btn" data-f="jaisalmer">Jaisalmer</button>
+  <button class="filter-btn" data-f="nainital">Nainital ★NEW</button>
+  <button class="filter-btn" data-f="chennai">Chennai</button>
+</nav>
+
+<main class="main" id="mainGrid"></main>
+
+<footer style="background:#0a1628;color:rgba(240,244,248,.6);padding:20px 40px;text-align:center;font-size:12px;border-top:1px solid rgba(212,175,55,.25)">
+  <strong style="color:#D4AF37">[YOUR AGENCY NAME]</strong> · Bengaluru, India ·
+  All prices indicative, per person twin-sharing. GST @5% &amp; flights extra. Subject to availability &amp; season.
+</footer>
+<button class="print-fab" onclick="window.print()">🖨️ Print / PDF</button>
+
+<script>
+const PKGS = [
+
+// 1. HYDERABAD 3N/4D
+{
+  id:'hyderabad',
+  name:'Hyderabad — City of Nizams & Biryani',
+  subtitle:'Three nights of Mughal grandeur — Charminar, Golconda diamonds, Ramoji Film City and pearl bazaars',
+  gradient:['#1a0a00','#78350f'],
+  badge:'Nizami Heritage · Biryani Capital', badgeColor:'#D4AF37', badgeText:'#1a1a1a',
+  type:'FIT + Heritage + Family + Group',
+  duration:'3N / 4D', nights:3, days:4,
+  exCities:['Ex Hyderabad (HYD — home city) · Also direct flights from all metros'],
+  highlights:[
+    'Golconda Fort (1600s) — acoustic marvel; clap at entrance arch, heard 1 km away; Fateh Darwaza 6-ton gate',
+    'Charminar (1591) — 56m minaret; 400-m main bazaar below; Laad Bazaar (lac bangles, pearls)',
+    'Ramoji Film City (Day 3) — world\'s largest film studio (Guinness Record); 2,000+ acres; 50+ sets open to public',
+    'Salar Jung Museum — largest one-man collection in world; Veiled Rebecca marble; Tipu Sultan\'s sword',
+    'Hyderabad Biryani Trail — Shadab, Paradise, Bawarchi; Dum Biryani cooked in sealed clay pot',
+    'Hussain Sagar Lake — 1575 monolith Buddha statue on island; tank bund promenade; evening laser show'
+  ],
+  itinerary:[
+    {day:1, label:'Day 1', title:'Charminar, Laad Bazaar & Hussain Sagar',acts:[
+      'Arrive Hyderabad Airport (or home city if local) | Hotel check-in',
+      'Charminar (₹25) — 1591 mosque + minaret complex; climb for aerial bazaar photo',
+      'Laad Bazaar — 400m below Charminar; lac bangle makers working in open shops; pearl strings',
+      'Mecca Masjid (adjacent, free) — 400-yr-old Friday mosque; 10,000 capacity; black granite',
+      'Salar Jung Museum (₹20, closed Fri, 10 AM–5 PM) — 43,000 artefacts; Veiled Rebecca, jade Mughal collection',
+      'Hussain Sagar Lake (6 PM, boat to Buddha, ₹100) — monolith 18m granite Buddha; 1992; 20-min ride',
+      'Dinner: Shadab Restaurant (Old City) or Paradise Restaurant (Secunderabad)'
+    ]},
+    {day:2, label:'Day 2', title:'Golconda Fort, Sound & Light Show & Qutb Shahi Tombs',acts:[
+      'Morning 9 AM: Golconda Fort (₹15 + ₹200 for S&L evening ticket)',
+      'Acoustic clap at Fateh Darwaza (entrance gate) — sound heard at Bala Hissar watchtower 1 km up',
+      'Climb 380 steps to summit: Bala Hissar Baradari; British-era barracks; views of Hyderabad skyline',
+      'Diamond history: Koh-i-Noor, Hope Diamond, Darya-e-Noor — all mined from Golconda mines',
+      'Qutb Shahi Tombs (adjacent, ₹15) — 7 domed tombs; finest Islamic architecture in the Deccan',
+      'Lunch: Bidri Craft Restaurant near Golconda or Paradise (lunch biryani service)',
+      'Rest 2–4 PM at hotel',
+      'Evening: Golconda Sound & Light Show (7 PM, ₹200, 1 hr) — illuminated fort with narrated history'
+    ]},
+    {day:3, label:'Day 3', title:'Ramoji Film City — World\'s Largest Studio',acts:[
+      'Morning 9 AM: Depart for Ramoji Film City (25 km, ₹1,500 adult full-day pass)',
+      'World\'s largest film studio (Guinness Record, 2,000 acres) — 50+ live sets open',
+      'Sets: Japanese Village, European Streets, Mughal Darbar, South Indian Temple town',
+      'Film shows + live stunt show + bird park + Eureka children\'s zone',
+      'Spot on-location shoots (Telugu + Hindi films; over 20 productions always running)',
+      'Light & Sound Media Studios tour — editing rooms, green-screen live demo',
+      'Lunch inside Ramoji (food courts available within campus)',
+      'Return Hyderabad by 7 PM | Dinner: Chicha\'s Restaurant or Ohri\'s (iconic Hyderabad fine dining)'
+    ]},
+    {day:4, label:'Day 4', title:'Birla Mandir, Chowmahalla Palace & Pearl Market',acts:[
+      'Morning 9 AM: Chowmahalla Palace (₹80) — Nizam\'s official residence; restored 1750-era durbar halls',
+      'Vintage car collection (Rolls Royce, Rolls Silver Ghost 1910) in palace garage',
+      'Birla Mandir (10 AM, free) — white marble temple on hilltop; Hyderabad skyline panorama',
+      'Nirmal Toy Art Museum (30 min) — Nirmal toys and Pochampalli Ikat weaving demos',
+      'Breakfast + checkout | Pearl Market: Mangatrai or GRT Jewellers — Hyderabadi Basra pearls',
+      'Irani Cafe for breakfast: Nimrah Cafe near Charminar (Osmania Biscuit + Irani chai, since 1993)',
+      'Transfer to Hyderabad Airport'
+    ]}
+  ],
+  hotels4:['Novotel Hyderabad Convention Centre','Lemon Tree Premier HITEC City','Hotel Basera Begumpet','Vivanta Hyderabad'],
+  hotels5:['Taj Falaknuma Palace (hilltop palace hotel)','ITC Kohenur','Park Hyatt Hyderabad','Trident Hyderabad'],
+  price4:11500, price5:22000,
+  inclusions:['3 nights (4★/5★)','Daily breakfast + 3 dinners','Airport transfers + all AC sightseeing','Charminar + Salar Jung Museum entries','Golconda Fort + S&L show ticket','Qutb Shahi Tombs entry','Hussain Sagar boat (Buddha island)','Ramoji Film City full-day pass (₹1,500/person)','Chowmahalla Palace entry','All tolls & driver allowance'],
+  exclusions:['Flights to/from Hyderabad','GST @ 5% extra','Shopping (pearls, bangles, jewelry)','Biryani restaurant meals (Lunch)','Additional Ramoji rides (₹200–500 extra within campus)','Travel Insurance'],
+  note:'Ramoji Film City: book entry tickets online at ramojifilmcity.com (queues long in weekends). Falaknuma Palace: even non-staying visitors can book a Royal Lunch/Dinner (₹3,500 per person) — worth it. Golconda S&L show: English show at 7 PM, Telugu 8 PM. Advance booking recommended. Salar Jung: closed Fridays.'
+},
+
+// 2. MUMBAI 3N/4D
+{
+  id:'mumbai',
+  name:'Mumbai — Maximum City',
+  subtitle:'Three nights of colonial elegance, Bollywood dreams, street food trails and Pune heritage',
+  gradient:['#0a0a1a','#1e3a5f'],
+  badge:'Bollywood Capital · Colonial Heritage', badgeColor:'#D4AF37', badgeText:'#1a1a1a',
+  type:'FIT + Heritage + Food + Business',
+  duration:'3N / 4D', nights:3, days:4,
+  exCities:['Ex Mumbai (CST/BOM — home city) · Also direct flights from all Indian cities'],
+  highlights:[
+    'Gateway of India (1924) + Taj Mahal Palace Hotel (1903) — symbolic waterfront; Bollywood backdrop',
+    'Dharavi Slum Walk — 1 million residents in 2 sq km; recycling economy, pottery, leather industry',
+    'Bollywood Studio Tour (Film City Goregaon) — soundstages, living sets, on-location shoot watch',
+    'Elephanta Caves (UNESCO, 1 hr ferry) — 6th-century rock art; 8m Trimurti Shiva carving',
+    'Pune Day Trip (150 km) — Aga Khan Palace (Gandhi interned here), Shaniwarwada, Osho Resort',
+    'Juhu Beach + Bandstand Fort + Bandra Churches — sunset Bollywood star bungalow neighbourhood'
+  ],
+  itinerary:[
+    {day:1, label:'Day 1', title:'South Mumbai — Gateway, Churchgate Heritage Walk & Dharavi',acts:[
+      'Check-in to hotel | Freshen up',
+      'Gateway of India (free) — 1924 basalt arch; ferries, fishing boats, Taj Hotel backdrop',
+      'Taj Mahal Palace Hotel (1903) — enter lobby for tea or just view; heritage corridor photos',
+      'Colaba Causeway Market (1 PM) — streetwear, antiques, silver jewelry, quirky books',
+      'CST Station (Chhatrapati Shivaji Terminus, UNESCO, outside view) — Venetian Gothic architecture 1887',
+      'Dharavi Slum Walk (3 PM, ₹600, 2 hrs, with Reality Tours) — pottery, leather, recycling, small factories',
+      'World\'s largest slum by economic output — eye-opening perspective on urban microeconomy',
+      'Dinner: Bade Miya (kebabs, 1946, near Taj Hotel) or Café Leopold (1871)'
+    ]},
+    {day:2, label:'Day 2', title:'Elephanta Caves + Marine Drive + Crawford Market',acts:[
+      '9 AM: Ferry from Gateway of India → Elephanta Island (₹200 return, 1 hr)',
+      'Elephanta Caves (₹40 ASI entry) — 6th-century rock-cut; 8m three-headed Shiva Trimurti',
+      'Sadashiva, Ardhanarishvara, Gangadhara panels — finest Deccan medieval stone art',
+      'Return by ferry noon | Light lunch: Bademiya or Khau Galli near CST',
+      'Crawford Market / Mahatma Phule Market (3 PM, free) — 1869 Norman Gothic; spice, dry fruit, pet section',
+      'Marine Drive / Queen\'s Necklace (5 PM, free) — 3.6 km arc from Nariman Pt to Malabar Hill',
+      'Sunset from Girgaon Chowpatty — bhel puri, pav bhaji sellers; Bollywood shooting venue',
+      'Dinner: Trishna (seafood, Fort) or Mahesh Lunch Home (Mangalorean crab masala)'
+    ]},
+    {day:3, label:'Day 3', title:'Pune Day Trip — Aga Khan Palace, Shaniwarwada & Osho',acts:[
+      '7 AM: AC vehicle to Pune (150 km, 3 hrs via Mumbai-Pune Expressway)',
+      'Aga Khan Palace (₹25) — Gandhi and Kasturba interned 1942–44; Gandhi\'s memorial; serene gardens',
+      'Shaniwarwada Fort (₹25) — 1732 Peshwa Maratha fort; huge walls + Dilli Darwaza gate',
+      'Osho International Resort (Koregaon Park) — white marble Zen campus; day passes (₹150 campus walk)',
+      'Lunch: Vaishali Restaurant (Fergusson College Road) — legendary South Indian + all-day breakfast',
+      'FC Road (Fergusson College Road) — cafes, bookshops, Pune student culture',
+      'Return Mumbai by 9 PM | Dinner or room service at hotel'
+    ]},
+    {day:4, label:'Day 4', title:'Bandra, Bandstand & Bollywood Bungalows',acts:[
+      'Morning: Siddhivinayak Temple (Prabhadevi, 7 AM if possible) — one of India\'s richest temples',
+      'Breakfast at hotel | Checkout by 11 AM',
+      'Bandra West (Band Stand Promenade, 11 AM) — SRK\'s Mannat bungalow; Salman\'s Galaxy apartment',
+      'Bandra Fort (11:30 AM, free) — Portuguese 1640 sea bastion; sea view + sea gulls',
+      'Carter Road Bandra — cafe culture; Satchmo\'s, Elco Pani Puri, Smoke House Deli',
+      'Linking Road (1 PM) — fashion street shopping; kurtas, imitation jewelry, Mumbai street fashion',
+      'Transfer to Mumbai Airport for evening departure'
+    ]}
+  ],
+  hotels4:['The Oberoi Mumbai (Nariman Point)','Radisson Mumbai Goregaon','ITC Maratha Sahar','Hotel Sahara Star'],
+  hotels5:['Taj Mahal Palace Hotel (heritage wing)','The Leela Mumbai','Four Seasons Mumbai Worli','JW Marriott Juhu'],
+  price4:14000, price5:31000,
+  inclusions:['3 nights (4★/5★)','Daily breakfast + 3 dinners','Airport / station transfers + AC sightseeing Mumbai','Elephanta Caves ferry (both ways) + ASI entry','Dharavi guided walk (Reality Tours, 2 hrs)','Pune Day Trip vehicle (both ways)','Aga Khan Palace + Shaniwarwada entries','Bandra / Marine Drive / Colaba city tour','All tolls & driver allowance'],
+  exclusions:['Flights/train to/from Mumbai','GST @ 5% extra','Film City Goregaon tour (₹1,200, optional)','Osho Resort day pass (₹150)','Lunch on all 4 days','Designer shopping, street fashion','Travel Insurance'],
+  note:'Mumbai hotel rates are among India\'s highest — budget extra ₹2,000–3,000/night for South Mumbai locations (Colaba, Nariman Pt). Dharavi walk: go with licensed Reality Tours guide only. Elephanta: avoid monsoon (ferry suspended Jun–Sep). Pune expressway traffic: depart Day 3 before 8 AM to avoid Khopoli truck queues.'
+},
+
+// 3. JAISALMER 3N/4D
+{
+  id:'jaisalmer',
+  name:'Jaisalmer — The Golden City',
+  subtitle:'Three nights in the Thar Desert — living fort, camel safari, Longewala war memorial and desert dunes at dawn',
+  gradient:['#1a1200','#5a3e00'],
+  badge:'Thar Desert · Living Fort', badgeColor:'#D4AF37', badgeText:'#1a1a1a',
+  type:'FIT + Desert + Heritage + Adventure',
+  duration:'3N / 4D', nights:3, days:4,
+  exCities:['Ex Jaisalmer (JSA — flights from Delhi, Jaipur, Mumbai)','Ex Jodhpur (300 km, 5 hrs, Thar Express option)'],
+  highlights:[
+    'Jaisalmer Fort (Sonar Quila, 1156 AD) — world\'s largest fully inhabited fort; 5,000 residents inside',
+    'Sam Sand Dunes (45 km) — crescent-shaped mega-dunes at sunset; camel safari + cultural show + overnight camp',
+    'Patwon Ki Haveli (1805) — largest haveli cluster; 60+ rooms; 5-storey carved yellow sandstone facade',
+    'Longewala War Memorial (120 km) — 1971 battle site; Pakistan tank graveyard; IAF hawker hunter display',
+    'Gadisar Lake (1367 AD) — royal rainwater tank; boating; painted cenotaphs; pelicans, painted storks',
+    'Kuldhara Ghost Village (18 km) — 1825 abandoned village; 84 houses intact; Paliwal Brahmin exodus legend'
+  ],
+  itinerary:[
+    {day:1, label:'Day 1', title:'Arrive Jaisalmer — Fort, Havelis & Gadisar Lake',acts:[
+      'Arrive Jaisalmer Airport (or road from Jodhpur) | Hotel check-in',
+      'Jaisalmer Fort (1156 AD, ₹50 + camera ₹100) — enter through Suraj Pol gate; 99 bastions',
+      'Fort interior: Raj Mahal palace (₹500 guide), Jain Temples (1156–1436, free)',
+      'Nathmal Ki Haveli (within fort) — PM + opposition PM haveli side-by-side; mirrored towers',
+      'Gadisar Lake (3 PM, free, boating ₹80) — 1367 AD royal tank; pelicans, painted storks, cormorants',
+      'Trikuta Temple Gateway (above Gadisar) — ornate stone gate by a courtesan; story of resistance',
+      'Sunset from Vyas Chatri (hill, 15 min walk) — golden fort glowing orange at dusk',
+      'Dinner: Trio Restaurant (rooftop fort view) or 1st Gate Home Fusion'
+    ]},
+    {day:2, label:'Day 2', title:'Patwon Ki Haveli, Kuldhara & Sam Sand Dunes',acts:[
+      'Morning 9 AM: Patwon Ki Haveli (₹50 + ₹75 museum) — 5 haveli cluster (1805–1850)',
+      'Salim Singh Ki Haveli (₹50) — 1815 haveli with peacock-arch balcony; overhangs street',
+      'Kuldhara Ghost Village (18 km, ₹75) — 1825 overnight exodus of 1,500 Paliwal Brahmins',
+      'Abandoned streets, wells, temple, grain stores — all intact 200 years later',
+      'Lunch at hotel | Rest 1–3 PM (avoid afternoon Thar heat in summer)',
+      'Sam Sand Dunes (45 km, 4:30 PM departure)',
+      'Camel safari (₹500, 45 min) — ride to dune ridge for 360° sunset view',
+      'Cultural show: Kalbeliya dancers, Manganiyar musicians, folk fire show (6:30 PM)',
+      'Overnight tent stay at Sam (extra) OR return Jaisalmer | Dinner: camp feast'
+    ]},
+    {day:3, label:'Day 3', title:'Desert Safari & Jaisalmer War Museum',acts:[
+      'Morning: sunrise at dunes (if stayed at camp) OR sunrise from Devi Kund Sagar (fort direction)',
+      'Jeep safari through Khuri Or Sanu dunes (₹1,200 per jeep, 2 hrs, sand-riding)',
+      'Desert National Park (₹350 vehicle permit) — Great Indian Bustard sightings in winter',
+      'Jaisalmer War Museum (7 km on Jodhpur road, free, 9AM–5PM) — 1965 + 1971 tank displays outside',
+      'Inside: Longewala Battle diorama, Hawker Hunter aircraft, soldier accounts',
+      'Afternoon: Royal Cenotaphs Bada Bagh (5 km, ₹50) — 16th–20th century stone chhatri cenotaphs row',
+      'Overlooking valley: best photography site in Jaisalmer with fort visible in distance',
+      'Dinner: Saffron Restaurant (Nachana Haveli hotel) rooftop'
+    ]},
+    {day:4, label:'Day 4', title:'Longewala War Memorial & Departure',acts:[
+      '7 AM: Drive to Longewala War Memorial (120 km, 2 hrs)',
+      '1971 India-Pakistan battle: 120 Indian soldiers + 1 Hawker Hunter jet stopped 2,000 Pakistani troops + 45 tanks',
+      'Memorial: J&K Rifles bravery; Pakistani tank graveyard (40 tanks still in situ); IAF planes preserved',
+      'Tanot Mata Temple (50 km beyond Longewala, 4 km from Pakistan border) — divine legend: Pakistani bombs didn\'t explode; BSF runs the temple',
+      'Return Jaisalmer by 2 PM | Breakfast + checkout',
+      'Last: Desert Handicrafts Emporium (Gopa Chowk) — Rajasthani mojris, block-print cloth, camel leather goods',
+      'Transfer to Jaisalmer Airport for afternoon/evening departure flight'
+    ]}
+  ],
+  hotels4:['Hotel Fifu Jaisalmer (within fort walls)','The Rang Mahal Hotel','Hotel Nachana Haveli (riad-style)','Gorbandh Palace Hotel'],
+  hotels5:['Suryagarh Palace Jaisalmer (5★ palace resort)','Ratan Vilas Jaisalmer','The Serai Camp Jaisalmer (luxury desert camp)','Fort Rajwada'],
+  price4:15500, price5:31000,
+  inclusions:['3 nights (4★/5★)','Daily breakfast + 3 dinners','Airport/station transfers + all AC sightseeing','Jaisalmer Fort + havelis entries','Kuldhara entry','Sam Sand Dunes camel safari (45 min)','Cultural folk show at dunes','Bada Bagh cenotaphs entry','Jaisalmer War Museum visit','Longewala Day Trip (vehicle)','Desert National Park permit','All tolls & driver allowance'],
+  exclusions:['Flights to/from Jaisalmer','GST @ 5% extra','Overnight Sam Dunes luxury camp (₹4,000–8,000 extra)','Jeep desert dune ride (₹1,200)','Tanot Mata Temple (optional, fuel cost if long route)','Lunch on all 4 days','Mojri, block-print, leather purchases','Travel Insurance'],
+  note:'Sam Sand Dunes: book luxury camp ahead for Dec–Jan (peak season fully booked). Longewala: open 9 AM–5 PM; BSF area — carry original ID. Summer (Apr–Jun): Thar Desert temperature hits 48°C — avoid noon-3 PM outdoors. Fort stay: a unique experience but narrow lanes. Camel safari: bargain before ride; fix price including return.'
+},
+
+// 4. NAINITAL 3N/4D (NEW)
+{
+  id:'nainital',
+  name:'Nainital — Jewel of Kumaon',
+  subtitle:'Three nights in Uttarakhand\'s Himalayan lake town — Jim Corbett safari, Snow View, Mukteshwar apple hills',
+  gradient:['#0a1a1a','#1e4a6e'],
+  badge:'NEW · Kumaon Himalaya', badgeColor:'#0ea5e9', badgeText:'#fff',
+  type:'FIT + Family + Adventure + Nature',
+  duration:'3N / 4D', nights:3, days:4,
+  exCities:['Ex Kathgodam Railway Station (35 km, 1.5 hrs)','Ex Pantnagar Airport (65 km, 2 hrs)','Ex Delhi (300 km, 7 hrs)'],
+  highlights:[
+    'Naini Lake (1,938m) — pear-shaped glacial lake; 3.5 km circumference; rowing + sailboating',
+    'Snow View (2,270m) — aerial ropeway (₹350 return) to 360° Himalayan panorama; Nanda Devi, Trisul peaks',
+    'Jim Corbett National Park (Day 3) — India\'s oldest national park; Bengal Tiger, Asian Elephant, Leopard',
+    'Nainital Eco Cave Gardens — 6 interconnected natural caves; Bat Cave, Fox Cave, Tiger Cave walk',
+    'Mukteshwar (22 km, 2,286m) — colonial apple orchards; Chauli Ki Jali rock — thrill seekers\' overhang',
+    'Nainital Zoo (2,100m) — Snow Leopard, Himalayan Black Bear, Red Panda, Hill Fox in natural altitude'
+  ],
+  itinerary:[
+    {day:1, label:'Day 1', title:'Arrive Nainital — Mall Road, Naini Lake & Snow View',acts:[
+      'Arrive Kathgodam Station or Pantnagar Airport | Drive to Nainital (1.5–2 hrs winding hill road)',
+      'Check-in to hotel with lake view if possible',
+      'Naini Lake (3 PM) — rowboat hire (₹200/30 min) or sail boat; circumference walk (3.5 km, 45 min)',
+      'Naini Devi Temple (east bank of lake, free) — ancient Shiva Shakti spot; boat accessible from east ghat',
+      'Snow View ropeway (4 PM, ₹350 return, 4 min ride) — 360° panorama: Nanda Devi (7,816m), Trisul, Nanda Kot on clear days',
+      'Mall Road evening walk — colonial shopfronts, honey + jam stores, Tibetan curio, pine-wood items',
+      'Dinner: Manu Maharani or Embassy Restaurant (hill station classics since 1938)'
+    ]},
+    {day:2, label:'Day 2', title:'Zoo, Eco Caves & Mukteshwar',acts:[
+      'Morning 9 AM: Nainital Zoo (₹100, 9 AM–5 PM) — Snow Leopard (breed conserved here), Red Panda, Leopard',
+      'Himalayan Black Bear, White Peacock, Tibetan Wolf — all resident at altitude 2,100m',
+      'Eco Cave Gardens (₹100, 30 min) — 6 natural caves; interconnected passages; "Discoveryscope" tunnel',
+      'Lunch at hotel | Rest 12–2 PM',
+      'Drive to Mukteshwar (22 km, 1 hr on NH109)',
+      'Mukteshwar Dham Temple (1,000+ years) — hilltop Shiva temple at 2,286m',
+      'Chauli Ki Jali (2 km from Mukteshwar, ₹20) — rock face overhang with sheer 1,500m drop; rappelling + rock climbing (₹800)',
+      'Mukteshwar viewpoint: sunset over apple orchards; Himalayan snow range backdrop',
+      'Dinner: Camp & Trek Mukteshwar (local thali) or return Nainital for hotel dinner'
+    ]},
+    {day:3, label:'Day 3', title:'Jim Corbett National Park (Full Day Safari)',acts:[
+      '5:30 AM: Depart for Jim Corbett NP (80 km, 2 hrs)',
+      'Dhikala Zone or Bijrani Zone jeep safari (₹5,000 per jeep of 6, book on corbettonline.gov.in)',
+      'India\'s oldest national park (1936), named for Jim Corbett — Tiger + Elephant territory',
+      'Wildlife: Bengal Tiger, Asian Elephant, Leopard, Gharial, Mahseer fish, Himalayan Pied Kingfisher',
+      'Morning safari (6–10 AM): best tiger activity time; forest tracks at sunrise',
+      'Lunch at Corbett Riverside Resort or Dhikala rest house canteen',
+      'Evening safari (3–6 PM, optional ₹2,500 extra) — elephant tracking in Ramganga valley',
+      'Return Nainital by 8 PM | Dinner hotel'
+    ]},
+    {day:4, label:'Day 4', title:'Bhimtal, Sattal Lakes & Departure',acts:[
+      'Morning: Bhimtal Lake (22 km, 1,370m) — larger than Naini Lake; Bhimtal Island Aquarium (₹60) in lake centre',
+      'Naukuchiatal (25 km) — "Nine Cornered Lake"; kayaking (₹400), migratory birds in winter',
+      'Sattal (28 km) — complex of 7 interconnected freshwater lakes; birding paradise (200+ species)',
+      'Breakfast + checkout | Pack: Nainital honey (oak + rhododendron), pine resin candles, jam',
+      'Drive to Kathgodam Station or Pantnagar Airport (1.5–2 hrs)',
+      'Note: evening Shatabdi from Kathgodam → Delhi (6:45 PM, arrives 10:50 PM) — convenient Day 4 return'
+    ]}
+  ],
+  hotels4:['Manu Maharani Hotel Nainital','The Naini Retreat (heritage)','Hotel Lake Side Nainital','Swiss Hotel Nainital'],
+  hotels5:['The Naini Retreat by Leisure Hotels (5★)','Neemrana\'s Nainital Heritage','Vikram Vintage Inn','Lords Resort Nainital'],
+  price4:13000, price5:24000,
+  inclusions:['3 nights (4★/5★)','Daily breakfast + 3 dinners','All AC sightseeing Nainital + Mukteshwar + lakes','Snow View ropeway (both ways)','Nainital Zoo + Eco Cave Gardens entries','Jim Corbett Jeep Safari (Bijrani zone, 1 safari)','Rowboat at Naini Lake (30 min)','Bhimtal + Naukuchiatal visit','Kathgodam transfers (both ways)','All tolls & driver allowance'],
+  exclusions:['Flights/train to/from Kathgodam','GST @ 5% extra','Jim Corbett evening safari (₹2,500 extra)','Corbett entry fee for vehicle (₹500)','Rock climbing/rappelling at Chauli Ki Jali (₹800)','Bhimtal Island Aquarium (₹60)','Lunch on all 4 days','Honey, jam, local purchases','Travel Insurance'],
+  note:'Corbett safari: online booking essential at corbettonline.gov.in — slots fill 90 days ahead in Oct–Mar peak season. No entry on Tuesdays at some zones. Jim Corbett best season: Nov–Jun (tigers visible; rivers low, easier spotting). Monsoon (Jul–Oct): park partially closed. Nainital snowfall: Jan–Feb; Snow View often inaccessible; ropeway suspended. Book hill-view room for best experience.'
+},
+
+// 5. CHENNAI 3N/4D
+{
+  id:'chennai',
+  name:'Chennai — Gateway to South India',
+  subtitle:'Three nights of Dravidian temples, colonial heritage, classical Carnatic music and Mahabalipuram world heritage',
+  gradient:['#1a0a00','#6b3a00'],
+  badge:'Dravidian Architecture · Art Capital', badgeColor:'#D4AF37', badgeText:'#1a1a1a',
+  type:'FIT + Heritage + Family + Pilgrimage',
+  duration:'3N / 4D', nights:3, days:4,
+  exCities:['Ex Chennai (MAA — home city) · Also direct flights from all metros'],
+  highlights:[
+    'Kapaleeshwarar Temple (7th century) — towering Dravidian gopuram in Mylapore; morning puja scene',
+    'Mahabalipuram UNESCO (58 km) — 7th-century Pallava rock temples; Shore Temple; Arjuna\'s Penance rock panel',
+    'Kanchipuram Silk City (76 km) — temple city with 1,000+ temples; world-famous Kanjivaram silk weavers',
+    'Fort St George (1644) — oldest British fort in India; St Mary\'s Church (1680) oldest Protestant church in Asia',
+    'DakshinaChitra Heritage Museum — living museum of South Indian arts, crafts and architecture',
+    'Marina Beach (13 km) — world\'s 2nd longest natural beach; dawn walk, sunrise; horseback riding'
+  ],
+  itinerary:[
+    {day:1, label:'Day 1', title:'Mylapore Heritage Trail & Marina Beach Sunset',acts:[
+      'Check-in to hotel | Freshen up',
+      'Kapaleeshwarar Temple, Mylapore (9 AM, free) — 7th-century Shiva temple; 37m coloured gopuram',
+      'Temple tank — devotees, flower sellers, Brahmin priests conduct rites — real Dravidian temple life',
+      'San Thome Cathedral (₹30) — 1896 cathedral over tomb of Apostle Thomas; one of 3 churches on Apostolic tomb',
+      'Mylapore filter coffee at Saravana Bhavan or Ratna Cafe (classic South Indian breakfast)',
+      'Valluvar Kottam (5 km, ₹5) — stone chariot monument to poet Thiruvalluvar; 133 m monolith',
+      'Marina Beach (5 PM) — 13 km beach; Annai Velankanni Shrine at north end; sunset walk',
+      'Dinner: Peshwari (ITC Grand Chola, for kebabs) or Hotel Saravana Bhavan Udipi'
+    ]},
+    {day:2, label:'Day 2', title:'Fort St George, Government Museum & Elliot\'s Beach',acts:[
+      'Morning 9 AM: Fort St George (1644, ₹25) — first British territory in India',
+      'St Mary\'s Church (1680, inside fort) — oldest Protestant church in Asia; Elihu Yale married here (of Yale fame)',
+      'Fort Museum (₹25) — Clive\'s armoury, British period portraits, maps of Madras growth',
+      'Egmore Government Museum (₹50, across road) — largest museum in South India; Roman glass, Amaravati Buddha sculptures',
+      'Bronze Gallery — world\'s best Chola-period bronze collection (10th–12th century Nataraja, Parvati)',
+      'Lunch: Murugan Idli Shop (T.Nagar) or 10 Downing Street (pub food)',
+      'Elliot\'s Beach (Besant Nagar, 5 PM, free) — less crowded than Marina; evening beach walk',
+      'Dinner: Zara (Spanish, Poes Garden) or Bay 146 (seafood, ECR)'
+    ]},
+    {day:3, label:'Day 3', title:'Mahabalipuram UNESCO World Heritage',acts:[
+      '8 AM: Drive to Mahabalipuram (58 km, 1.5 hrs via ECR coastal highway)',
+      'Pancha Rathas (₹40) — 5 monolithic Pallava chariots (7th century); each carved from one rock',
+      'Arjuna\'s Penance (free, outdoor) — world\'s largest outdoor bas-relief panel (15m high, 30m wide)',
+      'Shore Temple (₹40 ASI complex) — 700 AD temple standing in sea waves; UNESCO listed 1984',
+      'Mahishasura Mardini Cave (free) — Vishnu reclining + Durga holding demon — finest Pallava carving',
+      'Lunch: Mamalla Heritage Restaurant or Le Yogi (by shore)',
+      'Crocodile Bank (14 km from Mahabalipuram, ₹50) — 3,000 crocodiles; king cobra, monitor lizard',
+      'Return Chennai by 6 PM | Dinner: Southern Spice Restaurant'
+    ]},
+    {day:4, label:'Day 4', title:'Kanchipuram Silk City & DakshinaChitra',acts:[
+      'Morning 8 AM: Drive to Kanchipuram (76 km, 2 hrs)',
+      'Kailasanathar Temple (685 AD, ₹40) — oldest temple in Kanchipuram; Pallava frescoes still visible',
+      'Ekambareswarar Temple (8th century, ₹40) — 58m gopuram; mango tree supposedly 3,500 years old',
+      'Silk Weavers Cooperative (free to browse) — watch Kanjivaram silk weaving on traditional looms; buy at source price',
+      'Lunch at Kanchipuram restaurant (simple idli-vada) | Return Chennai via ECR',
+      'DakshinaChitra (12 km before Chennai, ₹200) — heritage village museum; 18 heritage structures relocated from 4 South Indian states',
+      'Breakfast + checkout | Transfer to Chennai Airport for departure'
+    ]}
+  ],
+  hotels4:['Radisson Blu Chennai City Centre','GRT Grand Chennai','Hyatt Regency Chennai','Hotel Taj Coromandel (4★ towers)'],
+  hotels5:['ITC Grand Chola (214m, tallest hotel in India)','The Leela Palace Chennai','Taj Coromandel','Park Hyatt Chennai'],
+  price4:12000, price5:22000,
+  inclusions:['3 nights (4★/5★)','Daily breakfast + 3 dinners','Airport transfers + all AC sightseeing Chennai','Kapaleeshwarar Temple visit','Fort St George + Fort Museum + Government Museum entries','Mahabalipuram complex entries (Pancha Rathas, Shore Temple)','DakshinaChitra entry','Kanchipuram Silk Weavers visit','Crocodile Bank (optional on itinerary)','All tolls & driver allowance'],
+  exclusions:['Flights to/from Chennai','GST @ 5% extra','Kanjivaram silk saree purchases','Crocodile Bank (₹50, if opted)','Lunch on all 4 days','Evening cultural performances (Bharatanatyam, optional ₹800)','Travel Insurance'],
+  note:'Kapaleeshwarar Temple: morning puja (6–7 AM) most vibrant; evening puja (6:30 PM) with oil lamps — choose your preferred time. Kanchipuram silk: factory prices are lower than Chennai shops — buy at cooperative or factory with GST invoice. Mahabalipuram: go early (8 AM) before tour groups arrive. Chennai summer (Apr–Jun): very hot and humid; recommended season Oct–Feb.'
+}
+
+]; // end PKGS
+
+function escH(s){return s?String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'):''}
+function fmtP(n){return '₹'+n.toLocaleString('en-IN')}
+function renderCard(p){
+  const grad=`background:linear-gradient(145deg,${p.gradient[0]},${p.gradient[1]})`;
+  const hlHTML=p.highlights.map(h=>`<li>${escH(h)}</li>`).join('');
+  const itHTML=p.itinerary.map(d=>`<div class="itin-day"><div class="day-label">${escH(d.label)}</div><div class="day-title">${escH(d.title)}</div><ul class="day-acts">${d.acts.map(a=>`<li>${escH(a)}</li>`).join('')}</ul></div>`).join('');
+  const h4=p.hotels4.map(h=>`• ${escH(h)}`).join('<br>');
+  const h5=p.hotels5.map(h=>`• ${escH(h)}`).join('<br>');
+  const inclHTML=p.inclusions.map(i=>`<li class="incl">${escH(i)}</li>`).join('');
+  const exclHTML=p.exclusions.map(i=>`<li class="excl">${escH(i)}</li>`).join('');
+  const exHTML=p.exCities.map(c=>`<span class="ex-chip">${escH(c)}</span>`).join('');
+  const waMsg=encodeURIComponent('Hi, I am interested in the '+p.name+' ('+p.duration+') package. Please share availability and pricing.');
+  return `<div class="pkg-card" data-id="${escH(p.id)}">
+  <div class="pkg-hero" style="${grad}">
+    <span class="pkg-type-chip">${escH(p.type)}</span>
+    <span class="pkg-badge" style="background:${escH(p.badgeColor)};color:${escH(p.badgeText)}">${escH(p.badge)}</span>
+    <div class="pkg-title">${escH(p.name)}</div>
+    <div class="pkg-subtitle">${escH(p.subtitle)}</div>
+    <div class="pkg-meta-row"><span class="meta-pill">⏱ ${escH(p.duration)}</span><span class="meta-pill">🏨 4★ &amp; 5★ Only</span><span class="meta-pill">🇮🇳 India Domestic</span></div>
+  </div>
+  <div class="pkg-body">
+    <div class="pkg-section"><div class="sec-title">Highlights</div><ul class="hl-list">${hlHTML}</ul></div>
+    <div class="pkg-section"><div class="sec-title">Day-wise Itinerary</div>${itHTML}</div>
+    <div class="pkg-section">
+      <div class="sec-title">Pricing &amp; Hotels</div>
+      <div class="pricing-grid">
+        <div class="price-box"><div class="price-star">⭐⭐⭐⭐ 4-Star</div><div class="price-hotels">${h4}</div><div class="price-val">${fmtP(p.price4)}</div><div class="price-sub">per person · twin sharing</div></div>
+        <div class="price-box"><div class="price-star">⭐⭐⭐⭐⭐ 5-Star</div><div class="price-hotels">${h5}</div><div class="price-val">${fmtP(p.price5)}</div><div class="price-sub">per person · twin sharing</div></div>
+      </div>
+      <div class="sec-title" style="margin-top:12px">Inclusions</div>
+      <ul class="incl-list">${inclHTML}</ul>
+      <div class="sec-title">Exclusions</div>
+      <ul class="incl-list">${exclHTML}</ul>
+      ${p.note?`<div class="note-chip">ℹ️ ${escH(p.note)}</div>`:''}
+    </div>
+  </div>
+  <div class="pkg-footer">
+    <div><div style="font-size:11px;font-weight:700;color:#64748b;margin-bottom:6px;letter-spacing:.06em;text-transform:uppercase">Departure Cities</div><div class="ex-cities">${exHTML}</div></div>
+    <div class="cta-group">
+      <a class="btn-whatsapp" href="https://wa.me/919999999999?text=${waMsg}" target="_blank" rel="noopener">💬 WhatsApp</a>
+      <button class="btn-enquire">Enquire Now →</button>
+    </div>
+  </div>
+</div>`;
+}
+function renderAll(filter){
+  const grid=document.getElementById('mainGrid');
+  const list=filter==='all'?PKGS:PKGS.filter(p=>p.id===filter);
+  grid.innerHTML=list.length?list.map(renderCard).join(''):'<p style="padding:60px;text-align:center;color:#94a3b8">No packages found.</p>';
+}
+document.getElementById('filterBar').addEventListener('click',e=>{
+  const btn=e.target.closest('.filter-btn');
+  if(!btn)return;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderAll(btn.dataset.f);
+});
+renderAll('all');
+</script>
+</body>
+</html>

@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>South India 3N/4D Packages — Batch 6</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#D4AF37;--dark:#0a1628;--navy:#1e3a5f;--card:#fff;--border:#e2e8f0;--radius:14px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#1e293b;line-height:1.6}
+.site-header{background:linear-gradient(135deg,#0a1628,#1e3a5f);border-bottom:3px solid var(--gold);padding:22px 40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.logo{font-family:'Playfair Display',serif;font-size:24px;color:var(--gold);letter-spacing:.04em}
+.logo span{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:rgba(240,244,248,.65);display:block;font-family:'Inter',sans-serif;font-weight:400;margin-top:2px}
+.header-right{color:rgba(240,244,248,.65);font-size:12px;text-align:right;line-height:1.8}
+.batch-title{background:linear-gradient(90deg,#1a3a1a,#2d6a4f);color:#fff;padding:18px 40px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.batch-title h1{font-family:'Playfair Display',serif;font-size:20px;font-weight:700}
+.batch-title p{font-size:13px;opacity:.8;margin-top:3px}
+.badge-count{background:var(--gold);color:#1a1a1a;font-size:11px;font-weight:800;padding:4px 12px;border-radius:20px;white-space:nowrap;letter-spacing:.06em;flex-shrink:0}
+.filter-bar{background:#fff;border-bottom:1px solid var(--border);padding:12px 40px;display:flex;gap:8px;flex-wrap:wrap;position:sticky;top:0;z-index:50;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.filter-btn{background:#f8fafc;border:1px solid var(--border);color:#64748b;padding:7px 16px;border-radius:30px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s}
+.filter-btn:hover,.filter-btn.active{background:var(--gold);border-color:var(--gold);color:#1a1a1a}
+.main{max-width:1400px;margin:0 auto;padding:32px 40px 80px}
+.pkg-card{background:var(--card);border-radius:var(--radius);box-shadow:0 4px 24px rgba(0,0,0,.12);margin-bottom:40px;overflow:hidden}
+.pkg-hero{padding:24px 28px 20px;color:#fff;position:relative;min-height:130px;display:flex;flex-direction:column;justify-content:flex-end}
+.pkg-hero::before{content:'';position:absolute;inset:0;background:rgba(0,0,0,.22)}
+.pkg-badge{position:absolute;top:16px;right:16px;padding:4px 12px;border-radius:20px;font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;z-index:2}
+.pkg-type-chip{position:absolute;top:16px;left:16px;background:rgba(255,255,255,.15);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,.25);color:#fff;font-size:10px;font-weight:700;padding:4px 10px;border-radius:20px;z-index:2;letter-spacing:.06em;text-transform:uppercase}
+.pkg-title{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;line-height:1.15;position:relative;z-index:2}
+.pkg-subtitle{font-size:13px;opacity:.85;margin-top:4px;position:relative;z-index:2;font-style:italic}
+.pkg-meta-row{position:relative;z-index:2;display:flex;gap:20px;margin-top:12px;flex-wrap:wrap}
+.meta-pill{background:rgba(255,255,255,.15);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,.2);color:#fff;font-size:11px;font-weight:600;padding:4px 12px;border-radius:20px}
+.pkg-body{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0}
+.pkg-section{padding:20px 24px;border-right:1px solid var(--border)}
+.pkg-section:last-child{border-right:none}
+.sec-title{font-size:10px;letter-spacing:.18em;text-transform:uppercase;font-weight:800;color:#94a3b8;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.sec-title::after{content:'';flex:1;height:1px;background:var(--border)}
+.hl-list{list-style:none;display:flex;flex-direction:column;gap:7px}
+.hl-list li{font-size:13px;color:#374151;display:flex;align-items:flex-start;gap:8px;line-height:1.45}
+.hl-list li::before{content:'›';color:var(--gold);font-size:18px;line-height:1;flex-shrink:0;font-weight:700}
+.itin-day{margin-bottom:14px}
+.itin-day:last-child{margin-bottom:0}
+.day-label{background:#f8fafc;border-left:3px solid var(--gold);padding:5px 10px;font-size:11px;font-weight:800;color:#1e3a5f;letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}
+.day-title{font-size:13px;font-weight:700;color:#111827;margin-bottom:4px}
+.day-acts{list-style:none;display:flex;flex-direction:column;gap:4px}
+.day-acts li{font-size:12px;color:#4b5563;padding-left:14px;position:relative;line-height:1.5}
+.day-acts li::before{content:'·';position:absolute;left:3px;color:#94a3b8;font-size:16px;line-height:1.1}
+.pricing-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.price-box{background:#f8fafc;border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center}
+.price-star{font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#64748b;margin-bottom:4px}
+.price-hotels{font-size:10px;color:#94a3b8;margin-bottom:6px;line-height:1.4}
+.price-val{font-size:18px;font-weight:800;color:#0f172a;letter-spacing:-.02em}
+.price-sub{font-size:10px;color:#94a3b8;margin-top:2px}
+.incl-list{list-style:none;margin-bottom:14px;display:flex;flex-direction:column;gap:5px}
+.incl-list li{font-size:12px;display:flex;align-items:flex-start;gap:7px;line-height:1.45}
+.incl-list li.incl::before{content:'✓';color:#16a34a;font-weight:800;flex-shrink:0;font-size:11px;margin-top:2px}
+.incl-list li.excl::before{content:'✗';color:#dc2626;font-weight:800;flex-shrink:0;font-size:11px;margin-top:2px}
+.pkg-footer{padding:14px 24px;background:#f8fafc;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.ex-cities{display:flex;flex-wrap:wrap;gap:6px}
+.ex-chip{background:#eff6ff;border:1px solid #bfdbfe;color:#1d4ed8;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px}
+.cta-group{display:flex;gap:10px}
+.btn-whatsapp{background:#25D366;color:#fff;border:none;padding:9px 18px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.btn-enquire{background:linear-gradient(135deg,var(--gold),#b8932a);color:#1a1a1a;border:none;padding:9px 18px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit}
+.note-chip{background:#fef3c7;border:1px solid #fcd34d;color:#92400e;font-size:10px;padding:3px 8px;border-radius:6px;display:inline-block;margin-top:6px}
+.new-badge{display:inline-block;background:#dc2626;color:#fff;font-size:10px;font-weight:800;padding:2px 8px;border-radius:12px;margin-left:8px;letter-spacing:.04em;vertical-align:middle}
+.print-fab{position:fixed;bottom:28px;right:28px;background:var(--gold);color:#1a1a1a;border:none;padding:12px 22px;border-radius:40px;font-size:13px;font-weight:700;cursor:pointer;box-shadow:0 4px 20px rgba(212,175,55,.5);z-index:999;font-family:inherit}
+@media(max-width:1100px){.pkg-body{grid-template-columns:1fr 1fr}}
+@media(max-width:700px){.pkg-body{grid-template-columns:1fr}.pkg-section{border-right:none;border-bottom:1px solid var(--border)}.main{padding:20px 16px}.filter-bar,.site-header,.batch-title{padding:12px 20px}}
+@media print{@page{size:A4 portrait;margin:10mm 12mm}*{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}.print-fab,.filter-bar,.btn-whatsapp,.btn-enquire{display:none!important}body{background:#fff}.pkg-card{box-shadow:none;border:1pt solid #dde1e7;margin-bottom:20pt;page-break-inside:avoid}.pkg-body{grid-template-columns:1fr 1fr 1fr!important}.main{padding:0}}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="logo">[YOUR AGENCY NAME]<span>Premium Travel · Est. 2025 · Bengaluru</span></div>
+  <div class="header-right">📞 +91-XXXXXXXXXX &nbsp;|&nbsp; 📧 info@youragency.com<br>IATA · TAAI · TAFI &nbsp;|&nbsp; 2025–26 Season</div>
+</header>
+
+<div class="batch-title">
+  <div>
+    <h1>🌿 South India — 3 Nights / 4 Days Packages</h1>
+    <p>Munnar · Goa · Coorg · Alleppey · Mysore · Kodaikanal &nbsp;|&nbsp; 4★ &amp; 5★ Hotels &nbsp;|&nbsp; 3 NEW Destinations Added</p>
+  </div>
+  <div class="badge-count">BATCH 6 · 6 PACKAGES · 3N/4D</div>
+</div>
+
+<nav class="filter-bar" id="filterBar">
+  <button class="filter-btn active" data-f="all">All Packages</button>
+  <button class="filter-btn" data-f="munnar">Munnar</button>
+  <button class="filter-btn" data-f="goa">Goa</button>
+  <button class="filter-btn" data-f="coorg">Coorg</button>
+  <button class="filter-btn" data-f="alleppey">Alleppey ★NEW</button>
+  <button class="filter-btn" data-f="mysore">Mysore ★NEW</button>
+  <button class="filter-btn" data-f="kodaikanal">Kodaikanal ★NEW</button>
+</nav>
+
+<main class="main" id="mainGrid"></main>
+
+<footer style="background:#0a1628;color:rgba(240,244,248,.6);padding:20px 40px;text-align:center;font-size:12px;border-top:1px solid rgba(212,175,55,.25)">
+  <strong style="color:#D4AF37">[YOUR AGENCY NAME]</strong> · Bengaluru, India ·
+  All prices indicative, per person twin-sharing. GST @5% &amp; flights extra. Subject to availability &amp; season.
+</footer>
+<button class="print-fab" onclick="window.print()">🖨️ Print / PDF</button>
+
+<script>
+const PKGS = [
+
+// 1. MUNNAR 3N/4D
+{
+  id:'munnar',
+  name:'Munnar — The Green Paradise',
+  subtitle:'Three nights amid Kerala tea gardens, mist-covered peaks and the last Nilgiri Tahr herds',
+  gradient:['#1a3a1a','#2d6a4f'],
+  badge:'Kerala Highlands', badgeColor:'#16a34a', badgeText:'#fff',
+  type:'FIT + Honeymoon + Group Departures',
+  duration:'3N / 4D', nights:3, days:4,
+  exCities:['Ex Cochin (COK/CCJ — 130 km, 4 hrs)'],
+  highlights:[
+    'Eravikulam National Park — last stronghold of critically endangered Nilgiri Tahr; Anamudi peak (2,695m)',
+    'TATA Tea Museum — Asia\'s only tea-dedicated museum; live factory, aroma lab & plantation walk',
+    'Mattupetty Dam & Echo Point — scenic 1,700m altitude reservoir; speed boat & misty valley views',
+    'Top Station (1,880m) — 32 km from Munnar, sweeping views into Tamil Nadu; Neelakurinji blooms every 12 yrs',
+    'Rajamala Gardens (2,100m) — 200+ rare alpine species, orchid house, fernery at Rajamalai ridge',
+    'Attukal Waterfalls — 1.5 km forest trek through wild cardamom, pepper vines & shola forest'
+  ],
+  itinerary:[
+    {day:1, label:'Day 1', title:'Arrival — Tea Gardens & Dam Lake',acts:[
+      'Arrive Cochin Airport | AC Innova transfer to Munnar (130 km, 4 hrs via NH-83)',
+      'En route: Cheeyappara Waterfalls viewpoint (Adimali, 70 km) — 200ft roadside cascade',
+      'Check-in to tea estate resort | Welcome drink + flower garland',
+      'TATA Tea Museum (2 PM, ₹150) — live tea factory, aroma test, plantation walk (2 hrs)',
+      'Mattupetty Dam (4 PM) — speed boat (₹75) or lakeside cycling on dam rim road',
+      'Echo Point (5 PM) — shout into the valley silence; misty sunset over reservoir',
+      'Dinner at hotel: Kerala Sadhya — traditional banana-leaf feast with 26 side dishes'
+    ]},
+    {day:2, label:'Day 2', title:'National Park, Top Station & High Altitude',acts:[
+      'Early 6:30 AM: Drive to Eravikulam NP (7 AM entry, ₹240) — guided walk to see Nilgiri Tahr',
+      'Shola grassland trail — elephant, sambar deer & Nilgiri langur spotting',
+      'Anamudi Peak viewpoint (2,695m, South India\'s highest point) — panorama on clear days',
+      'Top Station (32 km, 1,880m) — ridge drive through Rajamalai, view across Tamil Nadu border',
+      'Rajamala Horticultural Gardens (en route back) — 200+ alpine endangered species, orchidarium',
+      'Afternoon: Rest at hotel + optional Ayurvedic massage (₹1,500 extra)',
+      'Evening: Munnar town bazaar — cardamom, Munnar chocolate, homemade wine shopping'
+    ]},
+    {day:3, label:'Day 3', title:'Waterfalls, Spice Trail & Plantation Life',acts:[
+      'Morning 7 AM: Attukal Waterfalls — 1.5 km forest trek before crowds (₹30 entry, guide optional)',
+      'Roseheart Spice Farm (9 AM, 10 km) — guided walk: pepper, vanilla, cardamom, coffee beans',
+      'Plantation lunch: authentic Kerala fish curry on plantain leaf at estate',
+      'Kallar Waterfalls (Marayoor road, 42 km) — secluded 100m cascade, cool natural pool',
+      'Marayoor Sandalwood Forest (45 km) — only natural sandalwood forest in Kerala, forest entry ₹50',
+      'Optional: Meesapulimala trek (2,640m, full-day guided, ₹800 extra — South India\'s 3rd highest)',
+      'Dinner: Sree Harsha restaurant Munnar town — local Kerala fish & appam'
+    ]},
+    {day:4, label:'Day 4', title:'Sunrise, Estate Walk & Cochin Departure',acts:[
+      'Sunrise 5:30 AM: Pothamedu Viewpoint (2 km from town) — 180° panorama over tea valley',
+      'Morning estate walk (hotel-guided, 7 AM) — pluck your own tea leaves, see weighing process',
+      'Breakfast + checkout',
+      'Drive to Cochin | 45 min halt: Valara Waterfalls (twin cascade in reserve forest)',
+      'Optional: Periyar Wildlife Sanctuary halt at Thekkady (2 hrs, boat on Periyar Lake, extra ₹350)',
+      'Fort Kochi: Chinese fishing nets + Dutch Palace (Mattancherry) — 1.5 hr heritage walk',
+      'Drop at Cochin International Airport for departure flight'
+    ]}
+  ],
+  hotels4:['Tea Valley Resort','Club Mahindra Munnar','Windermere Estate','Forest Canopy Resort'],
+  hotels5:['The Spice Tree','Fragrant Nature Munnar','Munnar Tea County Resort','Chandy\'s Windy Woods'],
+  price4:13000, price5:23500,
+  inclusions:['3 nights accommodation (4★ or 5★)','Daily breakfast + 3 dinners at hotel','AC Innova / Ertiga all transfers & sightseeing','Cochin Airport ↔ Munnar (both ways)','TATA Tea Museum entry & factory tour','Eravikulam NP Indian national entry + guide','Mattupetty Dam speed boat ride','Attukal Waterfalls forest trail entry','Spice Plantation guided walk','All toll charges & driver allowance','Welcome drink + flower garland'],
+  exclusions:['Flights to/from Cochin','GST @ 5% extra','Lunch on all 4 days','Ayurvedic massage (₹1,500, optional)','Meesapulimala guided trek (₹800, optional)','Personal expenses, tips & porterage','Travel Insurance'],
+  note:'Best season: Sep–May. Eravikulam NP closes mid-Jan to mid-Apr for calving — verify dates. Neelakurinji blooms next in 2030 (every 12 years). Top Station best visibility: Oct–Feb (clear mornings). Spice trail: most fragrant Oct–Jan (harvest).'
+},
+
+// 2. GOA 3N/4D
+{
+  id:'goa',
+  name:'Goa — Sun, Sand & Soul',
+  subtitle:'Three nights of beaches, Portuguese heritage, cascading waterfalls and water sports paradise',
+  gradient:['#0a3d62','#0096c7'],
+  badge:'Most Popular', badgeColor:'#D4AF37', badgeText:'#1a1a1a',
+  type:'FIT + Group Departures + Honeymoon + Luxury',
+  duration:'3N / 4D', nights:3, days:4,
+  exCities:['Ex Goa (Dabolim/Mopa Airport)','Ex Bangalore','Ex Mumbai'],
+  highlights:[
+    'Baga, Calangute & Anjuna — iconic North Goa beach strip with shacks, markets & nightlife',
+    'Dudhsagar Falls — 310m four-tiered India\'s 5th highest waterfall, jeep safari with 12 river crossings',
+    'Old Goa UNESCO churches — Basilica of Bom Jesus, Sé Cathedral (largest in Asia), Church of St. Francis',
+    'Mandovi Sunset Cruise — live Konkani folk dance, music & seafood buffet on river',
+    'Sahakari Spice Plantation — elephant ride, spice walk, authentic Goan buffet lunch',
+    'Grand Island Scuba Diving & water sports — parasailing, jet ski, banana boat, kayak'
+  ],
+  itinerary:[
+    {day:1, label:'Day 1', title:'Arrival — North Goa Beaches & Sunset Cruise',acts:[
+      'Arrive Dabolim/Mopa Airport | Transfer to hotel (15–35 mins)',
+      'Check-in + lunch on own at Britto\'s Beach Shack (Baga)',
+      'Afternoon: Calangute → Baga → Anjuna beach walk (4 km strip) — beach shacks, chill time',
+      'Vagator Beach & Chapora Fort (5 PM) — iconic "Dil Chahta Hai" location, sunset panorama',
+      'Evening 6 PM: Mandovi River Sunset Cruise (1.5 hrs) — live Konkani music, buffet dinner',
+      'Post-cruise: Casino Royale or Tito\'s Lane pub-walk (optional night out)',
+      'Return hotel by 10:30 PM'
+    ]},
+    {day:2, label:'Day 2', title:'South Goa, Old Goa UNESCO & Spice Plantation',acts:[
+      'Morning 9 AM: Old Goa — Basilica of Bom Jesus (St. Francis Xavier\'s preserved body)',
+      'Sé Cathedral (largest in Asia, golden bell) + Church of St. Francis of Assisi (1661)',
+      'Panjim: Fontainhas Latin Quarter — 18th-century ochre & terracotta Portuguese houses',
+      'Noon: Sahakari/Tropical Spice Plantation lunch (1–3 PM) — elephant ride, spice walk + Goan buffet',
+      'South Goa: Palolem Beach — crescent shaped, calm turquoise water, kayak hire ₹300/hr',
+      'Colva Beach or Benaulim — quieter family beach, dolphin watching boat (₹200)',
+      'Dinner: Fisherman\'s Wharf (Cavelossim) — Kingfish Recheado, prawn balchão, Goan sausage'
+    ]},
+    {day:3, label:'Day 3', title:'Dudhsagar Falls + Water Sports Bonanza',acts:[
+      'Early 6:30 AM: Depart for Mollem (90 km, 2 hrs) — Bhagwan Mahavir Wildlife Sanctuary',
+      'Dudhsagar Falls jeep safari (₹2,500/person, 4–5 hrs, 12 river crossings)',
+      'Base pool swim in emerald waters (Oct–Mar) — best waterfall experience in Goa',
+      'Return to North Goa by 1:30 PM | Lunch at Caravela Beach Restaurant',
+      'Afternoon 3 PM: Water Sports Baga/Calangute — parasailing (₹800), jet ski (₹700), banana boat (₹400)',
+      'Optional upgrade: Grand Island Scuba Diving (₹2,000 per person, 2 dives, certified + beginners)',
+      'Evening: Baga Saturday Night Bazaar (Oct–Apr) or Ingo\'s Saturday Night Market',
+      'Dinner: Infantaria Bakery then Club Cubana rooftop bar (if in season)'
+    ]},
+    {day:4, label:'Day 4', title:'Backwater Kayak, Markets & Departure',acts:[
+      'Morning Optional: Backwater Kayaking (Cumbarjua Canal, ₹1,200/person) — mangroves + crocodiles',
+      'OR: Yoga & Ayurveda session at Purple Valley / Arambol (2 hrs, ₹600)',
+      'Breakfast + checkout',
+      'Fort Aguada (1612 Portuguese fort + lighthouse, free) — 30 min heritage photography stop',
+      'Mapusa Market (if Friday) — Goa sausages, bebinca, cashew feni, spice kits',
+      'Souvenir shopping: Delfinos Goa wine; Karachi Cashew; Literati Bookshop Calangute',
+      'Transfer to Dabolim/Mopa Airport for departure flight'
+    ]}
+  ],
+  hotels4:['Cidade de Goa (Panaji bay view)','Novotel Goa Dona Sylvia (South Goa)','Goa Marriott Resort (Miramar)','Kenilworth Beach Resort'],
+  hotels5:['The Leela Goa (Mobor Beach)','W Goa Vagator','Taj Fort Aguada Resort','Taj Exotica Benaulim'],
+  price4:17500, price5:33000,
+  inclusions:['3 nights accommodation (4★ or 5★)','Daily breakfast at hotel','Mandovi River sunset cruise Day 1','Sahakari Spice Plantation with Goan lunch Day 2','Dudhsagar Falls jeep safari Day 3','All AC transfers airport ↔ hotel ↔ sightseeing','North Goa full-day sightseeing','South Goa & Old Goa full-day tour','Driver allowance & toll charges','Welcome drink + flower garland'],
+  exclusions:['Flights to/from Goa','GST @ 5% extra','Water sports (₹400–₹2,000 per activity)','Grand Island Scuba (₹2,000 optional)','Backwater kayaking (₹1,200 optional)','Lunch on all 4 days','Casino charges & personal expenses','Travel Insurance'],
+  note:'Best Nov–Mar. Dudhsagar accessible Oct–Mar only (closed monsoon). Group departures every weekend from Bangalore. Luxury upgrade: private pool villa at Taj Exotica or The Leela. Goa Carnival (Feb/Mar) — book 3 months ahead.'
+},
+
+// 3. COORG 3N/4D
+{
+  id:'coorg',
+  name:'Coorg — Scotland of India',
+  subtitle:'Three nights of coffee estates, elephant encounters, Tibetan monasteries and river adventures',
+  gradient:['#2d3a1e','#6a994e'],
+  badge:'Weekend Favourite', badgeColor:'#16a34a', badgeText:'#fff',
+  type:'FIT + Group Departures + Honeymoon',
+  duration:'3N / 4D', nights:3, days:4,
+  exCities:['Ex Bangalore (250 km, 5 hrs)','Ex Mysore (120 km, 2.5 hrs)'],
+  highlights:[
+    'Dubare Elephant Camp — licenced elephant bathing & feeding; coracle boat on river Cauvery',
+    'Abbey Falls — 70ft cascade surrounded by coffee and cardamom estates; 1.5 km trek',
+    'Namdroling Monastery (Golden Temple, Bylakuppe) — 60ft golden Buddha, largest Tibetan settlement outside Tibet',
+    'Talakaveri — sacred source of river Cauvery at 1,276m; Brahmagiri Hills summit trek',
+    'Iruppu Falls (Brahmagiri WLS) — 170ft pilgrim waterfall with elephant sightings',
+    'River Cauvery Grade 1–2 Rafting — 12 km white-water run, family-safe, Oct–Mar'
+  ],
+  itinerary:[
+    {day:1, label:'Day 1', title:'Bangalore → Coorg: Coffee Country Welcome',acts:[
+      'Depart Bangalore 6:30 AM | Drive to Madikeri (250 km, ~5 hrs via Mysore NH-275)',
+      'En route option: Mysore Palace & Devaraja Market quick photo stop (Mysore)',
+      'Check-in to Coorg coffee estate resort by 1 PM',
+      'Afternoon: Abbey Falls (3 km from Madikeri, ₹50) — forest trail led walk to 70ft cascade',
+      'Coffee Estate Walk (4 PM) — learn bean-to-cup process with estate planter',
+      'Raja\'s Seat Garden sunset (₹30, closes 8 PM) — 360° Cauvery valley panorama',
+      'Dinner: Coorg Cuisine — Kadambuttu (rice balls), Pandi curry (pork), Akki Roti with chilli chutney'
+    ]},
+    {day:2, label:'Day 2', title:'Elephant Camp, Golden Temple & River Island',acts:[
+      '7 AM: Dubare Elephant Camp (₹500 interaction, 1 hr) — Cauvery riverbank elephant bathing',
+      'Coracle boat ride on Cauvery (₹100, 15 min) — traditional woven basket-boat on rapids',
+      'Nisargadhama River Island (30 km, ₹35) — hanging bridge, bamboo cottages, deer park on river island',
+      'Lunch: Cauvery Nibble — riverside restaurant, fish & rice combo',
+      'Namdroling Golden Temple Bylakuppe (48 km, free) — 60ft golden Buddha; walk among monks',
+      '10,000 monks reside in this largest Tibetan settlement outside Tibet',
+      'Return Madikeri | Tibetan noodle dinner at monastery guesthouse kitchen'
+    ]},
+    {day:3, label:'Day 3', title:'Talakaveri, Bhagamandala & Iruppu Falls',acts:[
+      'Morning 7 AM: Talakaveri (51 km, 1.5 hrs) — sacred origin of Cauvery River at 1,276m',
+      'Brahmagiri Ridge Trek (optional, 5 km, 1,608m) — shola forest paths, panoramic valley views',
+      'Bhagamandala (12 km below) — tri-river confluence: Cauvery, Kannike & Sujyothi',
+      'Bhagandeshwara Temple (1,000+ years) — Kodava cultural epicentre, rare Dravidian style',
+      'Lunch: Hotel Capitol Virajpet — rice + fish + local Coorg curry',
+      'Iruppu Falls (Brahmagiri WLS, ₹200 + guide ₹300) — 170ft cascade, elephant corridors',
+      'Evening: Gonikoppal bazaar — buy raw Coorg honey, wild pepper, estate Robusta coffee'
+    ]},
+    {day:4, label:'Day 4', title:'Cauvery Rafting & Madikeri Heritage',acts:[
+      'Morning: River Cauvery Grade 1–2 Rafting (12 km, ₹650/person, Oct–Mar operational)',
+      '2 hrs on river — boulders, mild rapids, jungle canopy, kingfisher sightings',
+      'Breakfast + checkout from estate',
+      'Madikeri Fort (1791, Hyder Ali) — 3 temples, Raj Museum, British-era tomb of king',
+      'Omkareshwara Temple (Madikeri, free) — unique Indo-Saracenic hybrid architecture',
+      'Cauvery Emporium (Madikeri govt store) — best Coorg honey, estate coffee, cardamom packs',
+      'Depart to Bangalore (5 hrs, arrive by evening) or Mysore (2 hrs)'
+    ]}
+  ],
+  hotels4:['Misty Woods Resort Coorg','Coorg Wilderness Resort','Honey Valley Estate','The Tamara Coorg (forest)'],
+  hotels5:['The Tamara Coorg (premier pool villa)','Orange County / Evolve Back Kuruba','Amanvana Spa Resort','Alath-Cad Estate Bungalow'],
+  price4:15000, price5:27000,
+  inclusions:['3 nights in coffee estate / nature resort (4★/5★)','Daily breakfast + 3 Kodava dinners','AC Innova — Bangalore ↔ Coorg ↔ Bangalore transfers','Dubare Elephant Camp interaction + coracle ride','Nisargadhama Island entry','Namdroling Golden Temple visit','Talakaveri + Bhagamandala visit','Iruppu Falls forest entry','All toll charges & driver allowance'],
+  exclusions:['Train/flight to Bangalore','GST @ 5% extra','Cauvery Rafting (₹650, optional)','Brahmagiri Peak guide (₹500)','Lunch on all 4 days','Spice/coffee/honey shopping','Travel Insurance'],
+  note:'Coorg honey tip: Buy at Coorg Co-operative Emporium (Madikeri) — not roadside stalls. Elephant camp: seasonal, confirm Nov–Apr. Rafting: Oct–Mar only (dry season). Iruppu: best water Aug–Jan. Coffee harvest (estate stay best): Oct–Jan.'
+},
+
+// 4. ALLEPPEY — Kerala Backwaters 3N/4D (NEW)
+{
+  id:'alleppey',
+  name:'Alleppey — Venice of the East',
+  subtitle:'Overnight houseboat on 900km Kerala backwaters, migratory birds, secret beaches and Fort Kochi',
+  gradient:['#004d40','#00897b'],
+  badge:'NEW · ★ Must-Do Kerala', badgeColor:'#0891b2', badgeText:'#fff',
+  type:'FIT + Honeymoon + Family',
+  duration:'3N / 4D', nights:3, days:4,
+  exCities:['Ex Cochin Airport (COK — 85 km, 1.5 hrs to Alleppey)'],
+  highlights:[
+    'Overnight Kettuvallam Houseboat — classic Kerala rice barge converted to float on Vembanad Lake; chef + crew',
+    'Vembanad Lake sunrise — Kerala\'s largest lake (2,033 sq km); fishermen, water hyacinth, silence',
+    'Kumarakom Bird Sanctuary — Siberian storks, Open-Bill Storks, Purple Herons on nesting water islands',
+    'Marari Beach — isolated 4 km fishermen\'s beach with no commercialisation; the Kerala secret',
+    'Fort Kochi Heritage Walk — Dutch Palace (1557), Paradesi Synagogue (1568), Chinese fishing nets (1400 AD)',
+    'Kuttanad "Below Sea Level" Farming — rice paddies at 0.6m below MSL; unique in all of Asia'
+  ],
+  itinerary:[
+    {day:1, label:'Day 1', title:'Cochin → Fort Kochi Heritage Walk → Alleppey',acts:[
+      'Arrive Cochin Airport | Transfer to Fort Kochi (20 min)',
+      'Mattancherry Dutch Palace (1557, ₹5) — magnificent Kerala mural paintings of Ramayana (2 hrs)',
+      'Paradesi Jewish Synagogue (1568, ₹10) — oldest active synagogue in Commonwealth; Chinese floor tiles',
+      'Jew Town antique lane — Dutch furniture, wood carvings, vintage bronze, silver filigree',
+      'Chinese Fishing Nets (Vasco da Gama Square) — cantilevered 14th-century net systems at harbour',
+      'Lunch: Oceanos Fort Kochi | Drive to Alleppey (1.5 hrs)',
+      'Board houseboat (check-in 12 PM) — sail into Vembanad backwaters as sun goes down'
+    ]},
+    {day:2, label:'Day 2', title:'Houseboat Cruise — Lakes, Canals & Village Life',acts:[
+      'Sunrise from houseboat deck — Vembanad Lake wide open water, fishermen at first light',
+      'Morning cruise through narrow village canals — rice paddies, toddy palms, coconut groves',
+      'Stop at Champakulam (35 km) — 450-year-old St. Mary\'s Church; traditional snake boat building sheds',
+      'Kuttanad village market stop — freshwater prawns, pearl spot fish, tender coconut',
+      'Watch snake boat practice session (Jul–Sep racing season at Punnamada Lake — optional)',
+      'Coir rope-making village — see traditional cottage industry; buy natural coir products',
+      'Sunset as houseboat anchors in calm backwater lagoon — freshly caught fish dinner on deck',
+      'Night sky: zero light pollution over Vembanad — millions of stars above still water'
+    ]},
+    {day:3, label:'Day 3', title:'Kumarakom Bird Sanctuary & Marari Beach',acts:[
+      'Early 7 AM: Disembark houseboat at Kumarakom',
+      'Kumarakom Bird Sanctuary (₹100) — guided mangrove trail; Siberian storks, darters, egrets',
+      'Boat ride inside sanctuary (₹200/person) — get close to nesting cormorant & heron colonies',
+      'Lunch: Karimeen Pollichathu (pearl spot fish grilled in banana leaf) at lakeside resort',
+      'Drive to Marari Beach (45 min) — fishermen\'s village beach, no beach hotels (protected)',
+      'Marari sunset — horses, boats dry on sand, coconut grove backing the beach',
+      'Check-in to Marari resort | Optional Ayurvedic massage (₹1,800, pre-book)',
+      'Dinner by candlelight: Kerala prawn curry, appam & fish moilee at resort'
+    ]},
+    {day:4, label:'Day 4', title:'Village Walk & Kuttanad Departure',acts:[
+      'Guided Marari Backwater Village Walk (7 AM, 2 hrs) — coconut farm coir workshop, pottery',
+      'Watch fishermen sort early morning sea catch at Marari Beach shore',
+      'Breakfast at resort + checkout',
+      'Drive through Kuttanad (Below Sea Level Farming zone) — watch paddy growing 0.6m below sea',
+      'Pathiramanal Island by boat (migratory birds, ₹200 boat) — best Oct–Mar',
+      'Alappuzha Beach Lighthouse (1862, ₹10) — 50m climb, panorama over Arabian Sea',
+      'Transfer to Cochin Airport (85 km, 1.5 hrs) for departure flight'
+    ]}
+  ],
+  hotels4:['Marari Beach Resort CGH Earth','Lake Palace Resort Alleppey','Kumarakom Lake Resort (standard)','Abad Whispering Palms'],
+  hotels5:['Kumarakom Lake Resort (luxury villa)','Taj Kumarakom Resort & Spa','The Zuri Kumarakom','Xandari Riverscapes'],
+  price4:16000, price5:29000,
+  inclusions:['1 night premium houseboat cruise on Vembanad (Day 1 PM–Day 2 AM)','2 nights in backwater/beach resort (Day 2 night + Day 3)','All meals on houseboat (breakfast + lunch + dinner)','Breakfast only at resort (Days 3 & 4)','Fort Kochi guided heritage walk','Dutch Palace + Synagogue entry tickets','Kumarakom Bird Sanctuary entry + boat ride','Marari Village guided walk','All AC transfers Cochin ↔ Alleppey ↔ Kumarakom ↔ Marari ↔ Cochin','All toll charges & driver allowance'],
+  exclusions:['Flights to/from Cochin','GST @ 5% extra','Ayurvedic massage (₹1,800, optional)','Lunch Days 3 & 4 (resort)','Snake boat viewing fees (in season)','Personal shopping (coir, antiques)','Travel Insurance'],
+  note:'Nehru Trophy Snake Boat Race: 2nd Saturday of August, Punnamada Lake — BOOK 6 MONTHS AHEAD, prices triple. Best migratory birds at Kumarakom: Nov–Feb. Houseboat honeymoon tip: book deluxe air-conditioned houseboat with upper sundeck (₹6,000 upgrade). Check monsoon (Jun–Aug) canal conditions.'
+},
+
+// 5. MYSORE 3N/4D (NEW)
+{
+  id:'mysore',
+  name:'Mysore — City of Palaces',
+  subtitle:'Royal grandeur, Dasara elephants, sandalwood incense factories and Karnataka\'s finest silk',
+  gradient:['#3d1a6e','#7c3aed'],
+  badge:'NEW · Royal Karnataka', badgeColor:'#7c3aed', badgeText:'#fff',
+  type:'FIT + Heritage + Group Departures',
+  duration:'3N / 4D', nights:3, days:4,
+  exCities:['Ex Bangalore (150 km, 3 hrs)','Ex Coimbatore (150 km, 3 hrs)'],
+  highlights:[
+    'Mysore Palace — India\'s 2nd most visited monument (7M/year); 98,000 light bulbs illuminate it every Sunday',
+    'Chamundi Hills — 1,008 stone steps to 16th-century Chamundeshwari Temple; Nandi Bull monolith 1659',
+    'Brindavan Gardens (KRS Dam) — 150-acre terraced garden with 6:30 PM musical illuminated fountain show',
+    'Ranganathittu Bird Sanctuary — painted storks, spoonbills, crocodiles; boat ride through nesting islands',
+    'Somnathpur Hoysala Temple (1268 AD) — star-shaped, UNESCO-nominated; 180+ scene friezes carved in stone',
+    'Mysore Silk & Sandalwood Factories — government-run silk weaving + World\'s finest sandalwood soap'
+  ],
+  itinerary:[
+    {day:1, label:'Day 1', title:'Arrive Mysore — Palace, Markets & Illumination',acts:[
+      'Arrive Mysore or Bangalore → drive to Mysore (3 hrs, NH-275) | Check-in',
+      'Devaraja Market (1869) — jasmine garlands, sandalwood soaps, banana, areca nut bazaar',
+      'Mysore Palace (3 PM, ₹70) — 145-room royal Indo-Saracenic palace, built 1912',
+      'Palace highlights: Durbar Hall (gold-plated ceiling), wedding hall, royal family portraits',
+      'Palace exterior + Jaganmohan Palace art gallery (adjacent, ₹40)',
+      'SUNDAY VISIT: Palace illuminated 7–8 PM (98,000 bulbs) — India\'s most spectacular night display',
+      'Dinner: The Green Hotel (1920s palace, garden dining) or Vinayaka Mylari (local breakfast-dinner)'
+    ]},
+    {day:2, label:'Day 2', title:'Chamundi Hills, Zoo & Srirangapatna',acts:[
+      'Morning 6 AM: Chamundi Hills — 1,008 stone steps mounting to Chamundeshwari Temple (1 hr)',
+      'Nandi Bull monolith (Step 800, 1659 AD) — 7m × 8m solid granite; flower vendors',
+      'Hilltop panorama of Mysore city + Mysore Zoo glimpse from top road',
+      'Descend by road | Mysore Zoo (9 AM, ₹80) — 40 ha; white tiger, giraffe, Africa section',
+      'Lunch: Hotel Mylari (Mysore institution — fluffy idli with coconut chutney, est. 1950)',
+      'Srirangapatna (18 km) — Tipu Sultan\'s island fort capital; site of 1799 Anglo-Mysore battle',
+      'Ranganathittu Bird Sanctuary (5 km, ₹100) — boat through nesting stork & spoonbill islands; croc sightings',
+      'Evening: Lalitha Mahal Palace Hotel (1931 Viceroy guesthouse) — sunset tea on terrace'
+    ]},
+    {day:3, label:'Day 3', title:'Somnathpur, Silk Factories & Brindavan Gardens',acts:[
+      'Morning 9 AM: Somnathpur (38 km, 1 hr) — Keshava Temple 1268 AD (UNESCO tentative list)',
+      'Three-towered star-shaped temple, 180+ carved friezes: Mahabharata, Ramayana, mythological scenes',
+      'Karnataka Bhavan Uduppi-style lunch en route back (thali ₹80)',
+      'Mysore Silk Weavers Colony (KSIC, free guided tour Daily 10 AM–3 PM) — see Mysore silk on looms',
+      'Government Sandalwood Factory SSPL (₹10 entry) — incense stick production, soaps, oil extraction',
+      'Cauvery Emporium (MG Road) — authentic Mysore Silk sarees, Channapatna toys, rosewood handicrafts',
+      'Brindavan Gardens at KRS Dam (18 km, 3 PM | Musical Fountain 6:30–7:15 PM) — illuminated terrace gardens',
+      'Dinner back in Mysore: Inferno restaurant or Oolala (fine Karnataka cuisine)'
+    ]},
+    {day:4, label:'Day 4', title:'Heritage Church, Art Gallery & Departure',acts:[
+      'Morning: St. Philomena\'s Cathedral (1936, Neo-Gothic) — tallest church spire in South India, vivid stained glass',
+      'Rail Museum (Mysore Railway Station campus, ₹30) — steam engines, maharaja\'s royal carriage',
+      'Breakfast + checkout',
+      'Drive to Coimbatore Airport (3 hrs) or Bangalore (3 hrs) for departure',
+      'En route Bangalore: Srirangapatna bridge view (quick photo) + Mandya sugarcane juice stop',
+      'Note: Mysore Dasara — 10-day Navratri festival (Oct); Royal Elephant Procession on Vijayadasami',
+      'Dasara booking: 6 months ahead mandatory; all hotels full; prices 3x normal'
+    ]}
+  ],
+  hotels4:['Radisson Blu Plaza Mysore','Sandesh The Prince (heritage haveli)','Hotel Southern Star Mysore','Fortune JP Palace'],
+  hotels5:['Lalitha Mahal Palace Hotel ITDC (1931)','Royal Orchid Metropole (1920s heritage)','Radisson Blu (premier suite)','Windflower Spa & Resort Mysore'],
+  price4:13500, price5:23000,
+  inclusions:['3 nights accommodation (4★/5★)','Daily breakfast + 3 dinners','AC vehicle — Bangalore/Coimbatore ↔ Mysore + all sightseeing','Mysore Palace entry','Chamundi Hills & temple visit','Mysore Zoo entry','Srirangapatna Tipu Sultan fort visit','Ranganathittu Bird Sanctuary entry + boat ride','Brindavan Gardens entry + musical fountain evening','Somnathpur Hoysala Temple entry (incl. ASI fee)','Silk Factory + Sandalwood Factory guided tours','All tolls & driver allowance'],
+  exclusions:['Train/flight to Mysore','GST @ 5% extra','Mysore Silk saree purchase','Dasara special event seating (₹5,000+, season only)','Lunch on all 4 days','Travel Insurance'],
+  note:'Dasara (Navratri, Oct) BOOK 6 MONTHS AHEAD — most spectacular Indian royal festival. Genuine Mysore Silk: only from Cauvery Emporium or KSIC showroom (govt-certified purity). Sunday Palace illumination is unmissable — plan Day 1 or Day 4 around Sunday if possible.'
+},
+
+// 6. KODAIKANAL 3N/4D (NEW)
+{
+  id:'kodaikanal',
+  name:'Kodaikanal — The Princess of Hill Stations',
+  subtitle:'Star-shaped lake, pine forests, vertical Pillar Rocks and pristine crater lake at 2,133m',
+  gradient:['#1a3a3a','#0e7490'],
+  badge:'NEW · Tamil Nadu Highlands', badgeColor:'#0891b2', badgeText:'#fff',
+  type:'FIT + Honeymoon + Family',
+  duration:'3N / 4D', nights:3, days:4,
+  exCities:['Ex Madurai (120 km, 3 hrs via Palani ghat)','Ex Coimbatore (149 km, 3.5 hrs)','Ex Chennai (530 km, Overnight train + cab)'],
+  highlights:[
+    'Kodai Lake — man-made star-shaped lake at 2,133m; boating, cycling on 5 km perimeter path, mist rolling in',
+    'Berijam Lake — pristine 5 km protected crater lake, 21 km inside Palni Hills forest reserve; permit required',
+    'Pillar Rocks — three 122m vertical granite columns from the mist at Guna Caves area',
+    'Coaker\'s Walk — 1 km perimeter clifftop promenade; drops 1,500m on the south-valley side',
+    'Bear Shola Falls — 3 km trek through endemic shola forest with endemic Nilgiri bird species',
+    'Green Valley View — 1,500m sheer drop into Vaigai valley; Madurai visible on clear December mornings'
+  ],
+  itinerary:[
+    {day:1, label:'Day 1', title:'Arrive Kodaikanal — Lake, Bryant Park & Coaker\'s Walk',acts:[
+      'Arrive Madurai Airport | Transfer to Kodaikanal (120 km, 3 hrs, 40 hairpin bends through Palani Hills)',
+      'Dramatic ghat road ascent — valley views, roadside waterfalls in season',
+      'Check-in to hilltop property | Lunch: Hotel Astoria (authentic South Indian)',
+      'Kodai Lake (afternoon) — 5 km perimeter cycling (₹50/hr) or boating (₹100, 30 min)',
+      'Bryant Park (₹30, 8 ha) — 325 tree species, seasonal flower show (May, Government Horticultural)',
+      'Coaker\'s Walk sunset (1 km, ₹30) — clifftop promenade, telescope (₹10), valley mist views',
+      'Silver Cascade Falls (8 km from town, ₹20) — 180ft cascade, illuminated at dusk',
+      'Dinner: Café Cariappa or Hilltop Restaurant (glass walls over valley)'
+    ]},
+    {day:2, label:'Day 2', title:'Berijam Forest Lake, Pillar Rocks & Viewpoints',acts:[
+      'Morning 7:30 AM: Berijam Lake Forest Permit (TNFD, ₹250, max 250 visitors/day — book 3 days ahead)',
+      '21 km forest drive — shola forest, sambar deer, Nilgiri langur sightings en route',
+      'Berijam crater lake: 5 km pristine emerald water, no boating, absolute silence, endemic trees',
+      'Return by 12:30 PM (gate closes 3 PM)',
+      'Lunch: Altaf\'s Biryani or Mango Mango (both in Kodai, top-rated local)',
+      'Guna Caves area (₹50) — 3 hrs trek to Pillar Rocks (3 vertical granite 100m columns)',
+      'Green Valley View / "Suicide Point" (₹30) — 1,500m sheer drop into Vaigai valley below',
+      'Dinner: Carlo\'s Kitchen (wood-fire pasta) or Tava restaurant'
+    ]},
+    {day:3, label:'Day 3', title:'Bear Shola Trek, Pine Forest & Chocolate Trail',acts:[
+      'Morning 7 AM: Bear Shola Falls trek (3 km, ₹50 entry + guide ₹300 recommended)',
+      'Shola forest: Nilgiri laughingthrush, square-tailed drongo, Malabar whistling thrush (birders\' paradise)',
+      'Waterfall swim in natural pool (Oct–Jan — best flow)',
+      'Pine Forest (20 km, Mannavanur) — drive through tall pine corridors, meditation-quiet walk',
+      'Kodaikanal International School campus road (public road) for pine forest photography',
+      'Horticultural Research Station (free, 2 PM) — government flower garden, exotic specimens',
+      'Kurinji Andavar Temple (6 km, ₹10) — dedicated to Murugan; blooms every 12 years (next 2030)',
+      'Kodaikanal Chocolate Factory visit + shopping — home-made eucalyptus candy + Kodai wine'
+    ]},
+    {day:4, label:'Day 4', title:'Sunrise Viewpoint, Dolphin\'s Nose & Departure',acts:[
+      'Early 5:30 AM: Pillar Rocks sunrise — cloud sea visible below; golden crown above mist',
+      'OR: Kodaikanal Solar Observatory (Govt of India, 1899, guided tour ₹100, 10 AM slot)',
+      'Breakfast + checkout',
+      'Dolphin\'s Nose promontory (8 km) — rocky nose-shaped cliff walk 2 km, Echo Rock, valley below',
+      'Pambar Waterfalls (on ghat road back to Madurai, 60m cascade into ravine)',
+      'Liril Falls viewpoint on ghat road (quick freshwater dip spot)',
+      'Drive down to Madurai Airport (3 hrs) or Coimbatore (3.5 hrs) for departure flight',
+      'Take home: Kodai chocolate, Nilgiri eucalyptus oil, homemade wine, flower seeds'
+    ]}
+  ],
+  hotels4:['Sterling Kodai Lake','Club Mahindra Kodaikanal','Hotel Le Poseidon (lake view)','Valley View Hotel'],
+  hotels5:['The Carlton Hotel Kodaikanal (since 1887, lake view)','The Hill Club (heritage colonial, 1898)','Hilltop Towers','La Villa Kodaikanal (boutique)'],
+  price4:12000, price5:21000,
+  inclusions:['3 nights accommodation (4★/5★)','Daily breakfast + 3 dinners','AC vehicle — Madurai Airport ↔ Kodaikanal + all sightseeing','Kodai Lake boating Day 1','Berijam Lake TNFD permit Day 2','Bear Shola Falls trek entry + forest guide Day 3','Pillar Rocks + Guna Caves + Green Valley View entries','Bryant Park entry + Silver Cascade Falls','All toll charges & driver allowance'],
+  exclusions:['Flights to/from Madurai or Coimbatore','GST @ 5% extra','Berijam Lake private guide (₹300)','Dolphin\'s Nose guide (₹200)','Lunch on all 4 days','Chocolate/wine shopping','Observatory tour (₹100)','Travel Insurance'],
+  note:'Berijam Lake: call Kodai Forest Office 04542-241855 minimum 3 days ahead for permit. Best season: Oct–Mar (15–20°C clear). Avoid April–May (dry, hazy). June–September: misty and dramatic but Berijam may close. Kurinji flower blooms next in 2030.'
+}
+
+]; // end PKGS
+
+function escH(s){return s?String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'):''}
+function fmtP(n){return '₹'+n.toLocaleString('en-IN')}
+
+function renderCard(p){
+  const grad=`background:linear-gradient(145deg,${p.gradient[0]},${p.gradient[1]})`;
+  const hlHTML=p.highlights.map(h=>`<li>${escH(h)}</li>`).join('');
+  const itHTML=p.itinerary.map(d=>`<div class="itin-day"><div class="day-label">${escH(d.label)}</div><div class="day-title">${escH(d.title)}</div><ul class="day-acts">${d.acts.map(a=>`<li>${escH(a)}</li>`).join('')}</ul></div>`).join('');
+  const h4=p.hotels4.map(h=>`• ${escH(h)}`).join('<br>');
+  const h5=p.hotels5.map(h=>`• ${escH(h)}`).join('<br>');
+  const inclHTML=p.inclusions.map(i=>`<li class="incl">${escH(i)}</li>`).join('');
+  const exclHTML=p.exclusions.map(i=>`<li class="excl">${escH(i)}</li>`).join('');
+  const exHTML=p.exCities.map(c=>`<span class="ex-chip">${escH(c)}</span>`).join('');
+  const waMsg=encodeURIComponent('Hi, I am interested in the '+p.name+' ('+p.duration+') package. Please share availability and pricing.');
+  return `<div class="pkg-card" data-id="${escH(p.id)}">
+  <div class="pkg-hero" style="${grad}">
+    <span class="pkg-type-chip">${escH(p.type)}</span>
+    <span class="pkg-badge" style="background:${escH(p.badgeColor)};color:${escH(p.badgeText)}">${escH(p.badge)}</span>
+    <div class="pkg-title">${escH(p.name)}</div>
+    <div class="pkg-subtitle">${escH(p.subtitle)}</div>
+    <div class="pkg-meta-row">
+      <span class="meta-pill">⏱ ${escH(p.duration)}</span>
+      <span class="meta-pill">🏨 4★ &amp; 5★ Only</span>
+      <span class="meta-pill">🇮🇳 India Domestic</span>
+    </div>
+  </div>
+  <div class="pkg-body">
+    <div class="pkg-section"><div class="sec-title">Highlights</div><ul class="hl-list">${hlHTML}</ul></div>
+    <div class="pkg-section"><div class="sec-title">Day-wise Itinerary</div>${itHTML}</div>
+    <div class="pkg-section">
+      <div class="sec-title">Pricing &amp; Hotels</div>
+      <div class="pricing-grid">
+        <div class="price-box"><div class="price-star">⭐⭐⭐⭐ 4-Star</div><div class="price-hotels">${h4}</div><div class="price-val">${fmtP(p.price4)}</div><div class="price-sub">per person · twin sharing</div></div>
+        <div class="price-box"><div class="price-star">⭐⭐⭐⭐⭐ 5-Star</div><div class="price-hotels">${h5}</div><div class="price-val">${fmtP(p.price5)}</div><div class="price-sub">per person · twin sharing</div></div>
+      </div>
+      <div class="sec-title" style="margin-top:12px">Inclusions</div>
+      <ul class="incl-list">${inclHTML}</ul>
+      <div class="sec-title">Exclusions</div>
+      <ul class="incl-list">${exclHTML}</ul>
+      ${p.note?`<div class="note-chip">ℹ️ ${escH(p.note)}</div>`:''}
+    </div>
+  </div>
+  <div class="pkg-footer">
+    <div><div style="font-size:11px;font-weight:700;color:#64748b;margin-bottom:6px;letter-spacing:.06em;text-transform:uppercase">Departure Cities</div><div class="ex-cities">${exHTML}</div></div>
+    <div class="cta-group">
+      <a class="btn-whatsapp" href="https://wa.me/919999999999?text=${waMsg}" target="_blank" rel="noopener">💬 WhatsApp</a>
+      <button class="btn-enquire">Enquire Now →</button>
+    </div>
+  </div>
+</div>`;
+}
+
+function renderAll(filter){
+  const grid=document.getElementById('mainGrid');
+  const list=filter==='all'?PKGS:PKGS.filter(p=>p.id===filter);
+  grid.innerHTML=list.length?list.map(renderCard).join(''):'<p style="padding:60px;text-align:center;color:#94a3b8">No packages found.</p>';
+}
+
+document.getElementById('filterBar').addEventListener('click',e=>{
+  const btn=e.target.closest('.filter-btn');
+  if(!btn)return;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderAll(btn.dataset.f);
+});
+
+renderAll('all');
+</script>
+</body>
+</html>

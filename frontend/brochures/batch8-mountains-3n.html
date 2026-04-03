@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mountains & Kashmir 3N/4D Packages — Batch 8</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#D4AF37;--dark:#0a1628;--navy:#1e3a5f;--card:#fff;--border:#e2e8f0;--radius:14px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#1e293b;line-height:1.6}
+.site-header{background:linear-gradient(135deg,#0a1628,#1e3a5f);border-bottom:3px solid var(--gold);padding:22px 40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.logo{font-family:'Playfair Display',serif;font-size:24px;color:var(--gold);letter-spacing:.04em}
+.logo span{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:rgba(240,244,248,.65);display:block;font-family:'Inter',sans-serif;font-weight:400;margin-top:2px}
+.header-right{color:rgba(240,244,248,.65);font-size:12px;text-align:right;line-height:1.8}
+.batch-title{background:linear-gradient(90deg,#0c2a4a,#1e5799);color:#fff;padding:18px 40px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.batch-title h1{font-family:'Playfair Display',serif;font-size:20px;font-weight:700}
+.batch-title p{font-size:13px;opacity:.8;margin-top:3px}
+.badge-count{background:var(--gold);color:#1a1a1a;font-size:11px;font-weight:800;padding:4px 12px;border-radius:20px;white-space:nowrap;letter-spacing:.06em;flex-shrink:0}
+.filter-bar{background:#fff;border-bottom:1px solid var(--border);padding:12px 40px;display:flex;gap:8px;flex-wrap:wrap;position:sticky;top:0;z-index:50;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.filter-btn{background:#f8fafc;border:1px solid var(--border);color:#64748b;padding:7px 16px;border-radius:30px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s}
+.filter-btn:hover,.filter-btn.active{background:var(--gold);border-color:var(--gold);color:#1a1a1a}
+.main{max-width:1400px;margin:0 auto;padding:32px 40px 80px}
+.pkg-card{background:var(--card);border-radius:var(--radius);box-shadow:0 4px 24px rgba(0,0,0,.12);margin-bottom:40px;overflow:hidden}
+.pkg-hero{padding:24px 28px 20px;color:#fff;position:relative;min-height:130px;display:flex;flex-direction:column;justify-content:flex-end}
+.pkg-hero::before{content:'';position:absolute;inset:0;background:rgba(0,0,0,.22)}
+.pkg-badge{position:absolute;top:16px;right:16px;padding:4px 12px;border-radius:20px;font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;z-index:2}
+.pkg-type-chip{position:absolute;top:16px;left:16px;background:rgba(255,255,255,.15);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,.25);color:#fff;font-size:10px;font-weight:700;padding:4px 10px;border-radius:20px;z-index:2;letter-spacing:.06em;text-transform:uppercase}
+.pkg-title{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;line-height:1.15;position:relative;z-index:2}
+.pkg-subtitle{font-size:13px;opacity:.85;margin-top:4px;position:relative;z-index:2;font-style:italic}
+.pkg-meta-row{position:relative;z-index:2;display:flex;gap:20px;margin-top:12px;flex-wrap:wrap}
+.meta-pill{background:rgba(255,255,255,.15);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,.2);color:#fff;font-size:11px;font-weight:600;padding:4px 12px;border-radius:20px}
+.pkg-body{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0}
+.pkg-section{padding:20px 24px;border-right:1px solid var(--border)}
+.pkg-section:last-child{border-right:none}
+.sec-title{font-size:10px;letter-spacing:.18em;text-transform:uppercase;font-weight:800;color:#94a3b8;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.sec-title::after{content:'';flex:1;height:1px;background:var(--border)}
+.hl-list{list-style:none;display:flex;flex-direction:column;gap:7px}
+.hl-list li{font-size:13px;color:#374151;display:flex;align-items:flex-start;gap:8px;line-height:1.45}
+.hl-list li::before{content:'›';color:var(--gold);font-size:18px;line-height:1;flex-shrink:0;font-weight:700}
+.itin-day{margin-bottom:14px}
+.itin-day:last-child{margin-bottom:0}
+.day-label{background:#f8fafc;border-left:3px solid var(--gold);padding:5px 10px;font-size:11px;font-weight:800;color:#1e3a5f;letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}
+.day-title{font-size:13px;font-weight:700;color:#111827;margin-bottom:4px}
+.day-acts{list-style:none;display:flex;flex-direction:column;gap:4px}
+.day-acts li{font-size:12px;color:#4b5563;padding-left:14px;position:relative;line-height:1.5}
+.day-acts li::before{content:'·';position:absolute;left:3px;color:#94a3b8;font-size:16px;line-height:1.1}
+.pricing-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.price-box{background:#f8fafc;border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center}
+.price-star{font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#64748b;margin-bottom:4px}
+.price-hotels{font-size:10px;color:#94a3b8;margin-bottom:6px;line-height:1.4}
+.price-val{font-size:18px;font-weight:800;color:#0f172a;letter-spacing:-.02em}
+.price-sub{font-size:10px;color:#94a3b8;margin-top:2px}
+.incl-list{list-style:none;margin-bottom:14px;display:flex;flex-direction:column;gap:5px}
+.incl-list li{font-size:12px;display:flex;align-items:flex-start;gap:7px;line-height:1.45}
+.incl-list li.incl::before{content:'✓';color:#16a34a;font-weight:800;flex-shrink:0;font-size:11px;margin-top:2px}
+.incl-list li.excl::before{content:'✗';color:#dc2626;font-weight:800;flex-shrink:0;font-size:11px;margin-top:2px}
+.pkg-footer{padding:14px 24px;background:#f8fafc;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.ex-cities{display:flex;flex-wrap:wrap;gap:6px}
+.ex-chip{background:#eff6ff;border:1px solid #bfdbfe;color:#1d4ed8;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px}
+.cta-group{display:flex;gap:10px}
+.btn-whatsapp{background:#25D366;color:#fff;border:none;padding:9px 18px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.btn-enquire{background:linear-gradient(135deg,var(--gold),#b8932a);color:#1a1a1a;border:none;padding:9px 18px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit}
+.note-chip{background:#fef3c7;border:1px solid #fcd34d;color:#92400e;font-size:10px;padding:3px 8px;border-radius:6px;display:inline-block;margin-top:6px}
+.print-fab{position:fixed;bottom:28px;right:28px;background:var(--gold);color:#1a1a1a;border:none;padding:12px 22px;border-radius:40px;font-size:13px;font-weight:700;cursor:pointer;box-shadow:0 4px 20px rgba(212,175,55,.5);z-index:999;font-family:inherit}
+@media(max-width:1100px){.pkg-body{grid-template-columns:1fr 1fr}}
+@media(max-width:700px){.pkg-body{grid-template-columns:1fr}.pkg-section{border-right:none;border-bottom:1px solid var(--border)}.main{padding:20px 16px}.filter-bar,.site-header,.batch-title{padding:12px 20px}}
+@media print{@page{size:A4 portrait;margin:10mm 12mm}*{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}.print-fab,.filter-bar,.btn-whatsapp,.btn-enquire{display:none!important}body{background:#fff}.pkg-card{box-shadow:none;border:1pt solid #dde1e7;margin-bottom:20pt;page-break-inside:avoid}.pkg-body{grid-template-columns:1fr 1fr 1fr!important}.main{padding:0}}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="logo">[YOUR AGENCY NAME]<span>Premium Travel · Est. 2025 · Bengaluru</span></div>
+  <div class="header-right">📞 +91-XXXXXXXXXX &nbsp;|&nbsp; 📧 info@youragency.com<br>IATA · TAAI · TAFI &nbsp;|&nbsp; 2025–26 Season</div>
+</header>
+
+<div class="batch-title">
+  <div>
+    <h1>🏔️ Kashmir, Himachal & Mountain Destinations — 3 Nights / 4 Days</h1>
+    <p>Srinagar · Pahalgam · Gulmarg · Manali · Shimla · Dharamshala &nbsp;|&nbsp; 4★ &amp; 5★ &nbsp;|&nbsp; 2 NEW Destinations</p>
+  </div>
+  <div class="badge-count">BATCH 8 · 6 PACKAGES · 3N/4D</div>
+</div>
+
+<nav class="filter-bar" id="filterBar">
+  <button class="filter-btn active" data-f="all">All Packages</button>
+  <button class="filter-btn" data-f="srinagar">Srinagar</button>
+  <button class="filter-btn" data-f="pahalgam">Pahalgam ★NEW</button>
+  <button class="filter-btn" data-f="gulmarg">Gulmarg</button>
+  <button class="filter-btn" data-f="manali">Manali</button>
+  <button class="filter-btn" data-f="shimla">Shimla</button>
+  <button class="filter-btn" data-f="dharamshala">Dharamshala ★NEW</button>
+</nav>
+
+<main class="main" id="mainGrid"></main>
+
+<footer style="background:#0a1628;color:rgba(240,244,248,.6);padding:20px 40px;text-align:center;font-size:12px;border-top:1px solid rgba(212,175,55,.25)">
+  <strong style="color:#D4AF37">[YOUR AGENCY NAME]</strong> · Bengaluru, India ·
+  All prices indicative, per person twin-sharing. GST @5% &amp; flights extra. Subject to availability &amp; season.
+</footer>
+<button class="print-fab" onclick="window.print()">🖨️ Print / PDF</button>
+
+<script>
+const PKGS = [
+
+// 1. SRINAGAR 3N/4D
+{
+  id:'srinagar',
+  name:'Srinagar — Paradise on Earth',
+  subtitle:'Three nights on Dal Lake — floating gardens, Mughal gardens, shikaras and Himalayan peaks',
+  gradient:['#0c1a3d','#1e5799'],
+  badge:'Kashmir Crown Jewel', badgeColor:'#D4AF37', badgeText:'#1a1a1a',
+  type:'FIT + Honeymoon + Group Departures',
+  duration:'3N / 4D', nights:3, days:4,
+  exCities:['Ex Srinagar (SXR — direct from Delhi, Mumbai, Bengaluru, Hyderabad)'],
+  highlights:[
+    'Dal Lake Houseboat — stay on traditional cedar-panelled houseboat; shikaraman brings breakfast by boat',
+    'Shalimar Bagh (1619) + Nishat Bagh (1633) — Mughal gardens terraced down hillside; cascading Persian channels',
+    'Hazratbal Mosque — white marble mosque on Dal Lake shore; houses relic of Prophet Muhammad',
+    'Gulmarg Day Trip (56 km) — Gondola Phase I + II (3,980m) — Asia\'s highest cable car',
+    'Shankaracharya Temple (1,000 BC) — hill temple 340m above city; panoramic valley view',
+    'Old City Srinagar — Shah Hamdan Mosque (14th century), artisan quarters, Kashmiri craft bazaars'
+  ],
+  itinerary:[
+    {day:1, label:'Day 1', title:'Arrive Srinagar — Dal Lake & Mughal Gardens',acts:[
+      'Arrive Srinagar Airport | Transfer to houseboat on Dal Lake (20 min)',
+      'Check-in to houseboat: cedar panelling, carpet, sit-out deck, shikara waiting at steps',
+      'Afternoon shikara ride on Dal (₹700, 1.5 hrs) — floating vegetable market, lotus pond, houseboats',
+      'Nishat Bagh (3 PM, ₹24) — 1633 Mughal garden; 12 terraces down to Dal Lake edge',
+      'Shalimar Bagh (4 PM, ₹24) — 1619 Jahangir\'s garden; Persian-style mountain garden',
+      'Return by shikara — sunset reflection of Zabarwan Hills on Dal Lake',
+      'Dinner on houseboat: Rogan Josh, Yakhni, Kashmiri pulao served by houseboat staff'
+    ]},
+    {day:2, label:'Day 2', title:'Shankaracharya, Hazratbal & Old Srinagar',acts:[
+      'Morning 7 AM: Shankaracharya Temple (340m hilltop, ₹20) — 2,000-year-old Shiva temple',
+      'Panoramic view of Dal Lake, snow peaks, houseboats from hilltop terrace',
+      'Chashme Shahi Garden (9 AM, ₹24) — smallest Mughal garden; natural spring water channel',
+      'Hazratbal Mosque (10 AM, free) — white marble; holy relic of Muhammad on display (selected Fridays)',
+      'Old Srinagar: Shah Hamdan Mosque (1395, papier-mâché interior) — no footwear, non-Muslims in courtyard',
+      'Artisan Walk: Shawl weavers (Kashmiri Pashmina), papier-mâché painters, walnut-wood carvers',
+      'Lal Chowk market: dried fruits, Kashmiri saffron, shawls, Kahwa tea sets',
+      'Dinner: Mughal Darbar (Residency Road) or Krishna Dhaba (for vegetarians)'
+    ]},
+    {day:3, label:'Day 3', title:'Gulmarg Gondola Day Trip (56 km)',acts:[
+      '7 AM: Drive to Gulmarg (56 km, 1.5 hrs through apple orchards, pine forest)',
+      'Gulmarg Gondola Phase I (₹900, 2,600m → 3,050m) — meadow views with Nanga Parbat behind',
+      'Gondola Phase II (₹1,200, 3,050m → 3,980m) — Asia\'s highest gondola; snow near bottom even in summer',
+      'Top station: Khilanmarg meadow, 360° panorama: Nanga Parbat, K2 range on clear days',
+      'Snow activities (Dec–Apr): skiing (₹2,000/day), snowboarding, snow scooter, sledge riding',
+      'Biosphere Reserve walk: Gulmarg grassland meadow (world\'s highest golf course at 2,650m)',
+      'Return Srinagar by 4 PM | Dinner on Dal houseboat — Kashmiri Wazwan feast (if arranged)',
+      'Evening shikara: floating craft market, buy saffron at source price'
+    ]},
+    {day:4, label:'Day 4', title:'Pahalgam Excursion or Sonamarg & Departure',acts:[
+      'Option A: Pahalgam day trip (95 km, 2.5 hrs) — Betaab Valley + Aru Valley + Lidder River walk',
+      'Option B: Sonamarg (80 km, 2 hrs) — "meadow of gold"; Thajiwas glacier walk (pony ₹400)',
+      'Both options: return Srinagar by 5 PM for evening departure flight',
+      'Breakfast + checkout from houseboat',
+      'Last: Kashmiri Emporium, Suffering Moses shop (Dalgate) — authenticator of Kashmiri crafts',
+      'Buy: 100g Mogra saffron (₹4,000–6,000), Grade-A Pashmina, walnut wood carved box',
+      'Transfer to Srinagar Airport for departure'
+    ]}
+  ],
+  hotels4:['Heevan Retreat Dal Lake','Vivanta Dal View','Houseboat Grand Palace (Dal Lake)','Houseboat New Butt\'s Clermont'],
+  hotels5:['The Lalit Grand Palace Srinagar (1910 Palace)','Vivanta Dal View (suite)','Houseboats: Houseboat New Moon (5★)','WelcomHotel Pine N Peak'],
+  price4:18000, price5:33000,
+  inclusions:['2 nights on houseboat + 1 night hotel (or 3 nights hotel, choice)','All meals on houseboat (breakfast + lunch + dinner)','Breakfast at hotel','Srinagar Airport transfers both ways','All AC sightseeing — gardens, Old City, markets','Shikara ride on Dal Lake (1.5 hrs)','Gulmarg Day Trip (vehicle + Gondola Phase I)','Shankaracharya Temple + garden entries','All tolls & driver allowance'],
+  exclusions:['Flights to/from Srinagar','GST @ 5% extra','Gondola Phase II (₹1,200, optional)','Pahalgam OR Sonamarg Day 4 (₹2,000 extra)','Skiing/snow activities at Gulmarg','Kashmiri saffron, shawl purchases','Travel Insurance'],
+  note:'Best season: Apr–Jun (spring tulips), Sep–Oct (Chinar autumn gold), Dec–Feb (snow, skiing). July–Aug: humid, crowded. Srinagar is completely safe for tourists (2024). Houseboat tip: negotiate directly, avoid touts at airport — go through hotel/agency booking. Saffron: buy at Pampore village (20 km from airport) for farm-direct price.'
+},
+
+// 2. PAHALGAM 3N/4D (NEW)
+{
+  id:'pahalgam',
+  name:'Pahalgam — Valley of Shepherds',
+  subtitle:'Three nights in Kashmir\'s pristine meadow valley — pine forest, icy streams and the Amarnath trail',
+  gradient:['#0a2a15','#065f46'],
+  badge:'NEW · Kashmir Meadows', badgeColor:'#059669', badgeText:'#fff',
+  type:'FIT + Trek + Honeymoon',
+  duration:'3N / 4D', nights:3, days:4,
+  exCities:['Ex Srinagar (95 km, 2.5 hrs drive)'],
+  highlights:[
+    'Betaab Valley — pine-fringed National Park valley; film location of Betaab (1983), Bhaag Milkha Bhaag',
+    'Aru Valley — 12 km trek from Pahalgam; alpine meadow at 2,438m; wildflowers; Himalayan backdrop',
+    'Baisaran (Mini Switzerland) — 5 km pony ride to 2,440m meadow surrounded by dense pine-deodhar forest',
+    'Chandanwari — 16 km from Pahalgam; start of Amarnath Yatra pilgrim route; snowfield in summer',
+    'Lidder River Walk — clear mountain stream through Pahalgam town; trout angling (license ₹100)',
+    'Shikargah Wildlife Sanctuary — road-accessible deer park; Musk deer, Red Fox, Himalayan brown bear'
+  ],
+  itinerary:[
+    {day:1, label:'Day 1', title:'Srinagar → Pahalgam — Lidder Valley Arrival',acts:[
+      'Check out Srinagar hotel | Drive to Pahalgam (95 km, 2.5 hrs via National Highway)',
+      'En route: Awantipora ruins (9th-century Hindu temples) — 20 min stop',
+      'Arrive Pahalgam | Check-in to resort on Lidder River bank',
+      'Afternoon walk: Pahalgam town market — Kashmiri dry fruits, local honey, woollen pherans',
+      'Lidder River walk (2 km) — crystal clear glacial stream, Himalayan kingfisher sightings',
+      'Mamleshwar Shiva Temple (10 min from town, 500+ years) — riverside temple, ancient carvings',
+      'Dinner at hotel: lamb rogan josh, haak saag, Kashmiri rice with dry fruits'
+    ]},
+    {day:2, label:'Day 2', title:'Betaab Valley, Aru Valley Trek',acts:[
+      'Morning 8 AM: Betaab Valley (15 km, ₹50 entry) — National Park entry, Betaab stream, green meadows',
+      'Film tourism: filming location of Betaab, Jab Tak Hai Jaan, Bhaag Milkha Bhaag',
+      'Trout Hatchery Pahalgam (on way back, ₹30) — rainbow and brown trout breeding in mountain springs',
+      'Lunch in Pahalgam town | Pony hire for Aru Valley (₹800 one way or ₹1,200 both ways)',
+      'Aru Valley trek/pony (12 km from Pahalgam, 2,438m) — alpine meadow, wildflower carpet Apr–Jun',
+      'Kolhoi Glacier viewpoint (on clear days) — 35 km distant; snowcapped peak on the horizon',
+      'Return Pahalgam by 5 PM | Dinner at hotel or The English Café Pahalgam (river bank)'
+    ]},
+    {day:3, label:'Day 3', title:'Baisaran & Chandanwari',acts:[
+      'Morning 8 AM: Baisaran Valley (5 km from Pahalgam by pony, ₹600)',
+      '"Mini Switzerland" — 2,440m open meadow ringed by Himalayan pine and deodar cedar forest',
+      'Views of Tulian Lake direction (14 km); wildflower slopes in summer, snowfield in winter',
+      'Return Pahalgam by 11:30 AM | Lunch: Hotel Forest Hill (trout fry, Kashmiri menu)',
+      'Afternoon 1 PM: Drive to Chandanwari (16 km, 2,895m, ₹50 vehicle pass)',
+      'Amarnath Yatra base: see pilgrim tents and trail head (pilgrimage: Jul–Aug)',
+      'Pissu Top (1 km trek above Chandanwari, 3,100m) — views back down to Pahalgam valley',
+      'Return Pahalgam | Dinner + bonfire at hotel if arranged'
+    ]},
+    {day:4, label:'Day 4', title:'Kolhoi Route, Shikargah & Return Srinagar',acts:[
+      'Early morning photography: Lidder River dawn light (best 6–7 AM)',
+      'Shikargah Deer Park (Wildlife Sanctuary, 30 min drive, ₹100) — Hangul (Kashmir stag), squirrels',
+      'Breakfast + checkout',
+      'Drive back to Srinagar (2.5 hrs) via Bijbehara Apple Orchards (in season May–Sep)',
+      'Stop at Pampore Saffron fields (Oct–Nov only) — see purple saffron flowers; buy at source',
+      'Srinagar: Optional Lal Chowk shopping (Kashmiri shawls, saffron, dry fruit)',
+      'Transfer to Srinagar Airport for departure flight'
+    ]}
+  ],
+  hotels4:['Pahalgam Hotel (J&K Tourism, riverside)','Hotel Heevan Pahalgam','Pine N Peaks Group Resort','Mountain View Hotel Pahalgam'],
+  hotels5:['The Pahalgam Hotel (heritage, JKTDC premier)','Forest Hill Resort (Lidder bank)','Grand Mumtaz Resort Pahalgam','WelcomHotel Pahalgam'],
+  price4:15000, price5:27000,
+  inclusions:['3 nights in Pahalgam (4★/5★)','Daily breakfast + 3 dinners','AC vehicle Srinagar ↔ Pahalgam + all local transfers','Betaab Valley + Aru Valley entry','Chandanwari vehicle pass','Trout Hatchery visit','Shikargah Sanctuary entry','Baisaran pony ride (Day 3)','All tolls & driver allowance'],
+  exclusions:['Flights to/from Srinagar','GST @ 5% extra','Aru Valley pony (₹1,200, optional)','Skiing / snow activities (seasonal)','Amarnath Yatra pilgrimage (separate permit required)','Lunch on all 4 days','Personal shopping (saffron, shawls)','Travel Insurance'],
+  note:'Best season: Apr–Jun (green meadows, wildflowers) and Sep–Oct (autumn gold). Avoid Jan–Feb (heavy snow, some roads closed). Betaab Valley: closed if snowfall blocks road (Nov–Apr sometimes). Amarnath Yatra season (Jul–Aug): Pahalgam very crowded, prices double. Book well ahead.'
+},
+
+// 3. GULMARG 3N/4D
+{
+  id:'gulmarg',
+  name:'Gulmarg — Meadow of Flowers',
+  subtitle:'Three nights at 2,690m — Asia\'s highest gondola, world-class skiing and Nanga Parbat panoramas',
+  gradient:['#0a1f3d','#1a4a8a'],
+  badge:'Premier Ski Destination', badgeColor:'#D4AF37', badgeText:'#1a1a1a',
+  type:'FIT + Ski + Honeymoon + Adventure',
+  duration:'3N / 4D', nights:3, days:4,
+  exCities:['Ex Srinagar (56 km, 1.5 hrs)'],
+  highlights:[
+    'Gondola Phase II — Asia\'s highest cable car (3,980m); Apharwat Peak summits over Nanga Parbat (8,126m)',
+    'Skiing at Gulmarg — India\'s #1 ski resort; 9.5 km longest run; 2.5m natural snowfall; Dec–Mar season',
+    'Alpine Meadow Golf Course (2,650m) — world\'s highest green golf course (Guinness); snow-free Jul–Sep',
+    'Shrine of Baba Reshi (Wali) — 15th-century Sufi saint\'s dargah; one of Kashmir\'s most revered',
+    'Biosphere Reserve wildlife — Himalayan monal, snowcock, Kashmir grey langur in pine slopes',
+    'Khilanmarg Meadow (3,050m) — Gondola I summit: 360° winter panorama of Karakoram range'
+  ],
+  itinerary:[
+    {day:1, label:'Day 1', title:'Srinagar → Gulmarg — Meadow & Shrine',acts:[
+      'Depart Srinagar after breakfast | Drive to Gulmarg (56 km, 1.5 hrs through pine forest road)',
+      'En route: Tangmarg village — traditional Kashmiri wood-carving workshop stop',
+      'Arrive Gulmarg (2,650m) | Check-in to hotel with Himalayan view',
+      'Afternoon: Alpine Meadow walk (1–2 km, free) — Gulmarg Biosphere Reserve trails',
+      'Baba Reshi Dargah (3 km from main area, ₹30) — Sufi shrine of Baba Reshi Wali (1480 AD)',
+      'Forest trail: Biosphere Reserve edge — Himalayan monal pheasant sighting possible',
+      'Dinner at hotel: Wazwan Kashmir feast if booked, or mountain menu'
+    ]},
+    {day:2, label:'Day 2', title:'Gondola Phase I + II — Asia\'s Highest Cable Car',acts:[
+      'Morning 8 AM: Gondola Phase I (₹900, 2,690m → 3,050m, 10 min) — KhilanMarg meadow station',
+      'Khilanmarg (3,050m): 360° panorama — Nanga Parbat, K2 range, Nun Kun massif on clear mornings',
+      'Snow year-round at top (even July–August) — photo opportunities, snowball fights, sledge rides',
+      'Gondola Phase II (₹1,200, 3,050m → 3,980m) — Apharwat Peak base (only Dec–Apr fully operational)',
+      'Top station: trekking on Apharwat Ridge (Dec–Apr ski runs; Jul–Aug hiking to summit 4,390m)',
+      'Winter (Dec–Mar): Ski equipment hire (₹1,800/day, certified instructors ₹2,500/day)',
+      'Descend by Gondola | Lunch at ski lodge restaurant (best hot chocolate in India)',
+      'Afternoon: Horse riding on meadow (₹800, 1 hr) or snowmobile (Dec–Mar, ₹1,500, 30 min)'
+    ]},
+    {day:3, label:'Day 3', title:'Skiing / Snowboarding or Trekking',acts:[
+      'Dec–Mar: Full day skiing at Gulmarg Ski Resort — Indian Ski & Snowboard Federation certified',
+      '9.5 km longest run (Apharwat to Gulmarg base) — beginner + intermediate + expert pistes',
+      'Ski school half day (₹2,500 instructor + equipment included) — for first-timers',
+      'Jul–Sep: Trek to Alpather Lake (7 km, 3,843m) — frozen lake reflecting Apharwat peaks above',
+      'Also Jul–Sep: Trekking to Ningle Nallah (8 km, waterfalls) or forest trail photography',
+      'Afternoon: Gulmarg Biosphere Reserve walk — Kashmir red deer, golden eagle, Himalayan weasel',
+      'Sunset from hotel balcony — Nanga Parbat bathed in alpenglow (Dec–Mar clear evenings)',
+      'Dinner at hotel: Frontier Mail restaurant or Highlands Park restaurant'
+    ]},
+    {day:4, label:'Day 4', title:'Dawn Meadow & Return Srinagar',acts:[
+      'Dawn 6 AM: meadow walk before snow melt / crowds — silence except for birds',
+      'Winter sunrise: Nanga Parbat peak catches first golden light at 6:45 AM (Dec–Feb)',
+      'Breakfast + checkout',
+      'En route Srinagar: stop at Yusmarg (30 km below Gulmarg) — less-visited meadow with stream',
+      'Apple orchard region (Sopore / Baramulla) — stop for fresh Kashmiri apples if in season',
+      'Arrive Srinagar 12 PM | Free afternoon for shikara shopping on Dal (saffron, shawls, papier-mâché)',
+      'Transfer to Srinagar Airport for evening departure flight'
+    ]}
+  ],
+  hotels4:['Hotel Highlands Park Gulmarg (since 1940s)','Hotel Nedous Gulmarg','Snow Resort Gulmarg','Green Heights Hotel'],
+  hotels5:['Khyber Himalayan Resort & Spa (premier)','The Khyber (ski-in ski-out, 5★)','Affarwat Hotel Gulmarg','Hotel Pine Spring (deluxe)'],
+  price4:19500, price5:36000,
+  inclusions:['3 nights in Gulmarg (4★/5★ mountain resort)','Daily breakfast + 3 dinners','AC vehicle Srinagar ↔ Gulmarg (both ways)','Gondola Phase I tickets (2 days)','Baba Reshi Dargah visit','Biosphere Reserve walks','Horse riding on meadow (1 hr, Day 2)','All tolls & driver allowance'],
+  exclusions:['Flights to/from Srinagar','GST @ 5% extra','Gondola Phase II (₹1,200, per person, per ride)','Ski equipment hire + instructor (₹4,000/day bundle)','Snowmobile, sledge, snowboard rental','Alpather Lake trek guide (₹1,000)','Lunch on all 4 days','Travel Insurance'],
+  note:'Skiing season: Dec 25–Mar 15. Summer hike season: Jul–Sep (meadows green, wildflowers). Gondola: queues can be 2 hrs in peak Dec–Jan — go by 8 AM. Ski gear: hire at resort (₹1,800/day) or bring own. Gulmarg altitude (2,650m): acclimatise first day, avoid heavy exercise on arrival.'
+},
+
+// 4. MANALI 3N/4D
+{
+  id:'manali',
+  name:'Manali — The Himalayan Valley',
+  subtitle:'Three nights at 2,050m — snow passes, ancient temples, adventure sports and apple orchards',
+  gradient:['#0a1a2e','#1e4a6e'],
+  badge:'Himachal Adventure Hub', badgeColor:'#D4AF37', badgeText:'#1a1a1a',
+  type:'FIT + Adventure + Honeymoon + Group',
+  duration:'3N / 4D', nights:3, days:4,
+  exCities:['Ex Bhuntar Airport (KUU — 55 km, 1.5 hrs)','Ex Chandigarh (320 km, 8 hrs)','Ex Delhi (555 km, 13 hrs overnight bus)'],
+  highlights:[
+    'Rohtang Pass (4,893m) — snow at the pass year-round; BRO\'s highest maintained road; Himalayan panorama',
+    'Solang Valley — 14 km from Manali; ropeway, zorbing, paragliding, snow activities in winter',
+    'Hidimba Devi Temple (1553) — wooden pagoda-style temple in ancient cedar forest; princess of Ramayan',
+    'Beas Kund Trek (4,200m, 3 hrs) — glacial lake at source of Beas River; Himalayan wildlife zone',
+    'Naggar Castle (medieval, 1460 AD) — hillside heritage castle with Himalayan valley view; Nicholas Roerich Museum',
+    'Old Manali Village — Himalayan hemp cafes, independent traveller quarter, Manu Rishi Temple'
+  ],
+  itinerary:[
+    {day:1, label:'Day 1', title:'Arrive Manali — Old Town, Hidimba & Mall Road',acts:[
+      'Arrive Bhuntar Airport (Kullu) | AC transfer to Manali (55 km, 1.5 hrs)',
+      'Check-in | Acclimatise: do NOT rush outdoors on arrival day (2,050m altitude)',
+      'Hidimba Devi Temple (3 PM, free) — 1553 wood-carved pagoda temple in 400-yr-old cedar forest',
+      'Dhungri Van Vihar Forest (walk around Hidimba, ₹30) — old-growth deodar cedar grove',
+      'Manu Rishi Temple (2 km from Hidimba, free) — one of two temples to Manu in India',
+      'Mall Road Manali: market, Tibetan handicraft shops, warm clothing',
+      'Old Manali village (15 min walk from Mall Road) — hanging bridges, cafes over Beas River',
+      'Dinner: Johnson\'s Cafe (Beas riverside) or Chopsticks Restaurant'
+    ]},
+    {day:2, label:'Day 2', title:'Solang Valley & Beas Kund Trek',acts:[
+      'Morning 8 AM: Solang Valley (14 km, ₹600 permit/vehicle)',
+      'Summer: paragliding (₹2,500), ropeway (₹400), zorbing, mountain biking',
+      'Winter (Nov–Mar): skiing, snow scooter (₹1,500), snowball grounds',
+      'Beas Kund Trek from Solang (14 km round trip, 6 hrs, guide ₹500) — optional for fit travellers',
+      'Beas Kund Lake (4,200m) — glacial source of Beas River; Himalayan wildlife territory',
+      'Return Solang by 12 noon | Lunch at base camp tent restaurant',
+      'Afternoon: Nehru Kund (6 km from Manali, free) — memorial to Nehru, natural spring (Nehru drank here)',
+      'Club House Manali (₹25) — fun zone; ATV, archery, rock wall in town centre',
+      'Dinner: Drifters Inn or The Lazy Dog Lounge (Old Manali)'
+    ]},
+    {day:3, label:'Day 3', title:'Rohtang Pass (4,893m)',acts:[
+      '5:30 AM: Depart early for Rohtang Pass (51 km from Manali)',
+      'Mandatory: book Rohtang permit online (himachal.nic.in, ₹500/person, max 1000 vehicles/day)',
+      'Drive through Marhi (3,300m) — first snow possible, hot Maggi & chai stops',
+      'Rohtang Pass (4,893m, 14 May–15 Oct only, snow dependent): spectacular 360° panorama',
+      'On pass: snow year-round (both sides), see Spiti Valley entrance (Lahaul side)',
+      'Photography: Baralacha La direction; Chandratal Lake direction; BRO memorial',
+      'Descend to Rahala Falls (2 km below pass on way down) — meltwater cascade in gorge',
+      'Return Manali by 2 PM | Dinner: Mountain View Restaurant Mall Road'
+    ]},
+    {day:4, label:'Day 4', title:'Naggar Castle, Roerich Museum & Departure',acts:[
+      'Morning 9 AM: Naggar Castle (1460 AD, 22 km south, 1.5 hrs drive + visit)',
+      'Medieval stone-and-cedar castle of Kullu Rajas; now heritage hotel; valley panorama',
+      'Nicholas Roerich Art Gallery (adjacent, ₹50) — Russian painter who chose Himalayan valley as home',
+      'Tripura Sundari Temple (Naggar hilltop) — pyramid pagoda above castle, 30-min walk up',
+      'Return to Manali via Kullu (River Beas valley market — Kullu shawls, Himachali caps)',
+      'Breakfast + checkout | Drive to Bhuntar Airport',
+      'Take home: Kullu shawl, apple jam, Manali trout pickle, local honey'
+    ]}
+  ],
+  hotels4:['Span Resort & Spa Kullu Manali','Hotel Manali Inn','Solang Valley Resort','Manu Allaya Resort'],
+  hotels5:['The Himalayan (Oberoi group, heritage)','Manali Resorts (5★ riverside)','Apple Country Resorts','Honeymoon Inn Manali'],
+  price4:15500, price5:28000,
+  inclusions:['3 nights (4★/5★)','Daily breakfast + 3 dinners','AC vehicle Bhuntar Airport ↔ Manali + all sightseeing','Rohtang Pass permit (₹500/person)','Solang Valley entry permit','Hidimba Temple + Dhungri Forest walk','Naggar Castle entry','Roerich Museum entry','Club House entry','All tolls & driver allowance'],
+  exclusions:['Flights to/from Kullu-Manali Airport','GST @ 5% extra','Paragliding (₹2,500), skiing, zip-line (optional)','Beas Kund Trek guide (₹500, optional)','Rohtang snowsuit hire (₹300, optional)','Lunch on all 4 days','Travel Insurance'],
+  note:'Rohtang Pass permit: no same-day bookings — must book 1 day prior on himachal.nic.in (200 private vehicles/day). Pass closed: Nov 14 – May 14 (heavy snow). Altitude sickness: take rest Day 1, avoid alcohol. Best season: May–Jun (apple blossoms) and Sep–Oct (clear skies).'
+},
+
+// 5. SHIMLA 3N/4D
+{
+  id:'shimla',
+  name:'Shimla — Queen of Hill Stations',
+  subtitle:'Three nights in the former summer capital of British India — toy train, mall road and colonial grandeur',
+  gradient:['#1a0a2e','#5b21b6'],
+  badge:'Colonial Heritage, 2,200m', badgeColor:'#D4AF37', badgeText:'#1a1a1a',
+  type:'FIT + Heritage + Family + Group',
+  duration:'3N / 4D', nights:3, days:4,
+  exCities:['Ex Chandigarh (120 km, 3 hrs)','Ex Delhi (345 km, 7 hrs + Toy Train option)'],
+  highlights:[
+    'Kalka-Shimla Toy Train (UNESCO) — 96 km, 102 tunnels, 864 bridges; British engineering 1903; 5-hr ride',
+    'The Ridge & Mall Road — 1.5 km colonial promenade at 2,200m; Christ Church (1857), Gaiety Theatre',
+    'Jakhu Hill Temple (2,455m) — highest point of Shimla; 33m Hanuman statue; 2 km forest trail or ropeway',
+    'Kufri (16 km) — Himalayan wildlife park; yaks, horse rides; Fagu viewpoint with Dhauladhar range',
+    'Chail (45 km) — world\'s highest cricket ground (2,250m); Chail Palace (1891); Sanctuary lake',
+    'Naldehra Golf Course (22 km, 2,700m) — Asia\'s oldest golf course (1905); 9-hole forest course'
+  ],
+  itinerary:[
+    {day:1, label:'Day 1', title:'Arrive Shimla — The Ridge, Mall Road & Christ Church',acts:[
+      'Arrive Chandigarh | Drive to Shimla (3 hrs, NH-5) or alight Shimla from Toy Train at Shimla Station',
+      'Check-in to hotel | Freshen up',
+      'The Ridge (3 PM, free) — highest flat open space in Shimla; panoramic Himalayan view',
+      'Christ Church (1857, exterior) — Neo-Gothic church with 5-panel stained glass; still active',
+      'Gaiety Theatre Heritage Complex (₹50) — restored 1887 colonial theatre; heritage artifact displays',
+      'Mall Road walk (2 km) — British colonial shopfronts, Scandal Point (where Maharaja of Patiala eloped)',
+      'Chaura Maidan viewpoint at sunset — clear sight of Shivalik Hills and Dhauladhar on good days',
+      'Dinner: Café Sol (The Ridge) or Ashiana Restaurant (HPTDC, best value classic Indian)'
+    ]},
+    {day:2, label:'Day 2', title:'Jakhu Temple, Kufri & Himalayan Wildlife Park',acts:[
+      'Morning 7 AM: Jakhu Hill (2,455m) — 2 km forest trek from Ridge centre OR ropeway (₹250)',
+      'Jakhu Hanuman Temple — 108-year-old temple, 33m statue; monkeys everywhere (guard your food)',
+      'Panoramic 360° view: Snow peaks, Chandigarh plain, Shimla town below',
+      'Kufri (16 km, 2,622m) — Himalayan National Park (₹100, 2 hrs); yak/horse rides',
+      'Fagu Viewpoint (22 km) — apple orchards + snow peaks + valley panorama (best Oct–Jan)',
+      'Indira Tourist Park at Kufri (₹50) — mini zoo, toboggan, local games',
+      'Lunch: Hotel Kufri Holiday Resort or roadside local dhaba (rajma chawal, ₹80)',
+      'Return Shimla | Dinner: Baljees Restaurant (puris + halwa, since 1925) or hotel'
+    ]},
+    {day:3, label:'Day 3', title:'Chail Palace & Naldehra Golf',acts:[
+      'Morning 8 AM: Drive to Chail (45 km, 1.5 hrs via Shogi)',
+      'Chail Palace (1891, built by Maharaja of Patiala after Shimla ban) — heritage hotel + grounds',
+      'World\'s highest cricket ground (2,250m) — still used for state cricket matches',
+      'Chail Wildlife Sanctuary (₹50) — spotted deer, barking deer, peacock, jungle fowl',
+      'Sacred Lake (Chail): small Himalayan lake on palace grounds; fishing possible (permit ₹100)',
+      'Return to Shimla via Naldehra (22 km) — Asia\'s oldest golf course (1905, 9-hole, 2,700m)',
+      'Naldehra Nature Walk (₹50) — cedar forest trail; cedar is sacred to Himachal villages',
+      'Dinner: Devico\'s Restaurant Mall Road or hotel'
+    ]},
+    {day:4, label:'Day 4', title:'Toy Train to Kalka & Departure',acts:[
+      'OPTION A (Recommended): Board Shimla → Kalka Toy Train (₹1,000 first class, 5 hrs)',
+      'UNESCO heritage railway through 102 tunnels, 864 bridges, pine & deodar forest',
+      'Arrive Kalka 1:30 PM | Transfer to Chandigarh Airport or board Shatabdi to Delhi',
+      'OPTION B: Drive to Chandigarh (3 hrs) | Explore Chandigarh Rock Garden (₹50, 1.5 hrs)',
+      'Chandigarh Rose Garden (Nov–Mar) + the famous Sector 17 mall street',
+      'Breakfast + checkout | Take home: Himachali Apple jam, walnut-wood artefact, Kullu shawl from Mall Road',
+      'Transfer to Chandigarh Airport for departure flight'
+    ]}
+  ],
+  hotels4:['Radisson Hotel Shimla','Clarkes Hotel (heritage, since 1898)','Wildflower Hall Mashobra (4★ wing)','Hotel Peterhof (heritage, 1835)'],
+  hotels5:['Wildflower Hall -- An Oberoi Resort (Mashobra, 7,000 ft)','The Cecil Shimla (Oberoi, 1884)','Chapslee Estate Shimla','Woodville Palace Hotel'],
+  price4:15000, price5:30000,
+  inclusions:['3 nights (4★/5★)','Daily breakfast + 3 dinners','AC vehicle Chandigarh ↔ Shimla + all sightseeing','Jakhu Hill ropeway (Day 2)','Kufri Himalayan Wildlife Park entry','Chail Palace heritage grounds entry','Chail Wildlife Sanctuary entry','Naldehra Nature Walk','Kalka-Shimla Toy Train (Day 4, 1st class, if opted)','All tolls & driver allowance'],
+  exclusions:['Flights to/from Chandigarh','GST @ 5% extra','Golf at Naldehra (₹600/round, optional)','Horse riding (₹400–₹800, optional)','Toy Train (₹1,000 if not in package)','Lunch on all 4 days','Travel Insurance'],
+  note:'Toy Train: book seats on IRCTC Kalka-Shimla line at least 3 days ahead. "Shivalik Deluxe" is the most scenic train (9:10 AM from Kalka, arrives 2:30 PM Shimla). Apple season: Aug–Oct — orchards all the way from Kufri to Kinnaur. Shimla snowfall: Jan–Feb; 20cm accumulation closes roads for 1–2 days each year.'
+},
+
+// 6. DHARAMSHALA 3N/4D (NEW)
+{
+  id:'dharamshala',
+  name:'Dharamshala — Little Lhasa of India',
+  subtitle:'Three nights with His Holiness the Dalai Lama\'s spiritual home — Tibetan culture, Triund trek and Kangra history',
+  gradient:['#1a0a1e','#7c2d82'],
+  badge:'NEW · Tibetan Buddhism', badgeColor:'#7c2d82', badgeText:'#fff',
+  type:'FIT + Trek + Spiritual + Heritage',
+  duration:'3N / 4D', nights:3, days:4,
+  exCities:['Ex Gaggal Airport, Kangra (20 km, 45 min)','Ex Pathankot (90 km, 2.5 hrs)','Ex Delhi (520 km, overnight bus/train + cab)'],
+  highlights:[
+    'Namgyal Monastery (McLeod Ganj) — Dalai Lama\'s personal monastery; gold-roofed temple complex',
+    'Triund Trek (9 km one way, 2,827m) — most accessible Himalayan trek above Dharamshala; Dhauladhar panorama',
+    'Tibet Museum McLeod Ganj — documents 1959 Tibetan uprising; exile history; powerful exhibition',
+    'Kangra Fort (21 km) — 4th-century fort; walls 4 km long; Katoch dynasty; views over Baner stream',
+    'Bhagsunath Falls + Shiva Temple (3 km from McLeod Ganj) — gentle waterfall trek, natural pool',
+    'Dharamshala Cricket Stadium — world\'s highest international cricket ground (1,457m); Himalayas as backdrop'
+  ],
+  itinerary:[
+    {day:1, label:'Day 1', title:'Arrive Dharamshala — McLeod Ganj, Monastery & Market',acts:[
+      'Arrive Gaggal Airport Kangra | AC transfer to McLeod Ganj / Upper Dharamshala (20 km)',
+      'Check-in to hotel | Tibetan noodle lunch: Lung Ta or Tibet Kitchen (McLeod Ganj main square)',
+      'Namgyal Monastery (3 PM, free to visitors) — Dalai Lama\'s personal monastery; enter Hall of Prayer',
+      'Tsuglagkhang Complex: Central Temple (Tsug-Lag-Khang), museum of Tibetan Buddhist art',
+      'Tibet Museum (adjacent, ₹50) — 1959 uprising photos, exile maps, self-immolation documentation, sobering',
+      'McLeod Ganj bazaar walk: Tibetan handicraft stalls, singing bowls, prayer flags, butter tea',
+      'Evening: Bhagsu village (15 min walk from McLeod) — cafes, live music, travellers haunts',
+      'Dinner: Mcllo Restaurant (rooftop, best view of valley and temple)'
+    ]},
+    {day:2, label:'Day 2', title:'Triund Trek (9 km, 2,827m)',acts:[
+      'Early 7 AM: Start Triund Trek from McLeod Ganj (Gallu Devi Temple as trailhead, ₹50 HPFD)',
+      '9 km uphill trail through oak-rhododendron forest, then alpine meadow (4–5 hrs ascent)',
+      'Pass through Magic View Café (halfway, chai + Maggi) — rest stop tradition',
+      'Triund (2,827m) — open ridge with unobstructed Dhauladhar summit views; snowfield in winter',
+      'Snowline Cafe at top (hot momos, Maggi, chai) — beloved by trekkers',
+      'Option: overnight at Triund camping (tents ₹400/person) — not included',
+      'Descend by 3 PM | Return McLeod by 5 PM',
+      'Dinner: Café Illiterati (book cafe + best coffee) or The Chocolate Log'
+    ]},
+    {day:3, label:'Day 3', title:'Bhagsunath Falls, Kangra Fort & Cricket Stadium',acts:[
+      'Morning 9 AM: Bhagsunath Temple (3 km, 30 min walk or ₹50 cab) — Shiva temple in rocks',
+      'Bhagsunath Waterfall (15 min trek beyond temple) — gentle cascade, natural pool, pine trees',
+      'Dharamshala Cricket Stadium (15 min drive) — see the highest international ground; guided tour (₹100)',
+      'On match days: IPL or Ranji games played here — book ahead if match in town',
+      'Drive to Kangra (22 km, 1 hr)',
+      'Kangra Fort (₹35, 1.5 hrs) — 4 km perimeter walls; 4th-century + medieval multilayer fort',
+      'Fort museum: Kangra miniature paintings, Katoch dynasty artefacts, coins',
+      'Masrur Rock Temple (35 km from Kangra) — 8th-century carved sandstone temples; J&K\'s own Angkor Wat',
+      'Dinner in McLeod Ganj or Dharamshala chowk'
+    ]},
+    {day:4, label:'Day 4', title:'Tibetan Institute, Norbulingka & Departure',acts:[
+      'Morning 9 AM: Norbulingka Institute (7 km from McLeod Ganj, ₹50) — Tibetan traditional arts institute',
+      'Thangka painting, Tibetan woodworking, Lha Ri Yang doll factory — all open to visitors',
+      'Café Norbulingka in garden setting — best breakfast in Dharamshala area',
+      'Library of Tibetan Works & Archives (McLeod Ganj, ₹20) — 80,000+ Tibetan manuscripts; Buddhist art',
+      'Breakfast + checkout',
+      'Last shopping: Tibetan Handicraft Center (cooperative) — authentic thangkas, incense, scarves',
+      'Transfer to Gaggal Airport (20 km) or Pathankot Station (90 km) for onward journey',
+      'Take home: Tibetan singing bowl, thangka painting certificate, Himalayan herbal tea blend'
+    ]}
+  ],
+  hotels4:['Fortune Park Moksha Dharamshala','Hotel Surya Resorts McLeod Ganj','Tibet House McLeod Ganj (heritage Tibetan)','The Residence Inn Dharamshala'],
+  hotels5:['Chonor House (Norbulingka, Tibetan luxury)','McLeod Ganj Boutique Hotel','ZOSTEL Dharamshala (premium private)','Club Mahindra Dharamshala'],
+  price4:13000, price5:23000,
+  inclusions:['3 nights (4★/5★)','Daily breakfast + 3 dinners','AC vehicle Gaggal Airport ↔ Dharamshala + all sightseeing','Namgyal Monastery + Tsuglagkhang Complex visit','Tibet Museum entry','Triund Trek permit (HPFD ₹50) + accompanying guide','Bhagsunath Temple + falls visit','Kangra Fort entry','Norbulingka Institute entry','All tolls & driver allowance'],
+  exclusions:['Flights to/from Kangra (Gaggal) Airport','GST @ 5% extra','Triund overnight camping (₹400/person, optional)','Masrur Rock Temple (₹40, optional)','Dharamshala Cricket match tickets (season)','Lunch on all 4 days','Tibetan handicraft shopping','Travel Insurance'],
+  note:'Dalai Lama public teachings: held periodically at Namgyal, announced at tibet.net — plan around teachings for a transformative experience. Triund Trek: basic fitness needed; hire guide at Gallu Devi (₹800 return). Best season: Mar–Jun, Sep–Nov. Heavy snow Dec–Feb closes Triund trail.'
+}
+
+]; // end PKGS
+
+function escH(s){return s?String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'):''}
+function fmtP(n){return '₹'+n.toLocaleString('en-IN')}
+function renderCard(p){
+  const grad=`background:linear-gradient(145deg,${p.gradient[0]},${p.gradient[1]})`;
+  const hlHTML=p.highlights.map(h=>`<li>${escH(h)}</li>`).join('');
+  const itHTML=p.itinerary.map(d=>`<div class="itin-day"><div class="day-label">${escH(d.label)}</div><div class="day-title">${escH(d.title)}</div><ul class="day-acts">${d.acts.map(a=>`<li>${escH(a)}</li>`).join('')}</ul></div>`).join('');
+  const h4=p.hotels4.map(h=>`• ${escH(h)}`).join('<br>');
+  const h5=p.hotels5.map(h=>`• ${escH(h)}`).join('<br>');
+  const inclHTML=p.inclusions.map(i=>`<li class="incl">${escH(i)}</li>`).join('');
+  const exclHTML=p.exclusions.map(i=>`<li class="excl">${escH(i)}</li>`).join('');
+  const exHTML=p.exCities.map(c=>`<span class="ex-chip">${escH(c)}</span>`).join('');
+  const waMsg=encodeURIComponent('Hi, I am interested in the '+p.name+' ('+p.duration+') package. Please share availability and pricing.');
+  return `<div class="pkg-card" data-id="${escH(p.id)}">
+  <div class="pkg-hero" style="${grad}">
+    <span class="pkg-type-chip">${escH(p.type)}</span>
+    <span class="pkg-badge" style="background:${escH(p.badgeColor)};color:${escH(p.badgeText)}">${escH(p.badge)}</span>
+    <div class="pkg-title">${escH(p.name)}</div>
+    <div class="pkg-subtitle">${escH(p.subtitle)}</div>
+    <div class="pkg-meta-row"><span class="meta-pill">⏱ ${escH(p.duration)}</span><span class="meta-pill">🏨 4★ &amp; 5★ Only</span><span class="meta-pill">🇮🇳 India Domestic</span></div>
+  </div>
+  <div class="pkg-body">
+    <div class="pkg-section"><div class="sec-title">Highlights</div><ul class="hl-list">${hlHTML}</ul></div>
+    <div class="pkg-section"><div class="sec-title">Day-wise Itinerary</div>${itHTML}</div>
+    <div class="pkg-section">
+      <div class="sec-title">Pricing &amp; Hotels</div>
+      <div class="pricing-grid">
+        <div class="price-box"><div class="price-star">⭐⭐⭐⭐ 4-Star</div><div class="price-hotels">${h4}</div><div class="price-val">${fmtP(p.price4)}</div><div class="price-sub">per person · twin sharing</div></div>
+        <div class="price-box"><div class="price-star">⭐⭐⭐⭐⭐ 5-Star</div><div class="price-hotels">${h5}</div><div class="price-val">${fmtP(p.price5)}</div><div class="price-sub">per person · twin sharing</div></div>
+      </div>
+      <div class="sec-title" style="margin-top:12px">Inclusions</div>
+      <ul class="incl-list">${inclHTML}</ul>
+      <div class="sec-title">Exclusions</div>
+      <ul class="incl-list">${exclHTML}</ul>
+      ${p.note?`<div class="note-chip">ℹ️ ${escH(p.note)}</div>`:''}
+    </div>
+  </div>
+  <div class="pkg-footer">
+    <div><div style="font-size:11px;font-weight:700;color:#64748b;margin-bottom:6px;letter-spacing:.06em;text-transform:uppercase">Departure Cities</div><div class="ex-cities">${exHTML}</div></div>
+    <div class="cta-group">
+      <a class="btn-whatsapp" href="https://wa.me/919999999999?text=${waMsg}" target="_blank" rel="noopener">💬 WhatsApp</a>
+      <button class="btn-enquire">Enquire Now →</button>
+    </div>
+  </div>
+</div>`;
+}
+function renderAll(filter){
+  const grid=document.getElementById('mainGrid');
+  const list=filter==='all'?PKGS:PKGS.filter(p=>p.id===filter);
+  grid.innerHTML=list.length?list.map(renderCard).join(''):'<p style="padding:60px;text-align:center;color:#94a3b8">No packages found.</p>';
+}
+document.getElementById('filterBar').addEventListener('click',e=>{
+  const btn=e.target.closest('.filter-btn');
+  if(!btn)return;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderAll(btn.dataset.f);
+});
+renderAll('all');
+</script>
+</body>
+</html>

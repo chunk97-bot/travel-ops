@@ -1,0 +1,540 @@
+/* ============================================================
+   TRAVEL AGENCY — PACKAGE BROCHURE STYLES
+   Digital + Print (A4 Portrait, 2 per page)
+   Version: 1.0
+   ============================================================ */
+
+:root {
+    --brand-gold:     #D4AF37;
+    --brand-gold-lt:  #f0d060;
+    --brand-dark:     #0a1628;
+    --brand-navy:     #1e3a5f;
+    --brand-accent:   #e94560;
+    --text-on-dark:   #f0f4f8;
+    --text-muted:     rgba(240,244,248,0.65);
+    --card-bg:        #ffffff;
+    --card-border:    #e2e8f0;
+    --card-radius:    14px;
+    --shadow-card:    0 6px 30px rgba(0,0,0,0.25);
+}
+
+/* ─── RESET & BASE ─────────────────────────────────────────── */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    background: var(--brand-dark);
+    color: var(--text-on-dark);
+    min-height: 100vh;
+    line-height: 1.5;
+}
+
+/* ─── CATALOG HEADER ────────────────────────────────────────── */
+
+.catalog-header {
+    background: linear-gradient(135deg, #0a1628 0%, #1e3a5f 60%, #0a1628 100%);
+    border-bottom: 2px solid var(--brand-gold);
+    padding: 28px 48px;
+}
+
+.header-inner {
+    max-width: 1320px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.agency-logo {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.logo-icon {
+    font-size: 40px;
+    background: linear-gradient(135deg, var(--brand-gold), var(--brand-gold-lt));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+}
+
+.agency-name {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--brand-gold);
+    letter-spacing: 0.04em;
+}
+
+.agency-tagline {
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-top: 2px;
+}
+
+.header-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+    font-size: 13px;
+    color: var(--text-muted);
+    text-align: right;
+}
+
+.header-meta span { display: block; }
+
+/* ─── FILTER BAR ────────────────────────────────────────────── */
+
+.filter-bar {
+    background: #111d35;
+    border-bottom: 1px solid rgba(212,175,55,0.2);
+    padding: 14px 48px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.filter-btn {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: var(--text-muted);
+    padding: 8px 20px;
+    border-radius: 40px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+}
+
+.filter-btn:hover {
+    background: rgba(212,175,55,0.15);
+    border-color: var(--brand-gold);
+    color: var(--brand-gold);
+}
+
+.filter-btn.active {
+    background: var(--brand-gold);
+    border-color: var(--brand-gold);
+    color: #1a1a1a;
+    font-weight: 600;
+}
+
+/* ─── REGION SECTION HEADERS ────────────────────────────────── */
+
+.region-header {
+    max-width: 1320px;
+    margin: 48px auto 20px;
+    padding: 0 40px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.region-header h2 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--brand-gold);
+    letter-spacing: 0.05em;
+}
+
+.region-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(212,175,55,0.4), transparent);
+}
+
+/* ─── PACKAGES GRID ─────────────────────────────────────────── */
+
+.packages-grid {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 20px 40px 80px;
+}
+
+.packages-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-bottom: 0;
+}
+
+/* ─── PACKAGE CARD ──────────────────────────────────────────── */
+
+.package-card {
+    background: var(--card-bg);
+    border-radius: var(--card-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-card);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s, box-shadow 0.2s;
+    break-inside: avoid;
+    page-break-inside: avoid;
+}
+
+.package-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+}
+
+/* Card Header (gradient) */
+.card-header {
+    padding: 22px 22px 18px;
+    color: #fff;
+    position: relative;
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.card-header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.18);
+}
+
+.card-badge {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    padding: 4px 11px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    z-index: 2;
+}
+
+.card-region-label {
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    opacity: 0.85;
+    margin-bottom: 4px;
+    position: relative;
+    z-index: 2;
+    font-weight: 500;
+}
+
+.card-name {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.2;
+    position: relative;
+    z-index: 2;
+}
+
+.card-subtitle {
+    font-size: 12px;
+    opacity: 0.82;
+    margin-top: 3px;
+    position: relative;
+    z-index: 2;
+    font-style: italic;
+}
+
+/* Card Meta strip */
+.card-meta {
+    background: #f8fafc;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--card-border);
+}
+
+.card-duration {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--brand-navy);
+}
+
+.card-cities {
+    font-size: 11px;
+    color: #64748b;
+    text-align: right;
+    max-width: 60%;
+    line-height: 1.4;
+}
+
+/* Card Body */
+.card-body {
+    padding: 18px 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.section-label {
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #94a3b8;
+    margin-bottom: 6px;
+}
+
+/* Highlights */
+.highlights-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.highlights-list li {
+    font-size: 12.5px;
+    color: #374151;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    line-height: 1.4;
+}
+
+.highlights-list li::before {
+    content: '›';
+    color: var(--brand-gold);
+    font-size: 16px;
+    line-height: 1.1;
+    flex-shrink: 0;
+    font-weight: 700;
+}
+
+/* Inclusions */
+.inclusions-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.incl-tag {
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    color: #475569;
+    font-size: 10.5px;
+    padding: 3px 9px;
+    border-radius: 20px;
+    font-weight: 500;
+}
+
+/* Card Footer */
+.card-footer {
+    padding: 14px 20px;
+    background: #f8fafc;
+    border-top: 1px solid var(--card-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.price-block { line-height: 1.3; }
+
+.price-from {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #64748b;
+    font-weight: 500;
+}
+
+.price-value {
+    font-size: 20px;
+    font-weight: 800;
+    color: #0f172a;
+    letter-spacing: -0.02em;
+}
+
+.price-note {
+    font-size: 10px;
+    color: #94a3b8;
+    margin-top: 1px;
+}
+
+.cta-btn {
+    background: linear-gradient(135deg, var(--brand-gold), #b8932a);
+    color: #1a1a1a;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    letter-spacing: 0.03em;
+    font-family: inherit;
+    transition: opacity 0.2s, transform 0.15s;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.cta-btn:hover {
+    opacity: 0.88;
+    transform: scale(1.03);
+}
+
+/* ─── PRINT FAB BUTTON ──────────────────────────────────────── */
+
+.print-fab {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    background: var(--brand-gold);
+    color: #1a1a1a;
+    border: none;
+    padding: 14px 24px;
+    border-radius: 40px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(212,175,55,0.5);
+    z-index: 200;
+    font-family: inherit;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.print-fab:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 28px rgba(212,175,55,0.7);
+}
+
+/* ─── FOOTER ────────────────────────────────────────────────── */
+
+.catalog-footer {
+    background: #060e1e;
+    border-top: 1px solid rgba(212,175,55,0.25);
+    padding: 24px 48px;
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.catalog-footer strong { color: var(--brand-gold); }
+
+/* ─── RESPONSIVE ────────────────────────────────────────────── */
+
+@media (max-width: 1100px) {
+    .packages-row { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 700px) {
+    .catalog-header { padding: 20px 20px; }
+    .header-inner { flex-direction: column; align-items: flex-start; }
+    .header-meta { align-items: flex-start; }
+    .filter-bar { padding: 12px 20px; }
+    .packages-grid { padding: 16px 20px 60px; }
+    .packages-row { grid-template-columns: 1fr; }
+    .region-header { padding: 0 20px; }
+    .print-fab { bottom: 20px; right: 20px; font-size: 13px; padding: 12px 18px; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PRINT STYLES — A4 Portrait, 2 cards per page
+   ═══════════════════════════════════════════════════════════════ */
+
+@media print {
+    @page { size: A4 portrait; margin: 10mm 12mm; }
+
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+
+    .no-print, .filter-bar, .print-fab { display: none !important; }
+
+    body { background: #ffffff !important; color: #111827; font-size: 11pt; }
+
+    .catalog-header {
+        background: #0a1628 !important;
+        border-bottom: 2pt solid #D4AF37;
+        padding: 12pt 18pt;
+        page-break-after: avoid;
+    }
+
+    .agency-name { color: #D4AF37 !important; font-size: 18pt; }
+    .agency-tagline { color: rgba(255,255,255,0.7) !important; }
+    .header-meta { color: rgba(255,255,255,0.7) !important; }
+    .logo-icon { color: #D4AF37 !important; -webkit-text-fill-color: #D4AF37 !important; }
+
+    /* Print cover page */
+    .print-cover {
+        display: flex !important;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 80vh;
+        text-align: center;
+        page-break-after: always;
+    }
+
+    .packages-grid {
+        padding: 0;
+        max-width: 100%;
+    }
+
+    .region-header {
+        padding: 0;
+        page-break-before: always;
+        margin: 0 0 10pt;
+    }
+
+    .region-header:first-of-type { page-break-before: avoid; }
+
+    .region-header h2 { color: #D4AF37 !important; font-size: 14pt; }
+    .region-line { background: rgba(212,175,55,0.4) !important; }
+
+    .packages-row {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr;
+        gap: 12pt;
+        page-break-inside: auto;
+    }
+
+    .package-card {
+        box-shadow: none !important;
+        border: 1pt solid #dde1e7;
+        border-radius: 8pt;
+        transform: none !important;
+        break-inside: avoid;
+        page-break-inside: avoid;
+        overflow: visible;
+    }
+
+    .card-header { min-height: 80pt; padding: 12pt; }
+    .card-name { font-size: 13pt !important; }
+    .card-subtitle { font-size: 9pt !important; }
+    .card-meta { padding: 6pt 12pt; }
+    .card-body { padding: 10pt 12pt; gap: 8pt; }
+    .highlights-list li { font-size: 8.5pt; }
+    .incl-tag { font-size: 7.5pt; padding: 2pt 6pt; }
+    .price-value { font-size: 14pt !important; }
+    .price-from, .price-note { font-size: 7.5pt; }
+    .cta-btn { font-size: 8pt; padding: 6pt 10pt; }
+    .card-footer { padding: 8pt 12pt; }
+
+    .catalog-footer { page-break-before: always; padding: 12pt 18pt; }
+
+    /* Page number in footer */
+    .catalog-footer::after {
+        content: "Prices are indicative and subject to availability. GST, flights, and visa charges extra.";
+        display: block;
+        font-size: 7pt;
+        color: #94a3b8;
+        margin-top: 4pt;
+    }
+}

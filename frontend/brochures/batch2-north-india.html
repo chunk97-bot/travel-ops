@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>North India 2N/3D Packages — Batch 2</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#D4AF37;--gold-lt:#f0d060;--dark:#0a1628;--navy:#1e3a5f;--accent:#e94560;--text:#f0f4f8;--muted:rgba(240,244,248,.65);--card:#fff;--border:#e2e8f0;--radius:14px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#1e293b;line-height:1.6}
+.site-header{background:linear-gradient(135deg,#0a1628,#1e3a5f);border-bottom:3px solid var(--gold);padding:22px 40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.logo{font-family:'Playfair Display',serif;font-size:24px;color:var(--gold);letter-spacing:.04em}
+.logo span{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);display:block;font-family:'Inter',sans-serif;font-weight:400;margin-top:2px}
+.header-right{color:var(--muted);font-size:12px;text-align:right;line-height:1.8}
+.batch-title{background:linear-gradient(90deg,#7B2D00,#E76F51);color:#fff;padding:18px 40px;display:flex;align-items:center;gap:16px}
+.batch-title h1{font-family:'Playfair Display',serif;font-size:20px;font-weight:700}
+.batch-title p{font-size:13px;opacity:.8;margin-top:3px}
+.badge-count{background:var(--gold);color:#1a1a1a;font-size:11px;font-weight:800;padding:4px 12px;border-radius:20px;white-space:nowrap;letter-spacing:.06em}
+.filter-bar{background:#fff;border-bottom:1px solid var(--border);padding:12px 40px;display:flex;gap:8px;flex-wrap:wrap;position:sticky;top:0;z-index:50;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.filter-btn{background:#f8fafc;border:1px solid var(--border);color:#64748b;padding:7px 16px;border-radius:30px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s}
+.filter-btn:hover,.filter-btn.active{background:var(--gold);border-color:var(--gold);color:#1a1a1a}
+.main{max-width:1400px;margin:0 auto;padding:32px 40px 80px}
+.pkg-card{background:var(--card);border-radius:var(--radius);box-shadow:0 4px 24px rgba(0,0,0,.12);margin-bottom:40px;overflow:hidden}
+.pkg-hero{padding:24px 28px 20px;color:#fff;position:relative;min-height:130px;display:flex;flex-direction:column;justify-content:flex-end}
+.pkg-hero::before{content:'';position:absolute;inset:0;background:rgba(0,0,0,.22)}
+.pkg-badge{position:absolute;top:16px;right:16px;padding:4px 12px;border-radius:20px;font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;z-index:2}
+.pkg-type-chip{position:absolute;top:16px;left:16px;background:rgba(255,255,255,.15);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,.25);color:#fff;font-size:10px;font-weight:700;padding:4px 10px;border-radius:20px;z-index:2;letter-spacing:.06em;text-transform:uppercase}
+.pkg-title{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;line-height:1.15;position:relative;z-index:2}
+.pkg-subtitle{font-size:13px;opacity:.85;margin-top:4px;position:relative;z-index:2;font-style:italic}
+.pkg-meta-row{position:relative;z-index:2;display:flex;gap:20px;margin-top:12px;flex-wrap:wrap}
+.meta-pill{background:rgba(255,255,255,.15);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,.2);color:#fff;font-size:11px;font-weight:600;padding:4px 12px;border-radius:20px}
+.pkg-body{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0}
+.pkg-section{padding:20px 24px;border-right:1px solid var(--border)}
+.pkg-section:last-child{border-right:none}
+.sec-title{font-size:10px;letter-spacing:.18em;text-transform:uppercase;font-weight:800;color:#94a3b8;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.sec-title::after{content:'';flex:1;height:1px;background:var(--border)}
+.hl-list{list-style:none;display:flex;flex-direction:column;gap:7px}
+.hl-list li{font-size:13px;color:#374151;display:flex;align-items:flex-start;gap:8px;line-height:1.45}
+.hl-list li::before{content:'›';color:var(--gold);font-size:18px;line-height:1;flex-shrink:0;font-weight:700}
+.itin-day{margin-bottom:14px}
+.itin-day:last-child{margin-bottom:0}
+.day-label{background:#f8fafc;border-left:3px solid var(--gold);padding:5px 10px;font-size:11px;font-weight:800;color:#1e3a5f;letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}
+.day-title{font-size:13px;font-weight:700;color:#111827;margin-bottom:4px}
+.day-acts{list-style:none;display:flex;flex-direction:column;gap:4px}
+.day-acts li{font-size:12px;color:#4b5563;padding-left:14px;position:relative;line-height:1.5}
+.day-acts li::before{content:'·';position:absolute;left:3px;color:#94a3b8;font-size:16px;line-height:1.1}
+.pricing-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.price-box{background:#f8fafc;border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center}
+.price-star{font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#64748b;margin-bottom:4px}
+.price-hotels{font-size:10px;color:#94a3b8;margin-bottom:6px;line-height:1.4}
+.price-val{font-size:18px;font-weight:800;color:#0f172a;letter-spacing:-.02em}
+.price-sub{font-size:10px;color:#94a3b8;margin-top:2px}
+.incl-list{list-style:none;margin-bottom:14px;display:flex;flex-direction:column;gap:5px}
+.incl-list li{font-size:12px;display:flex;align-items:flex-start;gap:7px;line-height:1.45}
+.incl-list li.incl::before{content:'✓';color:#16a34a;font-weight:800;flex-shrink:0;font-size:11px;margin-top:2px}
+.incl-list li.excl::before{content:'✗';color:#dc2626;font-weight:800;flex-shrink:0;font-size:11px;margin-top:2px}
+.pkg-footer{padding:14px 24px;background:#f8fafc;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.ex-cities{display:flex;flex-wrap:wrap;gap:6px}
+.ex-chip{background:#eff6ff;border:1px solid #bfdbfe;color:#1d4ed8;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px}
+.cta-group{display:flex;gap:10px}
+.btn-whatsapp{background:#25D366;color:#fff;border:none;padding:9px 18px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.btn-enquire{background:linear-gradient(135deg,var(--gold),#b8932a);color:#1a1a1a;border:none;padding:9px 18px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit}
+.note-chip{background:#fef3c7;border:1px solid #fcd34d;color:#92400e;font-size:10px;padding:3px 8px;border-radius:6px;display:inline-block;margin-top:6px}
+.print-fab{position:fixed;bottom:28px;right:28px;background:var(--gold);color:#1a1a1a;border:none;padding:12px 22px;border-radius:40px;font-size:13px;font-weight:700;cursor:pointer;box-shadow:0 4px 20px rgba(212,175,55,.5);z-index:999;font-family:inherit}
+@media(max-width:1100px){.pkg-body{grid-template-columns:1fr 1fr}}
+@media(max-width:700px){.pkg-body{grid-template-columns:1fr}.pkg-section{border-right:none;border-bottom:1px solid var(--border)}.main{padding:20px}.filter-bar,.site-header{padding:12px 20px}}
+@media print{@page{size:A4 portrait;margin:10mm 12mm}*{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}.print-fab,.filter-bar,.btn-whatsapp,.btn-enquire{display:none!important}body{background:#fff}.pkg-card{box-shadow:none;border:1pt solid #dde1e7;margin-bottom:20pt;page-break-inside:avoid}.pkg-body{grid-template-columns:1fr 1fr 1fr!important}.main{padding:0}}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="logo">[YOUR AGENCY NAME]<span>Premium Travel · Est. 2025 · Bengaluru</span></div>
+  <div class="header-right">📞 +91-XXXXXXXXXX &nbsp;|&nbsp; 📧 info@youragency.com<br>IATA · TAAI · TAFI &nbsp;|&nbsp; 2025–26 Season</div>
+</header>
+
+<div class="batch-title">
+  <div>
+    <h1>🏰 North & Central India — 2 Nights / 3 Days Getaways</h1>
+    <p>Delhi · Udaipur · Jaipur · Agra · Lonavala · Varanasi · Ayodhya &nbsp;|&nbsp; 4★ &amp; 5★ Hotels Only &nbsp;|&nbsp; FIT &amp; Group Departures</p>
+  </div>
+  <div class="badge-count">BATCH 2 · 7 PACKAGES</div>
+</div>
+
+<nav class="filter-bar" id="filterBar">
+  <button class="filter-btn active" data-f="all">All Packages</button>
+  <button class="filter-btn" data-f="delhi">Delhi</button>
+  <button class="filter-btn" data-f="udaipur">Udaipur</button>
+  <button class="filter-btn" data-f="jaipur">Jaipur</button>
+  <button class="filter-btn" data-f="agra">Agra</button>
+  <button class="filter-btn" data-f="lonavala">Lonavala</button>
+  <button class="filter-btn" data-f="varanasi">Varanasi</button>
+  <button class="filter-btn" data-f="ayodhya">Ayodhya</button>
+</nav>
+
+<main class="main" id="mainGrid"></main>
+
+<footer style="background:#0a1628;color:rgba(240,244,248,.6);padding:20px 40px;text-align:center;font-size:12px;border-top:1px solid rgba(212,175,55,.25)">
+  <strong style="color:#D4AF37">[YOUR AGENCY NAME]</strong> · Bengaluru, India ·
+  All prices indicative, per person twin-sharing. GST @5%, flights &amp; visa extra. Subject to availability &amp; season.
+</footer>
+<button class="print-fab" onclick="window.print()">🖨️ Print / PDF</button>
+
+<script>
+const PKGS = [
+
+// ══════════════════════════════════════════════════════════
+// 1. DELHI
+// ══════════════════════════════════════════════════════════
+{
+  id:'delhi', name:'Delhi — Timeless Capital', subtitle:'Mughal grandeur meets modern India in the world\'s most historic city',
+  gradient:['#2c0735','#7c3aed'], badge:'Heritage & Culture', badgeColor:'#7c3aed', badgeText:'#fff',
+  type:'FIT + Group Departures', duration:'2N / 3D', nights:2, days:3,
+  exCities:['Ex Delhi (DEL)','All cities by flight'],
+  highlights:[
+    'Red Fort (Lal Qila) — UNESCO World Heritage, 17th-century Mughal marvel, 2.5 km walls',
+    'Qutub Minar — world\'s tallest brick minaret (72.5m), UNESCO listed, 1193 AD',
+    'India Gate & Rajpath — 42m war memorial, evening illuminated ceremony',
+    'Humayun\'s Tomb — precursor to Taj Mahal, stunning Mughal garden complex',
+    'Chandni Chowk bazaar — 17th-century market, spice lanes, street food paradise',
+    'Lotus Temple & Akshardham — modern architectural wonders of Delhi'
+  ],
+  itinerary:[
+    {day:1,label:'Day 1',title:'Old Delhi — Mughals, Mosques & Kebabs',acts:[
+      'Arrive Delhi | Transfer to hotel (central Delhi / New Delhi)',
+      'Afternoon: Jama Masjid — India\'s largest mosque, climb minaret for panoramic Old Delhi view',
+      'Chandni Chowk walk: Spice Market (Khari Baoli) → Paranthe Wali Gali → Kinari Bazaar',
+      'Rickshaw ride through the lanes of Old Delhi (30 min)',
+      'Red Fort (Lal Qila) exterior & museum (3–6 PM)',
+      'Evening: Connaught Place — dinner at Bukhara / Dum Pukht / Indian Accent (luxury pick)'
+    ]},
+    {day:2,label:'Day 2',title:'New Delhi — Monuments, Power & Spirituality',acts:[
+      'Morning: Qutub Minar complex — Iron Pillar (1,600 yr old, rust-free mystery), Alai Darwaza',
+      'Humayun\'s Tomb (9 AM, before crowds) — breathtaking Mughal geometry',
+      'Rajpath drive: India Gate → Rashtrapati Bhavan (exterior) → Parliament building',
+      'Lunch: Khan Market or Lodi Colony cafe street',
+      'Lotus Temple (Bahai House of Worship) — 27 marble petals, no photography inside',
+      'Akshardham Temple (4–8 PM) — 2009 Guinness record largest Hindu temple complex',
+      'IGNCA or Dilli Haat for handicrafts & regional cuisine dinner'
+    ]},
+    {day:3,label:'Day 3',title:'Shopping, Museums & Departure',acts:[
+      'Morning: National Museum (9 AM–5 PM) — 5,000-year collection including Harappan artifacts',
+      'OR: Lodhi Art District — outdoor street art, coffee shops, creative quarter',
+      'Janpath & Tibetan Market for souvenirs, pashminas & handicrafts',
+      'Lunch: Karim\'s (Old Delhi, nr Jama Masjid) or SodaBottleOpenerWala',
+      'Afternoon checkout | Transfer to IGI Airport / Railway Station',
+      'Optional early morning add-on: Sunrise at Raj Ghat (Gandhi memorial, peaceful)'
+    ]}
+  ],
+  hotels4:['The Lalit New Delhi','Holiday Inn Aerocity','ibis New Delhi','Radisson Blu Plaza Delhi Airport'],
+  hotels5:['The Imperial New Delhi','ITC Maurya','Taj Mahal Hotel New Delhi','The Oberoi New Delhi'],
+  price4:8500, price5:18000,
+  inclusions:['2 nights (4★/5★)','Daily breakfast','AC vehicle all transfers & sightseeing','Red Fort & Qutub Minar entry','Humayun\'s Tomb entry','Chandni Chowk rickshaw ride','Akshardham entry (no photography bags — lockers provided)','All tolls & driver allowance'],
+  exclusions:['Flights to/from Delhi','GST @ 5%','Lunch & dinner (except hotel breakfast)','Personal shopping','Museum camera fees','Travel Insurance'],
+  note:'Group departures: Fri/Sat from all metros. Add Agra day trip: ₹3,500 extra/person (AC car + Taj entry).'
+},
+
+// ══════════════════════════════════════════════════════════
+// 2. UDAIPUR
+// ══════════════════════════════════════════════════════════
+{
+  id:'udaipur', name:'Udaipur — City of Lakes', subtitle:'Rajputana romance on shimmering waters — India\'s most romantic city',
+  gradient:['#7B2D00','#E76F51'], badge:'Most Romantic', badgeColor:'#e91e63', badgeText:'#fff',
+  type:'FIT + Luxury Bespoke + Honeymoon', duration:'2N / 3D', nights:2, days:3,
+  exCities:['Ex Udaipur (UDR)','Ex Jaipur (4 hrs)','Ex Ahmedabad (2.5 hrs)'],
+  highlights:[
+    'City Palace — largest royal complex in Rajasthan, 11 interconnected palaces, Lake Pichola backdrop',
+    'Lake Pichola sunset boat cruise — views of Jag Niwas (Taj Lake Palace) & Jag Mandir',
+    'Taj Lake Palace — floating marble palace on Lake Pichola, James Bond filming location',
+    'Sajjangarh (Monsoon Palace) — hilltop fort, 360° sunset views of Udaipur & Aravalli',
+    'Jagdish Temple — Indo-Aryan style, 1651 AD, continuous 500-year worship',
+    'Saheliyon Ki Bari — Garden of Maidens, lotus pool, marble elephants, dancing fountains'
+  ],
+  itinerary:[
+    {day:1,label:'Day 1',title:'Arrive Udaipur — Lake & Palace Welcome',acts:[
+      'Arrive Udaipur Airport/Railway | Transfer to hotel (15 min)',
+      'Freshen up | Walk to Jagdish Temple (5 min from City Palace)',
+      'City Palace Complex (2–5 PM, ₹300 entry) — crystal gallery, Mardana Mahal, zenana quarters',
+      'Crystal Gallery (within City Palace) — largest private crystal collection in the world',
+      'Lake Pichola sunset cruise (5:30–7 PM, ₹400/person) — views of Jag Niwas & Jag Mandir',
+      'Dinner: Ambrai restaurant (floor-level seating, lake view) or Upre rooftop (Lake Palace view)'
+    ]},
+    {day:2,label:'Day 2',title:'Monsoon Palace, Villages & Craft Heritage',acts:[
+      'Morning: Saheliyon Ki Bari — manicured gardens, 4 black marble elephants, lotus pools',
+      'Fateh Sagar Lake: boat to Nehru Island Garden (₹50) — 3 islands, solar observatory',
+      'Folk Art Museum (Bharatiya Lok Kala) — puppet shows, folk costumes, tribal art',
+      'Afternoon: Sajjangarh Palace (Monsoon Palace, 944m) — 5 km drive, hilltop panorama',
+      'Village tour: Shilpagram Arts & Crafts Village — 26 tribal huts, live demonstrations',
+      'Bagore Ki Haveli: 18th-century haveli, 100-room museum | Evening: Dharohar folk dance show (7 PM)',
+      'Dinner: Mewar restaurant at hotel or Natraj Dining Hall (local Rajasthani thali)'
+    ]},
+    {day:3,label:'Day 3',title:'Ranakpur Option & Departure',acts:[
+      'Option A (day trip): Ranakpur Jain Temples (90 km, 2 hrs) — 1,444 hand-carved marble pillars, 15th century',
+      'Option B: Eklingji & Nagda temples (22 km) — ancient Shiva temple, medieval ruins',
+      'Option C: Leisure morning — spa, hotel pool or old city walk via Lal Ghat lanes',
+      'Breakfast + checkout by 11 AM',
+      'Hathi Pol Bazaar: silver jewellery, miniature paintings, blue pottery, bandhani fabrics',
+      'Transfer to airport/railway for onward journey'
+    ]}
+  ],
+  hotels4:['Radisson Blu Udaipur','Ramada Udaipur Resort','Hotel Fateh Garh','Trident Udaipur'],
+  hotels5:['Taj Lake Palace','The Leela Palace Udaipur','RAAS Devigarh','Oberoi Udaivilas'],
+  price4:11000, price5:22000,
+  inclusions:['2 nights (4★/5★)','Daily breakfast + 2 dinners','AC vehicle all transfers & sightseeing','City Palace entry','Lake Pichola boat cruise','Fateh Sagar boat ride','Dharohar folk dance show entry','Shilpagram entry','All tolls & driver allowance','Honeymoon decoration on request (roses, candles)'],
+  exclusions:['Flights to/from Udaipur','GST @ 5%','Lunch on all days','Crystal Gallery entry (₹550 extra)','Ranakpur day trip (₹2,500 extra/person)','Personal shopping (miniature paintings, silver)','Travel Insurance'],
+  note:'Honeymoon special: Flower-decorated room + private lake cruise + candle dinner ₹4,500 extra/couple. Taj Lake Palace stay from ₹28,000/night extra.'
+},
+
+// ══════════════════════════════════════════════════════════
+// 3. JAIPUR
+// ══════════════════════════════════════════════════════════
+{
+  id:'jaipur', name:'Jaipur — The Pink City', subtitle:'Rajasthan\'s royal capital — forts, gems & elephant rides at sunrise',
+  gradient:['#7c1d0f','#f4845f'], badge:'Most Popular', badgeColor:'#D4AF37', badgeText:'#1a1a1a',
+  type:'FIT + Group Departures', duration:'2N / 3D', nights:2, days:3,
+  exCities:['Ex Jaipur (JAI)','Ex Delhi (5 hrs)','Ex Agra (3.5 hrs)'],
+  highlights:[
+    'Amber Fort — 16th century hilltop fort, elephant ride at sunrise, Sheesh Mahal (mirror palace)',
+    'Hawa Mahal — iconic 5-storey pink sandstone façade with 953 windows, 1799 AD',
+    'City Palace Museum — royal residence, Mubarak Mahal, textile galleries, Diwan-i-Khas',
+    'Jantar Mantar — UNESCO astronomical instruments, world\'s largest sundial (reads time in 2 sec)',
+    'Nahargarh Fort sunset — hilltop overlooking the entire Pink City',
+    'Johari Bazaar & Bapu Bazaar — gemstone capital of India, blue pottery, lac bangles'
+  ],
+  itinerary:[
+    {day:1,label:'Day 1',title:'Arrive Jaipur — Pink City Heritage Trail',acts:[
+      'Arrive Jaipur Airport/Railway | Transfer to hotel',
+      'Freshen up | Lunch at hotel or Peacock Rooftop Restaurant (City Palace views)',
+      'Afternoon: Hawa Mahal (exterior iconic shot + interior, ₹50) — 5 floors, 953 windows',
+      'City Palace Museum (2–5 PM, ₹700) — Mubarak Mahal, armoury, Diwan-i-Khas',
+      'Jantar Mantar (adjacent, ₹200) — Samrat Yantra: 27m sundial, accurate to 2 seconds',
+      'Johari Bazaar evening walk: emeralds, rubies, theva art jewellery',
+      'Dinner: Chokhi Dhani ethnic village (20 km) — Rajasthani village experience, folk shows, thali dinner'
+    ]},
+    {day:2,label:'Day 2',title:'Amber Fort, Elephants & Nahargarh Sunset',acts:[
+      'Early morning 6:30 AM: Amber Fort (arrive before crowds)',
+      'Elephant ride up the cobbled ramp (highly recommended, ₹1,100/elephant, 2 persons)',
+      'Sheesh Mahal (Hall of Mirrors) — 1,000 mirrors, 1-candle illuminates the entire room',
+      'Ganesh Pol, Zenana quarters, Jai Mandir & Sukh Niwas (air-conditioned with water channels)',
+      'Jaigarh Fort (adjacent, 15-min walk) — Jaivana cannon, world\'s largest cannon on wheels',
+      'Afternoon: Nahargarh Fort (1 PM–sunset) — Madhavendra Bhawan, city view, cafe',
+      'Albert Hall Museum (City Museum) — Egyptian mummy, Rajput paintings, folk art',
+      'Dinner: 1135 AD restaurant (inside Amber Fort, if booked) or Suvarna Mahal at Rambagh Palace'
+    ]},
+    {day:3,label:'Day 3',title:'Crafts, Shopping & Departure',acts:[
+      'Morning: Anokhi Cafe breakfast (best in Jaipur)',
+      'Block printing workshop at Sanganer (20 km) — stamps, natural dyes, hands-on printing',
+      'Blue Pottery centre: watch craftsmen at work, buy direct',
+      'Bapu Bazaar: bed covers, quilts, Rajasthani mojris (shoes), sandalwood items',
+      'Checkout by noon | Transfer to airport/railway',
+      'En route optional stop: Galta Ji (Monkey Temple) — 10th-century hilltop temple, natural pond'
+    ]}
+  ],
+  hotels4:['Dera Mandawa Fort Hotel','Samode Haveli','ibis Jaipur City Centre','Hilton Jaipur'],
+  hotels5:['Rambagh Palace (Taj)','Jai Mahal Palace (Taj)','The Oberoi Rajvilas','RAAS Jodhpur (similar tier)'],
+  price4:9500, price5:20000,
+  inclusions:['2 nights (4★/5★)','Daily breakfast + 2 dinners','AC vehicle all transfers','Amber Fort entry + elephant ride (2 persons/elephant)','City Palace + Jantar Mantar entry','Hawa Mahal entry','Nahargarh Fort visit','Chokhi Dhani dinner (Day 1)','All tolls & driver allowance'],
+  exclusions:['Flights to/from Jaipur','GST @ 5%','Lunch on all 3 days','Jaigarh Fort entry (₹70)','Personal gem shopping','Block printing workshop material fee (₹200)','Travel Insurance'],
+  note:'Golden Triangle add-on: Jaipur→Agra→Delhi 5N/6D from ₹28,000 (4★). Group departures every Sat from Delhi, every Fri from Bangalore.'
+},
+
+// ══════════════════════════════════════════════════════════
+// 4. AGRA
+// ══════════════════════════════════════════════════════════
+{
+  id:'agra', name:'Agra — Taj Mahal & the Mughal Empire', subtitle:'Witness the greatest monument to love — a UNESCO World Heritage masterpiece',
+  gradient:['#1a3a2a','#2d6a4f'], badge:'UNESCO World Heritage', badgeColor:'#1565c0', badgeText:'#fff',
+  type:'FIT + Group Departures', duration:'2N / 3D', nights:2, days:3,
+  exCities:['Ex Delhi (2.5 hrs Yamuna Exp.)', 'Ex Jaipur (3.5 hrs)','Ex Agra (AGC / AFS Airport)'],
+  highlights:[
+    'Taj Mahal sunrise — the world\'s most photographed building, best light 6–8 AM',
+    'Agra Fort (Red Fort) — UNESCO listed, 16th-century Mughal citadel where Shah Jahan was imprisoned',
+    'Mehtab Bagh — garden directly opposite Taj Mahal, sunset reflection view from across Yamuna',
+    'Fatehpur Sikri — 45 km, Akbar\'s abandoned red sandstone capital, perfectly preserved 1569 AD',
+    'Itimad-ud-Daulah (Baby Taj) — first Mughal structure built entirely in marble, mother of Taj',
+    'Kalakriti Cultural Show — 100-minute Mughal Era theatrical performance, recommended nightly'
+  ],
+  itinerary:[
+    {day:1,label:'Day 1',title:'Arrive Agra — Agra Fort & Cultural Evening',acts:[
+      'Arrive from Delhi (Yamuna Expressway, 2.5 hrs) or fly to Agra Airport / train to Agra Cantt',
+      'Check-in | Freshen up | Lunch at Peshawri or Pinch of Spice',
+      'Agra Fort (2–5 PM, ₹650 entry, camera included) — Diwan-i-Am, Diwan-i-Khas, Musamman Burj (Shah Jahan\'s prison with Taj view)',
+      'Sunset: Mehtab Bagh (₹300) — sunset view of Taj Mahal silhouette across Yamuna',
+      'Evening: Kalakriti Cultural Show (7 PM, 1.5 hrs) — Mughal history theatrical production',
+      'Dinne: Esphahan at Oberoi Amarvilas (world\'s top hotel with Taj view from every room)'
+    ]},
+    {day:2,label:'Day 2',title:'Taj Mahal Sunrise & Fatehpur Sikri',acts:[
+      '5:00 AM: Depart hotel for East Gate of Taj Mahal (gate opens 6 AM)',
+      'Sunrise at Taj Mahal (6–9 AM) — 2–3 hr unhurried visit, Hauz-i-Kausar reflection pool',
+      'Inner mausoleum: cenotaphs of Mumtaz Mahal & Shah Jahan (actual tombs below)',
+      'All four minarets visible at 88.7° slight lean (designed to fall away if earthquake)',
+      'Itimad-ud-Daulah (Baby Taj, 11 AM) — pietra dura marble inlay, 1622 AD',
+      'Lunch + drive to Fatehpur Sikri (45 km, 1 hr)',
+      'Fatehpur Sikri (2–5 PM, ₹610) — Buland Darwaza (54m, largest gateway in India), Panch Mahal, Jodha Bai palace',
+      'Return to Agra | Marble inlay shopping workshop at Sankar Colony'
+    ]},
+    {day:3,label:'Day 3',title:'Dawn Taj & Departure',acts:[
+      'Optional: Pre-dawn moonlight visit (booked separately, ₹750 extra, full moon ± 2 days only)',
+      'OR: Early morning 7 AM Taj Mahal second visit — different light, calmer',
+      'Breakfast + checkout',
+      'Agra Kinari Bazaar: marble items with pietra dura inlay, leather shoes, petha sweet (Agra\'s famous)',
+      '10 AM: Depart for Delhi (2.5 hrs) or Jaipur (3.5 hrs) or onward',
+      'Optional self-drive add-on: Mathura & Vrindavan (70 km) — Krishna birthplace temples'
+    ]}
+  ],
+  hotels4:['Howard Plaza The Fern Agra','Courtyard by Marriott Agra','Double Tree by Hilton Agra','Crystal Sarovar Premiere'],
+  hotels5:['Oberoi Amarvilas (unobstructed Taj view from every room)','Taj Hotel & Convention Centre Agra','ITC Mughal','Jaypee Palace Hotel'],
+  price4:9000, price5:19000,
+  inclusions:['2 nights (4★/5★)','Daily breakfast + 2 dinners','AC vehicle all transfers & sightseeing','Taj Mahal sunrise entry (₹1,300)','Agra Fort entry','Itimad-ud-Daulah entry','Fatehpur Sikri entry','Mehtab Bagh entry','Kalakriti show entry','All tolls & driver allowance'],
+  exclusions:['Train / flight to Agra','GST @ 5%','Taj Mahal moonlight visit (₹750, full moon only)','Lunch on all days','Marble shopping & tips','Camera stand inside Taj (₹25)','Travel Insurance'],
+  note:'Oberoi Amarvilas: every room has unobstructed Taj Mahal view — the ultimate 5★ experience. Taj entry from Sunrise Gate mandatory for best light — we handle queue management.'
+},
+
+// ══════════════════════════════════════════════════════════
+// 5. LONAVALA
+// ══════════════════════════════════════════════════════════
+{
+  id:'lonavala', name:'Lonavala — Monsoon Escape', subtitle:'Misty waterfalls, fudge & the drama of the Western Ghats',
+  gradient:['#1b4332','#52b788'], badge:'Weekend Getaway', badgeColor:'#16a34a', badgeText:'#fff',
+  type:'FIT + Group Departures (Mumbai/Pune)', duration:'2N / 3D', nights:2, days:3,
+  exCities:['Ex Mumbai (83 km, 1.5 hrs)','Ex Pune (65 km, 1 hr)'],
+  highlights:[
+    'Bhushi Dam — overflow steps turned into natural water park during monsoon (Jun–Sep)',
+    'Tiger\'s Leap (Tiger\'s Point) — 650m sheer cliff drop into the valley, dramatic viewpoint',
+    'Rajmachi Fort — 1,425m hilltop trek, panoramic Sahyadri range views',
+    'Karla & Bhaja Caves — 2,000-year-old Buddhist rock-cut temples (2nd century BC)',
+    'INS Shivaji & Shooting Range — heritage naval base, guided tours available',
+    'Lonavala fudge & chikki — legendary local sweet, 50+ shops, free tasting'
+  ],
+  itinerary:[
+    {day:1,label:'Day 1',title:'Mumbai/Pune → Lonavala: Into the Ghats',acts:[
+      'Depart Mumbai 7 AM / Pune 8 AM | Lonavala 9–10 AM',
+      'Check-in to resort | Breakfast at resort',
+      'Morning: Bhushi Dam — wade in overflow steps (Jun–Sep monsoon) or picnic (dry season)',
+      'Lion\'s Point: 650m viewpoint — valley views, paragliding spot',
+      'Valvan Dam: scenic reservoir, boat rides (₹50)',
+      'Evening: Lonavala market walk — chikki tasting at Maganlal Chikki, Laxmi Chikki',
+      'Dinner at resort or Cooper\'s Corner (legendary roadside dhaba)'
+    ]},
+    {day:2,label:'Day 2',title:'Forts, Caves & Waterfalls',acts:[
+      'Early morning 6 AM: Rajmachi Fort trek (3.5 km one-way, easy-medium) — sunrise views',
+      'OR: Korigad Fort (7 km, 1.5 hrs drive + 1 hr trek) — 17th-century Peshwa fort',
+      'Return by 10 AM | Breakfast',
+      'Karla Buddhist Caves (10 km): 2,000-year-old pray hall, Ashoka pillar, carved elephants',
+      'Bhaja Caves (13 km): 22 caves, dancing figures — remarkable 2nd century BC sculpture',
+      'Afternoon: Duke\'s Nose (Nagphani Rock) viewpoint — sharp nose-shaped cliff',
+      'Kune Waterfalls (3 km): 100m three-tier falls — accessible Oct–Jan',
+      'Dinner: resort candlelight or Kinara Village Restaurant (Pune road)'
+    ]},
+    {day:3,label:'Day 3',title:'Della Adventure & Return',acts:[
+      'Della Adventure Park (optional, 8 AM–1 PM) — 70+ activities: zip-line, ATV, buggy, paintball',
+      'OR: Morning yoga & nature walk at resort',
+      'Breakfast + checkout',
+      'Tiger\'s Point (Tiger\'s Leap) — 15 min from resort, dramatic cliff viewpoint, photography',
+      'Wax Museum Imagica / Imagica Theme Park (30 min from Lonavala) — optional',
+      'Chikki & souvenir shopping before departure',
+      'Return Mumbai (1.5 hrs) / Pune (1 hr)'
+    ]}
+  ],
+  hotels4:['Fariyas Resort Lonavala','Rhythm Lonavala','Hilton Shillim Estate','Dukes Retreat'],
+  hotels5:['Hilton Shillim Estate & Spa (Wellness Resort)','The Machan','Della Resorts','Fariyas Hotel (Premium)'],
+  price4:9000, price5:16000,
+  inclusions:['2 nights resort stay (4★/5★)','Daily breakfast + 2 dinners','AC vehicle Mumbai/Pune ↔ Lonavala round trip','Bhushi Dam & Lion\'s Point sightseeing','Karla & Bhaja Caves entry','All tolls & driver allowance','Welcome chikki & fudge basket at hotel'],
+  exclusions:['Train/flight to Mumbai or Pune','GST @ 5%','Della Adventure Park (₹2,500/person)','Rajmachi Fort trek guide (₹400)','Imagica Theme Park entry','Lunch on all days','Personal expenses & tips','Travel Insurance'],
+  note:'Monsoon special (Jul–Sep): Bhushi Dam overflow, lush green valleys, discounted resort rates. Group departures: Sat 6 AM from Bangalore possible (overnight train + local transfer).'
+},
+
+// ══════════════════════════════════════════════════════════
+// 6. VARANASI
+// ══════════════════════════════════════════════════════════
+{
+  id:'varanasi', name:'Varanasi — The Eternal City', subtitle:'India\'s spiritual soul — Ganga Aarti, ghats & 3,000 years of continuous devotion',
+  gradient:['#7B2D00','#d4a017'], badge:'Spiritual Pilgrimage', badgeColor:'#D4AF37', badgeText:'#1a1a1a',
+  type:'FIT + Group Departures + Pilgrimage', duration:'2N / 3D', nights:2, days:3,
+  exCities:['Ex Varanasi (VNS)','Ex Delhi (flight 1.5 hrs)','Ex Lucknow (3 hrs drive)'],
+  highlights:[
+    'Ganga Aarti at Dashashwamedh Ghat — nightly fire-offering ceremony, 7 priests, devotional spectacle',
+    'Sunrise boat ride on the Ganges — float past 88 ghats, cremation site at Manikarnika Ghat',
+    'Kashi Vishwanath Temple — one of the 12 Jyotirlingas, sacred Shiva temple, newly expanded corridor',
+    'Sarnath — 10 km from Varanasi, Buddha\'s first sermon site, 3rd-century Ashoka Pillar',
+    '99 narrow alleys (galis) of the old city — Vishwanatha Gali, silk weavers\' lane',
+    'Tulsidas Ghat & Tulsi Manas Temple — where Ramcharitmanas was written'
+  ],
+  itinerary:[
+    {day:1,label:'Day 1',title:'Arrive Varanasi — First Touch of the Holy City',acts:[
+      'Arrive Varanasi Airport / Railway | Transfer to hotel (Cantonment or Assi Ghat area)',
+      'Freshen up | Check-in by 2 PM | Indian lunch at hotel',
+      'Afternoon: Kashi Vishwanath Temple corridor (new 2021 ₹800 Cr project) — grand entry',
+      'Inner temple darshan (Hindus only — non-Hindus visit the corridor & museum)',
+      'Ghat walk: Dashashwamedh Ghat → Manikarnika Ghat (eternal cremation) → Harishchandra Ghat',
+      'Ganga Aarti at Dashashwamedh Ghat (6 PM winter / 7 PM summer) — boat viewing recommended',
+      'Dinner: Brown Bread Bakery (Assi Ghat) or Aadha Aadha Restaurant (rooftop Ganga view)'
+    ]},
+    {day:2,label:'Day 2',title:'Sunrise Boat & Sarnath Pilgrimage',acts:[
+      '5:00 AM: Sunrise boat ride on the Ganges (1 hr) — cremation ghats, morning rituals, rising mist',
+      'Rowing past 88 ghats — each ghat has its own deity, king, sect history',
+      'Morning Aarti at Assi Ghat (classical, less touristy than Dashashwamedh)',
+      'Banarasi chai & breakfast at Blue Lassi Shop (legendary since 1920)',
+      'Old city lanes: Vishwanatha Gali silk weavers, hand-loom Banarasi sarees',
+      'Lunch + drive to Sarnath (10 km)',
+      'Sarnath: Dhamek Stupa (500 AD, marks Buddha\'s first Dhamma sermon) → Ashoka Pillar (Lion Capital — original at Delhi Museum) → Archaeological Museum',
+      'Mulagandha Kuti Vihar temple — beautiful Buddhist frescoes, peaceful gardens',
+      'Evening Ganga Aarti (second night, different experience from a different ghat position)'
+    ]},
+    {day:3,label:'Day 3',title:'Silk Shopping & Departure',acts:[
+      'Early morning: Tulsi Manas Temple (Ramcharitmanas was written here) & Durga Temple',
+      'Breakfast + checkout',
+      'Banarasi silk shopping: Mehrotra Silk Factory (Government certified), Katan Silk Bhavan',
+      'Old Godowlia Market — small brass diyas, Ganga water bottles, rudraksha, wooden toys',
+      'Optional: Ramnagar Fort across the Ganga (Kashi Naresh\'s palace, vintage car museum)',
+      'Transfer to airport/railway for departure'
+    ]}
+  ],
+  hotels4:['Ramada Plaza Varanasi','BrijRama Palace (Heritage)','Surya Hotel Varanasi','Radisson Hotel Varanasi'],
+  hotels5:['Taj Ganges Varanasi','BrijRama Palace (River Suite)','The Gateway Hotel Varanasi','Nadesar Palace (Taj)'],
+  price4:9500, price5:17000,
+  inclusions:['2 nights (4★/5★)','Daily breakfast + 2 dinners','AC vehicle all transfers','Sunrise boat ride on the Ganges (private, 1 hr)','Ganga Aarti front-row boat viewing (both nights)','Kashi Vishwanath Corridor visit','Sarnath full day tour','All tolls & driver allowance'],
+  exclusions:['Flights to/from Varanasi','GST @ 5%','Kashi Vishwanath inner VIP darshan (₹500)','Banarasi silk shopping','Ramnagar Fort entry (₹50)','Lunch on all days','Personal expenses & tips','Travel Insurance'],
+  note:'Pilgrimage add-on: Prayagraj (Triveni Sangam) day trip ₹3,000/person. Best avoided during Holi & Diwali (extremely crowded — require 6-month advance booking).'
+},
+
+// ══════════════════════════════════════════════════════════
+// 7. AYODHYA
+// ══════════════════════════════════════════════════════════
+{
+  id:'ayodhya', name:'Ayodhya — Shri Ram Janmabhoomi', subtitle:'India\'s newly transformed sacred city — birthplace of Lord Ram',
+  gradient:['#7c2d12','#ea580c'], badge:'Pilgrimage · 2024 Reborn', badgeColor:'#D4AF37', badgeText:'#1a1a1a',
+  type:'FIT + Pilgrimage + Group Departures', duration:'2N / 3D', nights:2, days:3,
+  exCities:['Ex Ayodhya (AYJ — new airport)','Ex Lucknow (135 km, 2.5 hrs)','Ex Varanasi (200 km, 3.5 hrs)'],
+  highlights:[
+    'Ram Mandir (Shri Ram Janmabhoomi Temple) — newly consecrated 2024, grand sandstone temple at birthplace of Lord Ram',
+    'Hanuman Garhi — 76-step climb to the most-visited Hanuman temple, 10th century',
+    'Kanak Bhawan — gifted by Kaikeyi to Ram & Sita, revered golden temple with jewel-laden idols',
+    'Ram Ki Paidi — 14 sacred ghats on Saryu River, evening aarti (Deepotsav-inspired daily ceremony)',
+    'Sita Ki Rasoi — kitchen of Goddess Sita, unique ancient temple complex',
+    'New Ayodhya: 1.2 km wide Ram Path, ₹3,000 Cr development, glittering at night'
+  ],
+  itinerary:[
+    {day:1,label:'Day 1',title:'Arrive Ayodhya — Ram Janmabhoomi Darshan',acts:[
+      'Arrive Ayodhya Airport (new Maharishi Valmiki International Airport, 2024) or Lucknow + drive',
+      'Check-in to hotel (new 4★/5★ properties opened Jan 2024 post consecration)',
+      'Early afternoon darshan: Ram Mandir — book time slot online (ram-mandir.org, free, mandatory)',
+      'Ram Janmabhoomi Complex: Garbhagriha darshan → Kuber Tila viewpoint → Ram Lala idol (gold jewels)',
+      'Kanak Bhawan (adjacent, 4 PM): Sita-Ram idols adorned with gold jewelry',
+      'Ram Ki Paidi evening Aarti (8 PM) — Saryu riverfront, fire lamps, devotional songs floating on water',
+      'Dinner: local dhaba or hotel — pure veg (note: Ayodhya is entirely vegetarian city)'
+    ]},
+    {day:2,label:'Day 2',title:'Temples, Ghats & Sacred Exploration',acts:[
+      'Early morning: Hanuman Garhi (5:30 AM sunrise darshan) — 76 steps, ancient Hanuman temple, city view from top',
+      'Nageshwarnath Temple — 2nd most important temple; said to be established by Ram\'s son Kush',
+      'Sita Ki Rasoi — unique kitchen-temple mythology, marble tableau of Ram-Sita-Lakshman-Hanuman',
+      'Ram Katha Museum (IGNCA) — 22 galleries of Ram Leela across world cultures, 3D dioramas',
+      'Treta Ke Thakur Temple — idols made from same black stone as Ayodhya\'s ground',
+      'Afternoon: Saryu Ghat walk — all 14 ghats, sacred dips, boating',
+      'Bharat Kund & Guptar Ghat — 25 km, where Ram attained moksha (for deeply devout visitors)',
+      'Evening: Ram Ki Paidi second night — deepotsav-style lamp ceremony on river'
+    ]},
+    {day:3,label:'Day 3',title:'Chitrakoot Option & Departure',acts:[
+      'Morning darshan: Mani Parvat — hillock from where Ram surveyed his army, panoramic view',
+      'Tulsi Smarak Bhawan — Tulsidas memorial & Ramcharitmanas heritage centre',
+      'Breakfast + checkout',
+      'Optional day trip: Naimisharanya Tirth (95 km) — sacred forest of Naimisha where sages meditated',
+      'Shopping: Ram Parikrama Market — rudraksha, brass idols, ayurvedic products, Ram Navami items',
+      'Transfer to Ayodhya Airport / Lucknow for onward journey'
+    ]}
+  ],
+  hotels4:['Ramada by Wyndham Ayodhya','Lemon Tree Ayodhya','Treebo Trend Hotel Ayodhya','Hotel Saket Residency'],
+  hotels5:['Taj Ayodhya (opened 2024)','The Radisson Blu Ayodhya','Marriott Ayodhya (2024)','ITC Narmada Ahmedabad (for Ayodhya via Lucknow)'],
+  price4:9000, price5:16500,
+  inclusions:['2 nights (4★/5★)','Daily breakfast + 2 dinners','AC vehicle all transfers & sightseeing','Ram Mandir darshan (time slot booking)','Hanuman Garhi, Kanak Bhawan, Sita Ki Rasoi visits','Saryu Ghat boat ride','Ram Ki Paidi evening aarti boat viewing (both nights)','All tolls & driver allowance'],
+  exclusions:['Flights to/from Ayodhya/Lucknow','GST @ 5%','Lunch on all days (Ayodhya has abundant vegetarian options)','VIP darshan passes (₹300–₹500 optional)','Personal shopping (rudraksha, prasad)','Travel Insurance'],
+  note:'Entire Ayodhya is 100% vegetarian. No alcohol permitted. Best visited Oct–Mar. Huge demand post January 2024 consecration — book 60 days in advance. Ram Navami (April): book 4 months ahead.'
+}
+
+]; // end PKGS
+
+// ══════ RENDER ENGINE ══════
+function escH(s){return s?String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'):''}
+function fmtP(n){return '₹'+n.toLocaleString('en-IN')}
+
+function renderCard(p){
+  const grad=`background:linear-gradient(145deg,${p.gradient[0]},${p.gradient[1]})`;
+  const hlHTML=p.highlights.map(h=>`<li>${escH(h)}</li>`).join('');
+  const itHTML=p.itinerary.map(d=>`<div class="itin-day"><div class="day-label">${escH(d.label)}</div><div class="day-title">${escH(d.title)}</div><ul class="day-acts">${d.acts.map(a=>`<li>${escH(a)}</li>`).join('')}</ul></div>`).join('');
+  const h4=p.hotels4.map(h=>`• ${escH(h)}`).join('<br>');
+  const h5=p.hotels5.map(h=>`• ${escH(h)}`).join('<br>');
+  const inclHTML=p.inclusions.map(i=>`<li class="incl">${escH(i)}</li>`).join('');
+  const exclHTML=p.exclusions.map(i=>`<li class="excl">${escH(i)}</li>`).join('');
+  const exHTML=p.exCities.map(c=>`<span class="ex-chip">${escH(c)}</span>`).join('');
+  const waMsg=encodeURIComponent('Hi, I am interested in the '+p.name+' (2N/3D) package. Please share availability and pricing.');
+  return `<div class="pkg-card" data-id="${escH(p.id)}">
+  <div class="pkg-hero" style="${grad}">
+    <span class="pkg-type-chip">${escH(p.type)}</span>
+    <span class="pkg-badge" style="background:${escH(p.badgeColor)};color:${escH(p.badgeText)}">${escH(p.badge)}</span>
+    <div class="pkg-title">${escH(p.name)}</div>
+    <div class="pkg-subtitle">${escH(p.subtitle)}</div>
+    <div class="pkg-meta-row">
+      <span class="meta-pill">⏱ ${escH(p.duration)}</span>
+      <span class="meta-pill">🏨 4★ &amp; 5★ Only</span>
+      <span class="meta-pill">🇮🇳 India Domestic</span>
+    </div>
+  </div>
+  <div class="pkg-body">
+    <div class="pkg-section"><div class="sec-title">Highlights</div><ul class="hl-list">${hlHTML}</ul></div>
+    <div class="pkg-section"><div class="sec-title">Day-wise Itinerary</div>${itHTML}</div>
+    <div class="pkg-section">
+      <div class="sec-title">Pricing &amp; Hotels</div>
+      <div class="pricing-grid">
+        <div class="price-box"><div class="price-star">⭐⭐⭐⭐ 4-Star</div><div class="price-hotels">${h4}</div><div class="price-val">${fmtP(p.price4)}</div><div class="price-sub">per person · twin sharing</div></div>
+        <div class="price-box"><div class="price-star">⭐⭐⭐⭐⭐ 5-Star</div><div class="price-hotels">${h5}</div><div class="price-val">${fmtP(p.price5)}</div><div class="price-sub">per person · twin sharing</div></div>
+      </div>
+      <div class="sec-title" style="margin-top:12px">Inclusions</div>
+      <ul class="incl-list">${inclHTML}</ul>
+      <div class="sec-title">Exclusions</div>
+      <ul class="incl-list">${exclHTML}</ul>
+      ${p.note?`<div class="note-chip">ℹ️ ${escH(p.note)}</div>`:''}
+    </div>
+  </div>
+  <div class="pkg-footer">
+    <div><div style="font-size:11px;font-weight:700;color:#64748b;margin-bottom:6px;letter-spacing:.06em;text-transform:uppercase">Departure Options</div><div class="ex-cities">${exHTML}</div></div>
+    <div class="cta-group">
+      <a class="btn-whatsapp" href="https://wa.me/919999999999?text=${waMsg}" target="_blank" rel="noopener">💬 WhatsApp</a>
+      <button class="btn-enquire">Enquire Now →</button>
+    </div>
+  </div>
+</div>`;
+}
+
+function renderAll(filter){
+  const grid=document.getElementById('mainGrid');
+  const list=filter==='all'?PKGS:PKGS.filter(p=>p.id===filter);
+  grid.innerHTML=list.length?list.map(renderCard).join(''):'<p style="padding:60px;text-align:center;color:#94a3b8">No packages found.</p>';
+}
+
+document.getElementById('filterBar').addEventListener('click',e=>{
+  const btn=e.target.closest('.filter-btn');
+  if(!btn)return;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderAll(btn.dataset.f);
+});
+
+renderAll('all');
+</script>
+</body>
+</html>

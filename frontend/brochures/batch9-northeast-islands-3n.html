@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Northeast India & Islands 3N/4D Packages — Batch 9</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#D4AF37;--dark:#0a1628;--navy:#1e3a5f;--card:#fff;--border:#e2e8f0;--radius:14px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#1e293b;line-height:1.6}
+.site-header{background:linear-gradient(135deg,#0a1628,#1e3a5f);border-bottom:3px solid var(--gold);padding:22px 40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.logo{font-family:'Playfair Display',serif;font-size:24px;color:var(--gold);letter-spacing:.04em}
+.logo span{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:rgba(240,244,248,.65);display:block;font-family:'Inter',sans-serif;font-weight:400;margin-top:2px}
+.header-right{color:rgba(240,244,248,.65);font-size:12px;text-align:right;line-height:1.8}
+.batch-title{background:linear-gradient(90deg,#0d2818,#1a5c34);color:#fff;padding:18px 40px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.batch-title h1{font-family:'Playfair Display',serif;font-size:20px;font-weight:700}
+.batch-title p{font-size:13px;opacity:.8;margin-top:3px}
+.badge-count{background:var(--gold);color:#1a1a1a;font-size:11px;font-weight:800;padding:4px 12px;border-radius:20px;white-space:nowrap;letter-spacing:.06em;flex-shrink:0}
+.filter-bar{background:#fff;border-bottom:1px solid var(--border);padding:12px 40px;display:flex;gap:8px;flex-wrap:wrap;position:sticky;top:0;z-index:50;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.filter-btn{background:#f8fafc;border:1px solid var(--border);color:#64748b;padding:7px 16px;border-radius:30px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s}
+.filter-btn:hover,.filter-btn.active{background:var(--gold);border-color:var(--gold);color:#1a1a1a}
+.main{max-width:1400px;margin:0 auto;padding:32px 40px 80px}
+.pkg-card{background:var(--card);border-radius:var(--radius);box-shadow:0 4px 24px rgba(0,0,0,.12);margin-bottom:40px;overflow:hidden}
+.pkg-hero{padding:24px 28px 20px;color:#fff;position:relative;min-height:130px;display:flex;flex-direction:column;justify-content:flex-end}
+.pkg-hero::before{content:'';position:absolute;inset:0;background:rgba(0,0,0,.22)}
+.pkg-badge{position:absolute;top:16px;right:16px;padding:4px 12px;border-radius:20px;font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;z-index:2}
+.pkg-type-chip{position:absolute;top:16px;left:16px;background:rgba(255,255,255,.15);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,.25);color:#fff;font-size:10px;font-weight:700;padding:4px 10px;border-radius:20px;z-index:2;letter-spacing:.06em;text-transform:uppercase}
+.pkg-title{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;line-height:1.15;position:relative;z-index:2}
+.pkg-subtitle{font-size:13px;opacity:.85;margin-top:4px;position:relative;z-index:2;font-style:italic}
+.pkg-meta-row{position:relative;z-index:2;display:flex;gap:20px;margin-top:12px;flex-wrap:wrap}
+.meta-pill{background:rgba(255,255,255,.15);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,.2);color:#fff;font-size:11px;font-weight:600;padding:4px 12px;border-radius:20px}
+.pkg-body{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0}
+.pkg-section{padding:20px 24px;border-right:1px solid var(--border)}
+.pkg-section:last-child{border-right:none}
+.sec-title{font-size:10px;letter-spacing:.18em;text-transform:uppercase;font-weight:800;color:#94a3b8;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.sec-title::after{content:'';flex:1;height:1px;background:var(--border)}
+.hl-list{list-style:none;display:flex;flex-direction:column;gap:7px}
+.hl-list li{font-size:13px;color:#374151;display:flex;align-items:flex-start;gap:8px;line-height:1.45}
+.hl-list li::before{content:'›';color:var(--gold);font-size:18px;line-height:1;flex-shrink:0;font-weight:700}
+.itin-day{margin-bottom:14px}
+.itin-day:last-child{margin-bottom:0}
+.day-label{background:#f8fafc;border-left:3px solid var(--gold);padding:5px 10px;font-size:11px;font-weight:800;color:#1e3a5f;letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}
+.day-title{font-size:13px;font-weight:700;color:#111827;margin-bottom:4px}
+.day-acts{list-style:none;display:flex;flex-direction:column;gap:4px}
+.day-acts li{font-size:12px;color:#4b5563;padding-left:14px;position:relative;line-height:1.5}
+.day-acts li::before{content:'·';position:absolute;left:3px;color:#94a3b8;font-size:16px;line-height:1.1}
+.pricing-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.price-box{background:#f8fafc;border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center}
+.price-star{font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#64748b;margin-bottom:4px}
+.price-hotels{font-size:10px;color:#94a3b8;margin-bottom:6px;line-height:1.4}
+.price-val{font-size:18px;font-weight:800;color:#0f172a;letter-spacing:-.02em}
+.price-sub{font-size:10px;color:#94a3b8;margin-top:2px}
+.incl-list{list-style:none;margin-bottom:14px;display:flex;flex-direction:column;gap:5px}
+.incl-list li{font-size:12px;display:flex;align-items:flex-start;gap:7px;line-height:1.45}
+.incl-list li.incl::before{content:'✓';color:#16a34a;font-weight:800;flex-shrink:0;font-size:11px;margin-top:2px}
+.incl-list li.excl::before{content:'✗';color:#dc2626;font-weight:800;flex-shrink:0;font-size:11px;margin-top:2px}
+.pkg-footer{padding:14px 24px;background:#f8fafc;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.ex-cities{display:flex;flex-wrap:wrap;gap:6px}
+.ex-chip{background:#eff6ff;border:1px solid #bfdbfe;color:#1d4ed8;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px}
+.cta-group{display:flex;gap:10px}
+.btn-whatsapp{background:#25D366;color:#fff;border:none;padding:9px 18px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.btn-enquire{background:linear-gradient(135deg,var(--gold),#b8932a);color:#1a1a1a;border:none;padding:9px 18px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit}
+.note-chip{background:#fef3c7;border:1px solid #fcd34d;color:#92400e;font-size:10px;padding:3px 8px;border-radius:6px;display:inline-block;margin-top:6px}
+.print-fab{position:fixed;bottom:28px;right:28px;background:var(--gold);color:#1a1a1a;border:none;padding:12px 22px;border-radius:40px;font-size:13px;font-weight:700;cursor:pointer;box-shadow:0 4px 20px rgba(212,175,55,.5);z-index:999;font-family:inherit}
+@media(max-width:1100px){.pkg-body{grid-template-columns:1fr 1fr}}
+@media(max-width:700px){.pkg-body{grid-template-columns:1fr}.pkg-section{border-right:none;border-bottom:1px solid var(--border)}.main{padding:20px 16px}.filter-bar,.site-header,.batch-title{padding:12px 20px}}
+@media print{@page{size:A4 portrait;margin:10mm 12mm}*{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}.print-fab,.filter-bar,.btn-whatsapp,.btn-enquire{display:none!important}body{background:#fff}.pkg-card{box-shadow:none;border:1pt solid #dde1e7;margin-bottom:20pt;page-break-inside:avoid}.pkg-body{grid-template-columns:1fr 1fr 1fr!important}.main{padding:0}}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="logo">[YOUR AGENCY NAME]<span>Premium Travel · Est. 2025 · Bengaluru</span></div>
+  <div class="header-right">📞 +91-XXXXXXXXXX &nbsp;|&nbsp; 📧 info@youragency.com<br>IATA · TAAI · TAFI &nbsp;|&nbsp; 2025–26 Season</div>
+</header>
+
+<div class="batch-title">
+  <div>
+    <h1>🌿 Northeast India, Islands & Hilltops — 3 Nights / 4 Days</h1>
+    <p>Darjeeling · Gangtok · Shillong · Andaman Islands · Mahabaleshwar &nbsp;|&nbsp; 4★ &amp; 5★ &nbsp;|&nbsp; 3 NEW Destinations</p>
+  </div>
+  <div class="badge-count">BATCH 9 · 5 PACKAGES · 3N/4D</div>
+</div>
+
+<nav class="filter-bar" id="filterBar">
+  <button class="filter-btn active" data-f="all">All Packages</button>
+  <button class="filter-btn" data-f="darjeeling">Darjeeling</button>
+  <button class="filter-btn" data-f="gangtok">Gangtok</button>
+  <button class="filter-btn" data-f="shillong">Shillong ★NEW</button>
+  <button class="filter-btn" data-f="andaman">Andaman Islands ★NEW</button>
+  <button class="filter-btn" data-f="mahabaleshwar">Mahabaleshwar ★NEW</button>
+</nav>
+
+<main class="main" id="mainGrid"></main>
+
+<footer style="background:#0a1628;color:rgba(240,244,248,.6);padding:20px 40px;text-align:center;font-size:12px;border-top:1px solid rgba(212,175,55,.25)">
+  <strong style="color:#D4AF37">[YOUR AGENCY NAME]</strong> · Bengaluru, India ·
+  All prices indicative, per person twin-sharing. GST @5% &amp; flights extra. Subject to availability &amp; season.
+</footer>
+<button class="print-fab" onclick="window.print()">🖨️ Print / PDF</button>
+
+<script>
+const PKGS = [
+
+// 1. DARJEELING 3N/4D
+{
+  id:'darjeeling',
+  name:'Darjeeling — Queen of the Hills',
+  subtitle:'Three nights with Kanchenjunga at dawn — toy train, tea gardens, Tiger Hill and a slow Himalayan pace',
+  gradient:['#0d1a0d','#1a5c2a'],
+  badge:'UNESCO Toy Train · Tea Estate', badgeColor:'#D4AF37', badgeText:'#1a1a1a',
+  type:'FIT + Honeymoon + Heritage',
+  duration:'3N / 4D', nights:3, days:4,
+  exCities:['Ex Bagdogra Airport (NJP — 75 km, 3 hrs)','Ex New Jalpaiguri Stn (75 km, 3 hrs)'],
+  highlights:[
+    'Tiger Hill (3,636m) — world-famous sunrise view; Kanchenjunga (8,586m) + Everest visible on clear days',
+    'Batasia Loop — UNESCO toy train spirals 360° around war memorial; best photo of Kanchenjunga backdrop',
+    'Happy Valley Tea Estate — 1853 estate; guided factory tour; fresh Darjeeling first flush tasting',
+    'Padmaja Naidu Himalayan Zoological Park — Snow Leopard, Red Panda, Himalayan Wolf breeding centre',
+    'Lamahatta Eco Park (23 km) — rhododendron forest; nature walk; picnic among pine and oak',
+    'Ghoom Monastery (2,438m) — Tibet\'s oldest extant Gelugpa monastery in India; 15-ft Maitreya Buddha'
+  ],
+  itinerary:[
+    {day:1, label:'Day 1', title:'Arrive Darjeeling — Town Walk, Tea Garden & Bazaar',acts:[
+      'Arrive Bagdogra Airport (or NJP Station) | Drive to Darjeeling (75 km, 3 hrs winding hill road)',
+      'Check-in to hotel | Tea and freshen up',
+      'Happy Valley Tea Estate (3 PM, ₹100) — 1853 estate; plucking demonstration; factory tour (closed Sun)',
+      'Darjeeling town stroll: Chowrasta (Mall promenade), Oxford Book & Stationery Store (since 1909)',
+      'Nehru Road: buy fresh Darjeeling tea (1st flush ₹600–2,000/100g) direct from estate shops',
+      'Tibetan Refugee Self Help Center (₹20) — carpets, thangkas, woodcarvings sold by artisans',
+      'Sunset: Observatory Hill (Mahakal Temple) — Tibetan prayer flags, Kanchenjunga view',
+      'Dinner: Glenary\'s Bakery + Restaurant (since 1935) or Kunga Restaurant'
+    ]},
+    {day:2, label:'Day 2', title:'Tiger Hill Sunrise, Toy Train & Zoo',acts:[
+      '3:30 AM: Depart for Tiger Hill (11 km, 1 hr drive, ₹60 entry)',
+      'Tiger Hill sunrise — watch Kanchenjunga turn gold; on clear days: Everest, Lhotse, Makalu visible',
+      'Return via Ghoom Monastery (2,438m, 1875) — huge Maitreya statue; monastery prayer (6–8 AM monks)',
+      'Batasia Loop (8 AM, ₹15) — toy train circular spiral; war memorial; photo stop',
+      'Breakfast back at hotel | Rest 9–11 AM',
+      'Padmaja Naidu Himalayan Zoological Park (11 AM, ₹100) — Snow Leopard (12+ specimens, India\'s largest), Red Panda',
+      'HMI Everest Museum (adjacent, ₹100) — Tenzing Norgay\'s gear, 1953 Everest expedition artefacts',
+      'Dinner: Joey\'s (rooftop view) or Park Restaurant'
+    ]},
+    {day:3, label:'Day 3', title:'Lamahatta Eco Park & Senchal Wildlife',acts:[
+      'Morning 9 AM: Drive to Lamahatta Eco Park (23 km, 1 hr)',
+      'Lamahatta: rhododendron forest; 2 km nature interpretation trail; picnic point with Kanchenjunga view',
+      'Mirik Lake (32 km from Lamahatta, 1,495m) — boating on lake (₹80/30 min), orange orchards',
+      'Senchal Wildlife Sanctuary (on way back, ₹60) — Red Fox, Wild Boar, Barking Deer sighting possible',
+      'Afternoon back Darjeeling | Toy Train joyride on DHR (3 PM, 1 hr round trip, ₹1,200 first class)',
+      'Darjeeling Himalayan Railway joyride: Darjeeling → Ghoom and back (UNESCO heritage)',
+      'Evening: Laden La Road night market — momo stalls, chow, Tibetan bread, fresh juice',
+      'Dinner: Sonam\'s Kitchen (organic, locally sourced, travellers\' favourite) or hotel'
+    ]},
+    {day:4, label:'Day 4', title:'Rock Garden, Gorkha Museum & Departure',acts:[
+      'Morning: Rock Garden & Ganga Maya Park (6 km, ₹30) — cascading streams, natural rock features',
+      'Gorkha Rangit Valley Cable Car (nearby, ₹200 return, 45 min) — aerial view of Teesta valley',
+      'Darjeeling Gorkha Museum (Chowrasta, ₹30) — Gorkha culture, traditional dress, kukri weapons history',
+      'Breakfast + checkout | Pack Darjeeling tea, Tibetan handicrafts for gifts',
+      'Darjeeling Government College Botanical Garden (₹20, 30 min) — orchids free of charge',
+      'Drive to Bagdogra Airport (75 km, 3 hrs) — allow extra time for hairpin bends',
+      'Depart Bagdogra for onward journey'
+    ]}
+  ],
+  hotels4:['Mayfair Darjeeling (heritage, 1905)','Windamere Hotel (heritage, 1939)','Hotel Cedar Inn','Elgin Darjeeling'],
+  hotels5:['Mayfair Darjeeling (premier rooms)','Elgin Hotel Darjeeling (grand heritage)','Sinclairs Darjeeling','The Cochrane Place, Kurseong'],
+  price4:15000, price5:27000,
+  inclusions:['3 nights (4★/5★)','Daily breakfast + 3 dinners','Shared jeep Tiger Hill sunrise (Day 2) + Batasia Loop','Happy Valley Tea Estate guided tour','Zoo + HMI Museum entry','Lamahatta Eco Park entry','Senchal Wildlife Sanctuary entry','Rock Garden entry','Cable car ride (Day 4)','DHR Toy Train joyride (1 hr, Day 3)','All road transfers Bagdogra ↔ Darjeeling + sightseeing'],
+  exclusions:['Flights to/from Bagdogra (IXB)','GST @ 5% extra','Toy Train full journey Kalimpong/NJP (₹4,500, optional)','Paragliding (₹3,500, optional)','Mirik Lake boating','Lunch on all 4 days','Darjeeling tea purchases','Travel Insurance'],
+  note:'Best season: Mar–May (spring flowers), Oct–Nov (clear sky, Kanchenjunga). July–Sept: monsoon, limited visibility but lush green landscape. Tiger Hill: visibility is weather-dependent — no refund if cloudy (typically clear Oct–May). Red Panda: best seen early morning at zoo before heat. DHR toy train first class highly recommended.'
+},
+
+// 2. GANGTOK 3N/4D
+{
+  id:'gangtok',
+  name:'Gangtok — Gateway to the Himalayas',
+  subtitle:'Three nights in Sikkim\'s capital — Buddhist monasteries, Himalayan panoramas and the road to Nathula',
+  gradient:['#0d1a30','#1a3a6e'],
+  badge:'Sikkim Capital · 1,650m', badgeColor:'#D4AF37', badgeText:'#1a1a1a',
+  type:'FIT + Family + Adventure + Heritage',
+  duration:'3N / 4D', nights:3, days:4,
+  exCities:['Ex Bagdogra Airport (125 km, 4 hrs)','Ex New Jalpaiguri (125 km, 4 hrs)'],
+  highlights:[
+    'Rumtek Monastery (24 km) — largest monastery in Sikkim; seat of Kagyu sect; 16th Karmapa artefacts',
+    'Tsomgo (Changu) Lake (37 km, 3,753m) — alpine lake frozen Oct–Mar; yak rides; snow views',
+    'Nathula Pass (52 km, 4,310m) — Indo-China border pass; 1967 war memorial; Himalayan military road',
+    'MG Marg pedestrian street — cobbled, car-free promenade; lined with Sikkimese & international cafes',
+    'Phodong Monastery (38 km) — royal Sikkim monastery (1740); Labrang Monastery adjacent; scenic drive',
+    'Seven Sisters Waterfalls (33 km) — 7 cascades on Gangtok–Mangan highway; Nov–Mar roaring flow'
+  ],
+  itinerary:[
+    {day:1, label:'Day 1', title:'Arrive Gangtok — Town, MG Marg & Monastery Market',acts:[
+      'Arrive Bagdogra Airport | Drive to Gangtok (125 km, 4 hrs via Teesta River valley road)',
+      'Check-in to hotel (views of Kanchenjunga from good hotels)',
+      'MG Marg (4 PM, free) — Gangtok\'s pedestrian main street; ice cream, momos, view points',
+      'Directorate of Handicrafts & Handlooms (₹20) — Sikkimese tangkas, hand-woven carpets, demonstrators at looms',
+      'Enchey Monastery (3.5 km, 1909, ₹30) — hilltop monastery; panoramic view of Gangtok valley',
+      'Flower Exhibition Centre (seasonal, ₹30) — 500+ orchid species including rare Sikkimese varieties',
+      'Dinner: Roll House (Tibetan + Chinese) or Hotel Lotus Restaurant'
+    ]},
+    {day:2, label:'Day 2', title:'Tsomgo Lake (3,753m) & Baba Mandir',acts:[
+      'Note: Tsomgo requires Protected Area Permit — agency arranges (₹200/person + form), apply Day 1',
+      '7 AM: Drive to Tsomgo Lake (37 km, 1.5 hrs, 3,753m)',
+      'Tsomgo (Changu) Lake — alpine glacial lake; Brahma ducks, Ruddy shelduck on lake surface',
+      'Yak ride around lake (₹500, 30 min) — on snow in winter (Nov–Apr)',
+      'Baba Harbhajan Singh Mandir (58 km, 4,200m) — Indian Army temple of "Baba" who still guards border',
+      'Restaurant at Baba Mandir: Army Mess bhog (dal-rice-sabzi) — simple, authentic, memorable',
+      'Nathula Pass (52 km from Gangtok, 4,310m) — Indo-China border (open Tue–Sat, permit required ₹400)',
+      'See the India–China boundary marker; Himalayan mountain range from 4,310m',
+      'Return Gangtok by 5 PM | Dinner: MG Marg cafes or hotel'
+    ]},
+    {day:3, label:'Day 3', title:'Rumtek Monastery & South Sikkim Villages',acts:[
+      'Morning 9 AM: Rumtek Monastery (24 km, 1 hr, ₹30 entry + camera ₹50)',
+      'Largest monastery in Sikkim; 16th Karmapa palace; Golden Stupa housing relics',
+      'Dharma Chakra Centre (within complex) — main assembly hall with 4m gilded Buddha',
+      'Sangacholing Monastery (30 km, afternoon) — oldest monastery in Sikkim (1697)',
+      'Rumtek-Singtam village road: organic cardamom farms, orange orchards, terraced hillsides',
+      'Institute of Tibetology (2 PM, ₹15) — world\'s largest collection of Tibetan Buddhist manuscripts outside Tibet',
+      'Orchid Sanctuary adjacent to Tibetology (₹20) — 400 orchid species, greenhouse walk',
+      'Dinner: Baker\'s Café or The Living Room MG Marg'
+    ]},
+    {day:4, label:'Day 4', title:'Phodong Monastery, Seven Sisters Falls & Departure',acts:[
+      'Morning 8 AM: Drive north to Phodong Monastery (38 km, 1.5 hrs)',
+      'Phodong Gompa (1740 AD) — royal padmasambhava monastery; scenic location on ridgeline',
+      'Labrang Monastery (adjacent, 5 min walk) — rare yellow-hat sect in Sikkim; murals',
+      'Seven Sisters Waterfalls (33 km from Gangtok on return) — 7 cascades; Nov–Mar fullest',
+      'Banana Lake / Lingtam village (40 km) — off-road, less-visited Sikkimese village with valley view',
+      'Return Gangtok by 1 PM | Breakfast + checkout',
+      'Shop: Sikkimese Butter Tea (₹200), Temi Tea (Sikkim\'s premium estate, ₹400/100g), prayer wheel',
+      'Drive to Bagdogra Airport (4 hrs) for evening departure'
+    ]}
+  ],
+  hotels4:['Norkhill Hotel (Elgin Group, 1932)','Mayfair Gangtok','Hotel Tibet Gangtok','Denzong Regency'],
+  hotels5:['Mayfair Spa Resort Gangtok','Elgin Nor-Khill (heritage suite)','Summit Chumbi Mountain Retreat','Bamboo Retreat Sikkim'],
+  price4:16000, price5:29000,
+  inclusions:['3 nights (4★/5★)','Daily breakfast + 3 dinners','Protected Area Permit fees (Tsomgo + Nathula)','Tsomgo Lake + Baba Mandir excursion','Nathula Pass visit (if open)','Rumtek Monastery entry','Institute of Tibetology entry','Phodong Monastery visit','All vehicle transfers Bagdogra ↔ Gangtok + sightseeing','All tolls & driver allowance'],
+  exclusions:['Flights to/from Bagdogra (IXB)','GST @ 5% extra','Yak ride at Tsomgo (₹500)','Snowsuit hire at Tsomgo (₹200)','Sangacholing Monastery entry','Lunch on all 4 days','Temi Tea / Sikkimese purchases','Travel Insurance'],
+  note:'Nathula Pass: only Indian nationals allowed; PAP required. Closed Mondays and Tuesdays. Tsomgo Lake permit: submitted Day 1 at Gangtok. Always carry original ID. Best season: Oct–Dec (clear peaks, snow), Mar–May (rhododendrons). Monsoon (Jun–Sep): some roads may close after heavy rain.'
+},
+
+// 3. SHILLONG 3N/4D (NEW)
+{
+  id:'shillong',
+  name:'Shillong — Scotland of the East',
+  subtitle:'Three nights in Meghalaya — living root bridges, transparent rivers and Asia\'s cleanest village',
+  gradient:['#0d1a0d','#1a4a2e'],
+  badge:'NEW · Meghalaya Marvel', badgeColor:'#059669', badgeText:'#fff',
+  type:'FIT + Nature + Adventure + Heritage',
+  duration:'3N / 4D', nights:3, days:4,
+  exCities:['Ex Guwahati (100 km, 2.5 hrs)','Ex Shillong Airport / Umroi (35 km, 1 hr)'],
+  highlights:[
+    'Cherrapunji Living Root Bridges — 500-year-old Khasi living bridges grown from Ficus roots; Double Decker (3,000+ steps)',
+    'Nohkalikai Falls (335m) — India\'s highest plunge waterfall; Cherrapunji; turquoise pool at base',
+    'Dawki — Umngot River, world\'s clearest water; boat floats on glass; Bangladesh border village',
+    'Mawlynnong (65 km from Shillong) — Asia\'s cleanest village (2003 award); aerial walkway; bamboo homes',
+    'Elephant Falls (12 km from Shillong) — three-tiered Khasi sacred waterfall; easy forest walk',
+    'Ward\'s Lake (Shillong centre) — British-era boating lake; bandstand; flower garden; rose walk'
+  ],
+  itinerary:[
+    {day:1, label:'Day 1', title:'Arrive Shillong — Elephant Falls, Ward\'s Lake & Bazaar',acts:[
+      'Arrive Guwahati Airport | AC transfer to Shillong (100 km, 2.5 hrs, NH-6)',
+      'En route: Umiam Lake (17 km from Shillong) — largest man-made lake in Northeast; road-side photo stop',
+      'Check-in to hotel | Freshen up + lunch at hotel or Café Shillong',
+      'Elephant Falls (12 km, ₹20) — 3-tiered waterfall in dense forest; 30 min visit',
+      'Don Bosco Museum (₹100) — 7-floor Northeast India tribal museum; ethnography, costumes, artefacts',
+      'Lady Hydari Park (₹25) — British-era botanical garden; mini zoo; orchid house',
+      'Ward\'s Lake (₹10, 2 hrs before closing) — boating ₹80, flower walks',
+      'Dinner: Café Shillong (rooftop, colonial mansion) or Police Bazaar stalls (Jadoh — Khasi rice-pork dish)'
+    ]},
+    {day:2, label:'Day 2', title:'Cherrapunji — Root Bridges, Nohkalikai & Seven Sisters Falls',acts:[
+      'Early 7 AM: Drive to Cherrapunji / Sohra (56 km, 2 hrs)',
+      'Mawsmai Cave (₹100, 1 hr) — 150m illuminated limestone cavern; stalactites, tight passages',
+      'Seven Sisters Falls Cherrapunji (Nov–Jun fullest) — named after 7 NE states; viewpoint 5-min walk',
+      'Nohkalikai Falls (₹30 viewpoint) — 335m plunge into turquoise pool; India\'s highest plunge waterfall',
+      'Living Root Bridge Trek — Tyrna village (10 km towards Nongriat, 3,500 steps down + up)',
+      'Double Decker Living Bridge (3–4 hr round trip, guide ₹500) — 500-year-old Ficus elastica root bridge',
+      'Return Shillong by 6 PM | Dinner: Main Street Restaurant or Tribal Cuisine (authentic Khasi thali)'
+    ]},
+    {day:3, label:'Day 3', title:'Dawki Crystal River & Mawlynnong Village',acts:[
+      '7 AM: Drive to Dawki (83 km, 2.5 hrs)',
+      'Dawki Umngot River — load boats (₹600/boat, 6 persons, 1 hr) — crystal-clear like floating on air',
+      'India-Bangladesh Border Bridge, Dawki port checkpoint, river market',
+      'Drive to Mawlynnong (15 km from Dawki, 1 hr)',
+      'Mawlynnong — Asia\'s Cleanest Village (awarded 2003); bamboo dustbins, swept paths, flower hedges',
+      'Sky Walk (bamboo aerial walkway, ₹20) — climb 80 ft for canopy-level Bangladesh plains view',
+      'Village elder interaction: Khasi matrilineal culture (land passed through mother\'s line)',
+      'Return Shillong (4.5 hrs) | Dinner at hotel'
+    ]},
+    {day:4, label:'Day 4', title:'Shillong Peak & Cathedral, Then Departure',acts:[
+      'Morning: Shillong Peak (10 km, 1,966m, ₹10 + ₹50 entry) — highest point of Meghalaya; 360° view',
+      'Indian Air Force base visible from viewpoint; Meghalaya plateau panorama',
+      'Cathedral of Mary Help of Christians (9 AM, free) — striking 1936 Gothic cathedral; 44m spire',
+      'Bara Bazaar — oldest bazaar in Shillong; Khasi women traders (local custom); bamboo handicrafts',
+      'Breakfast + checkout | Shop: Cherrapunji honey, bamboo crafts, local turmeric & dried chilli',
+      'Police Bazaar: bamboo & cane artefacts, Naga shawls, Mizo textiles',
+      'Drive to Guwahati Airport (100 km, 2.5 hrs) | Depart'
+    ]}
+  ],
+  hotels4:['Hotel Polo Towers Shillong','The Residence Hotel Shillong','Hotel Centre Point','Tripura Castle Shillong (heritage)'],
+  hotels5:['Ri-Kynjai Resort (Umiam Lakeside, 5★)','Hotel Vivanta Shillong (Taj group)','Cherrapunji Holiday Resort (Eco)','NEIGRIHMS Guest House (govt, premium)'],
+  price4:13500, price5:24000,
+  inclusions:['3 nights (4★/5★)','Daily breakfast + 3 dinners','AC vehicle Guwahati Airport ↔ Shillong + all sightseeing','Mawsmai Cave entry (Cherrapunji)','Dawki boat ride (₹600/boat, 6 persons)','Mawlynnong Village + Sky Walk entry','Cherrapunji viewpoints (Nohkalikai, Seven Sisters)','Elephant Falls + Ward\'s Lake + Police Bazaar','Shillong Peak entry','All tolls & driver allowance'],
+  exclusions:['Flights to/from Guwahati (GAU)','GST @ 5% extra','Double Decker Root Bridge guide (₹500, physically demanding 5 hrs)','Don Bosco Museum (₹100, optional)','Lunch on all 4 days','Cherrapunji honey, bamboo handicrafts','Travel Insurance'],
+  note:'Best season: Oct–May (post-monsoon clarity; falls full Oct–Jan; roads clear). Jun–Sep: Cherrapunji is the wettest place on earth — stunning waterfalls but road often disrupted. Root Bridge trek: physically demanding (3,500 steps). Dawki crystal river: clearest Nov–Mar before summer silt. Meghalaya is a dry-state in many areas — check hotel policy.'
+},
+
+// 4. ANDAMAN ISLANDS 3N/4D (NEW)
+{
+  id:'andaman',
+  name:'Andaman Islands — Emerald in the Bay of Bengal',
+  subtitle:'Three nights of turquoise coral waters, colonial history, Asia\'s best beach and bioluminescent nights',
+  gradient:['#0a1a2e','#0e4d6e'],
+  badge:'NEW · Island Paradise', badgeColor:'#0ea5e9', badgeText:'#fff',
+  type:'FIT + Honeymoon + Adventure + Beach',
+  duration:'3N / 4D', nights:3, days:4,
+  exCities:['Ex Chennai (flight, 2 hrs, IXZ)','Ex Kolkata (flight, 2 hrs, IXZ)','Ex Bengaluru / Delhi / Mumbai (flight, 3–4 hrs)'],
+  highlights:[
+    'Cellular Jail (Kaala Paani, 1906) — colonial British prison; 7 wings radiating from center; Sound & Light Show',
+    'Radhanagar Beach (Havelock Island) — Time Magazine\'s #1 in Asia 2004; white sand + turquoise water',
+    'Elephant Beach Snorkelling — easy 15-min speed-boat ride; hard coral reef; sea turtles; clownfish',
+    'Neil Island (Shaheed Dweep) — natural rock arch (Neil\'s Cove); Laxmanpur sunset; unhurried coral walks',
+    'Barratang Island (mangroves + limestone caves) — boat through mangrove creek; stalactite limestone caves',
+    'Bioluminescent Kayaking — Havelock\'s night waters glow electric blue on clear moonless nights'
+  ],
+  itinerary:[
+    {day:1, label:'Day 1', title:'Arrive Port Blair — Cellular Jail & Sound+Light Show',acts:[
+      'Arrive Veer Savarkar Airport, Port Blair | Transfer to hotel',
+      'Check-in | Freshen up + seafood lunch at Annapurna Cafeteria (Budget) or Sea Shell (seafood)',
+      'Cellular Jail National Memorial (₹30 + ₹10 camera) — 7-wing radial prison; built 1906; 3 wings remain',
+      'Prison cells where freedom fighters (Savarkar, Batukeshwar Dutt) were held; hanging gallows',
+      'Sound & Light Show (6:30 PM, ₹100) — 50-min multi-lingual show; narrated freedom struggle story',
+      'Port Blair Corbyn\'s Cove Beach (8 km) — sunset swim; calm water; local food stalls',
+      'Dinner: Sea Shell Hotel seafood (grilled barracuda, crab curry) or Ambasa Restaurant'
+    ]},
+    {day:2, label:'Day 2', title:'Havelock (Swaraj Dweep) — Radhanagar Beach',acts:[
+      '6 AM: Makruzz/Nautika ferry Port Blair → Havelock Island (58 km, 1.5 hrs, ₹900–1,200 one way)',
+      'Check-in to beach resort, Havelock | Drop bags',
+      'Beach No. 5 (Vijaynagar) — 15-min from jetty; less crowded morning swim and snorkel',
+      'Lunch at Fat Martin\'s or Barefoot at Havelock (best value fresh seafood)',
+      'Radhanagar Beach / Beach No. 7 (3 PM, ₹100 entry) — Time's Asia #1 beach; 2 km white sand crescent',
+      '5 PM–6:30 PM: Radhanagar sunset — one of Andaman\'s most photographed; calm waters for a sunset swim',
+      'Dinner: Havelock Beach Bar & Restaurant or Anju Coco Grove',
+      'Optional evening (Apr–Sep): Bioluminescent night kayaking (₹1,500, advance booking only)'
+    ]},
+    {day:3, label:'Day 3', title:'Elephant Beach Snorkelling & Neil Island Option',acts:[
+      'Morning 8 AM: Elephant Beach boat (₹600 return, 15 min from jetty)',
+      'Elephant Beach (entry ₹50) — snorkelling with guide (₹500 equipment + guide included)',
+      'Coral garden snorkel: Staghorn + Table coral, Sea turtle, Parrotfish, Anemonefish on drop-off',
+      'Glass-bottom boat for non-swimmers (₹400, 30 min)',
+      'Return by 12 PM | Lunch Havelock',
+      'Option A: Ferry to Neil Island (₹500, 1 hr) — see natural rock arch, Laxmanpur Beach sunset',
+      'Option B: Remain Havelock — kayaking, forest walk, hammock afternoon',
+      'Return Port Blair by evening ferry | Dinner: New Lighthouse Restaurant, Aberdeen Bazaar'
+    ]},
+    {day:4, label:'Day 4', title:'Ross Island, Chidiya Tapu & Departure',acts:[
+      'Morning 8 AM: Ross Island (Netaji Subhas Chandra Bose Dweep) — ferry ₹90, 10 min',
+      'Former British capital of Andamans; ruins of Ballroom, Church, CID HQ overgrown by banyan tree roots',
+      'Deer and peacock roam freely on the island; Japanese bunkers and guns from WWII',
+      'Chidiya Tapu (25 km from Port Blair, "Bird Island") — 9 AM to 11 AM bird watching',
+      '90+ resident bird species: White-headed starling, Andaman Treepie, Andy Coucal',
+      'Chidiya Tapu sunset beach (Munda Pather) — best sunset point in South Andaman',
+      'Breakfast + checkout by noon | Transfer to airport',
+      'Shop: Andaman and Nicobar seafood pickle, shell handicrafts, bamboo artefacts (Aberdeen Bazaar)'
+    ]}
+  ],
+  hotels4:['Sinclairs Bayview Port Blair','Sea Shell Port Blair','Havelock Island Beach Resort','Sand Pebbles Havelock'],
+  hotels5:['Barefoot at Havelock (eco-luxury)','Taj Exotica Resort (Havelock, opened 2023)','Fortune Resort Bay Island Port Blair','Coral Reef Beach Resort Havelock'],
+  price4:22000, price5:38000,
+  inclusions:['2 nights Port Blair + 1 night Havelock (or 3 nights Port Blair)','Daily breakfast + 3 dinners','Airport transfers + all Port Blair sightseeing','Makruzz ferry Port Blair ↔ Havelock (both ways)','Cellular Jail entry + Sound & Light show','Ross Island entry + boat','Elephant Beach snorkel (equipment + guide)','Chidiya Tapu visit','All tolls & driver allowance'],
+  exclusions:['Flights to/from Port Blair (IXZ)','GST @ 5% extra','Neil Island excursion (optional ₹1,000 extra)','Bioluminescent kayaking (₹1,500, seasonal)','SCUBA diving (₹3,500 beginner, optional)','Lunch on all 4 days','Glass-bottom boat ride','Travel Insurance'],
+  note:'Best season: Oct–Mar (clear water, calm sea, visibility 20m+). Apr–Sep: pre-monsoon and monsoon — some ferry services suspended. Radhanagar Beach: arrive by 4 PM for sunset; beach entry closes after dark. SCUBA: PADI intro dive at Barefoot, Neil\'s Cove, Dive India Havelock — world-class visibility Dec–Apr.'
+},
+
+// 5. MAHABALESHWAR 3N/4D (NEW)
+{
+  id:'mahabaleshwar',
+  name:'Mahabaleshwar — Western Ghats Crown Jewel',
+  subtitle:'Three nights on the Sahyadri plateau — Shivaji\'s fort, strawberry farms, Asia\'s 2nd largest plateau and valley panoramas',
+  gradient:['#1a0a0a','#7f1d1d'],
+  badge:'NEW · Maharashtra Hilltop', badgeColor:'#dc2626', badgeText:'#fff',
+  type:'FIT + Heritage + Family + Nature',
+  duration:'3N / 4D', nights:3, days:4,
+  exCities:['Ex Pune (120 km, 3 hrs)','Ex Mumbai (260 km, 5 hrs via NH-48 + NH-66)'],
+  highlights:[
+    'Pratapgad Fort (24 km) — 1656 fort; site of legendary Shivaji–Afzal Khan meeting; perched on 1,081m summit',
+    'Wilson Point (Sunrise) — highest point of Mahabaleshwar (1,438m); panoramic dawn view over Western Ghats',
+    'Panchgani Table Land — Asia\'s second-largest plateau; laterite flat-top at 1,334m; horse riding + views',
+    'Mapro Garden Strawberry Farm — Mahabaleshwar strawberry cooperative; pick-your-own season Jan–Mar',
+    'Lingmala Waterfall — 600m trail through forest to base pool; shaded walk; Dhom Dam valley views',
+    'Venna Lake Boating — 28-acre lake in town center; horse and pony rides; garden walks'
+  ],
+  itinerary:[
+    {day:1, label:'Day 1', title:'Arrive Mahabaleshwar — Lingmala Falls, Venna Lake & Town',acts:[
+      'Arrive Pune | AC vehicle to Mahabaleshwar (120 km, 3 hrs via Wai ghat road)',
+      'En route: Wai (65 km) — Dholya Ganpati temple + old Peshwa-era riverfront ghats (15 min stop)',
+      'Check-in to hotel | Freshen up + late lunch',
+      'Lingmala Waterfall (4 km from town, ₹25, 600m trail) — two-tiered cascade into plunge pool',
+      'Venna Lake (4 PM, ₹30 entry) — 28-acre lake; paddleboat/rowboat ₹100, 30 min',
+      'Town market: fresh strawberries (Jan–Mar), Mahabaleshwar honey, Mulberry wine',
+      'Dinner: The Table Mahabaleshwar or Hotel Brightland (buffet)'
+    ]},
+    {day:2, label:'Day 2', title:'Pratapgad Fort & Panchgani',acts:[
+      'Morning 8 AM: Drive to Pratapgad Fort (24 km, 1 hr, ₹50 ASI)',
+      '1656 Shivaji Maharaj fort; scene of Afzal Khan killing (Nov 1659) — major Maratha history',
+      'Climb 500 steps to upper fort (1,081m) | Cannons, Bhavani Devi Temple (within fort)',
+      'Panoramic view of Koyna valley from battlements',
+      'Lunch near fort: simple Maharashtrian thali at dhabas',
+      'Panchgani (20 km from fort, 1 hr) — Table Land (Asia 2nd largest plateau, 1,334m)',
+      'Table Land entry (₹50) — 1 km of flat laterite rock; horse riding (₹400), views of 5 villages',
+      'Panchgani schools heritage walk (Rahul Gandhi\'s school, Poona Guest House) — history',
+      'Dinner: Hotel Prospect or Mapro Garden restaurant Panchgani'
+    ]},
+    {day:3, label:'Day 3', title:'Wilson Point Sunrise, Mapro Farm & Viewpoints',acts:[
+      '5:45 AM: Wilson Point / Sunrise Point (₹20, highest in Mahab. at 1,438m) — full Sahyadri panorama at dawn',
+      'Breakfast at hotel | Rest after early morning',
+      'Mapro Garden (11 AM, 4 km from town, free entry) — strawberry cooperative + gardens + food park',
+      'Pick-your-own strawberries (Jan–Mar season, ₹200/kg farm-fresh), fresh strawberry crush',
+      'Elephant Head Point (12 km, ₹30) — rock formation resembling elephant trunk dipping into valley',
+      'Kate\'s Point (14 km, ₹50) — viewpoint over Dhom Dam backwaters + Krishna Valley',
+      'Arthur\'s Seat (13 km, ₹30) — "Queen of Points"; overhangs sheer 600m cliff; reverse waterfall effect in monsoon',
+      'Dinner: Dew Drop Restaurant or Tiger\'s Tale'
+    ]},
+    {day:4, label:'Day 4', title:'Old Mahabaleshwar & Temple, Departure',acts:[
+      'Morning: Old Mahabaleshwar (6 km) — original pre-colonial settlement; Panchaganaga Temple (5 river origins)',
+      'Krishnabai Temple (inside Panchaganaga complex) — beautifully carved Hemadpanthi black stone temple',
+      'Five river Gau-mukha water spouts — Koyna, Venna, Gayatri, Savitri, Krishna originate here',
+      'Breakfast + checkout',
+      'Connaught Peak (2 km forest walk, 1,400m, ₹20) — short post-checkout walk if time permits',
+      'Shop: Mahabaleshwar honey (₹250/500g), dry strawberries, Mulberry wine bottles, fresh jam',
+      'Drive to Pune (3 hrs) or Mumbai (5 hrs) for onward journey'
+    ]}
+  ],
+  hotels4:['Hotel Brightland Resort Mahabaleshwar','Evershine Resort','The Citrus Mahabaleshwar (MHADA)','Fountain Resort Mahabaleshwar'],
+  hotels5:['Meritas Mahabaleshwar Resort (5★)','The Fern Mahabaleshwar Resort','Club Mahindra Mahabaleshwar','Mayflower Resort'],
+  price4:13500, price5:24000,
+  inclusions:['3 nights (4★/5★)','Daily breakfast + 3 dinners','AC vehicle Pune ↔ Mahabaleshwar + all sightseeing','Pratapgad Fort entry','Panchgani Table Land visit + horse ride (1 ride)','Wilson Point entry (sunrise)','Lingmala Waterfall entry','All viewpoints entries (Arthur\'s Seat, Kate\'s, Elephant Head)','Venna Lake entry','Mapro Garden visit','All tolls & driver allowance'],
+  exclusions:['Flights/train to/from Pune or Mumbai','GST @ 5% extra','Mapro strawberry picking (₹200/kg if in season)','Boat rides at Venna Lake (₹100)','Lunch on all 4 days','Mahabaleshwar honey/wine purchases','Travel Insurance'],
+  note:'Best season: Oct–Jun (pleasant; strawberries Jan–Mar). Avoid Aug–Sep monsoon (roads slippery; forts and viewpoints misty, access restricted). Pratapgad Fort: 500 steps required; avoid mid-day summer heat. Table Land horse riding: fix price before mounting. June–Sep: waterfalls at max volume (good for waterfall lovers).'
+}
+
+]; // end PKGS
+
+function escH(s){return s?String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'):''}
+function fmtP(n){return '₹'+n.toLocaleString('en-IN')}
+function renderCard(p){
+  const grad=`background:linear-gradient(145deg,${p.gradient[0]},${p.gradient[1]})`;
+  const hlHTML=p.highlights.map(h=>`<li>${escH(h)}</li>`).join('');
+  const itHTML=p.itinerary.map(d=>`<div class="itin-day"><div class="day-label">${escH(d.label)}</div><div class="day-title">${escH(d.title)}</div><ul class="day-acts">${d.acts.map(a=>`<li>${escH(a)}</li>`).join('')}</ul></div>`).join('');
+  const h4=p.hotels4.map(h=>`• ${escH(h)}`).join('<br>');
+  const h5=p.hotels5.map(h=>`• ${escH(h)}`).join('<br>');
+  const inclHTML=p.inclusions.map(i=>`<li class="incl">${escH(i)}</li>`).join('');
+  const exclHTML=p.exclusions.map(i=>`<li class="excl">${escH(i)}</li>`).join('');
+  const exHTML=p.exCities.map(c=>`<span class="ex-chip">${escH(c)}</span>`).join('');
+  const waMsg=encodeURIComponent('Hi, I am interested in the '+p.name+' ('+p.duration+') package. Please share availability and pricing.');
+  return `<div class="pkg-card" data-id="${escH(p.id)}">
+  <div class="pkg-hero" style="${grad}">
+    <span class="pkg-type-chip">${escH(p.type)}</span>
+    <span class="pkg-badge" style="background:${escH(p.badgeColor)};color:${escH(p.badgeText)}">${escH(p.badge)}</span>
+    <div class="pkg-title">${escH(p.name)}</div>
+    <div class="pkg-subtitle">${escH(p.subtitle)}</div>
+    <div class="pkg-meta-row"><span class="meta-pill">⏱ ${escH(p.duration)}</span><span class="meta-pill">🏨 4★ &amp; 5★ Only</span><span class="meta-pill">🇮🇳 India Domestic</span></div>
+  </div>
+  <div class="pkg-body">
+    <div class="pkg-section"><div class="sec-title">Highlights</div><ul class="hl-list">${hlHTML}</ul></div>
+    <div class="pkg-section"><div class="sec-title">Day-wise Itinerary</div>${itHTML}</div>
+    <div class="pkg-section">
+      <div class="sec-title">Pricing &amp; Hotels</div>
+      <div class="pricing-grid">
+        <div class="price-box"><div class="price-star">⭐⭐⭐⭐ 4-Star</div><div class="price-hotels">${h4}</div><div class="price-val">${fmtP(p.price4)}</div><div class="price-sub">per person · twin sharing</div></div>
+        <div class="price-box"><div class="price-star">⭐⭐⭐⭐⭐ 5-Star</div><div class="price-hotels">${h5}</div><div class="price-val">${fmtP(p.price5)}</div><div class="price-sub">per person · twin sharing</div></div>
+      </div>
+      <div class="sec-title" style="margin-top:12px">Inclusions</div>
+      <ul class="incl-list">${inclHTML}</ul>
+      <div class="sec-title">Exclusions</div>
+      <ul class="incl-list">${exclHTML}</ul>
+      ${p.note?`<div class="note-chip">ℹ️ ${escH(p.note)}</div>`:''}
+    </div>
+  </div>
+  <div class="pkg-footer">
+    <div><div style="font-size:11px;font-weight:700;color:#64748b;margin-bottom:6px;letter-spacing:.06em;text-transform:uppercase">Departure Cities</div><div class="ex-cities">${exHTML}</div></div>
+    <div class="cta-group">
+      <a class="btn-whatsapp" href="https://wa.me/919999999999?text=${waMsg}" target="_blank" rel="noopener">💬 WhatsApp</a>
+      <button class="btn-enquire">Enquire Now →</button>
+    </div>
+  </div>
+</div>`;
+}
+function renderAll(filter){
+  const grid=document.getElementById('mainGrid');
+  const list=filter==='all'?PKGS:PKGS.filter(p=>p.id===filter);
+  grid.innerHTML=list.length?list.map(renderCard).join(''):'<p style="padding:60px;text-align:center;color:#94a3b8">No packages found.</p>';
+}
+document.getElementById('filterBar').addEventListener('click',e=>{
+  const btn=e.target.closest('.filter-btn');
+  if(!btn)return;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderAll(btn.dataset.f);
+});
+renderAll('all');
+</script>
+</body>
+</html>
