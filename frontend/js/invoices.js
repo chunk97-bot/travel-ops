@@ -211,7 +211,7 @@ async function savePayment() {
             const { data: staffRow } = await window.supabase
                 .from('staff_profiles')
                 .select('commission_percent')
-                .eq('user_id', createdBy)
+                .eq('id', createdBy)
                 .single();
             const pct = staffRow?.commission_percent || 0;
             if (pct > 0) {
@@ -219,8 +219,8 @@ async function savePayment() {
                 await window.supabase.from('staff_commissions').insert({
                     staff_id: createdBy,
                     invoice_id: invoiceId,
-                    commission_percent: pct,
-                    commission_amount: commAmt,
+                    percent: pct,
+                    amount: commAmt,
                     status: 'pending',
                 });
             }

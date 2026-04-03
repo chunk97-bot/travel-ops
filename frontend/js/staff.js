@@ -64,13 +64,13 @@ async function loadStaff() {
     });
 
     allStaff.forEach(s => {
-        s._revenue = revenueByStaff[s.user_id || s.id] || 0;
+        s._revenue = revenueByStaff[s.id] || 0;
         s._tier = getTierForRevenue(s._revenue);
     });
 
     renderStaffGrid(allStaff);
     const sel = document.getElementById('cStaffId');
-    if (sel) sel.innerHTML = '<option value="">— Select Staff —</option>' + allStaff.map(s => `<option value="${s.user_id || s.id}">${escHtml(s.full_name)}</option>`).join('');
+    if (sel) sel.innerHTML = '<option value="">— Select Staff —</option>' + allStaff.map(s => `<option value="${s.id}">${escHtml(s.full_name)}</option>`).join('');
 }
 
 async function loadCommissions() {
@@ -129,7 +129,7 @@ function renderCommissions(comms) {
     const tbody = document.getElementById('commTable');
     if (!comms.length) { tbody.innerHTML = '<tr><td colspan="7" class="empty-state">No commissions yet</td></tr>'; return; }
     tbody.innerHTML = comms.map(c => {
-        const staff = allStaff.find(s => (s.user_id || s.id) === c.staff_id);
+        const staff = allStaff.find(s => s.id === c.staff_id);
         return `<tr>
             <td>${escHtml(staff?.full_name || '—')}</td>
             <td>${escHtml(c.bookings?.booking_ref || c.invoices?.invoice_number || '—')}</td>
@@ -181,7 +181,7 @@ async function saveCommission() {
         const { data: record } = await window.supabase.from('staff_commissions').insert({
             staff_id: staffId, booking_id: document.getElementById('cBookingId')?.value || null,
             amount, base_amount: baseAmount, percent: pct,
-            tier_name: allStaff.find(s => (s.user_id || s.id) === staffId)?._tier?.tier_name || null,
+            tier_name: allStaff.find(s => s.id === staffId)?._tier?.tier_name || null,
             notes: document.getElementById('commNotes')?.value?.trim() || null,
             status: 'pending',
         }).select('id').single();
@@ -194,7 +194,7 @@ async function saveCommission() {
     const { error } = await window.supabase.from('staff_commissions').insert({
         staff_id: staffId, booking_id: document.getElementById('cBookingId')?.value || null,
         amount, base_amount: baseAmount, percent: pct,
-        tier_name: allStaff.find(s => (s.user_id || s.id) === staffId)?._tier?.tier_name || null,
+        tier_name: allStaff.find(s => s.id === staffId)?._tier?.tier_name || null,
         notes: document.getElementById('commNotes')?.value?.trim() || null,
         status: 'pending',
     });

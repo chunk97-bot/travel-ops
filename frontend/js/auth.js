@@ -522,11 +522,12 @@ async function needsApproval(type, amount) {
 async function requestApproval(type, recordId, amount, notes = '') {
     const userId = await getCurrentUserId();
     const { data, error } = await window.supabase.from('approval_requests').insert({
-        type,
+        request_type: type,
         record_id: recordId,
+        record_table: type,
         requested_by: userId,
         amount,
-        notes: notes || null,
+        reason: notes || null,
         status: 'pending',
     }).select('id').single();
     if (error) { showToast('Approval request failed: ' + error.message, 'error'); return null; }

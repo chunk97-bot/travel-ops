@@ -2,7 +2,7 @@
 // campaigns.js — Bulk WhatsApp / Email campaign manager
 // ============================================================
 
-const WHATSAPP_WORKER = 'https://whereto-whatsapp.chunky199701.workers.dev/send'; // update to actual URL
+const WHATSAPP_WORKER = WORKER_URLS?.whatsapp || '';
 
 let campaignsData = [];
 let editingCampId = null;
@@ -97,7 +97,7 @@ async function fetchAudience(audience) {
         case 'segment_corporate': query = query.eq('segment', 'corporate'); break;
         case 'segment_leisure':   query = query.eq('segment', 'leisure'); break;
         case 'balance_due':
-            query = window.supabase.from('invoices').select('client_id, clients(id, name, phone)').eq('status', 'unpaid');
+            query = window.supabase.from('invoices').select('client_id, clients(id, name, phone)').in('status', ['sent', 'partial', 'overdue']);
             const { data: inv } = await query;
             return (inv || []).map(i => i.clients).filter(Boolean);
         case 'upcoming_trip':
@@ -195,7 +195,7 @@ async function sendCampaignMessages(campId, recipients, messageTemplate) {
             const res = await fetch(WHATSAPP_WORKER, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ phone: client.phone, message: personalMsg })
+                body: JSON.stringify({ to: client.phone, message: personalMsg })
             });
             const ok = res.ok;
             await window.supabase.from('campaign_recipients')

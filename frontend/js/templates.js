@@ -159,8 +159,12 @@ async function sendMessage() {
     if (!to || !body) { showToast('Recipient and message required', 'error'); return; }
     // Dispatch to worker
     const workerUrl = channel === 'whatsapp'
-        ? 'https://travel-ops-whatsapp.YOUR_SUBDOMAIN.workers.dev'
-        : 'https://travel-ops-email.YOUR_SUBDOMAIN.workers.dev';
+        ? (WORKER_URLS?.whatsapp || '')
+        : (WORKER_URLS?.email || '');
+    if (!workerUrl) {
+        showToast('Worker not configured yet. Set URLs in supabase-config.js', 'error');
+        return;
+    }
     try {
         const resp = await fetch(workerUrl, {
             method: 'POST',

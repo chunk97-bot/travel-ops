@@ -14,7 +14,7 @@ let currentUserId = null;
 document.addEventListener('DOMContentLoaded', async () => {
     currentUserId = await getCurrentUserId();
     // Sales role defaults to My Leads view
-    if (typeof hasRole === 'function' && hasRole(['sales'])) {
+    if (typeof hasRole === 'function' && hasRole('sales')) {
         myLeadsOnly = true;
     }
     await loadLeads();

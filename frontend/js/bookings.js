@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('searchBookings')?.addEventListener('input', applyFilters);
     document.getElementById('filterBStatus')?.addEventListener('change', applyFilters);
     document.getElementById('addServiceBtn')?.addEventListener('click', addServiceRow);
-    document.getElementById('drawerOverlay')?.addEventListener('click', closeDrawer);
+    document.getElementById('drawerOverlay')?.addEventListener('click', () => closeDrawer('bookingDrawer'));
 });
 
 async function loadBookings() {
@@ -210,7 +210,7 @@ async function openBookingDrawer(bookingId) {
             <button class="btn-primary" onclick="updateStatus('${b.id}')">Update Status</button>
         </div>
     `;
-    openDrawer();
+    openDrawer('bookingDrawer');
 }
 
 async function updateStatus(bookingId) {
@@ -231,7 +231,7 @@ async function updateStatus(bookingId) {
     }
 
     showToast('Status updated');
-    closeDrawer();
+    closeDrawer('bookingDrawer');
     await loadBookings();
 }
 
@@ -246,7 +246,7 @@ async function deleteBooking(bookingId) {
 // ============================================================
 // Enhancement #1 — WhatsApp Trip Updates
 // ============================================================
-const WHATSAPP_WORKER = ''; // Set to your deployed worker URL
+const WHATSAPP_WORKER = WORKER_URLS?.whatsapp || ''; // Set in supabase-config.js
 async function sendWhatsAppUpdate(phone, message) {
     if (!WHATSAPP_WORKER) {
         // Fallback: open WhatsApp web directly
