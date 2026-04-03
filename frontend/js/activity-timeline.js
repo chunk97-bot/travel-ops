@@ -16,7 +16,7 @@ async function loadActivityTimeline(targetEl, { leadId, clientId }) {
             .eq('lead_id', leadId)
             .order('created_at', { ascending: false }).limit(50);
         (data || []).forEach(a => events.push({
-            icon: a.type === 'call' ? '📞' : a.type === 'whatsapp' ? '💬' : a.type === 'email' ? '📧' : '📝',
+            icon: a.type === 'call' ? '<i data-lucide="phone" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>' : a.type === 'whatsapp' ? '<i data-lucide="message-circle" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>' : a.type === 'email' ? '<i data-lucide="mail" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>' : '<i data-lucide="file-edit" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>',
             label: a.type, detail: a.notes, by: a.staff_profiles?.name, at: a.created_at, source: 'activity'
         }));
     }
@@ -32,7 +32,7 @@ async function loadActivityTimeline(targetEl, { leadId, clientId }) {
         const mins = Math.floor((c.duration_sec || 0) / 60);
         const secs = (c.duration_sec || 0) % 60;
         events.push({
-            icon: c.direction === 'inbound' ? '📥' : '📤',
+            icon: c.direction === 'inbound' ? '<i data-lucide="download" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>' : '<i data-lucide="upload" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>',
             label: `${c.direction} call`,
             detail: `${c.outcome} · ${mins}m ${secs}s${c.notes ? ' — ' + c.notes : ''}`,
             by: c.staff_profiles?.name, at: c.created_at, source: 'call'
@@ -47,7 +47,7 @@ async function loadActivityTimeline(targetEl, { leadId, clientId }) {
     else if (clientId) emailQ.eq('client_id', clientId);
     const { data: emails } = await emailQ;
     (emails || []).forEach(e => events.push({
-        icon: e.direction === 'received' ? '📨' : '📧',
+        icon: e.direction === 'received' ? '<i data-lucide="mail-plus" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>' : '<i data-lucide="mail" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>',
         label: `Email ${e.direction}`,
         detail: `${e.subject || 'No subject'} · ${e.status}`,
         by: e.staff_profiles?.name, at: e.created_at, source: 'email'
@@ -60,7 +60,7 @@ async function loadActivityTimeline(targetEl, { leadId, clientId }) {
             .eq('lead_id', leadId)
             .order('created_at', { ascending: false }).limit(20);
         (data || []).forEach(f => events.push({
-            icon: f.is_done ? '✅' : '🔔',
+            icon: f.is_done ? '<i data-lucide="check-circle" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>' : '<i data-lucide="bell" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>',
             label: `Follow-up (${f.type})`,
             detail: `${f.is_done ? 'Done' : 'Due ' + formatDate(f.due_date)}${f.message ? ' — ' + f.message : ''}`,
             by: null, at: f.created_at, source: 'followup'
@@ -74,7 +74,7 @@ async function loadActivityTimeline(targetEl, { leadId, clientId }) {
             .eq('client_id', clientId)
             .order('created_at', { ascending: false }).limit(10);
         (data || []).forEach(i => events.push({
-            icon: '🧾', label: 'Invoice',
+            icon: '<i data-lucide="file-text" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>', label: 'Invoice',
             detail: `${i.invoice_number} · ${formatINR(i.total_amount)} · ${i.status}`,
             by: null, at: i.created_at, source: 'invoice'
         }));

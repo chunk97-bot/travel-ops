@@ -47,7 +47,7 @@
         .cat-card-dep { font-size: 0.8rem; color: var(--accent); font-weight: 600; }
         .cat-card-highlights { margin: 0.5rem 0 0; padding: 0; list-style: none; }
         .cat-card-highlights li { font-size: 0.8rem; color: var(--text-muted); padding: 0.15rem 0; }
-        .cat-card-highlights li::before { content: '✓ '; color: var(--primary); }
+        .cat-card-highlights li::before { content: '<i data-lucide="check" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> '; color: var(--primary); }
         .best-time { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem; }
         .tag-row { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 0.5rem; }
         .cat-tag { font-size: 0.7rem; padding: 2px 7px; border-radius: 20px; background: #f0f4f8; color: var(--accent); border: 1px solid #d0dce8; }
@@ -59,23 +59,24 @@
             .catalog-header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
         }
     </style>
+    <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
 </head>
 <body>
 
 <header class="catalog-header">
-    <h1>✈ India 2-Night Gateways</h1>
+    <h1><i data-lucide="plane" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> India 2-Night Gateways</h1>
     <p>Quick escapes across India — 3 days, 2 nights, unforgettable experiences</p>
     <div class="catalog-meta">
-        <span>📍 28 Destinations</span>
-        <span>🗺 6 Regions</span>
-        <span>📅 April 2026</span>
+        <span><i data-lucide="map-pin" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> 28 Destinations</span>
+        <span><i data-lucide="map" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> 6 Regions</span>
+        <span><i data-lucide="calendar" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> April 2026</span>
     </div>
 </header>
 
 <div class="catalog-actions">
-    <button onclick="window.print()" class="btn-print">🖨 Print Brochure</button>
-    <button onclick="shareWhatsApp()">💬 Share on WhatsApp</button>
-    <button onclick="copyLink()">🔗 Copy Link</button>
+    <button onclick="window.print()" class="btn-print"><i data-lucide="printer" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Print Brochure</button>
+    <button onclick="shareWhatsApp()"><i data-lucide="message-circle" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Share on WhatsApp</button>
+    <button onclick="copyLink()"><i data-lucide="link" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Copy Link</button>
 </div>
 
 <div id="catalogBody"></div>
@@ -101,12 +102,12 @@ function renderCatalog() {
                     <div class="cat-card">
                         <div class="cat-card-title">${p.name}</div>
                         <div class="cat-card-sub">${p.nights}N/${p.days}D · ${p.category}</div>
-                        <div class="cat-card-dep">✈ Ex: ${p.departureCities.join(' / ')}</div>
+                        <div class="cat-card-dep"><i data-lucide="plane" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Ex: ${p.departureCities.join(' / ')}</div>
                         <ul class="cat-card-highlights">
                             ${p.highlights.map(h => `<li>${h}</li>`).join('')}
                         </ul>
                         <div class="tag-row">${p.tags.map(t => `<span class="cat-tag">${t}</span>`).join('')}</div>
-                        <div class="best-time">🌤 Best time: ${p.bestSeason}</div>
+                        <div class="best-time"><i data-lucide="cloud-sun" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Best time: ${p.bestSeason}</div>
                     </div>
                 `).join('')}
             </div>
@@ -124,5 +125,7 @@ function copyLink() {
 
 renderCatalog();
 </script>
+        <script src="js/theme-toggle.js"></script>
+    <script src="js/icons.js"></script>
 </body>
 </html>

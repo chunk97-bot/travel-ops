@@ -4,13 +4,13 @@
 // ============================================================
 
 const RFM_SEGMENTS = {
-    'Champions':      { min: 9, color: '#00c853', icon: '🏆' },
-    'Loyal':          { min: 7, color: '#2196f3', icon: '💎' },
-    'Potential':      { min: 5, color: '#ffc107', icon: '⭐' },
-    'New':            { min: 4, color: '#9c27b0', icon: '🆕' },
-    'At Risk':        { min: 3, color: '#ff9800', icon: '⚠️' },
-    'Needs Attention': { min: 2, color: '#f44336', icon: '🔻' },
-    'Lost':           { min: 0, color: '#757575', icon: '💤' }
+    'Champions':      { min: 9, color: '#00c853', icon: '<i data-lucide="trophy" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>' },
+    'Loyal':          { min: 7, color: '#2196f3', icon: '<i data-lucide="diamond" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>' },
+    'Potential':      { min: 5, color: '#ffc107', icon: '<i data-lucide="star" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>' },
+    'New':            { min: 4, color: '#9c27b0', icon: '<i data-lucide="badge-plus" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>' },
+    'At Risk':        { min: 3, color: '#ff9800', icon: '<i data-lucide="alert-triangle" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>️' },
+    'Needs Attention': { min: 2, color: '#f44336', icon: '<i data-lucide="chevron-down" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>' },
+    'Lost':           { min: 0, color: '#757575', icon: '<i data-lucide="moon" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>' }
 };
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -148,7 +148,7 @@ function _hookRfmIntoClients() {
                 <div class="client-info">
                     <div class="client-name">${escHtml(c.name)} ${rfmBadge(c)}</div>
                     <div class="client-sub">${escHtml(c.phone || '')} ${c.email ? '· ' + escHtml(c.email) : ''}</div>
-                    <div class="client-sub">${c.city ? '📍 ' + escHtml(c.city) : ''} ${c.segment ? '· ' + escHtml(c.segment) : ''}</div>
+                    <div class="client-sub">${c.city ? '<i data-lucide="map-pin" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> ' + escHtml(c.city) : ''} ${c.segment ? '· ' + escHtml(c.segment) : ''}</div>
                     ${c.rfm_score ? `<div class="client-sub" style="font-size:0.72rem;color:var(--text-muted)">R:${c.rfm_recency} F:${c.rfm_frequency} M:${c.rfm_monetary} · ₹${(c.total_spend || 0).toLocaleString()}</div>` : ''}
                     ${c.tags?.length ? `<div class="client-tags">${c.tags.map(t => `<span class="tag">${escHtml(t)}</span>`).join('')}</div>` : ''}
                 </div>
@@ -167,14 +167,14 @@ function _injectRfmUI() {
     if (header) {
         const btn = document.createElement('button');
         btn.className = 'btn-secondary';
-        btn.innerHTML = '📊 RFM Scoring';
+        btn.innerHTML = '<i data-lucide="layout-dashboard" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> RFM Scoring';
         btn.style.cssText = 'margin-left:8px';
         btn.addEventListener('click', toggleRfmPanel);
         header.appendChild(btn);
 
         const calcBtn = document.createElement('button');
         calcBtn.className = 'btn-primary';
-        calcBtn.innerHTML = '⚡ Recalculate RFM';
+        calcBtn.innerHTML = '<i data-lucide="zap" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Recalculate RFM';
         calcBtn.style.cssText = 'margin-left:4px';
         calcBtn.addEventListener('click', calculateAllRfm);
         header.appendChild(calcBtn);
@@ -186,8 +186,8 @@ function _injectRfmUI() {
     panel.className = 'rfm-panel hidden';
     panel.innerHTML = `
         <div class="rfm-panel-header">
-            <h3>📊 RFM Segmentation</h3>
-            <button class="btn-icon" onclick="toggleRfmPanel()">✕</button>
+            <h3><i data-lucide="layout-dashboard" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> RFM Segmentation</h3>
+            <button class="btn-icon" onclick="toggleRfmPanel()">&times;</button>
         </div>
         <div class="rfm-panel-body" id="rfmPanelBody"></div>
     `;
@@ -236,7 +236,7 @@ async function renderRfmDashboard() {
         .not('rfm_segment', 'is', null);
 
     if (!clients || !clients.length) {
-        body.innerHTML = '<p style="color:var(--text-muted);text-align:center;padding:20px">No RFM data yet. Click <strong>⚡ Recalculate RFM</strong> to compute scores for all clients.</p>';
+        body.innerHTML = '<p style="color:var(--text-muted);text-align:center;padding:20px">No RFM data yet. Click <strong><i data-lucide="zap" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Recalculate RFM</strong> to compute scores for all clients.</p>';
         return;
     }
 

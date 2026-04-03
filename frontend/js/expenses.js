@@ -66,7 +66,7 @@ function renderTable(expenses) {
             <td>${escHtml(e.paid_to || '—')}</td>
             <td>${escHtml(e.mode || '—')}</td>
             <td><strong>${formatINR(e.amount)}</strong></td>
-            <td><button class="btn-danger" style="padding:3px 8px;font-size:0.78rem" onclick="deleteExpense('${e.id}')">✕</button></td>
+            <td><button class="btn-danger" style="padding:3px 8px;font-size:0.78rem" onclick="deleteExpense('${e.id}')">&times;</button></td>
         </tr>
     `).join('');
 }

@@ -89,8 +89,8 @@ function renderGrid(items) {
             <div style="padding:14px">
                 <h3 style="margin:0 0 4px;font-size:1rem">${escHtml(b.name)}</h3>
                 <p style="color:var(--text-muted);font-size:0.82rem;margin:0 0 8px">
-                    ${b.destination ? `📍 ${escHtml(b.destination)}` : ''}
-                    ${b.clients?.name ? ` · 👤 ${escHtml(b.clients.name)}` : ''}
+                    ${b.destination ? `<i data-lucide="map-pin" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> ${escHtml(b.destination)}` : ''}
+                    ${b.clients?.name ? ` · <i data-lucide="user" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> ${escHtml(b.clients.name)}` : ''}
                 </p>
                 ${b.total_price ? `<p style="font-weight:600;font-size:1.1rem;margin:0 0 8px">${b.currency || 'INR'} ${Number(b.total_price).toLocaleString()}</p>` : ''}
                 <div style="display:flex;gap:6px;flex-wrap:wrap">
@@ -101,7 +101,7 @@ function renderGrid(items) {
                 </div>
                 <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:0.72rem;color:var(--text-muted)">
                     <span>${formatDate(b.created_at)}</span>
-                    <span>👁 ${b.views_count || 0} views</span>
+                    <span><i data-lucide="eye" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> ${b.views_count || 0} views</span>
                 </div>
             </div>
         </div>`;
@@ -163,7 +163,7 @@ function addSection(data = {}) {
     div.innerHTML = `
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
             <strong style="font-size:0.85rem">Section ${idx}</strong>
-            <button type="button" class="btn-icon" style="font-size:0.85rem;color:#f44336" onclick="document.getElementById('brSec_${idx}').remove()">✕</button>
+            <button type="button" class="btn-icon" style="font-size:0.85rem;color:#f44336" onclick="document.getElementById('brSec_${idx}').remove()">&times;</button>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
             <div class="form-group">
@@ -300,7 +300,7 @@ function _renderPreview(data) {
                 ${data.agency_logo_url ? `<img src="${escHtml(data.agency_logo_url)}" style="max-height:60px;margin-bottom:16px" onerror="this.style.display='none'">` : ''}
                 ${data.cover_image_url ? `<img src="${escHtml(data.cover_image_url)}" style="width:100%;max-height:300px;object-fit:cover;border-radius:12px;margin-bottom:20px" onerror="this.style.display='none'">` : `<div style="height:200px;background:linear-gradient(135deg,${color},${color}88);border-radius:12px;margin-bottom:20px"></div>`}
                 <h1 style="color:${color};font-size:2rem;margin:0 0 8px">${escHtml(data.name || 'Untitled')}</h1>
-                ${data.destination ? `<p style="font-size:1.1rem;color:#666">📍 ${escHtml(data.destination)}</p>` : ''}
+                ${data.destination ? `<p style="font-size:1.1rem;color:#666"><i data-lucide="map-pin" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> ${escHtml(data.destination)}</p>` : ''}
                 ${data.total_price ? `<p style="font-size:1.4rem;font-weight:700;color:${color};margin-top:12px">${escHtml(data.currency || 'INR')} ${Number(data.total_price).toLocaleString()}</p>` : ''}
             </div>
 
@@ -310,7 +310,7 @@ function _renderPreview(data) {
             <!-- Inclusions -->
             ${data.inclusions ? `
                 <div style="margin-bottom:24px;page-break-inside:avoid">
-                    <h3 style="color:${color}">✅ Inclusions</h3>
+                    <h3 style="color:${color}"><i data-lucide="check-circle" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Inclusions</h3>
                     <ul style="color:#333;line-height:1.8">${listify(data.inclusions)}</ul>
                 </div>
             ` : ''}
@@ -318,7 +318,7 @@ function _renderPreview(data) {
             <!-- Exclusions -->
             ${data.exclusions ? `
                 <div style="margin-bottom:24px;page-break-inside:avoid">
-                    <h3 style="color:#c62828">❌ Exclusions</h3>
+                    <h3 style="color:#c62828"><i data-lucide="x-circle" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Exclusions</h3>
                     <ul style="color:#333;line-height:1.8">${listify(data.exclusions)}</ul>
                 </div>
             ` : ''}

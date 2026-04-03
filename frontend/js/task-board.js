@@ -79,7 +79,7 @@ async function loadFollowUps(assignedTo) {
 function renderFollowUpCol(elId, items, cssClass) {
     const el = document.getElementById(elId);
     if (items.length === 0) {
-        el.innerHTML = `<div class="empty-col">No items here ✓</div>`;
+        el.innerHTML = `<div class="empty-col">No items here <i data-lucide="check" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i></div>`;
         return;
     }
     el.innerHTML = items.map(f => {
@@ -89,8 +89,8 @@ function renderFollowUpCol(elId, items, cssClass) {
             <div class="tclient">${escHtml(f.leads?.name || 'Unknown Lead')}</div>
             <div class="ttype">${escHtml(capitalise(f.type || 'follow-up'))}</div>
             ${f.notes ? `<div class="ttype" style="margin-top:4px;">"${escHtml(f.notes.substring(0,70))}"</div>` : ''}
-            <div class="tdue">📅 ${escHtml(dueLabel)}</div>
-            <span class="tstaff">👤 ${escHtml(staffName)}</span>
+            <div class="tdue"><i data-lucide="calendar" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> ${escHtml(dueLabel)}</div>
+            <span class="tstaff"><i data-lucide="user" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> ${escHtml(staffName)}</span>
         </div>`;
     }).join('');
 }
@@ -138,7 +138,7 @@ async function loadPendingInvoices() {
     const tbody = document.getElementById('invoiceBody');
     const rows = data || [];
     if (rows.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:20px;color:var(--text-muted);">All invoices collected ✓</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:20px;color:var(--text-muted);">All invoices collected <i data-lucide="check" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i></td></tr>';
         return;
     }
     tbody.innerHTML = rows.map(inv => {
@@ -168,7 +168,7 @@ async function loadExpiringDocs() {
     const tbody = document.getElementById('docsBody');
     const rows = data || [];
     if (rows.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;padding:20px;color:var(--text-muted);">No documents expiring soon ✓</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;padding:20px;color:var(--text-muted);">No documents expiring soon <i data-lucide="check" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i></td></tr>';
         return;
     }
     tbody.innerHTML = rows.map(doc => {

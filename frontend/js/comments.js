@@ -45,7 +45,7 @@ async function renderComments(entityType, entityId, container) {
 
     container.innerHTML = `
         <div class="comments-section">
-            <h4 style="margin:0 0 12px;font-size:0.9rem">💬 Comments & Notes</h4>
+            <h4 style="margin:0 0 12px;font-size:0.9rem"><i data-lucide="message-circle" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Comments & Notes</h4>
             <div class="comments-list" id="commentsList_${entityId}">
                 ${allComments.length ? allComments.map(c => _renderComment(c, repliesMap[c.id] || [], entityType, entityId)).join('') : '<p style="color:var(--text-muted);font-size:0.82rem;padding:8px 0">No comments yet</p>'}
             </div>

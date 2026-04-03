@@ -93,9 +93,9 @@ function slaBadge(leadId, stage) {
     const cls = sla.status === 'breached' ? 'sla-breached'
         : sla.status === 'warning' ? 'sla-warning'
         : 'sla-ok';
-    const icon = sla.status === 'breached' ? '🔴'
-        : sla.status === 'warning' ? '🟡'
-        : '🟢';
+    const icon = sla.status === 'breached' ? '<span class="dot dot-danger"></span>'
+        : sla.status === 'warning' ? '<span class="dot dot-warning"></span>'
+        : '<span class="dot dot-success"></span>';
 
     return `<span class="sla-badge ${cls}" title="SLA: ${sla.pct || 0}% elapsed">${icon} ${escHtml(sla.label)}</span>`;
 }
@@ -168,7 +168,7 @@ function _hookSlaIntoLeads() {
                             ondragstart="event.dataTransfer.setData('text/plain','${l.id}')"
                             onclick="openLeadDrawer('${l.id}')">
                             <div class="kanban-card-name">${escHtml(l.name)}</div>
-                            <div class="kanban-card-dest">✈ ${escHtml(l.destination || 'TBD')}</div>
+                            <div class="kanban-card-dest"><i data-lucide="plane" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> ${escHtml(l.destination || 'TBD')}</div>
                             <div class="kanban-card-date">${formatDate(l.travel_date)} · ${escHtml(l.budget_range || '—')}</div>
                             <div style="margin-top:4px;display:flex;gap:6px;align-items:center">
                                 ${typeof scoreBadge === 'function' ? scoreBadge(l.lead_score || 0) : ''}
@@ -261,7 +261,7 @@ function _injectSlaUI() {
         const btn = document.createElement('button');
         btn.className = 'btn-secondary';
         btn.id = 'slaDashBtn';
-        btn.innerHTML = '⏱ SLA Dashboard';
+        btn.innerHTML = '<i data-lucide="timer" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> SLA Dashboard';
         btn.style.cssText = 'margin-left:8px';
         btn.addEventListener('click', toggleSlaDashboard);
         filterBar.appendChild(btn);
@@ -273,8 +273,8 @@ function _injectSlaUI() {
     panel.className = 'sla-panel hidden';
     panel.innerHTML = `
         <div class="sla-panel-header">
-            <h3>⏱ SLA Dashboard</h3>
-            <button class="btn-icon" onclick="toggleSlaDashboard()">✕</button>
+            <h3><i data-lucide="timer" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> SLA Dashboard</h3>
+            <button class="btn-icon" onclick="toggleSlaDashboard()">&times;</button>
         </div>
         <div class="sla-panel-body">
             <div class="sla-summary" id="slaSummary"></div>
@@ -380,7 +380,7 @@ async function renderSlaDashboard() {
     // Breach list
     const breachesEl = document.getElementById('slaBreaches');
     if (breachList.length) {
-        breachesEl.innerHTML = `<h4 style="margin:0 0 10px;font-size:0.95rem">🔴 SLA Breaches</h4>` +
+        breachesEl.innerHTML = `<h4 style="margin:0 0 10px;font-size:0.95rem"><span class="dot dot-danger"></span> SLA Breaches</h4>` +
             breachList.map(b => {
                 const lead = b.event.leads;
                 return `<div class="sla-breach-item">
@@ -394,12 +394,12 @@ async function renderSlaDashboard() {
                 </div>`;
             }).join('');
     } else {
-        breachesEl.innerHTML = '<p style="color:var(--text-muted);font-size:0.85rem">✅ No SLA breaches — all leads on track</p>';
+        breachesEl.innerHTML = '<p style="color:var(--text-muted);font-size:0.85rem"><i data-lucide="check-circle" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> No SLA breaches — all leads on track</p>';
     }
 
     // Config table
     document.getElementById('slaConfigSection').innerHTML = `
-        <h4 style="margin:16px 0 8px;font-size:0.95rem">⚙️ SLA Rules</h4>
+        <h4 style="margin:16px 0 8px;font-size:0.95rem"><i data-lucide="settings" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>️ SLA Rules</h4>
         <table class="sla-config-table">
             <thead><tr><th>Stage</th><th>Max Time</th><th>Warning</th><th>Escalate To</th></tr></thead>
             <tbody>

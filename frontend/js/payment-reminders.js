@@ -21,7 +21,7 @@ function _injectReminderUI() {
         btn.id = 'viewRemindersBtn';
         btn.className = 'btn-secondary';
         btn.style.cssText = 'margin-right:8px;font-size:0.85rem';
-        btn.textContent = '🔔 Reminders';
+        btn.textContent = '<i data-lucide="bell" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Reminders';
         btn.addEventListener('click', openRemindersPanel);
         topBarRight.insertBefore(btn, topBarRight.firstChild);
     }
@@ -39,12 +39,12 @@ function _injectReminderUI() {
         panel.innerHTML = `
             <div style="padding:20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center">
                 <h3 style="margin:0;font-size:1rem">Payment Reminders</h3>
-                <button onclick="closeRemindersPanel()" style="background:transparent;border:none;color:var(--text-primary);font-size:1.2rem;cursor:pointer">✕</button>
+                <button onclick="closeRemindersPanel()" style="background:transparent;border:none;color:var(--text-primary);font-size:1.2rem;cursor:pointer">&times;</button>
             </div>
             <div style="padding:16px">
                 <div style="display:flex;gap:8px;margin-bottom:16px">
-                    <button class="btn-primary" style="flex:1;font-size:0.8rem" onclick="autoSendReminders('overdue')">📧 Send Overdue Reminders</button>
-                    <button class="btn-secondary" style="flex:1;font-size:0.8rem" onclick="autoSendReminders('upcoming')">⏰ Send Upcoming Due</button>
+                    <button class="btn-primary" style="flex:1;font-size:0.8rem" onclick="autoSendReminders('overdue')"><i data-lucide="mail" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Send Overdue Reminders</button>
+                    <button class="btn-secondary" style="flex:1;font-size:0.8rem" onclick="autoSendReminders('upcoming')"><i data-lucide="alarm-clock" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Send Upcoming Due</button>
                 </div>
                 <div id="remindersList" style="font-size:0.85rem"></div>
                 <h4 style="margin:20px 0 10px;font-size:0.85rem;color:var(--text-muted)">Reminder History</h4>
@@ -76,7 +76,7 @@ async function _checkOverdueInvoices() {
     );
     if (overdue.length > 0) {
         const btn = document.getElementById('viewRemindersBtn');
-        if (btn) btn.innerHTML = `🔔 Reminders <span style="background:#ef4444;color:#fff;border-radius:50%;padding:1px 6px;font-size:0.7rem;margin-left:4px">${overdue.length}</span>`;
+        if (btn) btn.innerHTML = `<i data-lucide="bell" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Reminders <span style="background:#ef4444;color:#fff;border-radius:50%;padding:1px 6px;font-size:0.7rem;margin-left:4px">${overdue.length}</span>`;
     }
 }
 
@@ -105,14 +105,14 @@ async function loadRemindersList() {
 
     let html = '';
     if (overdue.length) {
-        html += `<div style="color:var(--danger);font-weight:700;margin-bottom:8px">⚠ ${overdue.length} Overdue</div>`;
+        html += `<div style="color:var(--danger);font-weight:700;margin-bottom:8px"><i data-lucide="alert-triangle" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> ${overdue.length} Overdue</div>`;
         html += overdue.map(i => _reminderCard(i, 'overdue')).join('');
     }
     if (upcoming.length) {
-        html += `<div style="color:var(--warning);font-weight:700;margin:12px 0 8px">⏰ ${upcoming.length} Due within 7 days</div>`;
+        html += `<div style="color:var(--warning);font-weight:700;margin:12px 0 8px"><i data-lucide="alarm-clock" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> ${upcoming.length} Due within 7 days</div>`;
         html += upcoming.map(i => _reminderCard(i, 'upcoming')).join('');
     }
-    if (!html) html = '<p style="color:var(--text-muted)">All invoices are on track ✅</p>';
+    if (!html) html = '<p style="color:var(--text-muted)">All invoices are on track <i data-lucide="check-circle" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i></p>';
     listEl.innerHTML = html;
 }
 
@@ -129,8 +129,8 @@ function _reminderCard(inv, type) {
         </div>
         <div style="color:var(--text-muted);font-size:0.8rem">${escHtml(inv.clients?.name || '—')} · Balance: ${formatINR(balance)}</div>
         <div style="margin-top:6px;display:flex;gap:6px">
-            <button class="btn-secondary" style="padding:2px 8px;font-size:0.75rem" onclick="sendReminder('${inv.id}','email')">📧 Email</button>
-            ${inv.clients?.phone ? `<button class="btn-secondary" style="padding:2px 8px;font-size:0.75rem" onclick="sendReminder('${inv.id}','whatsapp')">💬 WhatsApp</button>` : ''}
+            <button class="btn-secondary" style="padding:2px 8px;font-size:0.75rem" onclick="sendReminder('${inv.id}','email')"><i data-lucide="mail" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Email</button>
+            ${inv.clients?.phone ? `<button class="btn-secondary" style="padding:2px 8px;font-size:0.75rem" onclick="sendReminder('${inv.id}','whatsapp')"><i data-lucide="message-circle" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> WhatsApp</button>` : ''}
         </div>
     </div>`;
 }
@@ -220,7 +220,7 @@ async function loadReminderHistory() {
     el.innerHTML = data.map(r => `
         <div style="padding:6px 0;border-bottom:1px solid var(--border);font-size:0.8rem">
             <div style="display:flex;justify-content:space-between">
-                <span>${r.reminder_type === 'whatsapp' ? '💬' : '📧'} ${escHtml(r.invoices?.invoice_number || '—')} → ${escHtml(r.clients?.name || '—')}</span>
+                <span>${r.reminder_type === 'whatsapp' ? '<i data-lucide="message-circle" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>' : '<i data-lucide="mail" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>'} ${escHtml(r.invoices?.invoice_number || '—')} → ${escHtml(r.clients?.name || '—')}</span>
                 <span style="color:var(--text-muted)">${formatDate(r.created_at)}</span>
             </div>
             <div style="color:var(--text-muted)">Amount: ${formatINR(r.amount_due)}</div>

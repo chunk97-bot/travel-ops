@@ -82,7 +82,7 @@ function renderClientGrid(clients) {
             <div class="client-info">
                 <div class="client-name">${escHtml(c.name)}</div>
                 <div class="client-sub">${escHtml(c.phone || '')} ${c.email ? '· ' + escHtml(c.email) : ''}</div>
-                <div class="client-sub">${c.city ? '📍 ' + escHtml(c.city) : ''} ${c.segment ? '· ' + escHtml(c.segment) : ''}</div>
+                <div class="client-sub">${c.city ? '<i data-lucide="map-pin" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> ' + escHtml(c.city) : ''} ${c.segment ? '· ' + escHtml(c.segment) : ''}</div>
                 ${c.tags?.length ? `<div class="client-tags">${c.tags.map(t => `<span class="tag">${escHtml(t)}</span>`).join('')}</div>` : ''}
             </div>
             <div class="client-stats">
@@ -186,7 +186,7 @@ async function openClientDrawer(clientId) {
         <div class="drawer-section">
             <h4>Contact</h4>
             <p>${c.phone || '—'} ${c.email ? '· ' + escHtml(c.email) : ''}</p>
-            <p>${c.city ? '📍 ' + escHtml(c.city) : ''}</p>
+            <p>${c.city ? '<i data-lucide="map-pin" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> ' + escHtml(c.city) : ''}</p>
         </div>
         <div class="drawer-section">
             <h4>Profile</h4>
@@ -195,7 +195,7 @@ async function openClientDrawer(clientId) {
             <p>Segment: <strong>${escHtml(c.segment || '—')}</strong></p>
         </div>
         <div class="drawer-section">
-            <h4>🏷 Tags</h4>
+            <h4><i data-lucide="tag" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Tags</h4>
             <div id="tagEditor_${clientId}"></div>
         </div>
         <div class="drawer-section">
@@ -216,7 +216,7 @@ async function openClientDrawer(clientId) {
         </div>` : ''}
         ${c.notes ? `<div class="drawer-section"><h4>Notes</h4><p>${escHtml(c.notes)}</p></div>` : ''}
         <div class="drawer-section">
-            <h4>⭐ Feedback</h4>
+            <h4><i data-lucide="star" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Feedback</h4>
             <div id="feedbackSummary_${clientId}"><p style="color:var(--text-muted);font-size:0.85rem">Loading...</p></div>
             <button class="btn-primary-sm" style="margin-top:8px" onclick="openFeedbackForm('${clientId}')">+ Collect Feedback</button>
         </div>
@@ -226,8 +226,8 @@ async function openClientDrawer(clientId) {
         </div>
         <div style="margin-top:1rem;display:flex;gap:0.5rem;flex-wrap:wrap">
             <button class="btn-secondary" onclick="openEditClient('${clientId}');closeDrawer('clientDrawer')">Edit</button>
-            ${typeof openCallDialog === 'function' && c.phone ? `<button class="btn-secondary" onclick="openCallDialog('${escHtml(c.phone)}',null,'${clientId}')">📞 Call</button>` : ''}
-            ${typeof openEmailComposer === 'function' && c.email ? `<button class="btn-secondary" onclick="openEmailComposer({to:'${escHtml(c.email)}',clientId:'${clientId}'})">📧 Email</button>` : ''}
+            ${typeof openCallDialog === 'function' && c.phone ? `<button class="btn-secondary" onclick="openCallDialog('${escHtml(c.phone)}',null,'${clientId}')"><i data-lucide="phone" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Call</button>` : ''}
+            ${typeof openEmailComposer === 'function' && c.email ? `<button class="btn-secondary" onclick="openEmailComposer({to:'${escHtml(c.email)}',clientId:'${clientId}'})"><i data-lucide="mail" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Email</button>` : ''}
             <button class="btn-danger" onclick="deleteClient('${clientId}')">Delete</button>
         </div>
     `;

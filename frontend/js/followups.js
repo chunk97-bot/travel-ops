@@ -92,16 +92,16 @@ function renderFollowupCards(followups) {
                     <div class="followup-type">${escHtml(f.type)} · ${stageBadge(f.leads?.stage || '')}</div>
                 </div>
                 <div class="followup-date ${isOverdue ? 'text-danger' : ''}">
-                    ${isOverdue ? '⚠️ ' : ''}${formatDate(f.due_date)}
+                    ${isOverdue ? '<i data-lucide="alert-triangle" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>️ ' : ''}${formatDate(f.due_date)}
                 </div>
             </div>
             <div class="followup-notes">${escHtml(f.notes || '')}</div>
             <div class="followup-actions">
                 ${f.leads?.phone ? `
-                    <a href="tel:${escHtml(f.leads.phone)}" class="btn-secondary" style="padding:5px 10px;font-size:0.8rem;text-decoration:none">📞 Call</a>
+                    <a href="tel:${escHtml(f.leads.phone)}" class="btn-secondary" style="padding:5px 10px;font-size:0.8rem;text-decoration:none"><i data-lucide="phone" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Call</a>
                     <a href="https://wa.me/91${escHtml(f.leads.phone.replace(/\D/g,''))}" target="_blank" class="btn-whatsapp" style="padding:5px 10px;font-size:0.8rem;text-decoration:none">WhatsApp</a>
                 ` : ''}
-                ${f.status === 'pending' ? `<button class="btn-success" onclick="markDone('${f.id}')">✓ Done</button>` : ''}
+                ${f.status === 'pending' ? `<button class="btn-success" onclick="markDone('${f.id}')"><i data-lucide="check" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Done</button>` : ''}
                 <button class="btn-danger" onclick="deleteFollowup('${f.id}')">Delete</button>
             </div>
         </div>

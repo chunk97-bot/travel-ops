@@ -9,10 +9,10 @@ async function initFollowupReminders(containerId) {
 
     container.innerHTML = `
         <div class="reminder-tabs" style="display:flex;gap:4px;margin-bottom:12px">
-            <button class="tab-btn active" onclick="loadReminderTab('overdue',this)">🔴 Overdue</button>
-            <button class="tab-btn" onclick="loadReminderTab('today',this)">🟡 Today</button>
-            <button class="tab-btn" onclick="loadReminderTab('upcoming',this)">🟢 Upcoming</button>
-            <button class="tab-btn" onclick="loadReminderTab('all',this)">📋 All</button>
+            <button class="tab-btn active" onclick="loadReminderTab('overdue',this)"><span class="dot dot-danger"></span> Overdue</button>
+            <button class="tab-btn" onclick="loadReminderTab('today',this)"><span class="dot dot-warning"></span> Today</button>
+            <button class="tab-btn" onclick="loadReminderTab('upcoming',this)"><span class="dot dot-success"></span> Upcoming</button>
+            <button class="tab-btn" onclick="loadReminderTab('all',this)"><i data-lucide="clipboard-list" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> All</button>
         </div>
         <div id="reminderStats" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px"></div>
         <div id="reminderList"></div>
@@ -71,7 +71,7 @@ async function loadReminderTab(tab, btnEl) {
 
     const { data } = await query.limit(50);
     if (!data?.length) {
-        listEl.innerHTML = `<p class="empty-state">${tab === 'overdue' ? 'No overdue follow-ups 🎉' : 'No follow-ups in this category'}</p>`;
+        listEl.innerHTML = `<p class="empty-state">${tab === 'overdue' ? 'No overdue follow-ups <i data-lucide="party-popper" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>' : 'No follow-ups in this category'}</p>`;
         return;
     }
 
@@ -80,7 +80,7 @@ async function loadReminderTab(tab, btnEl) {
         const isOverdue = dueDate < now;
         const isToday = dueDate.toDateString() === now.toDateString();
         const urgencyClass = isOverdue ? 'overdue' : isToday ? 'today' : '';
-        const icon = f.type === 'call' ? '📞' : f.type === 'whatsapp' ? '💬' : '📧';
+        const icon = f.type === 'call' ? '<i data-lucide="phone" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>' : f.type === 'whatsapp' ? '<i data-lucide="message-circle" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>' : '<i data-lucide="mail" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>';
         const daysLabel = isOverdue ? `<span style="color:var(--danger);font-weight:600">${Math.ceil((now - dueDate) / 86400000)}d overdue</span>` : isToday ? '<span style="color:var(--warning);font-weight:600">Today</span>' : `in ${Math.ceil((dueDate - now) / 86400000)}d`;
 
         return `
@@ -92,8 +92,8 @@ async function loadReminderTab(tab, btnEl) {
                     ${f.message ? `<div style="font-size:0.8rem;color:var(--text-muted);font-style:italic;margin-top:2px">${escHtml(f.message)}</div>` : ''}
                 </div>
                 <div style="display:flex;gap:6px">
-                    ${f.leads?.phone ? `<button class="btn-primary" style="padding:4px 10px;font-size:0.78rem" onclick="window.open('https://wa.me/91${escHtml(f.leads.phone.replace(/\\D/g,''))}','_blank')">💬</button>` : ''}
-                    <button class="btn-success" style="padding:4px 10px;font-size:0.78rem" onclick="markReminderDone('${f.id}','${escHtml(tab)}')">Done ✓</button>
+                    ${f.leads?.phone ? `<button class="btn-primary" style="padding:4px 10px;font-size:0.78rem" onclick="window.open('https://wa.me/91${escHtml(f.leads.phone.replace(/\\D/g,''))}','_blank')"><i data-lucide="message-circle" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i></button>` : ''}
+                    <button class="btn-success" style="padding:4px 10px;font-size:0.78rem" onclick="markReminderDone('${f.id}','${escHtml(tab)}')">Done <i data-lucide="check" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i></button>
                 </div>
             </div>
         `;

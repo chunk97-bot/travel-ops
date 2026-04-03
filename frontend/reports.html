@@ -6,38 +6,39 @@
     <title>Travel Ops — Reports</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/dashboard.css">
+    <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
 </head>
 <body>
     <nav class="sidebar" id="sidebar">
         <div class="sidebar-logo">
-            <span class="logo-icon">✈</span>
+            <span class="logo-icon"><i data-lucide="plane" style="width:22px;height:22px"></i></span>
             <span class="logo-text">Travel Ops</span>
         </div>
         <ul class="nav-links">
-            <li><a href="index.html"><span>📊</span> Dashboard</a></li>
-            <li><a href="leads.html"><span>🎯</span> Leads</a></li>
-            <li><a href="clients.html"><span>👥</span> Clients</a></li>
-            <li><a href="itinerary.html"><span>🗺</span> Itinerary Builder</a></li>
-            <li><a href="packages.html"><span>📦</span> Packages</a></li>
-            <li><a href="vendors.html"><span>🤝</span> Vendors</a></li>
-            <li><a href="invoices.html"><span>🧾</span> Invoices</a></li>
-            <li><a href="followups.html"><span>🔔</span> Follow-Ups</a></li>
-            <li><a href="quotations.html"><span>📋</span> Quotations</a></li>
-            <li><a href="bookings.html"><span>🗓</span> Bookings</a></li>
-            <li><a href="group-bookings.html"><span>👥</span> Group Bookings</a></li>
-            <li><a href="cancellations.html"><span>❌</span> Cancellations</a></li>
-            <li><a href="expenses.html"><span>💸</span> Expenses</a></li>
-            <li><a href="receipts.html"><span>🧾</span> Receipts</a></li>
-            <li><a href="vendor-payments.html"><span>💼</span> Vendor Payments</a></li>
-            <li><a href="vendor-ledger.html"><span>📒</span> Vendor Ledger</a></li>
-            <li><a href="tcs-tracker.html"><span>🏛</span> TCS Tracker</a></li>
-            <li><a href="staff.html"><span>👤</span> Staff</a></li>
-            <li><a href="templates.html"><span>✉</span> Templates</a></li>
-            <li><a href="campaigns.html"><span>📢</span> Campaigns</a></li>
-            <li><a href="task-board.html"><span>✅</span> Task Board</a></li>
-            <li><a href="documents.html"><span>📁</span> Documents</a></li>
-            <li class="active"><a href="reports.html"><span>📈</span> Reports</a></li>
-            <li><a href="settings.html"><span>⚙</span> Settings</a></li>
+            <li><a href="index.html"><span><i data-lucide="layout-dashboard" style="width:18px;height:18px"></i></span> Dashboard</a></li>
+            <li><a href="leads.html"><span><i data-lucide="target" style="width:18px;height:18px"></i></span> Leads</a></li>
+            <li><a href="clients.html"><span><i data-lucide="users" style="width:18px;height:18px"></i></span> Clients</a></li>
+            <li><a href="itinerary.html"><span><i data-lucide="map" style="width:18px;height:18px"></i></span> Itinerary Builder</a></li>
+            <li><a href="packages.html"><span><i data-lucide="package" style="width:18px;height:18px"></i></span> Packages</a></li>
+            <li><a href="vendors.html"><span><i data-lucide="handshake" style="width:18px;height:18px"></i></span> Vendors</a></li>
+            <li><a href="invoices.html"><span><i data-lucide="file-text" style="width:18px;height:18px"></i></span> Invoices</a></li>
+            <li><a href="followups.html"><span><i data-lucide="bell" style="width:18px;height:18px"></i></span> Follow-Ups</a></li>
+            <li><a href="quotations.html"><span><i data-lucide="clipboard-list" style="width:18px;height:18px"></i></span> Quotations</a></li>
+            <li><a href="bookings.html"><span><i data-lucide="calendar-check" style="width:18px;height:18px"></i></span> Bookings</a></li>
+            <li><a href="group-bookings.html"><span><i data-lucide="users" style="width:18px;height:18px"></i></span> Group Bookings</a></li>
+            <li><a href="cancellations.html"><span><i data-lucide="x-circle" style="width:18px;height:18px"></i></span> Cancellations</a></li>
+            <li><a href="expenses.html"><span><i data-lucide="wallet" style="width:18px;height:18px"></i></span> Expenses</a></li>
+            <li><a href="receipts.html"><span><i data-lucide="file-text" style="width:18px;height:18px"></i></span> Receipts</a></li>
+            <li><a href="vendor-payments.html"><span><i data-lucide="briefcase" style="width:18px;height:18px"></i></span> Vendor Payments</a></li>
+            <li><a href="vendor-ledger.html"><span><i data-lucide="book-open" style="width:18px;height:18px"></i></span> Vendor Ledger</a></li>
+            <li><a href="tcs-tracker.html"><span><i data-lucide="landmark" style="width:18px;height:18px"></i></span> TCS Tracker</a></li>
+            <li><a href="staff.html"><span><i data-lucide="user" style="width:18px;height:18px"></i></span> Staff</a></li>
+            <li><a href="templates.html"><span><i data-lucide="mail" style="width:18px;height:18px"></i></span> Templates</a></li>
+            <li><a href="campaigns.html"><span><i data-lucide="megaphone" style="width:18px;height:18px"></i></span> Campaigns</a></li>
+            <li><a href="task-board.html"><span><i data-lucide="square-check" style="width:18px;height:18px"></i></span> Task Board</a></li>
+            <li><a href="documents.html"><span><i data-lucide="folder" style="width:18px;height:18px"></i></span> Documents</a></li>
+            <li class="active"><a href="reports.html"><span><i data-lucide="bar-chart-3" style="width:18px;height:18px"></i></span> Reports</a></li>
+            <li><a href="settings.html"><span><i data-lucide="settings" style="width:18px;height:18px"></i></span> Settings</a></li>
         </ul>
         <div class="sidebar-user" id="sidebarUser"></div>
     </nav>
@@ -96,7 +97,7 @@
 
         <!-- Staff Performance Board (Enhancement #6) -->
         <div class="section-card">
-            <h3>🏆 Staff Performance Board</h3>
+            <h3><i data-lucide="trophy" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Staff Performance Board</h3>
             <table class="data-table">
                 <thead><tr><th>Rank</th><th>Staff</th><th>Leads</th><th>Confirmed</th><th>Conv%</th><th>Bookings</th><th>Revenue</th></tr></thead>
                 <tbody id="staffPerformanceBody"></tbody>
@@ -105,7 +106,7 @@
 
         <!-- P&L Statement (Feature: Profit & Loss) -->
         <div class="section-card">
-            <h3>📊 Profit & Loss Statement</h3>
+            <h3><i data-lucide="bar-chart-3" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Profit & Loss Statement</h3>
             <p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:12px">Revenue, costs, and net profit breakdown</p>
             <div class="stats-grid" style="grid-template-columns:repeat(4,1fr);margin-bottom:16px">
                 <div class="stat-card"><div class="stat-label">Total Revenue</div><div class="stat-value" id="pnlRevenue">—</div></div>
@@ -125,26 +126,26 @@
                 </div>
             </div>
             <div style="margin-top:12px;text-align:right">
-                <button class="btn-secondary" onclick="exportPnL()">📥 Export P&L CSV</button>
+                <button class="btn-secondary" onclick="exportPnL()"><i data-lucide="download" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Export P&L CSV</button>
             </div>
         </div>
 
         <!-- Revenue Trends (Enhancement) -->
         <div class="section-card">
-            <h3>📈 Revenue Trends & Pipeline Value</h3>
+            <h3><i data-lucide="trending-up" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Revenue Trends & Pipeline Value</h3>
             <div id="revenueTrendsContainer"></div>
         </div>
 
         <!-- Backup & Export (Enhancement #13) -->
         <div class="section-card">
-            <h3>📤 Backup & Export</h3>
+            <h3><i data-lucide="upload" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Backup & Export</h3>
             <p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:12px">Export data as CSV for CA, auditor, or backup</p>
             <div style="display:flex;gap:8px;flex-wrap:wrap">
-                <button class="btn-secondary" onclick="exportLeads()">📥 Leads</button>
-                <button class="btn-secondary" onclick="exportClients()">📥 Clients</button>
-                <button class="btn-secondary" onclick="exportInvoices()">📥 Invoices</button>
-                <button class="btn-secondary" onclick="exportExpenses()">📥 Expenses</button>
-                <button class="btn-secondary" onclick="exportReport()">📥 Revenue Report</button>
+                <button class="btn-secondary" onclick="exportLeads()"><i data-lucide="download" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Leads</button>
+                <button class="btn-secondary" onclick="exportClients()"><i data-lucide="download" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Clients</button>
+                <button class="btn-secondary" onclick="exportInvoices()"><i data-lucide="download" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Invoices</button>
+                <button class="btn-secondary" onclick="exportExpenses()"><i data-lucide="download" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Expenses</button>
+                <button class="btn-secondary" onclick="exportReport()"><i data-lucide="download" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Revenue Report</button>
             </div>
         </div>
     </main>
@@ -161,5 +162,6 @@
             if (typeof initRevenueTrends === 'function') initRevenueTrends('revenueTrendsContainer');
         });
     </script>
+    <script src="js/icons.js"></script>
 </body>
 </html>

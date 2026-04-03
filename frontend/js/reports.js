@@ -246,7 +246,7 @@ async function loadStaffPerformance() {
 
     container.innerHTML = board.length ? board.map((s, i) => `
         <tr>
-            <td>${i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : i + 1}</td>
+            <td>${i === 0 ? '<i data-lucide="trophy" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>' : i === 1 ? '<i data-lucide="medal" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>' : i === 2 ? '<i data-lucide="award" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>' : i + 1}</td>
             <td><strong>${escHtml(s.name)}</strong><br><span style="font-size:0.75rem;color:var(--text-muted)">${escHtml(s.role)}</span></td>
             <td>${s.leads}</td>
             <td>${s.confirmed}</td>

@@ -17,7 +17,7 @@ async function loadAuditTrail(containerId) {
             </select>
             <input type="date" id="auditDateFrom" class="form-input" style="max-width:150px" title="From date">
             <input type="date" id="auditDateTo" class="form-input" style="max-width:150px" title="To date">
-            <button class="btn-secondary" onclick="filterAuditTrail()" style="font-size:0.85rem;padding:6px 14px">🔍 Filter</button>
+            <button class="btn-secondary" onclick="filterAuditTrail()" style="font-size:0.85rem;padding:6px 14px"><i data-lucide="search" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Filter</button>
         </div>
         <table class="data-table" id="auditTable">
             <thead>

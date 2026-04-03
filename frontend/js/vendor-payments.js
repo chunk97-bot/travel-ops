@@ -92,7 +92,7 @@ function renderTable(payments) {
             <td><span class="badge badge-${p.status}">${p.status}</span></td>
             <td>
                 ${p.status !== 'paid' ? `<button class="btn-success" style="padding:3px 8px;font-size:0.78rem" onclick="markPaid('${p.id}')">Mark Paid</button>` : ''}
-                <button class="btn-danger" style="padding:3px 8px;font-size:0.78rem;margin-left:4px" onclick="deleteVP('${p.id}')">✕</button>
+                <button class="btn-danger" style="padding:3px 8px;font-size:0.78rem;margin-left:4px" onclick="deleteVP('${p.id}')">&times;</button>
             </td>
         </tr>`;
     }).join('');

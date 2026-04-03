@@ -38,44 +38,45 @@
         .preview-box { background:rgba(255,255,255,0.04); border:1px solid var(--border); border-radius:8px; padding:12px; margin-top:8px; font-size:0.82rem; line-height:1.5; white-space:pre-wrap; }
         .recipients-badge { background:rgba(99,102,241,0.2); color:#818cf8; border-radius:6px; padding:4px 10px; font-size:0.8rem; font-weight:600; }
     </style>
+    <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
 </head>
 <body>
     <nav class="sidebar" id="sidebar">
         <div class="sidebar-logo">
-            <span class="logo-icon">✈</span>
+            <span class="logo-icon"><i data-lucide="plane" style="width:22px;height:22px"></i></span>
             <span class="logo-text">Travel Ops</span>
         </div>
         <ul class="nav-links">
-            <li><a href="index.html"><span>📊</span> Dashboard</a></li>
-            <li><a href="leads.html"><span>🎯</span> Leads</a></li>
-            <li><a href="clients.html"><span>👥</span> Clients</a></li>
-            <li><a href="itinerary.html"><span>🗺</span> Itinerary Builder</a></li>
-            <li><a href="packages.html"><span>📦</span> Packages</a></li>
-            <li><a href="vendors.html"><span>🤝</span> Vendors</a></li>
-            <li><a href="invoices.html"><span>🧾</span> Invoices</a></li>
-            <li><a href="followups.html"><span>🔔</span> Follow-Ups</a></li>
-            <li><a href="quotations.html"><span>📋</span> Quotations</a></li>
-            <li><a href="bookings.html"><span>🗓</span> Bookings</a></li>
-            <li><a href="cancellations.html"><span>❌</span> Cancellations</a></li>
-            <li><a href="expenses.html"><span>💸</span> Expenses</a></li>
-            <li><a href="receipts.html"><span>🧾</span> Receipts</a></li>
-            <li><a href="vendor-payments.html"><span>💼</span> Vendor Payments</a></li>
-            <li><a href="vendor-ledger.html"><span>📒</span> Vendor Ledger</a></li>
-            <li><a href="tcs-tracker.html"><span>🏛</span> TCS Tracker</a></li>
-            <li><a href="staff.html"><span>👤</span> Staff</a></li>
-            <li><a href="templates.html"><span>✉</span> Templates</a></li>
-            <li class="active"><a href="campaigns.html"><span>📢</span> Campaigns</a></li>
-            <li><a href="task-board.html"><span>✅</span> Task Board</a></li>
-            <li><a href="documents.html"><span>📁</span> Documents</a></li>
-            <li><a href="reports.html"><span>📈</span> Reports</a></li>
-            <li><a href="settings.html"><span>⚙</span> Settings</a></li>
+            <li><a href="index.html"><span><i data-lucide="layout-dashboard" style="width:18px;height:18px"></i></span> Dashboard</a></li>
+            <li><a href="leads.html"><span><i data-lucide="target" style="width:18px;height:18px"></i></span> Leads</a></li>
+            <li><a href="clients.html"><span><i data-lucide="users" style="width:18px;height:18px"></i></span> Clients</a></li>
+            <li><a href="itinerary.html"><span><i data-lucide="map" style="width:18px;height:18px"></i></span> Itinerary Builder</a></li>
+            <li><a href="packages.html"><span><i data-lucide="package" style="width:18px;height:18px"></i></span> Packages</a></li>
+            <li><a href="vendors.html"><span><i data-lucide="handshake" style="width:18px;height:18px"></i></span> Vendors</a></li>
+            <li><a href="invoices.html"><span><i data-lucide="file-text" style="width:18px;height:18px"></i></span> Invoices</a></li>
+            <li><a href="followups.html"><span><i data-lucide="bell" style="width:18px;height:18px"></i></span> Follow-Ups</a></li>
+            <li><a href="quotations.html"><span><i data-lucide="clipboard-list" style="width:18px;height:18px"></i></span> Quotations</a></li>
+            <li><a href="bookings.html"><span><i data-lucide="calendar-check" style="width:18px;height:18px"></i></span> Bookings</a></li>
+            <li><a href="cancellations.html"><span><i data-lucide="x-circle" style="width:18px;height:18px"></i></span> Cancellations</a></li>
+            <li><a href="expenses.html"><span><i data-lucide="wallet" style="width:18px;height:18px"></i></span> Expenses</a></li>
+            <li><a href="receipts.html"><span><i data-lucide="file-text" style="width:18px;height:18px"></i></span> Receipts</a></li>
+            <li><a href="vendor-payments.html"><span><i data-lucide="briefcase" style="width:18px;height:18px"></i></span> Vendor Payments</a></li>
+            <li><a href="vendor-ledger.html"><span><i data-lucide="book-open" style="width:18px;height:18px"></i></span> Vendor Ledger</a></li>
+            <li><a href="tcs-tracker.html"><span><i data-lucide="landmark" style="width:18px;height:18px"></i></span> TCS Tracker</a></li>
+            <li><a href="staff.html"><span><i data-lucide="user" style="width:18px;height:18px"></i></span> Staff</a></li>
+            <li><a href="templates.html"><span><i data-lucide="mail" style="width:18px;height:18px"></i></span> Templates</a></li>
+            <li class="active"><a href="campaigns.html"><span><i data-lucide="megaphone" style="width:18px;height:18px"></i></span> Campaigns</a></li>
+            <li><a href="task-board.html"><span><i data-lucide="square-check" style="width:18px;height:18px"></i></span> Task Board</a></li>
+            <li><a href="documents.html"><span><i data-lucide="folder" style="width:18px;height:18px"></i></span> Documents</a></li>
+            <li><a href="reports.html"><span><i data-lucide="bar-chart-3" style="width:18px;height:18px"></i></span> Reports</a></li>
+            <li><a href="settings.html"><span><i data-lucide="settings" style="width:18px;height:18px"></i></span> Settings</a></li>
         </ul>
         <div class="sidebar-user" id="sidebarUser"></div>
     </nav>
 
     <main class="main-content">
         <header class="top-bar">
-            <button class="menu-toggle" id="menuToggle">☰</button>
+            <button class="menu-toggle" id="menuToggle"><i data-lucide="menu" style="width:18px;height:18px"></i></button>
             <h1 class="page-title">Campaigns</h1>
             <div class="top-bar-right">
                 <span id="dateDisplay"></span>
@@ -87,10 +88,10 @@
         <div class="page-content">
             <!-- Stats row -->
             <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;">
-                <div class="stat-card"><div class="stat-icon">📢</div><div class="stat-info"><p class="stat-label">Total Campaigns</p><h2 class="stat-value" id="statTotal">—</h2></div></div>
-                <div class="stat-card"><div class="stat-icon">✅</div><div class="stat-info"><p class="stat-label">Completed</p><h2 class="stat-value" id="statCompleted">—</h2></div></div>
-                <div class="stat-card"><div class="stat-icon">📨</div><div class="stat-info"><p class="stat-label">Messages Sent</p><h2 class="stat-value" id="statSent">—</h2></div></div>
-                <div class="stat-card"><div class="stat-icon">📋</div><div class="stat-info"><p class="stat-label">Draft / Scheduled</p><h2 class="stat-value" id="statDraft">—</h2></div></div>
+                <div class="stat-card"><div class="stat-icon"><i data-lucide="megaphone" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i></div><div class="stat-info"><p class="stat-label">Total Campaigns</p><h2 class="stat-value" id="statTotal">—</h2></div></div>
+                <div class="stat-card"><div class="stat-icon"><i data-lucide="check-circle" style="width:18px;height:18px"></i></div><div class="stat-info"><p class="stat-label">Completed</p><h2 class="stat-value" id="statCompleted">—</h2></div></div>
+                <div class="stat-card"><div class="stat-icon"><i data-lucide="mail-plus" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i></div><div class="stat-info"><p class="stat-label">Messages Sent</p><h2 class="stat-value" id="statSent">—</h2></div></div>
+                <div class="stat-card"><div class="stat-icon"><i data-lucide="clipboard-list" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i></div><div class="stat-info"><p class="stat-label">Draft / Scheduled</p><h2 class="stat-value" id="statDraft">—</h2></div></div>
             </div>
 
             <h3 style="margin-bottom:14px;">All Campaigns</h3>
@@ -139,7 +140,7 @@
 
             <div class="form-group">
                 <label>Message Body <small style="color:var(--text-muted);">(Use {name}, {destination} as placeholders)</small></label>
-                <textarea id="campMessage" placeholder="Hi {name}, we have an exclusive offer for you! 🌴…" oninput="updatePreview()"></textarea>
+                <textarea id="campMessage" placeholder="Hi {name}, we have an exclusive offer for you! <i data-lucide="palm-tree" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>…" oninput="updatePreview()"></textarea>
             </div>
 
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
@@ -155,12 +156,14 @@
 
             <div class="modal-footer">
                 <button class="btn-secondary" onclick="closeCampaignModal()">Cancel</button>
-                <button class="btn-primary" onclick="saveCampaign(false)">💾 Save Draft</button>
-                <button class="btn-primary" style="background:#10b981;" onclick="saveCampaign(true)">🚀 Send Now</button>
+                <button class="btn-primary" onclick="saveCampaign(false)"><i data-lucide="save" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Save Draft</button>
+                <button class="btn-primary" style="background:#10b981;" onclick="saveCampaign(true)"><i data-lucide="rocket" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Send Now</button>
             </div>
         </div>
     </div>
 
     <script src="js/campaigns.js"></script>
+        <script src="js/theme-toggle.js"></script>
+    <script src="js/icons.js"></script>
 </body>
 </html>

@@ -9,45 +9,46 @@
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#3b82f6">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
 </head>
 <body>
     <nav class="sidebar" id="sidebar">
         <div class="sidebar-logo">
-            <span class="logo-icon">✈</span>
+            <span class="logo-icon"><i data-lucide="plane" style="width:22px;height:22px"></i></span>
             <span class="logo-text">Travel Ops</span>
         </div>
         <ul class="nav-links">
-            <li class="active"><a href="index.html"><span>📊</span> Dashboard</a></li>
-            <li><a href="leads.html"><span>🎯</span> Leads</a></li>
-            <li><a href="clients.html"><span>👥</span> Clients</a></li>
-            <li><a href="itinerary.html"><span>🗺</span> Itinerary Builder</a></li>
-            <li><a href="packages.html"><span>📦</span> Packages</a></li>
-            <li><a href="vendors.html"><span>🤝</span> Vendors</a></li>
-            <li><a href="invoices.html"><span>🧾</span> Invoices</a></li>
-            <li><a href="followups.html"><span>🔔</span> Follow-Ups</a></li>
-            <li><a href="quotations.html"><span>📋</span> Quotations</a></li>
-            <li><a href="bookings.html"><span>🗓</span> Bookings</a></li>
-            <li><a href="group-bookings.html"><span>👥</span> Group Bookings</a></li>
-            <li><a href="cancellations.html"><span>❌</span> Cancellations</a></li>
-            <li><a href="expenses.html"><span>💸</span> Expenses</a></li>
-            <li><a href="receipts.html"><span>🧾</span> Receipts</a></li>
-            <li><a href="vendor-payments.html"><span>💼</span> Vendor Payments</a></li>
-            <li><a href="vendor-ledger.html"><span>📒</span> Vendor Ledger</a></li>
-            <li><a href="tcs-tracker.html"><span>🏛</span> TCS Tracker</a></li>
-            <li><a href="staff.html"><span>👤</span> Staff</a></li>
-            <li><a href="templates.html"><span>✉</span> Templates</a></li>
-            <li><a href="campaigns.html"><span>📢</span> Campaigns</a></li>
-            <li><a href="task-board.html"><span>✅</span> Task Board</a></li>
-            <li><a href="documents.html"><span>📁</span> Documents</a></li>
-            <li><a href="reports.html"><span>📈</span> Reports</a></li>
-            <li><a href="settings.html"><span>⚙</span> Settings</a></li>
+            <li class="active"><a href="index.html"><span><i data-lucide="layout-dashboard" style="width:18px;height:18px"></i></span> Dashboard</a></li>
+            <li><a href="leads.html"><span><i data-lucide="target" style="width:18px;height:18px"></i></span> Leads</a></li>
+            <li><a href="clients.html"><span><i data-lucide="users" style="width:18px;height:18px"></i></span> Clients</a></li>
+            <li><a href="itinerary.html"><span><i data-lucide="map" style="width:18px;height:18px"></i></span> Itinerary Builder</a></li>
+            <li><a href="packages.html"><span><i data-lucide="package" style="width:18px;height:18px"></i></span> Packages</a></li>
+            <li><a href="vendors.html"><span><i data-lucide="handshake" style="width:18px;height:18px"></i></span> Vendors</a></li>
+            <li><a href="invoices.html"><span><i data-lucide="file-text" style="width:18px;height:18px"></i></span> Invoices</a></li>
+            <li><a href="followups.html"><span><i data-lucide="bell" style="width:18px;height:18px"></i></span> Follow-Ups</a></li>
+            <li><a href="quotations.html"><span><i data-lucide="clipboard-list" style="width:18px;height:18px"></i></span> Quotations</a></li>
+            <li><a href="bookings.html"><span><i data-lucide="calendar-check" style="width:18px;height:18px"></i></span> Bookings</a></li>
+            <li><a href="group-bookings.html"><span><i data-lucide="users" style="width:18px;height:18px"></i></span> Group Bookings</a></li>
+            <li><a href="cancellations.html"><span><i data-lucide="x-circle" style="width:18px;height:18px"></i></span> Cancellations</a></li>
+            <li><a href="expenses.html"><span><i data-lucide="wallet" style="width:18px;height:18px"></i></span> Expenses</a></li>
+            <li><a href="receipts.html"><span><i data-lucide="file-text" style="width:18px;height:18px"></i></span> Receipts</a></li>
+            <li><a href="vendor-payments.html"><span><i data-lucide="briefcase" style="width:18px;height:18px"></i></span> Vendor Payments</a></li>
+            <li><a href="vendor-ledger.html"><span><i data-lucide="book-open" style="width:18px;height:18px"></i></span> Vendor Ledger</a></li>
+            <li><a href="tcs-tracker.html"><span><i data-lucide="landmark" style="width:18px;height:18px"></i></span> TCS Tracker</a></li>
+            <li><a href="staff.html"><span><i data-lucide="user" style="width:18px;height:18px"></i></span> Staff</a></li>
+            <li><a href="templates.html"><span><i data-lucide="mail" style="width:18px;height:18px"></i></span> Templates</a></li>
+            <li><a href="campaigns.html"><span><i data-lucide="megaphone" style="width:18px;height:18px"></i></span> Campaigns</a></li>
+            <li><a href="task-board.html"><span><i data-lucide="square-check" style="width:18px;height:18px"></i></span> Task Board</a></li>
+            <li><a href="documents.html"><span><i data-lucide="folder" style="width:18px;height:18px"></i></span> Documents</a></li>
+            <li><a href="reports.html"><span><i data-lucide="bar-chart-3" style="width:18px;height:18px"></i></span> Reports</a></li>
+            <li><a href="settings.html"><span><i data-lucide="settings" style="width:18px;height:18px"></i></span> Settings</a></li>
         </ul>
         <div class="sidebar-user" id="sidebarUser"></div>
     </nav>
 
     <main class="main-content">
         <header class="top-bar">
-            <button class="menu-toggle" id="menuToggle">☰</button>
+            <button class="menu-toggle" id="menuToggle"><i data-lucide="menu" style="width:18px;height:18px"></i></button>
             <h1 class="page-title">Dashboard</h1>
             <div class="top-bar-right">
                 <span id="dateDisplay"></span>
@@ -59,42 +60,42 @@
         <!-- Stats Row -->
         <section class="stats-grid">
             <div class="stat-card">
-                <div class="stat-icon">🎯</div>
+                <div class="stat-icon"><i data-lucide="target" style="width:18px;height:18px"></i></div>
                 <div class="stat-info">
                     <p class="stat-label">Leads Today</p>
                     <h2 class="stat-value" id="statLeadsToday">—</h2>
                 </div>
             </div>
             <div class="stat-card">
-                <div class="stat-icon">🔔</div>
+                <div class="stat-icon"><i data-lucide="bell-ring" style="width:18px;height:18px"></i></div>
                 <div class="stat-info">
                     <p class="stat-label">Follow-ups Due</p>
                     <h2 class="stat-value urgent" id="statFollowups">—</h2>
                 </div>
             </div>
             <div class="stat-card">
-                <div class="stat-icon">✅</div>
+                <div class="stat-icon"><i data-lucide="check-circle" style="width:18px;height:18px"></i></div>
                 <div class="stat-info">
                     <p class="stat-label">Confirmed This Month</p>
                     <h2 class="stat-value" id="statConfirmed">—</h2>
                 </div>
             </div>
             <div class="stat-card">
-                <div class="stat-icon">💰</div>
+                <div class="stat-icon"><i data-lucide="indian-rupee" style="width:18px;height:18px"></i></div>
                 <div class="stat-info">
                     <p class="stat-label">Revenue This Month</p>
                     <h2 class="stat-value" id="statRevenue">—</h2>
                 </div>
             </div>
             <div class="stat-card">
-                <div class="stat-icon">🧾</div>
+                <div class="stat-icon"><i data-lucide="file-text" style="width:18px;height:18px"></i></div>
                 <div class="stat-info">
                     <p class="stat-label">Invoices Pending</p>
                     <h2 class="stat-value urgent" id="statInvoicesPending">—</h2>
                 </div>
             </div>
             <div class="stat-card">
-                <div class="stat-icon">📊</div>
+                <div class="stat-icon"><i data-lucide="trending-up" style="width:18px;height:18px"></i></div>
                 <div class="stat-info">
                     <p class="stat-label">Conversion Rate</p>
                     <h2 class="stat-value" id="statConversion">—</h2>
@@ -150,7 +151,7 @@
         <!-- Follow-up Reminders (Enhanced) -->
         <section class="dashboard-section">
             <div class="section-header">
-                <h2>🔔 Follow-up Reminders</h2>
+                <h2>Follow-up Reminders</h2>
                 <a href="followups.html" class="view-all">View All →</a>
             </div>
             <div id="followupReminders"></div>
@@ -159,7 +160,7 @@
         <!-- Birthdays & Anniversaries (Enhanced with auto-greet) -->
         <section class="dashboard-section">
             <div class="section-header">
-                <h2>🎂 Birthdays & Anniversaries This Week</h2>
+                <h2>Birthdays & Anniversaries This Week</h2>
             </div>
             <div id="birthdayGreetWidget"></div>
         </section>
@@ -167,7 +168,7 @@
         <!-- Pipeline Value -->
         <section class="dashboard-section">
             <div class="section-header">
-                <h2>💰 Pipeline Value</h2>
+                <h2>Pipeline Value</h2>
             </div>
             <div id="pipelineValueWidget"></div>
         </section>
@@ -175,7 +176,7 @@
         <!-- Recent Feedback -->
         <section class="dashboard-section">
             <div class="section-header">
-                <h2>⭐ Recent Feedback</h2>
+                <h2>Recent Feedback</h2>
             </div>
             <div id="feedbackWidget"></div>
         </section>
@@ -197,7 +198,7 @@
         <!-- Calendar View -->
         <section class="dashboard-section">
             <div class="section-header">
-                <h2>📅 Calendar</h2>
+                <h2>Calendar</h2>
             </div>
             <div id="calendarContainer"></div>
         </section>
@@ -226,5 +227,6 @@
             if (typeof loadFeedbackWidget === 'function') loadFeedbackWidget('feedbackWidget');
         });
     </script>
+    <script src="js/icons.js"></script>
 </body>
 </html>

@@ -39,7 +39,7 @@ async function loadCalendarEvents() {
         .gte('due_date', startDate).lte('due_date', endDate);
     (followups || []).forEach(f => calEvents.push({
         date: f.due_date, type: 'followup',
-        icon: f.type === 'call' ? '📞' : f.type === 'whatsapp' ? '💬' : '📧',
+        icon: f.type === 'call' ? '<i data-lucide="phone" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>' : f.type === 'whatsapp' ? '<i data-lucide="message-circle" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>' : '<i data-lucide="mail" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>',
         label: `${f.leads?.name || 'Follow-up'}${f.message ? ': ' + f.message.substring(0, 30) : ''}`,
         done: f.is_done, color: f.is_done ? 'var(--success)' : 'var(--warning)'
     }));
@@ -50,7 +50,7 @@ async function loadCalendarEvents() {
         .gte('travel_date', startDate).lte('travel_date', endDate);
     (bookings || []).forEach(b => calEvents.push({
         date: b.travel_date, type: 'booking',
-        icon: '✈',
+        icon: '<i data-lucide="plane" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>',
         label: `${b.leads?.name || 'Booking'} → ${b.destination || ''}`,
         color: 'var(--primary)'
     }));
@@ -61,7 +61,7 @@ async function loadCalendarEvents() {
         .gte('due_date', startDate).lte('due_date', endDate);
     (tasks || []).forEach(t => calEvents.push({
         date: t.due_date, type: 'task',
-        icon: '✅',
+        icon: '<i data-lucide="check-circle" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>',
         label: t.title,
         done: t.status === 'done', color: t.status === 'done' ? 'var(--text-muted)' : 'var(--danger)'
     }));

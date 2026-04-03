@@ -15,7 +15,7 @@ async function openCallDialog(phone, leadId, clientId) {
             <div class="modal-overlay" id="callLogOverlay"></div>
             <div class="modal-content" style="max-width:420px">
                 <div class="modal-header">
-                    <h3 id="callLogTitle">📞 Log Call</h3>
+                    <h3 id="callLogTitle"><i data-lucide="phone" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Log Call</h3>
                     <button class="modal-close" id="closeCallLog">&times;</button>
                 </div>
                 <div class="modal-body">
@@ -23,8 +23,8 @@ async function openCallDialog(phone, leadId, clientId) {
                     <div class="form-group">
                         <label>Direction</label>
                         <select id="callDirection" class="form-control">
-                            <option value="outbound">📤 Outbound (I called them)</option>
-                            <option value="inbound">📥 Inbound (They called me)</option>
+                            <option value="outbound"><i data-lucide="upload" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Outbound (I called them)</option>
+                            <option value="inbound"><i data-lucide="download" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Inbound (They called me)</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -37,11 +37,11 @@ async function openCallDialog(phone, leadId, clientId) {
                     <div class="form-group">
                         <label>Outcome</label>
                         <select id="callOutcome" class="form-control">
-                            <option value="answered">✅ Answered</option>
-                            <option value="no_answer">❌ No Answer</option>
-                            <option value="busy">🔴 Busy</option>
-                            <option value="voicemail">📩 Voicemail</option>
-                            <option value="callback">🔄 Callback Requested</option>
+                            <option value="answered"><i data-lucide="check-circle" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Answered</option>
+                            <option value="no_answer"><i data-lucide="x-circle" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> No Answer</option>
+                            <option value="busy"><span class="dot dot-danger"></span> Busy</option>
+                            <option value="voicemail"><i data-lucide="mail-open" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Voicemail</option>
+                            <option value="callback"><i data-lucide="refresh-cw" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Callback Requested</option>
                         </select>
                     </div>
                     <div class="form-group">

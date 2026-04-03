@@ -11,19 +11,19 @@ function openImportDialog(targetTable) {
             <div class="modal-overlay" id="importOverlay"></div>
             <div class="modal-content" style="max-width:560px">
                 <div class="modal-header">
-                    <h3 id="importTitle">📤 Import Data</h3>
+                    <h3 id="importTitle"><i data-lucide="upload" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Import Data</h3>
                     <button class="modal-close" id="closeImport">&times;</button>
                 </div>
                 <div class="modal-body">
                     <div id="importStep1">
                         <p style="margin-bottom:12px;font-size:0.9rem">Upload a CSV file. First row must be column headers.</p>
                         <div style="border:2px dashed var(--border);border-radius:12px;padding:32px;text-align:center;cursor:pointer" id="importDropZone">
-                            <p style="font-size:1.5rem;margin-bottom:8px">📁</p>
+                            <p style="font-size:1.5rem;margin-bottom:8px"><i data-lucide="folder" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i></p>
                             <p style="color:var(--text-muted);font-size:0.85rem">Drop CSV file here or click to browse</p>
                             <input type="file" id="importFileInput" accept=".csv,.txt" style="display:none">
                         </div>
                         <div style="margin-top:12px">
-                            <button class="btn-secondary" style="font-size:0.8rem" id="downloadTemplateBtn">📥 Download Template</button>
+                            <button class="btn-secondary" style="font-size:0.8rem" id="downloadTemplateBtn"><i data-lucide="download" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Download Template</button>
                         </div>
                     </div>
                     <div id="importStep2" class="hidden">
@@ -37,7 +37,7 @@ function openImportDialog(targetTable) {
                     </div>
                     <div id="importStep3" class="hidden">
                         <div style="text-align:center;padding:24px">
-                            <p style="font-size:1.5rem;margin-bottom:8px">⏳</p>
+                            <p style="font-size:1.5rem;margin-bottom:8px"><i data-lucide="hourglass" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i></p>
                             <p id="importProgress">Importing...</p>
                         </div>
                     </div>
@@ -62,7 +62,7 @@ function openImportDialog(targetTable) {
         fileInput.addEventListener('change', (e) => { if (e.target.files[0]) handleImportFile(e.target.files[0]); });
     }
 
-    document.getElementById('importTitle').textContent = `📤 Import ${targetTable === 'leads' ? 'Leads' : 'Clients'}`;
+    document.getElementById('importTitle').textContent = `<i data-lucide="upload" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Import ${targetTable === 'leads' ? 'Leads' : 'Clients'}`;
     document.getElementById('importStep1').classList.remove('hidden');
     document.getElementById('importStep2').classList.add('hidden');
     document.getElementById('importStep3').classList.add('hidden');
@@ -194,7 +194,7 @@ async function executeImport() {
         }
     }
 
-    progressEl.innerHTML = `<span style="font-size:1.5rem">✅</span><br>Imported <strong>${imported}</strong> rows${skipped ? `, skipped <strong>${skipped}</strong> duplicates` : ''}`;
+    progressEl.innerHTML = `<span style="font-size:1.5rem"><i data-lucide="check-circle" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i></span><br>Imported <strong>${imported}</strong> rows${skipped ? `, skipped <strong>${skipped}</strong> duplicates` : ''}`;
     showToast(`Imported ${imported} ${target}`);
 
     if (typeof logAudit === 'function') logAudit('data_import', target, null, { imported, skipped });

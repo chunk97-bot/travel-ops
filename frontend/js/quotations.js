@@ -84,7 +84,7 @@ function renderTable() {
                 <td class="quote-actions">
                     <button onclick="openEditQuote('${escHtml(r.id)}')">Edit</button>
                     <button onclick="downloadPdfById('${escHtml(r.id)}')">PDF</button>
-                    <button onclick="viewVersionHistory('${escHtml(r.id)}')" title="Version History">🕒</button>
+                    <button onclick="viewVersionHistory('${escHtml(r.id)}')" title="Version History"><i data-lucide="clock-3" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i></button>
                     ${r.status === 'accepted' ? `<button onclick="convertToInvoiceById('${escHtml(r.id)}')">→ Invoice</button>` : ''}
                 </td>
             </tr>`;
@@ -178,7 +178,7 @@ function addItemRow(desc = '', qty = 1, rate = 0) {
         <td><input type="number" value="${qty}" min="1" style="width:60px;" oninput="recalcTotals()"></td>
         <td><input type="number" value="${rate}" min="0" oninput="recalcTotals()"></td>
         <td class="row-amount">₹${Number(qty) * Number(rate)}</td>
-        <td><button onclick="this.closest('tr').remove();recalcTotals();" style="background:transparent;border:none;color:#ef4444;cursor:pointer;">✕</button></td>`;
+        <td><button onclick="this.closest('tr').remove();recalcTotals();" style="background:transparent;border:none;color:#ef4444;cursor:pointer;">&times;</button></td>`;
     tbody.appendChild(tr);
     recalcTotals();
 }
@@ -312,7 +312,7 @@ async function viewVersionHistory(quoteId) {
                 <div style="font-size:0.85rem;color:var(--text-muted)">
                     Total: ${formatINR(s.total_amount)} | Pax: ${s.pax_count || '—'} | Items: ${(s.itinerary||[]).length}
                 </div>
-                ${v.change_notes ? `<div style="font-size:0.82rem;margin-top:4px;color:var(--primary)">📝 ${escHtml(v.change_notes)}</div>` : ''}
+                ${v.change_notes ? `<div style="font-size:0.82rem;margin-top:4px;color:var(--primary)"><i data-lucide="file-edit" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> ${escHtml(v.change_notes)}</div>` : ''}
                 <button class="btn-secondary" style="padding:3px 8px;font-size:0.78rem;margin-top:6px" onclick="restoreVersion('${quoteId}','${v.id}')">Restore this version</button>
             </div>`;
         }).join('')}
@@ -457,14 +457,14 @@ async function downloadQuotePdf() {
         if (y > 230) { doc.addPage(); y = 20; }
         if (inclusions) {
             doc.setFontSize(11); doc.setFont('helvetica', 'bold'); doc.setTextColor(16, 185, 129);
-            doc.text('✓ Inclusions', 15, y); y += 6;
+            doc.text('<i data-lucide="check" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Inclusions', 15, y); y += 6;
             doc.setFontSize(9); doc.setFont('helvetica', 'normal'); doc.setTextColor(30, 41, 59);
             const iLines = doc.splitTextToSize(inclusions, 175);
             doc.text(iLines, 18, y); y += iLines.length * 4.5 + 6;
         }
         if (exclusions) {
             doc.setFontSize(11); doc.setFont('helvetica', 'bold'); doc.setTextColor(239, 68, 68);
-            doc.text('✗ Exclusions', 15, y); y += 6;
+            doc.text('<i data-lucide="x" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Exclusions', 15, y); y += 6;
             doc.setFontSize(9); doc.setFont('helvetica', 'normal'); doc.setTextColor(30, 41, 59);
             const eLines = doc.splitTextToSize(exclusions, 175);
             doc.text(eLines, 18, y); y += eLines.length * 4.5 + 6;

@@ -79,7 +79,7 @@ async function loadJourney(clientId) {
     events.push({
         date: client.created_at,
         type: 'client',
-        icon: '👤',
+        icon: '<i data-lucide="user" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>',
         color: '#6366f1',
         title: 'Client profile created',
         sub: `${client.name} — ${client.city || ''} ${client.segment ? '(' + client.segment + ')' : ''}`,
@@ -92,7 +92,7 @@ async function loadJourney(clientId) {
         events.push({
             date: l.created_at,
             type: 'lead',
-            icon: '🎯',
+            icon: '<i data-lucide="target" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>',
             color: '#f59e0b',
             title: `Inquiry: ${l.destination || 'Unknown destination'}`,
             sub: `${l.pax_adults || 0} adults, ${l.pax_children || 0} children · Source: ${l.source || '—'} · Budget: ${l.budget_range || '—'}`,
@@ -106,7 +106,7 @@ async function loadJourney(clientId) {
         events.push({
             date: q.created_at,
             type: 'quotation',
-            icon: '📋',
+            icon: '<i data-lucide="clipboard-list" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>',
             color: '#3b82f6',
             title: `Quotation: ${q.quote_number || ''}`,
             sub: `Amount: ${formatINR(q.total_amount)} · Version: ${q.version || 1}`,
@@ -120,7 +120,7 @@ async function loadJourney(clientId) {
         events.push({
             date: b.created_at,
             type: 'booking',
-            icon: '🗓',
+            icon: '<i data-lucide="calendar-check" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>',
             color: '#10b981',
             title: `Booking: ${b.booking_ref} — ${b.destination}`,
             sub: `Travel: ${formatDate(b.travel_date)}${b.return_date ? ' → ' + formatDate(b.return_date) : ''} · ${b.pax_count} pax · ${(b.booking_services || []).length} services`,
@@ -134,7 +134,7 @@ async function loadJourney(clientId) {
         events.push({
             date: i.created_at,
             type: 'invoice',
-            icon: '🧾',
+            icon: '<i data-lucide="file-text" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>',
             color: '#8b5cf6',
             title: `Invoice: ${i.invoice_number}`,
             sub: `Amount: ${formatINR(i.total_amount)} · Due: ${formatDate(i.due_date)}`,
@@ -148,7 +148,7 @@ async function loadJourney(clientId) {
         events.push({
             date: p.payment_date || p.created_at,
             type: 'payment',
-            icon: '💰',
+            icon: '<i data-lucide="indian-rupee" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>',
             color: '#10b981',
             title: `Payment received: ${formatINR(p.amount)}`,
             sub: `Mode: ${p.mode || '—'} ${p.reference ? '· Ref: ' + p.reference : ''}`,
@@ -162,7 +162,7 @@ async function loadJourney(clientId) {
         events.push({
             date: c.created_at,
             type: 'cancellation',
-            icon: '❌',
+            icon: '<i data-lucide="x-circle" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>',
             color: '#ef4444',
             title: 'Booking cancelled',
             sub: `Reason: ${c.reason || '—'} · Charge: ${formatINR(c.cancellation_charge)}`,
@@ -176,7 +176,7 @@ async function loadJourney(clientId) {
         events.push({
             date: f.created_at,
             type: 'feedback',
-            icon: '⭐',
+            icon: '<i data-lucide="star" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>',
             color: '#f59e0b',
             title: `Feedback: ${f.rating || '—'}/5`,
             sub: f.comment || 'No comment',
@@ -198,7 +198,7 @@ async function loadJourney(clientId) {
     let html = `
         <div class="journey-header">
             <h2>${escHtml(client.name)}</h2>
-            <p>${escHtml(client.phone || '')} ${client.email ? '· ' + escHtml(client.email) : ''} ${client.city ? '· 📍 ' + escHtml(client.city) : ''}</p>
+            <p>${escHtml(client.phone || '')} ${client.email ? '· ' + escHtml(client.email) : ''} ${client.city ? '· <i data-lucide="map-pin" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> ' + escHtml(client.city) : ''}</p>
         </div>
         <div class="journey-stats">
             <div class="j-stat"><div class="val">${daysSinceFirst}d</div><div class="lbl">Customer Since</div></div>

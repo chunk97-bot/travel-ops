@@ -32,27 +32,28 @@
         .tl-tag { display:inline-block;font-size:0.7rem;padding:2px 8px;border-radius:4px;margin-top:4px }
         .empty-journey { text-align:center;padding:48px;color:var(--text-muted) }
     </style>
+    <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
 </head>
 <body>
     <nav class="sidebar" id="sidebar">
         <div class="sidebar-logo">
-            <span class="logo-icon">✈</span>
+            <span class="logo-icon"><i data-lucide="plane" style="width:22px;height:22px"></i></span>
             <span class="logo-text">Travel Ops</span>
         </div>
         <ul class="nav-links">
-            <li><a href="index.html"><span>📊</span> Dashboard</a></li>
-            <li><a href="leads.html"><span>🎯</span> Leads</a></li>
-            <li><a href="clients.html"><span>👥</span> Clients</a></li>
-            <li class="active"><a href="journey.html"><span>🗺</span> Customer Journey</a></li>
-            <li><a href="invoices.html"><span>🧾</span> Invoices</a></li>
-            <li><a href="bookings.html"><span>🗓</span> Bookings</a></li>
+            <li><a href="index.html"><span><i data-lucide="layout-dashboard" style="width:18px;height:18px"></i></span> Dashboard</a></li>
+            <li><a href="leads.html"><span><i data-lucide="target" style="width:18px;height:18px"></i></span> Leads</a></li>
+            <li><a href="clients.html"><span><i data-lucide="users" style="width:18px;height:18px"></i></span> Clients</a></li>
+            <li class="active"><a href="journey.html"><span><i data-lucide="map" style="width:18px;height:18px"></i></span> Customer Journey</a></li>
+            <li><a href="invoices.html"><span><i data-lucide="file-text" style="width:18px;height:18px"></i></span> Invoices</a></li>
+            <li><a href="bookings.html"><span><i data-lucide="calendar-check" style="width:18px;height:18px"></i></span> Bookings</a></li>
         </ul>
         <div class="sidebar-user" id="sidebarUser"></div>
     </nav>
 
     <main class="main-content">
         <header class="top-bar">
-            <button class="menu-toggle" id="menuToggle">☰</button>
+            <button class="menu-toggle" id="menuToggle"><i data-lucide="menu" style="width:18px;height:18px"></i></button>
             <h1 class="page-title">Customer Journey Map</h1>
             <div class="top-bar-right">
                 <button class="btn-logout" id="logoutBtn">Logout</button>
@@ -60,14 +61,14 @@
         </header>
 
         <div class="journey-search">
-            <span class="icon">🔍</span>
+            <span class="icon"><i data-lucide="search" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i></span>
             <input type="text" id="journeyClientSearch" placeholder="Search client by name or phone..." autocomplete="off">
             <div class="journey-dropdown" id="journeyDropdown"></div>
         </div>
 
         <div id="journeyContent">
             <div class="empty-journey">
-                <div style="font-size:3rem;margin-bottom:12px">🗺</div>
+                <div style="font-size:3rem;margin-bottom:12px"><i data-lucide="map" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i></div>
                 <h3>Select a client to view their journey</h3>
                 <p>Search above to see the full timeline — from first inquiry to completed trips</p>
             </div>
@@ -77,5 +78,7 @@
     <script src="js/supabase-config.js"></script>
     <script src="js/auth.js"></script>
     <script src="js/journey.js"></script>
+        <script src="js/theme-toggle.js"></script>
+    <script src="js/icons.js"></script>
 </body>
 </html>

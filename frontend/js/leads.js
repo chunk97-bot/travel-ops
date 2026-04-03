@@ -149,7 +149,7 @@ function renderKanban(leads) {
                     ondragstart="event.dataTransfer.setData('text/plain','${l.id}')"
                     onclick="openLeadDrawer('${l.id}')">
                     <div class="kanban-card-name">${escHtml(l.name)}</div>
-                    <div class="kanban-card-dest">✈ ${escHtml(l.destination || 'TBD')}</div>
+                    <div class="kanban-card-dest"><i data-lucide="plane" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> ${escHtml(l.destination || 'TBD')}</div>
                     <div class="kanban-card-date">${formatDate(l.travel_date)} · ${escHtml(l.budget_range || '—')}</div>
                     ${typeof scoreBadge === 'function' ? `<div style="margin-top:4px">${scoreBadge(l.lead_score || 0)}</div>` : ''}
                 </div>
@@ -213,12 +213,12 @@ async function openLeadDrawer(leadId) {
 
         <div style="margin-bottom:20px">
             <div style="display:flex;gap:8px;flex-wrap:wrap">
-                <button class="btn-primary" style="font-size:0.82rem;padding:6px 12px" onclick="window.open('https://wa.me/91${escHtml(lead.phone?.replace(/\D/g,''))}','_blank')">💬 WhatsApp</button>
+                <button class="btn-primary" style="font-size:0.82rem;padding:6px 12px" onclick="window.open('https://wa.me/91${escHtml(lead.phone?.replace(/\D/g,''))}','_blank')"><i data-lucide="message-circle" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> WhatsApp</button>
                 <button class="btn-secondary" style="font-size:0.82rem;padding:6px 12px" onclick="quickStageUpdate('${lead.id}')">↑ Move Stage</button>
-                <button class="btn-secondary" style="font-size:0.82rem;padding:6px 12px" onclick="window.location.href='itinerary.html?lead=${lead.id}'">🗺 Build Itinerary</button>
-                <button class="btn-secondary" style="font-size:0.82rem;padding:6px 12px" onclick="openEditLead('${lead.id}');closeDrawer('leadDrawer')">✏ Edit</button>
-                ${typeof openCallDialog === 'function' ? `<button class="btn-secondary" style="font-size:0.82rem;padding:6px 12px" onclick="openCallDialog('${escHtml(lead.phone)}','${lead.id}')">📞 Call</button>` : ''}
-                ${typeof openEmailComposer === 'function' && lead.email ? `<button class="btn-secondary" style="font-size:0.82rem;padding:6px 12px" onclick="openEmailComposer({to:'${escHtml(lead.email)}',leadId:'${lead.id}'})">📧 Email</button>` : ''}
+                <button class="btn-secondary" style="font-size:0.82rem;padding:6px 12px" onclick="window.location.href='itinerary.html?lead=${lead.id}'"><i data-lucide="map" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Build Itinerary</button>
+                <button class="btn-secondary" style="font-size:0.82rem;padding:6px 12px" onclick="openEditLead('${lead.id}');closeDrawer('leadDrawer')"><i data-lucide="pencil" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Edit</button>
+                ${typeof openCallDialog === 'function' ? `<button class="btn-secondary" style="font-size:0.82rem;padding:6px 12px" onclick="openCallDialog('${escHtml(lead.phone)}','${lead.id}')"><i data-lucide="phone" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Call</button>` : ''}
+                ${typeof openEmailComposer === 'function' && lead.email ? `<button class="btn-secondary" style="font-size:0.82rem;padding:6px 12px" onclick="openEmailComposer({to:'${escHtml(lead.email)}',leadId:'${lead.id}'})"><i data-lucide="mail" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Email</button>` : ''}
             </div>
         </div>
 
@@ -227,7 +227,7 @@ async function openLeadDrawer(leadId) {
         <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:16px">
             ${followups.map(f => `
                 <div style="background:var(--bg-input);border-radius:6px;padding:8px 12px;font-size:0.85rem">
-                    <span>${f.type === 'call' ? '📞' : f.type === 'whatsapp' ? '💬' : '📧'}</span>
+                    <span>${f.type === 'call' ? '<i data-lucide="phone" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>' : f.type === 'whatsapp' ? '<i data-lucide="message-circle" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>' : '<i data-lucide="mail" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>'}</span>
                     <span style="margin-left:6px">${formatDate(f.due_date)}</span>
                     ${f.message ? `<p style="color:var(--text-muted);margin-top:4px">${escHtml(f.message)}</p>` : ''}
                 </div>
@@ -237,10 +237,10 @@ async function openLeadDrawer(leadId) {
         <h4 style="margin-bottom:8px;font-size:0.9rem">Log Activity</h4>
         <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap">
             <select id="activityType" style="background:var(--bg-input);border:1px solid var(--border);border-radius:6px;padding:6px 10px;color:var(--text-primary);font-size:0.85rem">
-                <option value="call">📞 Call</option>
-                <option value="whatsapp">💬 WhatsApp</option>
-                <option value="email">📧 Email</option>
-                <option value="note">📝 Note</option>
+                <option value="call"><i data-lucide="phone" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Call</option>
+                <option value="whatsapp"><i data-lucide="message-circle" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> WhatsApp</option>
+                <option value="email"><i data-lucide="mail" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Email</option>
+                <option value="note"><i data-lucide="file-edit" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Note</option>
             </select>
             <input type="text" id="activityNote" placeholder="Outcome / notes..." style="flex:1;background:var(--bg-input);border:1px solid var(--border);border-radius:6px;padding:6px 10px;color:var(--text-primary);font-size:0.85rem;min-width:120px">
             <button class="btn-primary" style="font-size:0.82rem;padding:6px 12px" onclick="logActivity('${lead.id}')">Log</button>

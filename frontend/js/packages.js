@@ -102,14 +102,14 @@ function renderPackages(packages) {
             </div>
             <div class="pkg-dest">${escHtml(p.destination)}</div>
             <div class="pkg-name">${escHtml(p.name)}</div>
-            <div class="pkg-dep">✈ Ex: ${p.departureCities.map(c => escHtml(c)).join(' / ')}</div>
+            <div class="pkg-dep"><i data-lucide="plane" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Ex: ${p.departureCities.map(c => escHtml(c)).join(' / ')}</div>
             <ul class="pkg-highlights">
                 ${p.highlights.map(h => `<li>${escHtml(h)}</li>`).join('')}
             </ul>
             <div class="pkg-tag-row">
                 ${p.tags.map(t => `<span class="pkg-tag">${t}</span>`).join('')}
             </div>
-            <div class="pkg-season">🌤 ${escHtml(p.bestSeason)}</div>
+            <div class="pkg-season"><i data-lucide="cloud-sun" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> ${escHtml(p.bestSeason)}</div>
             <div class="pkg-card-actions">
                 <button class="btn-primary pkg-use-btn" onclick="openTemplateModal('${p.id}')">Use Template</button>
                 <button class="btn-secondary" onclick="openCatalogForPackage('${p.id}')">Preview</button>

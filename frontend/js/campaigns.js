@@ -43,11 +43,11 @@ function renderGrid() {
     }
     grid.innerHTML = campaignsData.map(c => {
         const pct = c.total_count > 0 ? Math.round(c.sent_count / c.total_count * 100) : 0;
-        const channelIcon = c.channel === 'whatsapp' ? '💬' : '✉';
+        const channelIcon = c.channel === 'whatsapp' ? '<i data-lucide="message-circle" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>' : '<i data-lucide="mail" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>';
         return `<div class="campaign-card">
             <div class="camp-actions">
-                ${c.status === 'draft' ? `<button onclick="launchCampaign('${escHtml(c.id)}')">🚀 Send</button>` : ''}
-                <button onclick="viewRecipients('${escHtml(c.id)}')">👥 Recipients</button>
+                ${c.status === 'draft' ? `<button onclick="launchCampaign('${escHtml(c.id)}')"><i data-lucide="rocket" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Send</button>` : ''}
+                <button onclick="viewRecipients('${escHtml(c.id)}')"><i data-lucide="users" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Recipients</button>
             </div>
             <div class="camp-name">${channelIcon} ${escHtml(c.name)}</div>
             <div class="camp-meta">

@@ -122,7 +122,7 @@ async function seedDefaultRules() {
             name: 'Follow-up missed → Escalate',
             trigger_type: 'follow_up_missed',
             conditions: {},
-            actions: [{ type: 'send_notification', title: '⚠️ Missed Follow-up', body: '{name} — follow-up was due {due_date}' }],
+            actions: [{ type: 'send_notification', title: '<i data-lucide="alert-triangle" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>️ Missed Follow-up', body: '{name} — follow-up was due {due_date}' }],
         },
     ];
 
@@ -152,7 +152,7 @@ async function loadWorkflowRules() {
                 </div>
                 <div style="display:flex;gap:6px">
                     <button class="btn-secondary" style="padding:4px 8px;font-size:0.78rem" onclick="toggleWorkflowRule('${r.id}', ${!r.is_active})">${r.is_active ? 'Pause' : 'Enable'}</button>
-                    <button class="btn-danger-sm" onclick="deleteWorkflowRule('${r.id}')">🗑</button>
+                    <button class="btn-danger-sm" onclick="deleteWorkflowRule('${r.id}')"><i data-lucide="trash-2" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i></button>
                 </div>
             </div>
             <div style="margin-top:6px;font-size:0.8rem;color:var(--text-muted)">

@@ -1,5 +1,5 @@
 // ============================================================
-// theme-toggle.js — Dark/Light Theme Toggle
+// theme-toggle.js — Dark/Light Theme Toggle (v2 — CSS-based)
 // ============================================================
 
 const THEME_KEY = 'travelops_theme';
@@ -13,26 +13,6 @@ function initThemeToggle() {
 function applyTheme(theme) {
     document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem(THEME_KEY, theme);
-
-    if (theme === 'light') {
-        document.documentElement.style.setProperty('--bg-dark', '#f1f5f9');
-        document.documentElement.style.setProperty('--bg-card', '#ffffff');
-        document.documentElement.style.setProperty('--bg-hover', '#e2e8f0');
-        document.documentElement.style.setProperty('--bg-input', '#f8fafc');
-        document.documentElement.style.setProperty('--text-primary', '#0f172a');
-        document.documentElement.style.setProperty('--text-muted', '#64748b');
-        document.documentElement.style.setProperty('--border', 'rgba(0,0,0,0.1)');
-        document.documentElement.style.setProperty('--shadow', '0 4px 16px rgba(0,0,0,0.08)');
-    } else {
-        document.documentElement.style.setProperty('--bg-dark', '#0f1117');
-        document.documentElement.style.setProperty('--bg-card', '#1a1d27');
-        document.documentElement.style.setProperty('--bg-hover', '#22263a');
-        document.documentElement.style.setProperty('--bg-input', '#12151f');
-        document.documentElement.style.setProperty('--text-primary', '#f1f5f9');
-        document.documentElement.style.setProperty('--text-muted', '#94a3b8');
-        document.documentElement.style.setProperty('--border', 'rgba(255,255,255,0.08)');
-        document.documentElement.style.setProperty('--shadow', '0 4px 16px rgba(0,0,0,0.3)');
-    }
 }
 
 function toggleTheme() {
@@ -42,14 +22,24 @@ function toggleTheme() {
 
     // Update toggle button icon
     const btn = document.getElementById('themeToggleBtn');
-    if (btn) btn.textContent = next === 'dark' ? '🌙' : '☀️';
+    if (btn) {
+        const iconEl = btn.querySelector('[data-lucide]');
+        if (iconEl) {
+            iconEl.setAttribute('data-lucide', next === 'dark' ? 'moon' : 'sun');
+            if (typeof lucide !== 'undefined') lucide.createIcons({ nodes: [btn] });
+        } else {
+            btn.textContent = next === 'dark' ? '<i data-lucide="moon" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>' : '<i data-lucide="sun" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>';
+        }
+    }
 
     // Persist to DB (non-blocking)
     (async () => {
-        const userId = await getCurrentUserId();
-        if (userId) {
-            await window.supabase.from('staff_profiles').update({ theme: next }).eq('id', userId);
-        }
+        try {
+            const userId = await getCurrentUserId();
+            if (userId) {
+                await window.supabase.from('staff_profiles').update({ theme: next }).eq('id', userId);
+            }
+        } catch (_) {}
     })();
 }
 
@@ -60,13 +50,21 @@ function injectThemeToggle() {
     const current = localStorage.getItem(THEME_KEY) || 'dark';
     const btn = document.createElement('button');
     btn.id = 'themeToggleBtn';
+    btn.className = 'btn-icon';
     btn.title = 'Toggle Dark/Light Mode';
-    btn.textContent = current === 'dark' ? '🌙' : '☀️';
-    btn.style.cssText = 'background:transparent;border:1px solid var(--border);border-radius:8px;padding:6px 10px;cursor:pointer;font-size:1rem;color:var(--text-primary);transition:background 0.2s;';
-    btn.addEventListener('click', toggleTheme);
-    btn.addEventListener('mouseover', () => btn.style.background = 'var(--bg-hover)');
-    btn.addEventListener('mouseout', () => btn.style.background = 'transparent');
-    topBarRight.insertBefore(btn, topBarRight.firstChild);
+    btn.style.cssText = 'border:1px solid var(--border);border-radius:8px;padding:7px 9px;display:inline-flex;align-items:center;justify-content:center;';
+
+    // Use Lucide icon if available, fallback to emoji
+    if (typeof lucide !== 'undefined') {
+        btn.innerHTML = `<i data-lucide="${current === 'dark' ? 'moon' : 'sun'}" style="width:16px;height:16px"></i>`;
+        btn.addEventListener('click', toggleTheme);
+        topBarRight.insertBefore(btn, topBarRight.firstChild);
+        lucide.createIcons({ nodes: [btn] });
+    } else {
+        btn.textContent = current === 'dark' ? '<i data-lucide="moon" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>' : '<i data-lucide="sun" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>';
+        btn.addEventListener('click', toggleTheme);
+        topBarRight.insertBefore(btn, topBarRight.firstChild);
+    }
 }
 
 // Auto-init on page load
@@ -81,7 +79,15 @@ document.addEventListener('DOMContentLoaded', () => {
             if (data?.theme && data.theme !== (localStorage.getItem(THEME_KEY) || 'dark')) {
                 applyTheme(data.theme);
                 const btn = document.getElementById('themeToggleBtn');
-                if (btn) btn.textContent = data.theme === 'dark' ? '🌙' : '☀️';
+                if (btn) {
+                    const iconEl = btn.querySelector('[data-lucide]');
+                    if (iconEl) {
+                        iconEl.setAttribute('data-lucide', data.theme === 'dark' ? 'moon' : 'sun');
+                        if (typeof lucide !== 'undefined') lucide.createIcons({ nodes: [btn] });
+                    } else {
+                        btn.textContent = data.theme === 'dark' ? '<i data-lucide="moon" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>' : '<i data-lucide="sun" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>';
+                    }
+                }
             }
         } catch (_) { /* theme column may not exist */ }
     })();

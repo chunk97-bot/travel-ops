@@ -9,26 +9,27 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
 </head>
 <body>
     <nav class="sidebar" id="sidebar">
         <div class="sidebar-logo">
-            <span class="logo-icon">✈</span>
+            <span class="logo-icon"><i data-lucide="plane" style="width:22px;height:22px"></i></span>
             <span class="logo-text">Travel Ops</span>
         </div>
         <ul class="nav-links">
-            <li><a href="index.html"><span>📊</span> Dashboard</a></li>
-            <li><a href="leads.html"><span>🎯</span> Leads</a></li>
-            <li><a href="clients.html"><span>👥</span> Clients</a></li>
-            <li><a href="vendors.html"><span>🤝</span> Vendors</a></li>
-            <li class="active"><a href="brochures.html"><span>🖼</span> Brochures</a></li>
-            <li><a href="invoices.html"><span>🧾</span> Invoices</a></li>
+            <li><a href="index.html"><span><i data-lucide="layout-dashboard" style="width:18px;height:18px"></i></span> Dashboard</a></li>
+            <li><a href="leads.html"><span><i data-lucide="target" style="width:18px;height:18px"></i></span> Leads</a></li>
+            <li><a href="clients.html"><span><i data-lucide="users" style="width:18px;height:18px"></i></span> Clients</a></li>
+            <li><a href="vendors.html"><span><i data-lucide="handshake" style="width:18px;height:18px"></i></span> Vendors</a></li>
+            <li class="active"><a href="brochures.html"><span><i data-lucide="image" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i></span> Brochures</a></li>
+            <li><a href="invoices.html"><span><i data-lucide="file-text" style="width:18px;height:18px"></i></span> Invoices</a></li>
         </ul>
     </nav>
 
     <main class="main-content">
         <div class="page-header">
-            <h1>🖼 Brochure Builder</h1>
+            <h1><i data-lucide="image" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Brochure Builder</h1>
             <div class="header-actions">
                 <button class="btn-primary" id="newBrochureBtn">+ Create Brochure</button>
             </div>
@@ -148,7 +149,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn-secondary" id="cancelBrochureBtn">Cancel</button>
-                    <button type="button" class="btn-secondary" onclick="previewBrochure()" style="margin-left:8px">👁 Preview</button>
+                    <button type="button" class="btn-secondary" onclick="previewBrochure()" style="margin-left:8px"><i data-lucide="eye" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Preview</button>
                     <button type="submit" class="btn-primary" style="margin-left:8px">Save</button>
                 </div>
             </form>
@@ -172,5 +173,7 @@
     <script src="js/supabase-config.js"></script>
     <script src="js/auth.js"></script>
     <script src="js/brochures.js"></script>
+        <script src="js/theme-toggle.js"></script>
+    <script src="js/icons.js"></script>
 </body>
 </html>

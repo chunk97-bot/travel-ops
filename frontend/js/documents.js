@@ -99,7 +99,7 @@ function renderTable(docs) {
         const isExpired  = expiry && expiry < today;
         const isExpiring = expiry && !isExpired && expiry <= new Date(today.getTime() + 30 * 86400000);
         const expiryDisplay = expiry
-            ? `<span style="color:${isExpired ? 'var(--danger)' : isExpiring ? 'var(--warning)' : 'inherit'}">${isExpired ? '⚠ ' : isExpiring ? '⏰ ' : ''}${formatDate(d.expiry_date)}</span>`
+            ? `<span style="color:${isExpired ? 'var(--danger)' : isExpiring ? 'var(--warning)' : 'inherit'}">${isExpired ? '<i data-lucide="alert-triangle" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> ' : isExpiring ? '<i data-lucide="alarm-clock" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> ' : ''}${formatDate(d.expiry_date)}</span>`
             : '—';
         return `
         <tr>

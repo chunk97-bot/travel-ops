@@ -63,7 +63,7 @@ function renderTable(bookings) {
             <td><span class="badge badge-${b.status}">${b.status.replace('_',' ')}</span></td>
             <td>
                 <button class="btn-secondary" style="padding:3px 8px;font-size:0.78rem" onclick="openBookingDrawer('${b.id}')">View</button>
-                <button class="btn-danger" style="padding:3px 8px;font-size:0.78rem;margin-left:4px" onclick="deleteBooking('${b.id}')">✕</button>
+                <button class="btn-danger" style="padding:3px 8px;font-size:0.78rem;margin-left:4px" onclick="deleteBooking('${b.id}')">&times;</button>
             </td>
         </tr>
     `).join('');
@@ -91,7 +91,7 @@ function addServiceRow() {
             <input type="date" class="form-control svc-checkin" title="Check-in / Departure">
             <input type="date" class="form-control svc-checkout" title="Check-out / Return">
             <input type="number" class="form-control svc-cost" placeholder="Cost ₹">
-            <button class="btn-danger" style="padding:4px 8px" onclick="document.getElementById('svc-${serviceRows}').remove()">✕</button>
+            <button class="btn-danger" style="padding:4px 8px" onclick="document.getElementById('svc-${serviceRows}').remove()">&times;</button>
         </div>
     `;
     container.appendChild(row);
@@ -150,7 +150,7 @@ async function saveBooking() {
     // ── WhatsApp Trip Updates (Enhancement #1) ────────
     const clientPhone = document.getElementById('bClientPhone')?.value?.trim();
     if (clientPhone) {
-        sendWhatsAppUpdate(clientPhone, `✅ Booking confirmed!\n\nRef: ${booking.booking_ref}\nDestination: ${destination}\nTravel: ${bookingPayload.travel_date}\nPax: ${bookingPayload.pax_count}\n\nYour trip is being prepared. We'll share your itinerary & documents soon!`);
+        sendWhatsAppUpdate(clientPhone, `<i data-lucide="check-circle" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Booking confirmed!\n\nRef: ${booking.booking_ref}\nDestination: ${destination}\nTravel: ${bookingPayload.travel_date}\nPax: ${bookingPayload.pax_count}\n\nYour trip is being prepared. We'll share your itinerary & documents soon!`);
     }
 
     await loadBookings();
@@ -195,7 +195,7 @@ async function openBookingDrawer(bookingId) {
         </div>
         ${b.notes ? `<div class="drawer-section"><h4>Notes</h4><p>${escHtml(b.notes)}</p></div>` : ''}
         <div class="drawer-section">
-            <h4>💰 Trip P&L</h4>
+            <h4><i data-lucide="indian-rupee" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Trip P&L</h4>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:0.85rem">
                 <div>Revenue: <strong style="color:var(--success)">${formatINR(revenue)}</strong></div>
                 <div>Service Cost: <strong>${formatINR(serviceCost)}</strong></div>
@@ -223,9 +223,9 @@ async function updateStatus(bookingId) {
     const phone = b?.clients?.phone;
     if (phone) {
         const msgs = {
-            confirmed: `✅ Booking ${b.booking_ref} is confirmed! We're preparing your ${escHtml(b.destination)} trip.`,
-            on_trip: `✈️ Have an amazing trip to ${escHtml(b.destination)}! Safe travels. Ref: ${b.booking_ref}`,
-            completed: `🏠 Welcome back from ${escHtml(b.destination)}! Hope you had a great trip. Share your feedback anytime!`,
+            confirmed: `<i data-lucide="check-circle" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Booking ${b.booking_ref} is confirmed! We're preparing your ${escHtml(b.destination)} trip.`,
+            on_trip: `<i data-lucide="plane" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>️ Have an amazing trip to ${escHtml(b.destination)}! Safe travels. Ref: ${b.booking_ref}`,
+            completed: `<i data-lucide="home" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Welcome back from ${escHtml(b.destination)}! Hope you had a great trip. Share your feedback anytime!`,
         };
         if (msgs[status]) sendWhatsAppUpdate(phone, msgs[status]);
     }
@@ -269,10 +269,10 @@ async function sendWhatsAppUpdate(phone, message) {
 // ============================================================
 function renderTripTimeline(booking) {
     const stages = [
-        { key: 'tentative', icon: '📝', label: 'Enquiry Received' },
-        { key: 'confirmed', icon: '✅', label: 'Booking Confirmed' },
-        { key: 'on_trip',   icon: '✈️', label: 'On Trip' },
-        { key: 'completed', icon: '🏠', label: 'Trip Completed' },
+        { key: 'tentative', icon: '<i data-lucide="file-edit" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>', label: 'Enquiry Received' },
+        { key: 'confirmed', icon: '<i data-lucide="check-circle" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>', label: 'Booking Confirmed' },
+        { key: 'on_trip',   icon: '<i data-lucide="plane" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>️', label: 'On Trip' },
+        { key: 'completed', icon: '<i data-lucide="home" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>', label: 'Trip Completed' },
     ];
     const currentIdx = stages.findIndex(s => s.key === booking.status);
     const isCancelled = booking.status === 'cancelled';
@@ -294,7 +294,7 @@ function renderTripTimeline(booking) {
                     ${i < stages.length - 1 ? `<div style="flex:1;height:2px;background:${i < currentIdx && !isCancelled ? 'var(--primary)' : 'var(--border)'};min-width:20px;margin-top:-16px"></div>` : ''}
                 `;
             }).join('')}
-            ${isCancelled ? '<div style="margin-left:12px"><span class="badge badge-cancelled">❌ Cancelled</span></div>' : ''}
+            ${isCancelled ? '<div style="margin-left:12px"><span class="badge badge-cancelled"><i data-lucide="x-circle" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Cancelled</span></div>' : ''}
         </div>
     `;
 }

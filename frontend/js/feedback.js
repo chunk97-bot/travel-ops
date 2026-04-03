@@ -7,14 +7,14 @@ async function openFeedbackForm(clientId, invoiceId, destination) {
         <div class="modal" id="feedbackModal">
             <div class="modal-overlay" onclick="closeModal('feedbackModal')"></div>
             <div class="modal-box">
-                <div class="modal-header"><h2>⭐ Collect Feedback</h2><button class="modal-close" onclick="closeModal('feedbackModal')">✕</button></div>
+                <div class="modal-header"><h2><i data-lucide="star" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Collect Feedback</h2><button class="modal-close" onclick="closeModal('feedbackModal')">&times;</button></div>
                 <p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:14px">${destination ? 'Trip to ' + escHtml(destination) : 'Post-trip experience'}</p>
 
                 <div class="form-grid">
                     <div class="form-group">
                         <label>Overall Rating *</label>
                         <div id="ratingStars" style="display:flex;gap:6px;font-size:1.8rem;cursor:pointer">
-                            ${[1,2,3,4,5].map(i => `<span data-star="${i}" onclick="setRating(${i})" style="color:var(--text-muted)">☆</span>`).join('')}
+                            ${[1,2,3,4,5].map(i => `<span data-star="${i}" onclick="setRating(${i})" style="color:var(--text-muted)"><span style="color:var(--text-muted)">&#9734;</span></span>`).join('')}
                         </div>
                         <input type="hidden" id="fbRating" value="0">
                     </div>
@@ -64,7 +64,7 @@ async function openFeedbackForm(clientId, invoiceId, destination) {
 function setRating(n) {
     document.getElementById('fbRating').value = n;
     document.querySelectorAll('#ratingStars span').forEach(s => {
-        s.textContent = parseInt(s.dataset.star) <= n ? '★' : '☆';
+        s.textContent = parseInt(s.dataset.star) <= n ? '<span style="color:#f59e0b">&#9733;</span>' : '<span style="color:var(--text-muted)">&#9734;</span>';
         s.style.color = parseInt(s.dataset.star) <= n ? '#f59e0b' : 'var(--text-muted)';
     });
 }
@@ -85,7 +85,7 @@ async function submitFeedback(clientId, invoiceId, destination) {
     });
 
     if (error) { showToast('Failed: ' + error.message, 'error'); return; }
-    showToast('Feedback collected — thank you! ⭐');
+    showToast('Feedback collected — thank you! <i data-lucide="star" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>');
     closeModal('feedbackModal');
 }
 
@@ -106,12 +106,12 @@ async function loadFeedbackSummary(containerId, clientId) {
 
     el.innerHTML = `
         <div style="display:flex;gap:16px;margin-bottom:10px">
-            <div><span style="font-size:1.5rem;color:#f59e0b">${'★'.repeat(Math.round(avgRating))}${'☆'.repeat(5 - Math.round(avgRating))}</span> <strong>${avgRating}/5</strong></div>
+            <div><span style="font-size:1.5rem;color:#f59e0b">${'<span style="color:#f59e0b">&#9733;</span>'.repeat(Math.round(avgRating))}${'<span style="color:var(--text-muted)">&#9734;</span>'.repeat(5 - Math.round(avgRating))}</span> <strong>${avgRating}/5</strong></div>
             <div style="color:var(--text-muted);font-size:0.85rem">${data.length} reviews · ${wouldRefer} would refer</div>
         </div>
         ${data.slice(0, 3).map(f => `
             <div style="padding:8px 0;border-bottom:1px solid var(--border);font-size:0.85rem">
-                <div style="color:#f59e0b">${'★'.repeat(f.rating)}${'☆'.repeat(5 - f.rating)}</div>
+                <div style="color:#f59e0b">${'<span style="color:#f59e0b">&#9733;</span>'.repeat(f.rating)}${'<span style="color:var(--text-muted)">&#9734;</span>'.repeat(5 - f.rating)}</div>
                 ${f.destination ? `<span style="color:var(--text-muted)">${escHtml(f.destination)}</span> · ` : ''}
                 <span style="color:var(--text-muted)">${formatDate(f.created_at)}</span>
                 ${f.comments ? `<p style="margin-top:3px">${escHtml(f.comments)}</p>` : ''}
@@ -134,11 +134,11 @@ async function loadFeedbackWidget(containerId) {
 
     const avg = (data.reduce((s, f) => s + f.rating, 0) / data.length).toFixed(1);
     el.innerHTML = `
-        <div style="margin-bottom:10px;font-size:0.9rem">Average: <strong style="color:#f59e0b">${avg}/5 ⭐</strong> from last ${data.length} reviews</div>
+        <div style="margin-bottom:10px;font-size:0.9rem">Average: <strong style="color:#f59e0b">${avg}/5 <i data-lucide="star" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i></strong> from last ${data.length} reviews</div>
         ${data.map(f => `
             <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);font-size:0.85rem">
                 <span><strong>${escHtml(f.clients?.name || '—')}</strong> ${f.destination ? '· ' + escHtml(f.destination) : ''}</span>
-                <span style="color:#f59e0b">${'★'.repeat(f.rating)}${'☆'.repeat(5 - f.rating)}</span>
+                <span style="color:#f59e0b">${'<span style="color:#f59e0b">&#9733;</span>'.repeat(f.rating)}${'<span style="color:var(--text-muted)">&#9734;</span>'.repeat(5 - f.rating)}</span>
             </div>
         `).join('')}
     `;

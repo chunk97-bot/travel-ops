@@ -135,8 +135,9 @@ function _injectNotificationBell(userId) {
     bellWrapper.innerHTML = `
         <button id="notifBell" title="Notifications" style="
             background:transparent;border:1px solid var(--border);border-radius:8px;
-            padding:6px 10px;cursor:pointer;color:var(--text);font-size:1rem;position:relative;">
-            🔔 <span id="notifCount" style="
+            padding:6px 10px;cursor:pointer;color:var(--text-primary);font-size:1rem;position:relative;display:inline-flex;align-items:center;">
+            <i data-lucide="bell" style="width:16px;height:16px"></i>
+            <span id="notifCount" style="
                 position:absolute;top:-5px;right:-5px;background:#ef4444;color:#fff;
                 border-radius:50%;font-size:0.65rem;font-weight:700;
                 min-width:16px;height:16px;line-height:16px;text-align:center;
@@ -154,6 +155,7 @@ function _injectNotificationBell(userId) {
             <div id="notifList" style="max-height:360px;overflow-y:auto;padding:8px 0;"></div>
         </div>`;
     topBarRight.insertBefore(bellWrapper, topBarRight.firstChild);
+    if (typeof lucide !== 'undefined') lucide.createIcons({ nodes: [bellWrapper] });
 
     // Load count
     _loadNotifCount(userId);
@@ -179,7 +181,7 @@ function _injectNotificationBell(userId) {
             .eq('user_id', userId)
             .eq('is_read', false);
         _loadNotifCount(userId);
-        document.getElementById('notifList').innerHTML = '<p style="padding:16px;color:var(--text-muted);font-size:0.85rem;">All caught up! ✅</p>';
+        document.getElementById('notifList').innerHTML = '<p style="padding:16px;color:var(--text-muted);font-size:0.85rem;">All caught up! <i data-lucide="check-circle" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i></p>';
     });
 }
 
@@ -225,31 +227,33 @@ function _injectNewNavItems() {
     if (!navLinks) return;
     const currentPage = window.location.pathname.split('/').pop();
     const newItems = [
-        { href: 'quotations.html', icon: '📋', label: 'Quotations' },
-        { href: 'bookings.html',   icon: '🗓',  label: 'Bookings' },
-        { href: 'cancellations.html', icon: '❌', label: 'Cancellations' },
-        { href: 'expenses.html',   icon: '💸',  label: 'Expenses' },
-        { href: 'receipts.html',   icon: '🧾',  label: 'Receipts' },
-        { href: 'vendor-payments.html', icon: '💼', label: 'Vendor Payments' },
-        { href: 'vendor-ledger.html', icon: '📒', label: 'Vendor Ledger' },
-        { href: 'tcs-tracker.html', icon: '🏛',  label: 'TCS Tracker' },
-        { href: 'staff.html',      icon: '👤',  label: 'Staff' },
-        { href: 'templates.html',  icon: '✉',   label: 'Templates' },
-        { href: 'campaigns.html',  icon: '📢',  label: 'Campaigns' },
-        { href: 'task-board.html', icon: '✅',  label: 'Task Board' },
-        { href: 'documents.html',  icon: '📁',  label: 'Documents' },
-        { href: 'reports.html',    icon: '📈',  label: 'Reports' },
-        { href: 'settings.html',   icon: '⚙',   label: 'Settings' },
+        { href: 'quotations.html', icon: 'clipboard-list', label: 'Quotations' },
+        { href: 'bookings.html',   icon: 'calendar-check',  label: 'Bookings' },
+        { href: 'cancellations.html', icon: 'x-circle', label: 'Cancellations' },
+        { href: 'expenses.html',   icon: 'wallet',  label: 'Expenses' },
+        { href: 'receipts.html',   icon: 'file-text',  label: 'Receipts' },
+        { href: 'vendor-payments.html', icon: 'briefcase', label: 'Vendor Payments' },
+        { href: 'vendor-ledger.html', icon: 'book-open', label: 'Vendor Ledger' },
+        { href: 'tcs-tracker.html', icon: 'landmark',  label: 'TCS Tracker' },
+        { href: 'staff.html',      icon: 'user',  label: 'Staff' },
+        { href: 'templates.html',  icon: 'mail',   label: 'Templates' },
+        { href: 'campaigns.html',  icon: 'megaphone',  label: 'Campaigns' },
+        { href: 'task-board.html', icon: 'square-check',  label: 'Task Board' },
+        { href: 'documents.html',  icon: 'folder',  label: 'Documents' },
+        { href: 'reports.html',    icon: 'bar-chart-3',  label: 'Reports' },
+        { href: 'settings.html',   icon: 'settings',   label: 'Settings' },
     ];
     const existingHrefs = Array.from(navLinks.querySelectorAll('a')).map(a => a.getAttribute('href'));
     newItems.forEach(item => {
         if (!existingHrefs.includes(item.href)) {
             const li = document.createElement('li');
             li.className = currentPage === item.href ? 'active' : '';
-            li.innerHTML = `<a href="${escHtml(item.href)}"><span>${item.icon}</span> ${escHtml(item.label)}</a>`;
+            li.innerHTML = `<a href="${escHtml(item.href)}"><span><i data-lucide="${item.icon}" style="width:18px;height:18px"></i></span> ${escHtml(item.label)}</a>`;
             navLinks.appendChild(li);
         }
     });
+    // Re-create Lucide icons for injected items
+    if (typeof lucide !== 'undefined') lucide.createIcons();
 }
 
 // XSS helper
@@ -339,7 +343,7 @@ function showToast(message, type = 'success') {
             autocomplete="off"
             style="width:100%;padding:7px 12px 7px 32px;border-radius:8px;border:1px solid var(--border);
             background:var(--bg-input);color:var(--text-primary);font-size:0.85rem;">
-        <span style="position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:0.9rem;pointer-events:none">🔍</span>
+        <span style="position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:0.9rem;pointer-events:none"><i data-lucide="search" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i></span>
         <div id="globalSearchResults" style="display:none;position:absolute;top:40px;left:0;right:0;
             background:var(--surface,#1e293b);border:1px solid var(--border);border-radius:10px;
             box-shadow:0 8px 30px rgba(0,0,0,0.4);z-index:1001;max-height:400px;overflow-y:auto;"></div>`;
@@ -383,7 +387,7 @@ async function _runGlobalSearch(query) {
         html += leads.data.map(l => `
             <a href="leads.html" style="display:flex;align-items:center;gap:8px;padding:8px 12px;text-decoration:none;color:var(--text-primary);border-bottom:1px solid var(--border)"
                onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='transparent'">
-                <span style="font-size:1.1rem">🎯</span>
+                <span style="font-size:1.1rem"><i data-lucide="target" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i></span>
                 <div style="flex:1"><div style="font-weight:600;font-size:0.85rem">${escHtml(l.name)}</div>
                 <div style="font-size:0.75rem;color:var(--text-muted)">${escHtml(l.destination||'')} · ${escHtml(l.stage)}</div></div>
             </a>`).join('');
@@ -393,7 +397,7 @@ async function _runGlobalSearch(query) {
         html += clients.data.map(c => `
             <a href="clients.html" style="display:flex;align-items:center;gap:8px;padding:8px 12px;text-decoration:none;color:var(--text-primary);border-bottom:1px solid var(--border)"
                onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='transparent'">
-                <span style="font-size:1.1rem">👥</span>
+                <span style="font-size:1.1rem"><i data-lucide="users" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i></span>
                 <div style="flex:1"><div style="font-weight:600;font-size:0.85rem">${escHtml(c.name)}</div>
                 <div style="font-size:0.75rem;color:var(--text-muted)">${escHtml(c.phone||'')} ${c.email ? '· '+escHtml(c.email) : ''}</div></div>
             </a>`).join('');
@@ -403,7 +407,7 @@ async function _runGlobalSearch(query) {
         html += invoices.data.map(i => `
             <a href="invoices.html" style="display:flex;align-items:center;gap:8px;padding:8px 12px;text-decoration:none;color:var(--text-primary);border-bottom:1px solid var(--border)"
                onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='transparent'">
-                <span style="font-size:1.1rem">🧾</span>
+                <span style="font-size:1.1rem"><i data-lucide="file-text" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i></span>
                 <div style="flex:1"><div style="font-weight:600;font-size:0.85rem">${escHtml(i.invoice_number)}</div>
                 <div style="font-size:0.75rem;color:var(--text-muted)">${escHtml(i.clients?.name||'')} · ${formatINR(i.total_amount)}</div></div>
             </a>`).join('');
@@ -413,7 +417,7 @@ async function _runGlobalSearch(query) {
         html += bookings.data.map(b => `
             <a href="bookings.html" style="display:flex;align-items:center;gap:8px;padding:8px 12px;text-decoration:none;color:var(--text-primary);border-bottom:1px solid var(--border)"
                onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='transparent'">
-                <span style="font-size:1.1rem">🗓</span>
+                <span style="font-size:1.1rem"><i data-lucide="calendar-check" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i></span>
                 <div style="flex:1"><div style="font-weight:600;font-size:0.85rem">${escHtml(b.booking_ref)}</div>
                 <div style="font-size:0.75rem;color:var(--text-muted)">${escHtml(b.clients?.name||'')} · ${escHtml(b.destination||'')} · ${escHtml(b.status)}</div></div>
             </a>`).join('');
@@ -423,7 +427,7 @@ async function _runGlobalSearch(query) {
         html += vendors.data.map(v => `
             <a href="vendors.html" style="display:flex;align-items:center;gap:8px;padding:8px 12px;text-decoration:none;color:var(--text-primary);border-bottom:1px solid var(--border)"
                onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='transparent'">
-                <span style="font-size:1.1rem">🤝</span>
+                <span style="font-size:1.1rem"><i data-lucide="handshake" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i></span>
                 <div style="flex:1"><div style="font-weight:600;font-size:0.85rem">${escHtml(v.name)}</div>
                 <div style="font-size:0.75rem;color:var(--text-muted)">${escHtml(v.category||'')} ${v.city ? '· '+escHtml(v.city) : ''}</div></div>
             </a>`).join('');
@@ -433,7 +437,7 @@ async function _runGlobalSearch(query) {
         html += quotations.data.map(q => `
             <a href="quotations.html" style="display:flex;align-items:center;gap:8px;padding:8px 12px;text-decoration:none;color:var(--text-primary);border-bottom:1px solid var(--border)"
                onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='transparent'">
-                <span style="font-size:1.1rem">📋</span>
+                <span style="font-size:1.1rem"><i data-lucide="clipboard-list" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i></span>
                 <div style="flex:1"><div style="font-weight:600;font-size:0.85rem">${escHtml(q.quote_number)}</div>
                 <div style="font-size:0.75rem;color:var(--text-muted)">${escHtml(q.clients?.name||'')} · ${formatINR(q.total_amount)}</div></div>
             </a>`).join('');

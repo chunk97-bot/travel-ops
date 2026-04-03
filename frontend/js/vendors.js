@@ -29,7 +29,7 @@ function renderStars(rating, interactive = false, targetId = '') {
     const n = Math.round(rating || 0);
     return [1,2,3,4,5].map(i =>
         `<span style="cursor:${interactive?'pointer':'default'};font-size:1.1rem;color:${i <= n ? '#ffd700' : '#555'}"
-            ${interactive ? `onclick="setRatingStars('${targetId}',${i})"` : ''}>★</span>`
+            ${interactive ? `onclick="setRatingStars('${targetId}',${i})"` : ''}><span style="color:#f59e0b">&#9733;</span></span>`
     ).join('');
 }
 
@@ -77,7 +77,7 @@ function renderVendorGrid(vendors) {
                 <div>
                     <div class="vendor-name">
                         ${escHtml(v.name)}
-                        ${v.preferred ? '<span style="color:#ffd700;font-size:0.8rem;margin-left:4px" title="Preferred Vendor">⭐ Preferred</span>' : ''}
+                        ${v.preferred ? '<span style="color:#ffd700;font-size:0.8rem;margin-left:4px" title="Preferred Vendor"><i data-lucide="star" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Preferred</span>' : ''}
                     </div>
                     <div class="vendor-cat">${escHtml(v.category || v.region || '')}</div>
                     <div style="margin-top:4px">${renderStars(v._avgRating)} <span style="font-size:0.75rem;color:var(--text-muted)">(${v._reviewCount})</span></div>
@@ -87,18 +87,18 @@ function renderVendorGrid(vendors) {
                 </div>
             </div>
             <div class="vendor-info">
-                ${v.phone || v.contact_phone ? `<div>📞 ${escHtml(v.phone || v.contact_phone)}</div>` : ''}
-                ${v.email || v.contact_email ? `<div>✉️ ${escHtml(v.email || v.contact_email)}</div>` : ''}
-                ${v.location ? `<div>📍 ${escHtml(v.location)}</div>` : ''}
-                ${v.gst_number ? `<div>🧾 GST: ${escHtml(v.gst_number)}</div>` : ''}
-                ${contractExpiry ? `<div style="color:${expiryWarning ? '#ef4444' : 'var(--text-muted)'}">📅 Contract: ${contractExpiry.toLocaleDateString()}${expiryWarning ? ' ⚠️ Expiring Soon!' : ''}</div>` : ''}
+                ${v.phone || v.contact_phone ? `<div><i data-lucide="phone" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> ${escHtml(v.phone || v.contact_phone)}</div>` : ''}
+                ${v.email || v.contact_email ? `<div><i data-lucide="mail" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>️ ${escHtml(v.email || v.contact_email)}</div>` : ''}
+                ${v.location ? `<div><i data-lucide="map-pin" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> ${escHtml(v.location)}</div>` : ''}
+                ${v.gst_number ? `<div><i data-lucide="file-text" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> GST: ${escHtml(v.gst_number)}</div>` : ''}
+                ${contractExpiry ? `<div style="color:${expiryWarning ? '#ef4444' : 'var(--text-muted)'}"><i data-lucide="calendar" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Contract: ${contractExpiry.toLocaleDateString()}${expiryWarning ? ' <i data-lucide="alert-triangle" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>️ Expiring Soon!' : ''}</div>` : ''}
                 <div style="margin-top:4px"><span style="display:inline-block;padding:2px 8px;border-radius:10px;font-size:0.72rem;background:${reliabilityColors[reliability]};color:#fff">Payment: ${reliability}</span></div>
             </div>
             <div class="vendor-card-actions">
                 <button class="btn-secondary" onclick="openPricingModal('${v.id}')">
-                    💰 Pricing (${v.vendor_pricing?.[0]?.count || 0})
+                    <i data-lucide="indian-rupee" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Pricing (${v.vendor_pricing?.[0]?.count || 0})
                 </button>
-                <button class="btn-secondary" onclick="openReviewModal('${v.id}')">⭐ Review</button>
+                <button class="btn-secondary" onclick="openReviewModal('${v.id}')"><i data-lucide="star" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Review</button>
                 <button class="btn-secondary" onclick="openEditVendor('${v.id}')">Edit</button>
                 <button class="btn-danger" onclick="deleteVendor('${v.id}')">Delete</button>
             </div>
@@ -233,7 +233,7 @@ function renderPricingTable(rows) {
             <td>${formatINR(r.rate)}</td>
             <td>${escHtml(r.per_unit || 'per pax')}</td>
             <td>
-                <button class="btn-danger" style="padding:3px 8px;font-size:0.78rem" onclick="deletePricingRow('${r.id}')">✕</button>
+                <button class="btn-danger" style="padding:3px 8px;font-size:0.78rem" onclick="deletePricingRow('${r.id}')">&times;</button>
             </td>
         </tr>
     `).join('');

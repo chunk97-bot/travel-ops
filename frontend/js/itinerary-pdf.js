@@ -26,7 +26,7 @@ function downloadBrandedPdf() {
     doc.setTextColor(255, 255, 255);
     doc.setFontSize(22);
     doc.setFont('helvetica', 'bold');
-    doc.text('✈ Travel Ops', margin, 18);
+    doc.text('<i data-lucide="plane" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Travel Ops', margin, 18);
     doc.setFontSize(10);
     doc.setFont('helvetica', 'normal');
     doc.text('Your Trusted Travel Partner', margin, 26);
@@ -52,11 +52,11 @@ function downloadBrandedPdf() {
     doc.setTextColor(...darkText);
     doc.setFontSize(10);
     const inclusions = [];
-    if (d.includeFlights) inclusions.push('✔ Flights');
-    inclusions.push(`✔ ${d.nights}N Hotel (${d.hotel || 'Standard'})`);
-    if (d.includeTransfers) inclusions.push('✔ Transfers');
-    if (d.meals !== 'none') inclusions.push(`✔ ${(d.meals || '').toUpperCase()}`);
-    if (d.includeVisa) inclusions.push('✔ Visa');
+    if (d.includeFlights) inclusions.push('<i data-lucide="check" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Flights');
+    inclusions.push(`<i data-lucide="check" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> ${d.nights}N Hotel (${d.hotel || 'Standard'})`);
+    if (d.includeTransfers) inclusions.push('<i data-lucide="check" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Transfers');
+    if (d.meals !== 'none') inclusions.push(`<i data-lucide="check" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> ${(d.meals || '').toUpperCase()}`);
+    if (d.includeVisa) inclusions.push('<i data-lucide="check" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Visa');
 
     doc.setFont('helvetica', 'bold');
     doc.text('Package Inclusions', margin + 4, y + 7);
@@ -97,19 +97,19 @@ function downloadBrandedPdf() {
         doc.setTextColor(...mutedText);
 
         if (day.hotel_name) {
-            doc.text(`🏨 Hotel: ${day.hotel_name}${day.hotel_location ? ', ' + day.hotel_location : ''}`, margin + 4, y);
+            doc.text(`<i data-lucide="building" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Hotel: ${day.hotel_name}${day.hotel_location ? ', ' + day.hotel_location : ''}`, margin + 4, y);
             y += 5;
         }
         if (day.transport) {
-            doc.text(`🚌 Transport: ${day.transport}`, margin + 4, y);
+            doc.text(`<i data-lucide="bus" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Transport: ${day.transport}`, margin + 4, y);
             y += 5;
         }
         if (day.meals) {
-            doc.text(`🍽 Meals: ${day.meals}`, margin + 4, y);
+            doc.text(`<i data-lucide="utensils" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Meals: ${day.meals}`, margin + 4, y);
             y += 5;
         }
         if (day.activities?.length) {
-            doc.text(`📍 Activities: ${day.activities.join(', ')}`, margin + 4, y, { maxWidth: cw - 8 });
+            doc.text(`<i data-lucide="map-pin" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Activities: ${day.activities.join(', ')}`, margin + 4, y, { maxWidth: cw - 8 });
             y += Math.ceil(doc.getTextWidth(day.activities.join(', ')) / (cw - 8)) * 5 + 2;
         }
         if (day.notes) {

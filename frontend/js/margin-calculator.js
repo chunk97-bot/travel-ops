@@ -19,7 +19,7 @@ function _injectMarginUI() {
         btn.id = 'marginAnalysisBtn';
         btn.className = 'btn-secondary';
         btn.style.cssText = 'margin-right:8px;font-size:0.85rem';
-        btn.textContent = '💰 Margin Analysis';
+        btn.textContent = '<i data-lucide="indian-rupee" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Margin Analysis';
         btn.addEventListener('click', openMarginPanel);
         topBarRight.insertBefore(btn, topBarRight.firstChild);
     }
@@ -36,8 +36,8 @@ function _injectMarginUI() {
         `;
         panel.innerHTML = `
             <div style="padding:20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center">
-                <h3 style="margin:0;font-size:1rem">💰 Margin Analysis</h3>
-                <button onclick="closeMarginPanel()" style="background:transparent;border:none;color:var(--text-primary);font-size:1.2rem;cursor:pointer">✕</button>
+                <h3 style="margin:0;font-size:1rem"><i data-lucide="indian-rupee" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Margin Analysis</h3>
+                <button onclick="closeMarginPanel()" style="background:transparent;border:none;color:var(--text-primary);font-size:1.2rem;cursor:pointer">&times;</button>
             </div>
             <div style="padding:16px">
                 <div id="marginSummary" style="margin-bottom:20px"></div>

@@ -152,7 +152,7 @@ function renderDays() {
                 <span class="day-number">Day ${day.day_number}</span>
                 <input type="text" class="day-title-input" value="${escHtml(day.title)}"
                     onchange="updateDay('${day.id}','title',this.value)" placeholder="Day title...">
-                <button class="day-remove" onclick="removeDay('${day.id}')" title="Remove day">✕</button>
+                <button class="day-remove" onclick="removeDay('${day.id}')" title="Remove day">&times;</button>
             </div>
             <div class="day-card-body">
                 <div class="form-group">
@@ -179,7 +179,7 @@ function renderDays() {
                     <label>Activities</label>
                     <div id="activities-${day.id}" style="margin-bottom:6px">
                         ${day.activities.map((a, ai) => `
-                            <span class="activity-tag">${escHtml(a)}<button onclick="removeActivity('${day.id}',${ai})">✕</button></span>
+                            <span class="activity-tag">${escHtml(a)}<button onclick="removeActivity('${day.id}',${ai})">&times;</button></span>
                         `).join('')}
                     </div>
                     <div style="display:flex;gap:6px">
@@ -316,16 +316,16 @@ function getItineraryData() {
 function buildPdfPreview() {
     const d = getItineraryData();
     const inclusions = [
-        d.includeFlights ? '✔ International Flights' : null,
-        '✔ ' + d.nights + ' Nights Accommodation (' + d.hotel + ')',
-        d.includeTransfers ? '✔ Airport & Sightseeing Transfers' : null,
-        d.meals !== 'none' ? `✔ Meals: ${d.meals.toUpperCase()}` : null,
-        d.includeVisa ? '✔ Visa Assistance' : null,
+        d.includeFlights ? '<i data-lucide="check" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> International Flights' : null,
+        '<i data-lucide="check" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> ' + d.nights + ' Nights Accommodation (' + d.hotel + ')',
+        d.includeTransfers ? '<i data-lucide="check" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Airport & Sightseeing Transfers' : null,
+        d.meals !== 'none' ? `<i data-lucide="check" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Meals: ${d.meals.toUpperCase()}` : null,
+        d.includeVisa ? '<i data-lucide="check" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Visa Assistance' : null,
     ].filter(Boolean);
 
     document.getElementById('pdfPreviewContent').innerHTML = `
         <div class="pdf-header">
-            <h1>✈ ${escHtml(d.title)}</h1>
+            <h1><i data-lucide="plane" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> ${escHtml(d.title)}</h1>
             <p>${escHtml(d.destination)} · ${d.nights} Nights · ${d.adults} Adults${d.children ? ', ' + d.children + ' Children' : ''}</p>
         </div>
 
@@ -336,10 +336,10 @@ function buildPdfPreview() {
         ${days.map(day => `
             <div class="pdf-day">
                 <div class="pdf-day-title">Day ${day.day_number}: ${escHtml(day.title)}</div>
-                ${day.hotel_name ? `<p>🏨 <strong>Hotel:</strong> ${escHtml(day.hotel_name)}${day.hotel_location ? ', ' + escHtml(day.hotel_location) : ''}</p>` : ''}
-                ${day.transport ? `<p>🚌 <strong>Transport:</strong> ${escHtml(day.transport)}</p>` : ''}
-                ${day.meals ? `<p>🍽 <strong>Meals:</strong> ${escHtml(day.meals)}</p>` : ''}
-                ${day.activities.length ? `<p>📍 <strong>Activities:</strong> ${day.activities.map(a => escHtml(a)).join(' · ')}</p>` : ''}
+                ${day.hotel_name ? `<p><i data-lucide="building" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> <strong>Hotel:</strong> ${escHtml(day.hotel_name)}${day.hotel_location ? ', ' + escHtml(day.hotel_location) : ''}</p>` : ''}
+                ${day.transport ? `<p><i data-lucide="bus" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> <strong>Transport:</strong> ${escHtml(day.transport)}</p>` : ''}
+                ${day.meals ? `<p><i data-lucide="utensils" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> <strong>Meals:</strong> ${escHtml(day.meals)}</p>` : ''}
+                ${day.activities.length ? `<p><i data-lucide="map-pin" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> <strong>Activities:</strong> ${day.activities.map(a => escHtml(a)).join(' · ')}</p>` : ''}
                 ${day.notes ? `<p style="color:#64748b;font-size:0.9rem;font-style:italic">${escHtml(day.notes)}</p>` : ''}
             </div>
         `).join('')}
@@ -374,7 +374,7 @@ function downloadPdf() {
 // ── WhatsApp Send ─────────────────────────────────────────
 function sendWhatsapp() {
     const d = getItineraryData();
-    const msg = `✈ *${d.title}*\n\n📍 ${d.destination} · ${d.nights}N · ${d.adults + d.children} Pax\n\n💰 Total Package: *${d.total}* (incl. GST)\n\nQuote valid until ${d.validUntil ? formatDate(d.validUntil) : '7 days'}.\n\nReply to confirm or ask for customization.`;
+    const msg = `<i data-lucide="plane" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> *${d.title}*\n\n<i data-lucide="map-pin" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> ${d.destination} · ${d.nights}N · ${d.adults + d.children} Pax\n\n<i data-lucide="indian-rupee" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Total Package: *${d.total}* (incl. GST)\n\nQuote valid until ${d.validUntil ? formatDate(d.validUntil) : '7 days'}.\n\nReply to confirm or ask for customization.`;
     window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
 }
 

@@ -54,12 +54,12 @@ async function loadFollowupsToday() {
         .limit(10);
 
     const el = document.getElementById('followupList');
-    if (!data?.length) { el.innerHTML = '<p class="empty-state">No follow-ups due today 🎉</p>'; return; }
+    if (!data?.length) { el.innerHTML = '<p class="empty-state">No follow-ups due today <i data-lucide="party-popper" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i></p>'; return; }
 
     const now = new Date();
     el.innerHTML = data.map(f => {
         const isOverdue = new Date(f.due_date) < now;
-        const icon = f.type === 'call' ? '📞' : f.type === 'whatsapp' ? '💬' : '📧';
+        const icon = f.type === 'call' ? '<i data-lucide="phone" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>' : f.type === 'whatsapp' ? '<i data-lucide="message-circle" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>' : '<i data-lucide="mail" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>';
         return `
             <div class="followup-item ${isOverdue ? 'overdue' : 'today'}">
                 <span style="font-size:1.3rem">${icon}</span>
@@ -69,7 +69,7 @@ async function loadFollowupsToday() {
                 </div>
                 <div class="followup-actions">
                     <button class="btn-primary" style="padding:5px 10px;font-size:0.78rem" onclick="window.open('https://wa.me/91${escHtml(f.leads?.phone?.replace(/\D/g,'')||'')}','_blank')">WhatsApp</button>
-                    <button class="btn-secondary" style="padding:5px 10px;font-size:0.78rem" onclick="markFollowupDone('${f.id}')">Done ✓</button>
+                    <button class="btn-secondary" style="padding:5px 10px;font-size:0.78rem" onclick="markFollowupDone('${f.id}')">Done <i data-lucide="check" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i></button>
                 </div>
             </div>
         `;
@@ -152,12 +152,12 @@ async function loadBirthdayWidget() {
     });
 
     const items = [
-        ...thisWeekBirthdays.map(c => ({ ...c, type: '🎂', label: 'Birthday', date: c.dob })),
-        ...thisWeekAnniversaries.map(c => ({ ...c, type: '💍', label: 'Anniversary', date: c.anniversary })),
+        ...thisWeekBirthdays.map(c => ({ ...c, type: '<i data-lucide="cake" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>', label: 'Birthday', date: c.dob })),
+        ...thisWeekAnniversaries.map(c => ({ ...c, type: '<i data-lucide="heart" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>', label: 'Anniversary', date: c.anniversary })),
     ];
 
     if (!items.length) {
-        el.innerHTML = '<p style="color:var(--text-muted);font-size:0.85rem">No birthdays or anniversaries this week 🎉</p>';
+        el.innerHTML = '<p style="color:var(--text-muted);font-size:0.85rem">No birthdays or anniversaries this week <i data-lucide="party-popper" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i></p>';
         return;
     }
 
@@ -168,7 +168,7 @@ async function loadBirthdayWidget() {
                 <div style="font-weight:600">${escHtml(item.name)}</div>
                 <div style="font-size:0.78rem;color:var(--text-muted)">${item.label} · ${formatDate(item.date)}</div>
             </div>
-            ${item.phone ? `<a href="https://wa.me/91${item.phone.replace(/\D/g,'')}" target="_blank" class="btn-primary" style="padding:4px 10px;font-size:0.78rem">💬 Wish</a>` : ''}
+            ${item.phone ? `<a href="https://wa.me/91${item.phone.replace(/\D/g,'')}" target="_blank" class="btn-primary" style="padding:4px 10px;font-size:0.78rem"><i data-lucide="message-circle" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Wish</a>` : ''}
         </div>
     `).join('');
 }
@@ -223,9 +223,9 @@ async function loadDashboardKPIs() {
     const profitMargin = revenueTotal > 0 ? (((revenueTotal - expensesTotal) / revenueTotal) * 100).toFixed(1) : '0';
 
     kpiEl.innerHTML = `
-        <div class="stat-card"><span class="stat-icon">📊</span><div class="stat-info"><div class="stat-label">Conversion Rate (YTD)</div><div class="stat-value">${conversionRate}%</div></div></div>
-        <div class="stat-card"><span class="stat-icon">💰</span><div class="stat-info"><div class="stat-label">Avg Deal Size</div><div class="stat-value">${formatINR(avgDealSize)}</div></div></div>
-        <div class="stat-card"><span class="stat-icon">📈</span><div class="stat-info"><div class="stat-label">Revenue (YTD)</div><div class="stat-value">${formatINR(revenueTotal)}</div></div></div>
-        <div class="stat-card"><span class="stat-icon">📉</span><div class="stat-info"><div class="stat-label">Profit Margin</div><div class="stat-value">${profitMargin}%</div></div></div>
+        <div class="stat-card"><span class="stat-icon"><i data-lucide="layout-dashboard" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i></span><div class="stat-info"><div class="stat-label">Conversion Rate (YTD)</div><div class="stat-value">${conversionRate}%</div></div></div>
+        <div class="stat-card"><span class="stat-icon"><i data-lucide="indian-rupee" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i></span><div class="stat-info"><div class="stat-label">Avg Deal Size</div><div class="stat-value">${formatINR(avgDealSize)}</div></div></div>
+        <div class="stat-card"><span class="stat-icon"><i data-lucide="bar-chart-3" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i></span><div class="stat-info"><div class="stat-label">Revenue (YTD)</div><div class="stat-value">${formatINR(revenueTotal)}</div></div></div>
+        <div class="stat-card"><span class="stat-icon"><i data-lucide="trending-down" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i></span><div class="stat-info"><div class="stat-label">Profit Margin</div><div class="stat-value">${profitMargin}%</div></div></div>
     `;
 }

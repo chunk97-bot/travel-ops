@@ -49,8 +49,8 @@ function showDuplicateWarning(duplicates, onProceed) {
             <div class="modal-overlay" onclick="closeModal('dupWarningModal')"></div>
             <div class="modal-box">
                 <div class="modal-header">
-                    <h2>⚠️ Possible Duplicates Found</h2>
-                    <button class="modal-close" onclick="closeModal('dupWarningModal')">✕</button>
+                    <h2><i data-lucide="alert-triangle" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>️ Possible Duplicates Found</h2>
+                    <button class="modal-close" onclick="closeModal('dupWarningModal')">&times;</button>
                 </div>
                 <p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:14px">
                     We found ${duplicates.length} existing record${duplicates.length > 1 ? 's' : ''} that may be the same person:
@@ -64,7 +64,7 @@ function showDuplicateWarning(duplicates, onProceed) {
                             </div>
                             <div style="font-size:0.82rem;color:var(--text-muted);margin-top:3px">
                                 ${escHtml(d.phone || '')} ${d.email ? '· ' + escHtml(d.email) : ''}
-                                ${d.destination ? ' · ✈ ' + escHtml(d.destination) : ''}
+                                ${d.destination ? ' · <i data-lucide="plane" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> ' + escHtml(d.destination) : ''}
                             </div>
                             <div style="font-size:0.75rem;color:var(--text-muted);margin-top:2px">
                                 Match: <strong>${escHtml(d.matchType)}</strong>

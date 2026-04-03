@@ -12,7 +12,7 @@ function renderTagEditor(containerId, clientId, existingTags = []) {
     el.innerHTML = `
         <div class="tag-editor">
             <div id="tagList_${clientId}" class="client-tags" style="margin-bottom:8px">
-                ${tags.map(t => `<span class="tag">${escHtml(t)} <button onclick="removeClientTag('${clientId}','${escHtml(t)}',this)" style="background:none;border:none;color:#f87171;cursor:pointer;font-size:0.75rem;padding:0 2px">✕</button></span>`).join('')}
+                ${tags.map(t => `<span class="tag">${escHtml(t)} <button onclick="removeClientTag('${clientId}','${escHtml(t)}',this)" style="background:none;border:none;color:#f87171;cursor:pointer;font-size:0.75rem;padding:0 2px">&times;</button></span>`).join('')}
             </div>
             <div style="display:flex;gap:6px;flex-wrap:wrap">
                 <select id="tagSelect_${clientId}" class="form-control" style="width:auto;min-width:120px;padding:4px 8px;font-size:0.82rem">

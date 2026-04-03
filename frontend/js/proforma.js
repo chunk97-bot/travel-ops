@@ -84,14 +84,14 @@ function renderTable(items) {
             <td>${escHtml(p.clients?.name || '—')}</td>
             <td>${escHtml(p.destination || '—')}</td>
             <td>${formatINR(p.total_amount)}</td>
-            <td>${p.valid_until ? `<span style="color:${isExpiringSoon ? 'var(--warning)' : 'inherit'}">${isExpiringSoon ? '⏰ ' : ''}${formatDate(p.valid_until)}</span>` : '—'}</td>
+            <td>${p.valid_until ? `<span style="color:${isExpiringSoon ? 'var(--warning)' : 'inherit'}">${isExpiringSoon ? '<i data-lucide="alarm-clock" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> ' : ''}${formatDate(p.valid_until)}</span>` : '—'}</td>
             <td>${piBadge(p.status)}</td>
             <td>${formatDate(p.created_at)}</td>
             <td style="white-space:nowrap">
                 <button class="btn-secondary" style="padding:3px 8px;font-size:0.78rem" onclick="downloadProformaPdf('${p.id}')">PDF</button>
                 ${p.status === 'accepted' ? `<button class="btn-primary" style="padding:3px 8px;font-size:0.78rem;margin-left:4px" onclick="convertToInvoice('${p.id}')">→ Invoice</button>` : ''}
                 ${['draft','sent'].includes(p.status) ? `<button class="btn-secondary" style="padding:3px 8px;font-size:0.78rem;margin-left:4px" onclick="editProforma('${p.id}')">Edit</button>` : ''}
-                ${p.status === 'draft' ? `<button class="btn-danger" style="padding:3px 8px;font-size:0.78rem;margin-left:4px" onclick="deleteProforma('${p.id}')">✕</button>` : ''}
+                ${p.status === 'draft' ? `<button class="btn-danger" style="padding:3px 8px;font-size:0.78rem;margin-left:4px" onclick="deleteProforma('${p.id}')">&times;</button>` : ''}
             </td>
         </tr>`;
     }).join('');
@@ -159,7 +159,7 @@ function addLineItem(desc = '', qty = 1, price = 0) {
         <input type="number" class="form-control pi-qty" placeholder="Qty" value="${qty}" min="1" style="flex:0.5;min-width:60px" oninput="recalcTotal()">
         <input type="number" class="form-control pi-price" placeholder="Rate" value="${price}" min="0" style="flex:1" oninput="recalcTotal()">
         <span class="pi-line-total" style="flex:0.8;text-align:right;font-weight:600;min-width:80px">${formatINR(qty * price)}</span>
-        <button type="button" class="btn-danger" style="padding:4px 8px;font-size:0.8rem" onclick="this.parentElement.remove();recalcTotal()">✕</button>
+        <button type="button" class="btn-danger" style="padding:4px 8px;font-size:0.8rem" onclick="this.parentElement.remove();recalcTotal()">&times;</button>
     `;
     container.appendChild(row);
 }

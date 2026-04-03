@@ -64,23 +64,23 @@ function _injectBulkBar(cfg) {
             <button class="btn-secondary" style="padding:4px 12px;font-size:0.8rem" onclick="bulkUpdateStatus()">Update</button>`;
     }
     if (cfg.actions.includes('reminder')) {
-        actions += `<button class="btn-secondary" style="padding:4px 12px;font-size:0.8rem" onclick="bulkSendReminders()">📧 Send Reminders</button>`;
+        actions += `<button class="btn-secondary" style="padding:4px 12px;font-size:0.8rem" onclick="bulkSendReminders()"><i data-lucide="mail" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Send Reminders</button>`;
     }
     if (cfg.actions.includes('tag')) {
         actions += `<input type="text" id="bulkTag" class="form-control" style="max-width:120px;font-size:0.8rem" placeholder="Tag...">
             <button class="btn-secondary" style="padding:4px 12px;font-size:0.8rem" onclick="bulkAddTag()">Add Tag</button>`;
     }
     if (cfg.actions.includes('export')) {
-        actions += `<button class="btn-secondary" style="padding:4px 12px;font-size:0.8rem" onclick="bulkExport()">📥 Export</button>`;
+        actions += `<button class="btn-secondary" style="padding:4px 12px;font-size:0.8rem" onclick="bulkExport()"><i data-lucide="download" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Export</button>`;
     }
     if (cfg.actions.includes('delete')) {
-        actions += `<button class="btn-danger" style="padding:4px 12px;font-size:0.8rem" onclick="bulkDelete()">🗑 Delete</button>`;
+        actions += `<button class="btn-danger" style="padding:4px 12px;font-size:0.8rem" onclick="bulkDelete()"><i data-lucide="trash-2" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Delete</button>`;
     }
 
     bar.innerHTML = `
         <span id="bulkCount" style="font-weight:700;min-width:80px">0 selected</span>
         ${actions}
-        <button style="background:transparent;border:none;color:var(--text-muted);cursor:pointer;font-size:1rem;margin-left:auto" onclick="clearBulkSelection()">✕</button>
+        <button style="background:transparent;border:none;color:var(--text-muted);cursor:pointer;font-size:1rem;margin-left:auto" onclick="clearBulkSelection()">&times;</button>
     `;
     document.body.appendChild(bar);
 

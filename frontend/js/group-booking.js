@@ -28,10 +28,10 @@ function renderGroupBookings() {
         const statusColors = { planning: '#94a3b8', confirmed: '#10b981', travelling: '#3b82f6', completed: '#6366f1', cancelled: '#ef4444' };
         return `
             <div class="client-card" onclick="openGroupDetail('${g.id}')">
-                <div class="client-avatar" style="background:${statusColors[g.status] || 'var(--bg-hover)'}15;color:${statusColors[g.status] || 'var(--text-muted)'}">👥</div>
+                <div class="client-avatar" style="background:${statusColors[g.status] || 'var(--bg-hover)'}15;color:${statusColors[g.status] || 'var(--text-muted)'}"><i data-lucide="users" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i></div>
                 <div class="client-info">
                     <div class="client-name">${escHtml(g.group_name)}</div>
-                    <div class="client-sub">✈ ${escHtml(g.destination || 'TBD')} · ${formatDate(g.travel_date)}</div>
+                    <div class="client-sub"><i data-lucide="plane" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> ${escHtml(g.destination || 'TBD')} · ${formatDate(g.travel_date)}</div>
                     <div class="client-sub">${g.total_pax} pax · ${g.group_members?.[0]?.count || 0} members added</div>
                 </div>
                 <span class="badge badge-${g.status}">${escHtml(g.status)}</span>
@@ -46,7 +46,7 @@ function openAddGroupBooking() {
         <div class="modal" id="groupModal">
             <div class="modal-overlay" onclick="closeModal('groupModal')"></div>
             <div class="modal-box">
-                <div class="modal-header"><h2>New Group Booking</h2><button class="modal-close" onclick="closeModal('groupModal')">✕</button></div>
+                <div class="modal-header"><h2>New Group Booking</h2><button class="modal-close" onclick="closeModal('groupModal')">&times;</button></div>
                 <div class="form-grid">
                     <div class="form-group"><label>Group Name *</label><input type="text" id="gName" class="form-control" placeholder="e.g., Sharma Family Trip"></div>
                     <div class="form-group"><label>Destination</label><input type="text" id="gDestination" class="form-control" placeholder="e.g., Bali, Thailand"></div>
@@ -111,8 +111,8 @@ async function openGroupDetail(groupId) {
             <div class="modal-overlay" onclick="closeModal('groupDetailModal')"></div>
             <div class="modal-box modal-large">
                 <div class="modal-header">
-                    <h2>👥 ${escHtml(group.group_name)}</h2>
-                    <button class="modal-close" onclick="closeModal('groupDetailModal')">✕</button>
+                    <h2><i data-lucide="users" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> ${escHtml(group.group_name)}</h2>
+                    <button class="modal-close" onclick="closeModal('groupDetailModal')">&times;</button>
                 </div>
                 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">
                     <div><span style="color:var(--text-muted);font-size:0.82rem">Destination:</span> ${escHtml(group.destination || '—')}</div>
@@ -136,14 +136,14 @@ async function openGroupDetail(groupId) {
                                 <td>${escHtml(m.room_type || '—')}</td>
                                 <td>${escHtml(m.meal_pref || '—')}</td>
                                 <td>${m.passport_number ? escHtml(m.passport_number) : '<span style="color:var(--danger)">Missing</span>'}</td>
-                                <td><button class="btn-danger-sm" onclick="deleteGroupMember('${m.id}','${groupId}')">✕</button></td>
+                                <td><button class="btn-danger-sm" onclick="deleteGroupMember('${m.id}','${groupId}')">&times;</button></td>
                             </tr>
                         `).join('') || '<tr><td colspan="6" class="empty-state">No members added yet</td></tr>'}
                     </tbody>
                 </table>
 
                 <div style="margin-top:14px;display:flex;gap:8px">
-                    <button class="btn-secondary" onclick="exportRoomingList('${groupId}')">📥 Export Rooming List</button>
+                    <button class="btn-secondary" onclick="exportRoomingList('${groupId}')"><i data-lucide="download" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Export Rooming List</button>
                     <button class="btn-danger" style="margin-left:auto" onclick="deleteGroupBooking('${groupId}')">Delete Group</button>
                 </div>
             </div>
@@ -158,7 +158,7 @@ function addGroupMember(groupId) {
         <div class="modal" id="memberModal" style="z-index:300">
             <div class="modal-overlay" onclick="closeModal('memberModal')"></div>
             <div class="modal-box">
-                <div class="modal-header"><h2>Add Member</h2><button class="modal-close" onclick="closeModal('memberModal')">✕</button></div>
+                <div class="modal-header"><h2>Add Member</h2><button class="modal-close" onclick="closeModal('memberModal')">&times;</button></div>
                 <div class="form-grid">
                     <div class="form-group"><label>Name *</label><input type="text" id="mName" class="form-control"></div>
                     <div class="form-group"><label>Phone</label><input type="tel" id="mPhone" class="form-control"></div>

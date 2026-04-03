@@ -16,8 +16,8 @@ function openEmailComposer({ to, leadId, clientId, subject, prefillBody }) {
             <div class="modal-overlay" onclick="closeModal('emailComposeModal')"></div>
             <div class="modal-box" style="max-width:600px">
                 <div class="modal-header">
-                    <h2>📧 Send Email</h2>
-                    <button class="modal-close" onclick="closeModal('emailComposeModal')">✕</button>
+                    <h2><i data-lucide="mail" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Send Email</h2>
+                    <button class="modal-close" onclick="closeModal('emailComposeModal')">&times;</button>
                 </div>
                 <form id="emailComposeForm" onsubmit="sendEmail(event)">
                     <div class="form-grid" style="grid-template-columns:1fr">
@@ -38,7 +38,7 @@ function openEmailComposer({ to, leadId, clientId, subject, prefillBody }) {
                     </div>
                     <div class="form-actions">
                         <button type="button" class="btn-secondary" onclick="closeModal('emailComposeModal')">Cancel</button>
-                        <button type="submit" class="btn-primary" id="emailSendBtn">📤 Send Email</button>
+                        <button type="submit" class="btn-primary" id="emailSendBtn"><i data-lucide="upload" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Send Email</button>
                     </div>
                 </form>
             </div>
@@ -115,7 +115,7 @@ async function sendEmail(e) {
         showToast('Email failed: ' + err.message, 'error');
     } finally {
         btn.disabled = false;
-        btn.textContent = '📤 Send Email';
+        btn.textContent = '<i data-lucide="upload" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Send Email';
     }
 }
 
@@ -137,7 +137,7 @@ async function loadEmailHistory(targetEl, { leadId, clientId }) {
 
     targetEl.innerHTML = data.map(e => `
         <div style="background:var(--bg-input);border-radius:6px;padding:8px 12px;margin-bottom:6px;font-size:0.85rem">
-            <span>${e.direction === 'sent' ? '📤' : '📨'}</span>
+            <span>${e.direction === 'sent' ? '<i data-lucide="upload" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>' : '<i data-lucide="mail-plus" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i>'}</span>
             <strong style="margin-left:4px">${escHtml(e.subject || 'No subject')}</strong>
             <span style="color:var(--text-muted);margin-left:8px">${formatDate(e.created_at)}</span>
             <span style="background:${e.status==='sent'?'var(--success)':e.status==='opened'?'var(--primary)':'var(--danger)'};color:#fff;padding:1px 6px;border-radius:4px;font-size:0.75rem;margin-left:8px">${e.status}</span>
