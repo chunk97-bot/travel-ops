@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Ops — Packages</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/packages.css">
+</head>
+<body>
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-logo"><span class="logo-icon">✈</span><span class="logo-text">Travel Ops</span></div>
+        <ul class="nav-links">
+            <li><a href="index.html"><span>📊</span> Dashboard</a></li>
+            <li><a href="leads.html"><span>🎯</span> Leads</a></li>
+            <li><a href="clients.html"><span>👥</span> Clients</a></li>
+            <li><a href="itinerary.html"><span>🗺</span> Itinerary Builder</a></li>
+            <li class="active"><a href="packages.html"><span>📦</span> Packages</a></li>
+            <li><a href="vendors.html"><span>🤝</span> Vendors</a></li>
+            <li><a href="invoices.html"><span>🧾</span> Invoices</a></li>
+            <li><a href="followups.html"><span>🔔</span> Follow-Ups</a></li>
+            <li><a href="reports.html"><span>📈</span> Reports</a></li>
+        </ul>
+        <div class="sidebar-user" id="sidebarUser"></div>
+    </nav>
+
+    <main class="main-content">
+        <header class="top-bar">
+            <button class="menu-toggle" id="menuToggle">☰</button>
+            <h1 class="page-title">Package Catalog</h1>
+            <div class="top-bar-right">
+                <a href="catalog.html" target="_blank" class="btn-secondary">🖨 Client Brochure</a>
+                <button class="btn-logout" id="logoutBtn">Logout</button>
+            </div>
+        </header>
+
+        <!-- Stats Bar -->
+        <div class="pkg-stats-bar">
+            <div class="pkg-stat" id="statTotal"><strong>28</strong> Packages</div>
+            <div class="pkg-stat" id="statRegions"><strong>6</strong> Regions</div>
+            <div class="pkg-stat"><strong>2</strong> Nights avg</div>
+        </div>
+
+        <!-- Filters -->
+        <div class="filter-bar">
+            <input type="text" id="searchPkgs" class="search-input" placeholder="Search destination, tag...">
+            <select id="filterRegion" class="filter-select">
+                <option value="">All Regions</option>
+                <option>South India</option>
+                <option>North India</option>
+                <option>Himachal</option>
+                <option>Jammu & Kashmir</option>
+                <option>East India</option>
+                <option>West & Central</option>
+            </select>
+            <select id="filterDep" class="filter-select">
+                <option value="">Any Departure City</option>
+            </select>
+            <select id="filterTag" class="filter-select">
+                <option value="">All Types</option>
+                <option value="couple">Couple / Romance</option>
+                <option value="family">Family</option>
+                <option value="adventure">Adventure</option>
+                <option value="heritage">Heritage</option>
+                <option value="beach">Beach</option>
+                <option value="hills">Hills</option>
+                <option value="spiritual">Spiritual</option>
+                <option value="food">Food</option>
+            </select>
+        </div>
+
+        <!-- Region tabs -->
+        <div class="region-tabs" id="regionTabs">
+            <button class="region-tab active" data-region="">All</button>
+        </div>
+
+        <!-- Package Grid -->
+        <div class="pkg-grid" id="pkgGrid"></div>
+
+        <!-- Empty state -->
+        <div id="pkgEmpty" class="empty-state" style="display:none">No packages match your filters.</div>
+    </main>
+
+    <!-- Use Template Modal -->
+    <div class="modal-overlay" id="templateModalOverlay" onclick="closeModal('templateModal')"></div>
+    <div class="modal" id="templateModal">
+        <div class="modal-header">
+            <h2 id="templateModalTitle">Use as Template</h2>
+            <button class="modal-close" id="closeTemplateModal">✕</button>
+        </div>
+        <div class="modal-body">
+            <p style="color:var(--text-muted);margin-bottom:1rem">This will open the Itinerary Builder pre-filled with this package's destination and nights.</p>
+            <div class="form-group">
+                <label>Client / Lead (optional)</label>
+                <select id="templateLeadId" class="form-control">
+                    <option value="">— New Quote (no lead) —</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>No. of Pax</label>
+                <input type="number" id="templatePax" class="form-control" value="2" min="1">
+            </div>
+            <div class="form-group">
+                <label>Travel Date (approx.)</label>
+                <input type="date" id="templateDate" class="form-control">
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-secondary" onclick="closeModal('templateModal')">Cancel</button>
+            <button class="btn-primary" id="openBuilderBtn">Open in Builder →</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/packages-data.js"></script>
+    <script src="js/packages.js"></script>
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>India 2-Night Gateways — Package Catalog</title>
+    <link rel="stylesheet" href="css/packages.css">
+    <style>
+        /* Standalone catalog overrides — light, printable */
+        :root {
+            --bg: #ffffff;
+            --surface: #f8f9fa;
+            --border: #dee2e6;
+            --text: #1a1a2e;
+            --text-muted: #6c757d;
+            --primary: #e63946;
+            --accent: #457b9d;
+        }
+        body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', sans-serif; }
+        .catalog-header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #e63946 100%);
+            color: #fff;
+            padding: 2.5rem 2rem 2rem;
+            text-align: center;
+        }
+        .catalog-header h1 { font-size: 2rem; margin: 0 0 0.25rem; }
+        .catalog-header p { opacity: 0.85; margin: 0; font-size: 1.05rem; }
+        .catalog-meta { display: flex; gap: 2rem; justify-content: center; margin-top: 1rem; font-size: 0.9rem; opacity: 0.8; }
+        .catalog-actions {
+            display: flex; gap: 0.75rem; justify-content: flex-end; padding: 1rem 2rem;
+            border-bottom: 1px solid var(--border); background: var(--surface);
+        }
+        .catalog-actions button {
+            padding: 0.5rem 1.2rem; border: 1px solid var(--border); border-radius: 6px;
+            background: #fff; cursor: pointer; font-size: 0.9rem;
+        }
+        .catalog-actions .btn-print { background: var(--primary); color: #fff; border-color: var(--primary); }
+        .region-section { padding: 1.5rem 2rem 0; }
+        .region-section h2 { font-size: 1.15rem; color: var(--accent); border-bottom: 2px solid var(--accent); padding-bottom: 0.4rem; margin-bottom: 1rem; }
+        .cat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+        .cat-card {
+            border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.1rem;
+            background: var(--bg); page-break-inside: avoid;
+        }
+        .cat-card-title { font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 0.2rem; }
+        .cat-card-sub { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 0.6rem; }
+        .cat-card-dep { font-size: 0.8rem; color: var(--accent); font-weight: 600; }
+        .cat-card-highlights { margin: 0.5rem 0 0; padding: 0; list-style: none; }
+        .cat-card-highlights li { font-size: 0.8rem; color: var(--text-muted); padding: 0.15rem 0; }
+        .cat-card-highlights li::before { content: '✓ '; color: var(--primary); }
+        .best-time { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem; }
+        .tag-row { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 0.5rem; }
+        .cat-tag { font-size: 0.7rem; padding: 2px 7px; border-radius: 20px; background: #f0f4f8; color: var(--accent); border: 1px solid #d0dce8; }
+        .catalog-footer { text-align: center; padding: 2rem; font-size: 0.8rem; color: var(--text-muted); border-top: 1px solid var(--border); margin-top: 1rem; }
+        @media print {
+            .catalog-actions { display: none; }
+            .cat-card { border-color: #999; }
+            body { font-size: 10pt; }
+            .catalog-header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="catalog-header">
+    <h1>✈ India 2-Night Gateways</h1>
+    <p>Quick escapes across India — 3 days, 2 nights, unforgettable experiences</p>
+    <div class="catalog-meta">
+        <span>📍 28 Destinations</span>
+        <span>🗺 6 Regions</span>
+        <span>📅 April 2026</span>
+    </div>
+</header>
+
+<div class="catalog-actions">
+    <button onclick="window.print()" class="btn-print">🖨 Print Brochure</button>
+    <button onclick="shareWhatsApp()">💬 Share on WhatsApp</button>
+    <button onclick="copyLink()">🔗 Copy Link</button>
+</div>
+
+<div id="catalogBody"></div>
+
+<footer class="catalog-footer">
+    All packages are 2 nights / 3 days. Prices on request. Subject to availability. Terms & conditions apply.
+</footer>
+
+<script src="js/packages-data.js"></script>
+<script>
+function renderCatalog() {
+    const body = document.getElementById('catalogBody');
+    const byRegion = {};
+    PACKAGE_CATALOG.packages.forEach(p => {
+        if (!byRegion[p.region]) byRegion[p.region] = [];
+        byRegion[p.region].push(p);
+    });
+    body.innerHTML = Object.entries(byRegion).map(([region, pkgs]) => `
+        <div class="region-section">
+            <h2>${region}</h2>
+            <div class="cat-grid">
+                ${pkgs.map(p => `
+                    <div class="cat-card">
+                        <div class="cat-card-title">${p.name}</div>
+                        <div class="cat-card-sub">${p.nights}N/${p.days}D · ${p.category}</div>
+                        <div class="cat-card-dep">✈ Ex: ${p.departureCities.join(' / ')}</div>
+                        <ul class="cat-card-highlights">
+                            ${p.highlights.map(h => `<li>${h}</li>`).join('')}
+                        </ul>
+                        <div class="tag-row">${p.tags.map(t => `<span class="cat-tag">${t}</span>`).join('')}</div>
+                        <div class="best-time">🌤 Best time: ${p.bestSeason}</div>
+                    </div>
+                `).join('')}
+            </div>
+        </div>
+    `).join('');
+}
+
+function shareWhatsApp() {
+    const url = encodeURIComponent(window.location.href);
+    window.open(`https://wa.me/?text=Check%20out%20our%20India%202-Night%20Gateways%20catalog%20%F0%9F%8C%9F%20${url}`, '_blank');
+}
+function copyLink() {
+    navigator.clipboard.writeText(window.location.href).then(() => alert('Link copied!'));
+}
+
+renderCatalog();
+</script>
+</body>
+</html>

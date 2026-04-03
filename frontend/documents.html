@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Ops — Documents</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-logo"><span class="logo-icon">✈</span><span class="logo-text">Travel Ops</span></div>
+        <ul class="nav-links">
+            <li><a href="index.html"><span>📊</span> Dashboard</a></li>
+            <li><a href="leads.html"><span>🎯</span> Leads</a></li>
+            <li><a href="clients.html"><span>👥</span> Clients</a></li>
+            <li><a href="bookings.html"><span>🎫</span> Bookings</a></li>
+            <li><a href="itinerary.html"><span>🗺</span> Itinerary Builder</a></li>
+            <li><a href="packages.html"><span>📦</span> Packages</a></li>
+            <li><a href="vendors.html"><span>🤝</span> Vendors</a></li>
+            <li><a href="vendor-payments.html"><span>💸</span> Vendor Payments</a></li>
+            <li><a href="invoices.html"><span>🧾</span> Invoices</a></li>
+            <li><a href="receipts.html"><span>🧾</span> Receipts</a></li>
+            <li><a href="expenses.html"><span>💰</span> Expenses</a></li>
+            <li><a href="cancellations.html"><span>↩</span> Cancellations</a></li>
+            <li><a href="tcs-tracker.html"><span>🏛</span> TCS Tracker</a></li>
+            <li><a href="staff.html"><span>👤</span> Staff</a></li>
+            <li><a href="templates.html"><span>💬</span> Templates</a></li>
+            <li><a href="followups.html"><span>🔔</span> Follow-Ups</a></li>
+            <li><a href="reports.html"><span>📈</span> Reports</a></li>
+            <li class="active"><a href="documents.html"><span>📁</span> Documents</a></li>
+            <li><a href="settings.html"><span>⚙</span> Settings</a></li>
+        </ul>
+        <div class="sidebar-user" id="sidebarUser"></div>
+    </nav>
+
+    <main class="main-content">
+        <header class="top-bar">
+            <button class="menu-toggle" id="menuToggle">☰</button>
+            <h1 class="page-title">Document Vault</h1>
+            <div class="top-bar-right">
+                <button class="btn-primary" id="uploadDocBtn">+ Upload Document</button>
+                <button class="btn-logout" id="logoutBtn">Logout</button>
+            </div>
+        </header>
+
+        <!-- Stats -->
+        <div class="pkg-stats-bar">
+            <div class="pkg-stat" id="docStatTotal"></div>
+            <div class="pkg-stat" id="docStatExpiring"></div>
+            <div class="pkg-stat" id="docStatExpired"></div>
+        </div>
+
+        <!-- Filters -->
+        <div class="filter-bar">
+            <input type="text" id="searchDocs" class="search-input" placeholder="Search client, file name...">
+            <select id="filterDocType" class="filter-select">
+                <option value="">All Types</option>
+                <option value="passport">Passport</option>
+                <option value="visa">Visa</option>
+                <option value="ticket">Ticket</option>
+                <option value="voucher">Hotel Voucher</option>
+                <option value="insurance">Insurance</option>
+                <option value="id_proof">ID Proof</option>
+                <option value="invoice">Invoice</option>
+                <option value="other">Other</option>
+            </select>
+            <select id="filterDocClient" class="filter-select">
+                <option value="">All Clients</option>
+            </select>
+            <select id="filterExpiry" class="filter-select">
+                <option value="">Any Expiry</option>
+                <option value="expired">Expired</option>
+                <option value="30">Expiring in 30 days</option>
+                <option value="90">Expiring in 90 days</option>
+            </select>
+        </div>
+
+        <!-- Documents table -->
+        <div class="table-container">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Client</th>
+                        <th>Type</th>
+                        <th>File Name</th>
+                        <th>Booking</th>
+                        <th>Expiry</th>
+                        <th>Notes</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="docsTable"></tbody>
+            </table>
+        </div>
+    </main>
+
+    <!-- Upload Modal -->
+    <div class="modal-overlay" id="docModalOverlay"></div>
+    <div class="modal" id="docModal">
+        <div class="modal-header">
+            <h2>Upload Document</h2>
+            <button class="modal-close" id="closeDocModal">✕</button>
+        </div>
+        <div class="modal-body">
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Client <span class="required">*</span></label>
+                    <select id="dClientId" class="form-control" required>
+                        <option value="">— Select Client —</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Document Type <span class="required">*</span></label>
+                    <select id="dDocType" class="form-control" required>
+                        <option value="passport">Passport</option>
+                        <option value="visa">Visa</option>
+                        <option value="ticket">Ticket / PNR</option>
+                        <option value="voucher">Hotel Voucher</option>
+                        <option value="insurance">Insurance</option>
+                        <option value="id_proof">ID Proof (Aadhaar/PAN)</option>
+                        <option value="invoice">Invoice</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>File Name / Description <span class="required">*</span></label>
+                <input type="text" id="dFileName" class="form-control" placeholder="e.g. Ramesh_Passport.pdf">
+            </div>
+            <div class="form-group">
+                <label>File URL (Supabase Storage or Google Drive link)</label>
+                <input type="url" id="dFileUrl" class="form-control" placeholder="https://...">
+                <small style="color:var(--text-muted)">Paste the public link after uploading to Supabase Storage</small>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Expiry Date</label>
+                    <input type="date" id="dExpiry" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>Linked Booking</label>
+                    <select id="dBookingId" class="form-control">
+                        <option value="">— None —</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Notes</label>
+                <textarea id="dNotes" class="form-control" rows="2" placeholder="Visa validity, entry conditions..."></textarea>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-secondary" id="cancelDocBtn">Cancel</button>
+            <button class="btn-primary" id="saveDocBtn">Save Document</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/documents.js"></script>
+</body>
+</html>

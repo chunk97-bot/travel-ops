@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Ops — TCS Tracker</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-logo"><span class="logo-icon">✈</span><span class="logo-text">Travel Ops</span></div>
+        <ul class="nav-links">
+            <li><a href="index.html"><span>📊</span> Dashboard</a></li>
+            <li><a href="leads.html"><span>🎯</span> Leads</a></li>
+            <li><a href="clients.html"><span>👥</span> Clients</a></li>
+            <li><a href="bookings.html"><span>🎫</span> Bookings</a></li>
+            <li><a href="itinerary.html"><span>🗺</span> Itinerary Builder</a></li>
+            <li><a href="packages.html"><span>📦</span> Packages</a></li>
+            <li><a href="vendors.html"><span>🤝</span> Vendors</a></li>
+            <li><a href="vendor-payments.html"><span>💸</span> Vendor Payments</a></li>
+            <li><a href="invoices.html"><span>🧾</span> Invoices</a></li>
+            <li><a href="receipts.html"><span>🧾</span> Receipts</a></li>
+            <li><a href="expenses.html"><span>💰</span> Expenses</a></li>
+            <li><a href="cancellations.html"><span>↩</span> Cancellations</a></li>
+            <li class="active"><a href="tcs-tracker.html"><span>🏛</span> TCS Tracker</a></li>
+            <li><a href="staff.html"><span>👤</span> Staff</a></li>
+            <li><a href="templates.html"><span>💬</span> Templates</a></li>
+            <li><a href="followups.html"><span>🔔</span> Follow-Ups</a></li>
+            <li><a href="reports.html"><span>📈</span> Reports</a></li>
+            <li><a href="documents.html"><span>📁</span> Documents</a></li>
+            <li><a href="settings.html"><span>⚙</span> Settings</a></li>
+        </ul>
+    </nav>
+
+    <main class="main-content">
+        <div class="page-header">
+            <div>
+                <h1>TCS Tracker</h1>
+                <p class="page-subtitle">Tax Collected at Source — Section 206C(1G) &amp; Form 27EQ</p>
+            </div>
+            <div class="header-actions">
+                <select id="tcsYear" class="select-input"></select>
+                <button class="btn-primary" onclick="openAddTcs()">+ Add Challan</button>
+                <button class="btn-secondary" onclick="exportTcs()">Export 27EQ</button>
+            </div>
+        </div>
+
+        <!-- Quarterly Summary -->
+        <div class="stats-grid" style="grid-template-columns:repeat(4,1fr);margin-bottom:1.5rem">
+            <div class="stat-card"><div class="stat-label">Q1 (Apr–Jun)</div><div class="stat-value" id="tcsQ1">—</div></div>
+            <div class="stat-card"><div class="stat-label">Q2 (Jul–Sep)</div><div class="stat-value" id="tcsQ2">—</div></div>
+            <div class="stat-card"><div class="stat-label">Q3 (Oct–Dec)</div><div class="stat-value" id="tcsQ3">—</div></div>
+            <div class="stat-card"><div class="stat-label">Q4 (Jan–Mar)</div><div class="stat-value" id="tcsQ4">—</div></div>
+        </div>
+
+        <div class="stats-grid" style="grid-template-columns:repeat(3,1fr);margin-bottom:1.5rem">
+            <div class="stat-card warning"><div class="stat-label">TCS Collected (from invoices)</div><div class="stat-value" id="tcsCollected">—</div></div>
+            <div class="stat-card"><div class="stat-label">Total Deposited</div><div class="stat-value" id="tcsDeposited">—</div></div>
+            <div class="stat-card danger"><div class="stat-label">Balance to Deposit</div><div class="stat-value" id="tcsPending">—</div></div>
+        </div>
+
+        <!-- TCS from Invoices -->
+        <div class="section-card" style="margin-bottom:1.5rem">
+            <div class="section-header-row">
+                <h3>TCS Collected from Invoices</h3>
+            </div>
+            <table class="data-table">
+                <thead><tr><th>Invoice</th><th>Client</th><th>Date</th><th>Invoice Total</th><th>TCS %</th><th>TCS Amount</th></tr></thead>
+                <tbody id="tcsInvoiceBody"></tbody>
+            </table>
+        </div>
+
+        <!-- Challans deposited -->
+        <div class="section-card">
+            <h3>Challans Deposited to Govt</h3>
+            <table class="data-table">
+                <thead><tr><th>Quarter</th><th>Period</th><th>Challan No</th><th>BSR Code</th><th>Amount</th><th>Date</th><th>Status</th><th></th></tr></thead>
+                <tbody id="tcsChallansBody"></tbody>
+            </table>
+        </div>
+    </main>
+
+    <!-- Add Challan Modal -->
+    <div class="modal-overlay" id="tcsModalOverlay"></div>
+    <div class="modal" id="tcsModal">
+        <div class="modal-header">
+            <h2>Add TCS Challan</h2>
+            <button class="modal-close" id="closeTcsModal">✕</button>
+        </div>
+        <div class="modal-body">
+            <form id="tcsForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Quarter *</label>
+                        <select id="tcsQuarter" class="form-input" required>
+                            <option value="Q1">Q1 (Apr–Jun)</option>
+                            <option value="Q2">Q2 (Jul–Sep)</option>
+                            <option value="Q3">Q3 (Oct–Dec)</option>
+                            <option value="Q4">Q4 (Jan–Mar)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Period</label>
+                        <input type="text" id="tcsPeriod" class="form-input" placeholder="Apr 2026 – Jun 2026">
+                    </div>
+                    <div class="form-group">
+                        <label>Amount Deposited (₹) *</label>
+                        <input type="number" id="tcsAmount" class="form-input" min="0" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Date of Deposit *</label>
+                        <input type="date" id="tcsDepDate" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Challan Number</label>
+                        <input type="text" id="tcsChallanNo" class="form-input" placeholder="00123">
+                    </div>
+                    <div class="form-group">
+                        <label>BSR Code (Bank)</label>
+                        <input type="text" id="tcsBsr" class="form-input" placeholder="0001234">
+                    </div>
+                    <div class="form-group form-group-full">
+                        <label>Notes</label>
+                        <input type="text" id="tcsNotes" class="form-input" placeholder="Optional notes">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-secondary" id="cancelTcsBtn">Cancel</button>
+            <button class="btn-primary" id="saveTcsBtn">Save Challan</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/tcs.js"></script>
+</body>
+</html>

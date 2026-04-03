@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Ops — Vendor Payments</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-logo"><span class="logo-icon">✈</span><span class="logo-text">Travel Ops</span></div>
+        <ul class="nav-links">
+            <li><a href="index.html"><span>📊</span> Dashboard</a></li>
+            <li><a href="leads.html"><span>🎯</span> Leads</a></li>
+            <li><a href="clients.html"><span>👥</span> Clients</a></li>
+            <li><a href="bookings.html"><span>🎫</span> Bookings</a></li>
+            <li><a href="itinerary.html"><span>🗺</span> Itinerary Builder</a></li>
+            <li><a href="packages.html"><span>📦</span> Packages</a></li>
+            <li><a href="vendors.html"><span>🤝</span> Vendors</a></li>
+            <li class="active"><a href="vendor-payments.html"><span>💸</span> Vendor Payments</a></li>
+            <li><a href="invoices.html"><span>🧾</span> Invoices</a></li>
+            <li><a href="receipts.html"><span>🧾</span> Receipts</a></li>
+            <li><a href="expenses.html"><span>💰</span> Expenses</a></li>
+            <li><a href="cancellations.html"><span>↩</span> Cancellations</a></li>
+            <li><a href="tcs.html"><span>🏛</span> TCS Tracker</a></li>
+            <li><a href="staff.html"><span>👤</span> Staff</a></li>
+            <li><a href="templates.html"><span>💬</span> Templates</a></li>
+            <li><a href="followups.html"><span>🔔</span> Follow-Ups</a></li>
+            <li><a href="reports.html"><span>📈</span> Reports</a></li>
+        </ul>
+        <div class="sidebar-user" id="sidebarUser"></div>
+    </nav>
+
+    <main class="main-content">
+        <header class="top-bar">
+            <button class="menu-toggle" id="menuToggle">☰</button>
+            <h1 class="page-title">Vendor Payments</h1>
+            <div class="top-bar-right">
+                <button class="btn-primary" id="addVPBtn">+ Record Payment</button>
+                <button class="btn-logout" id="logoutBtn">Logout</button>
+            </div>
+        </header>
+
+        <div class="stats-grid" style="padding:1rem 1.5rem 0">
+            <div class="stat-card"><div class="stat-value" id="vpTotalPaid">—</div><div class="stat-label">Total Paid (month)</div></div>
+            <div class="stat-card"><div class="stat-value" id="vpTotalTds">—</div><div class="stat-label">TDS Deducted</div></div>
+            <div class="stat-card"><div class="stat-value" id="vpPending">—</div><div class="stat-label">Pending Payments</div></div>
+            <div class="stat-card"><div class="stat-value" id="vpVendorCount">—</div><div class="stat-label">Vendors Paid</div></div>
+        </div>
+
+        <div class="filter-bar">
+            <input type="text" id="searchVP" class="search-input" placeholder="Search vendor, reference...">
+            <select id="filterVPVendor" class="filter-select"><option value="">All Vendors</option></select>
+            <select id="filterVPStatus" class="filter-select">
+                <option value="">All Status</option>
+                <option value="paid">Paid</option><option value="pending">Pending</option><option value="partial">Partial</option>
+            </select>
+            <input type="month" id="filterVPMonth" class="filter-select">
+        </div>
+
+        <div class="table-container">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Date</th><th>Vendor</th><th>Booking / Trip</th><th>Amount</th>
+                        <th>TDS %</th><th>TDS Amt</th><th>Net Paid</th><th>Mode</th><th>Ref#</th><th>Status</th><th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="vpTable"></tbody>
+            </table>
+        </div>
+    </main>
+
+    <div class="modal-overlay" id="vpModalOverlay" onclick="closeModal('vpModal')"></div>
+    <div class="modal modal-lg" id="vpModal">
+        <div class="modal-header">
+            <h2>Record Vendor Payment</h2>
+            <button class="modal-close" id="closeVPModal">✕</button>
+        </div>
+        <div class="modal-body">
+            <div class="form-row">
+                <div class="form-group"><label>Vendor *</label>
+                    <select id="vpVendorId" class="form-control"><option value="">— Select —</option></select>
+                </div>
+                <div class="form-group"><label>Payment Date *</label>
+                    <input type="date" id="vpDate" class="form-control">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group"><label>Booking (optional)</label>
+                    <select id="vpBookingId" class="form-control"><option value="">— Link to Booking —</option></select>
+                </div>
+                <div class="form-group"><label>Due Date</label>
+                    <input type="date" id="vpDueDate" class="form-control">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group"><label>Amount (₹) *</label>
+                    <input type="number" id="vpAmount" class="form-control" placeholder="Gross amount">
+                </div>
+                <div class="form-group"><label>TDS %</label>
+                    <select id="vpTdsPct" class="form-control">
+                        <option value="0">0% (no TDS)</option>
+                        <option value="2">2% (contract/professional)</option>
+                        <option value="10">10% (hotel > ₹30k)</option>
+                        <option value="1">1% (transport)</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row" style="background:var(--surface);padding:0.75rem;border-radius:8px;margin-bottom:0.5rem">
+                <div class="form-group"><label>TDS Amount</label><div id="vpTdsAmt" style="color:var(--danger);font-weight:600">₹0</div></div>
+                <div class="form-group"><label>Net Payable</label><div id="vpNetAmt" style="color:var(--success);font-weight:600;font-size:1.1rem">₹0</div></div>
+            </div>
+            <div class="form-row">
+                <div class="form-group"><label>Payment Mode</label>
+                    <select id="vpMode" class="form-control">
+                        <option value="neft">NEFT</option><option value="rtgs">RTGS</option>
+                        <option value="upi">UPI</option><option value="cheque">Cheque</option>
+                        <option value="cash">Cash</option><option value="card">Card</option>
+                    </select>
+                </div>
+                <div class="form-group"><label>Reference / UTR</label>
+                    <input type="text" id="vpRef" class="form-control" placeholder="UTR / cheque number">
+                </div>
+            </div>
+            <div class="form-group"><label>Notes</label><textarea id="vpNotes" class="form-control" rows="2"></textarea></div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-secondary" onclick="closeModal('vpModal')">Cancel</button>
+            <button class="btn-primary" id="saveVPBtn">Save Payment</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/vendor-payments.js"></script>
+</body>
+</html>

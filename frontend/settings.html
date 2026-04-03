@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Ops — Settings</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-logo"><span class="logo-icon">✈</span><span class="logo-text">Travel Ops</span></div>
+        <ul class="nav-links">
+            <li><a href="index.html"><span>📊</span> Dashboard</a></li>
+            <li><a href="leads.html"><span>🎯</span> Leads</a></li>
+            <li><a href="clients.html"><span>👥</span> Clients</a></li>
+            <li><a href="bookings.html"><span>🎫</span> Bookings</a></li>
+            <li><a href="itinerary.html"><span>🗺</span> Itinerary Builder</a></li>
+            <li><a href="packages.html"><span>📦</span> Packages</a></li>
+            <li><a href="vendors.html"><span>🤝</span> Vendors</a></li>
+            <li><a href="vendor-payments.html"><span>💸</span> Vendor Payments</a></li>
+            <li><a href="invoices.html"><span>🧾</span> Invoices</a></li>
+            <li><a href="receipts.html"><span>🧾</span> Receipts</a></li>
+            <li><a href="expenses.html"><span>💰</span> Expenses</a></li>
+            <li><a href="cancellations.html"><span>↩</span> Cancellations</a></li>
+            <li><a href="tcs-tracker.html"><span>🏛</span> TCS Tracker</a></li>
+            <li><a href="staff.html"><span>👤</span> Staff</a></li>
+            <li><a href="templates.html"><span>💬</span> Templates</a></li>
+            <li><a href="followups.html"><span>🔔</span> Follow-Ups</a></li>
+            <li><a href="reports.html"><span>📈</span> Reports</a></li>
+            <li><a href="documents.html"><span>📁</span> Documents</a></li>
+            <li class="active"><a href="settings.html"><span>⚙</span> Settings</a></li>
+        </ul>
+    </nav>
+
+    <main class="main-content">
+        <div class="page-header">
+            <div>
+                <h1>Agency Settings</h1>
+                <p class="page-subtitle">Company profile, tax details &amp; bank information</p>
+            </div>
+            <button class="btn-primary" onclick="saveSettings()">Save Settings</button>
+        </div>
+
+        <div class="settings-grid">
+            <!-- Company Profile -->
+            <div class="section-card">
+                <h3>Company Profile</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Agency Name *</label>
+                        <input type="text" id="stAgencyName" class="form-input" placeholder="My Travel Agency Pvt Ltd">
+                    </div>
+                    <div class="form-group">
+                        <label>Tagline</label>
+                        <input type="text" id="stTagline" class="form-input" placeholder="Your journeys, our expertise">
+                    </div>
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <input type="text" id="stPhone" class="form-input" placeholder="+91 98765 43210">
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="stEmail" class="form-input" placeholder="hello@agency.com">
+                    </div>
+                    <div class="form-group form-group-full">
+                        <label>Address</label>
+                        <textarea id="stAddress" class="form-input" rows="3" placeholder="123, MG Road, Bangalore — 560001"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Website</label>
+                        <input type="text" id="stWebsite" class="form-input" placeholder="https://myagency.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Logo URL</label>
+                        <input type="text" id="stLogoUrl" class="form-input" placeholder="https://...">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tax Details -->
+            <div class="section-card">
+                <h3>Tax &amp; Compliance</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>GSTIN</label>
+                        <input type="text" id="stGstin" class="form-input" placeholder="29XXXXX1234X1ZX" maxlength="15">
+                    </div>
+                    <div class="form-group">
+                        <label>PAN</label>
+                        <input type="text" id="stPan" class="form-input" placeholder="ABCDE1234F" maxlength="10">
+                    </div>
+                    <div class="form-group">
+                        <label>TAN (for TDS)</label>
+                        <input type="text" id="stTan" class="form-input" placeholder="BNGL12345A" maxlength="10">
+                    </div>
+                    <div class="form-group">
+                        <label>IATA / TAAI Number</label>
+                        <input type="text" id="stIata" class="form-input" placeholder="IATA-12-3-1234">
+                    </div>
+                    <div class="form-group">
+                        <label>Default GST % on Invoices</label>
+                        <input type="number" id="stDefaultGst" class="form-input" value="5" min="0" max="28">
+                    </div>
+                    <div class="form-group">
+                        <label>Default TCS % on Invoices</label>
+                        <input type="number" id="stDefaultTcs" class="form-input" value="5" min="0" max="20">
+                    </div>
+                    <div class="form-group">
+                        <label>Financial Year Start</label>
+                        <select id="stFyMonth" class="form-input">
+                            <option value="4">April (Indian FY)</option>
+                            <option value="1">January</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>State (for GST filing)</label>
+                        <select id="stState" class="form-input">
+                            <option value="">— Select State —</option>
+                            <option>Karnataka</option><option>Maharashtra</option><option>Tamil Nadu</option>
+                            <option>Delhi</option><option>Gujarat</option><option>Rajasthan</option>
+                            <option>Kerala</option><option>Uttar Pradesh</option><option>West Bengal</option>
+                            <option>Andhra Pradesh</option><option>Telangana</option><option>Punjab</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bank Details -->
+            <div class="section-card">
+                <h3>Bank Details (shown on invoices)</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Bank Name</label>
+                        <input type="text" id="stBankName" class="form-input" placeholder="HDFC Bank">
+                    </div>
+                    <div class="form-group">
+                        <label>Account Number</label>
+                        <input type="text" id="stAccNo" class="form-input" placeholder="XXXXXXXXXXXX">
+                    </div>
+                    <div class="form-group">
+                        <label>IFSC Code</label>
+                        <input type="text" id="stIfsc" class="form-input" placeholder="HDFC0001234">
+                    </div>
+                    <div class="form-group">
+                        <label>Account Type</label>
+                        <select id="stAccType" class="form-input">
+                            <option>Current</option><option>Savings</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>UPI ID</label>
+                        <input type="text" id="stUpi" class="form-input" placeholder="agency@bank">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Invoice Preferences -->
+            <div class="section-card">
+                <h3>Invoice Preferences</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Invoice Prefix</label>
+                        <input type="text" id="stInvPrefix" class="form-input" value="INV" placeholder="INV">
+                    </div>
+                    <div class="form-group">
+                        <label>Invoice Footer Note</label>
+                        <input type="text" id="stInvFooter" class="form-input" placeholder="Thank you for your business!">
+                    </div>
+                    <div class="form-group">
+                        <label>Payment Terms (days)</label>
+                        <input type="number" id="stPayTerms" class="form-input" value="7" min="1">
+                    </div>
+                    <div class="form-group">
+                        <label>Currency</label>
+                        <select id="stCurrency" class="form-input">
+                            <option value="INR">INR — Indian Rupee</option>
+                            <option value="USD">USD — US Dollar</option>
+                            <option value="EUR">EUR — Euro</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/settings.js"></script>
+</body>
+</html>

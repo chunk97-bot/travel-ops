@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Ops — Bookings</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-logo"><span class="logo-icon">✈</span><span class="logo-text">Travel Ops</span></div>
+        <ul class="nav-links">
+            <li><a href="index.html"><span>📊</span> Dashboard</a></li>
+            <li><a href="leads.html"><span>🎯</span> Leads</a></li>
+            <li><a href="clients.html"><span>👥</span> Clients</a></li>
+            <li class="active"><a href="bookings.html"><span>🎫</span> Bookings</a></li>
+            <li><a href="itinerary.html"><span>🗺</span> Itinerary Builder</a></li>
+            <li><a href="packages.html"><span>📦</span> Packages</a></li>
+            <li><a href="vendors.html"><span>🤝</span> Vendors</a></li>
+            <li><a href="vendor-payments.html"><span>💸</span> Vendor Payments</a></li>
+            <li><a href="invoices.html"><span>🧾</span> Invoices</a></li>
+            <li><a href="receipts.html"><span>🧾</span> Receipts</a></li>
+            <li><a href="expenses.html"><span>💰</span> Expenses</a></li>
+            <li><a href="cancellations.html"><span>↩</span> Cancellations</a></li>
+            <li><a href="tcs.html"><span>🏛</span> TCS Tracker</a></li>
+            <li><a href="staff.html"><span>👤</span> Staff</a></li>
+            <li><a href="templates.html"><span>💬</span> Templates</a></li>
+            <li><a href="followups.html"><span>🔔</span> Follow-Ups</a></li>
+            <li><a href="reports.html"><span>📈</span> Reports</a></li>
+        </ul>
+        <div class="sidebar-user" id="sidebarUser"></div>
+    </nav>
+
+    <main class="main-content">
+        <header class="top-bar">
+            <button class="menu-toggle" id="menuToggle">☰</button>
+            <h1 class="page-title">Bookings & Confirmations</h1>
+            <div class="top-bar-right">
+                <button class="btn-primary" id="addBookingBtn">+ New Booking</button>
+                <button class="btn-logout" id="logoutBtn">Logout</button>
+            </div>
+        </header>
+
+        <!-- Summary tiles -->
+        <div class="stats-grid" style="padding:1rem 1.5rem 0">
+            <div class="stat-card"><div class="stat-value" id="bTotal">—</div><div class="stat-label">Total Bookings</div></div>
+            <div class="stat-card"><div class="stat-value" id="bConfirmed">—</div><div class="stat-label">Confirmed</div></div>
+            <div class="stat-card"><div class="stat-value" id="bPending">—</div><div class="stat-label">Provisional</div></div>
+            <div class="stat-card"><div class="stat-value" id="bRevenue">—</div><div class="stat-label">Total Revenue</div></div>
+        </div>
+
+        <div class="filter-bar">
+            <input type="text" id="searchBookings" class="search-input" placeholder="Search PNR, confirmation, client, service...">
+            <select id="filterBType" class="filter-select">
+                <option value="">All Types</option>
+                <option value="hotel">Hotel</option><option value="flight">Flight</option>
+                <option value="train">Train</option><option value="activity">Activity</option>
+                <option value="transfer">Transfer</option><option value="visa">Visa</option>
+            </select>
+            <select id="filterBStatus" class="filter-select">
+                <option value="">All Status</option>
+                <option value="confirmed">Confirmed</option><option value="provisional">Provisional</option>
+                <option value="completed">Completed</option><option value="cancelled">Cancelled</option>
+            </select>
+            <input type="month" id="filterBMonth" class="filter-select">
+        </div>
+
+        <div class="table-container">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Type</th><th>Service / Hotel</th><th>Client / Lead</th><th>Vendor</th>
+                        <th>Dates</th><th>PNR / Conf#</th><th>Cost</th><th>Sell</th><th>Status</th><th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="bookingTable"></tbody>
+            </table>
+        </div>
+    </main>
+
+    <!-- Add/Edit Booking Modal -->
+    <div class="modal-overlay" id="bookingModalOverlay" onclick="closeModal('bookingModal')"></div>
+    <div class="modal modal-lg" id="bookingModal">
+        <div class="modal-header">
+            <h2 id="bookingModalTitle">New Booking</h2>
+            <button class="modal-close" id="closeBookingModal">✕</button>
+        </div>
+        <div class="modal-body">
+            <div class="form-row">
+                <div class="form-group"><label>Booking Type *</label>
+                    <select id="bType" class="form-control">
+                        <option value="hotel">Hotel</option><option value="flight">Flight</option>
+                        <option value="train">Train</option><option value="bus">Bus</option>
+                        <option value="activity">Activity / Tour</option><option value="transfer">Transfer</option>
+                        <option value="visa">Visa</option><option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group"><label>Status</label>
+                    <select id="bStatus" class="form-control">
+                        <option value="confirmed">Confirmed</option>
+                        <option value="provisional">Provisional</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group"><label>Service / Hotel Name *</label><input type="text" id="bServiceName" class="form-control" placeholder="e.g. Taj Hotel Agra, SpiceJet SG-101"></div>
+                <div class="form-group"><label>Vendor</label>
+                    <select id="bVendorId" class="form-control"><option value="">— Select Vendor —</option></select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group"><label>Client</label>
+                    <select id="bClientId" class="form-control"><option value="">— Select Client —</option></select>
+                </div>
+                <div class="form-group"><label>Lead</label>
+                    <select id="bLeadId" class="form-control"><option value="">— Select Lead —</option></select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group"><label>Check-in / Depart</label><input type="date" id="bCheckIn" class="form-control"></div>
+                <div class="form-group"><label>Check-out / Arrive</label><input type="date" id="bCheckOut" class="form-control"></div>
+            </div>
+            <div class="form-row">
+                <div class="form-group"><label>PNR / Ticket Number</label><input type="text" id="bPnr" class="form-control" placeholder="PNR or ticket number"></div>
+                <div class="form-group"><label>Confirmation Number</label><input type="text" id="bConfNo" class="form-control" placeholder="Hotel/vendor conf#"></div>
+            </div>
+            <div class="form-row">
+                <div class="form-group"><label>Voucher Number</label><input type="text" id="bVoucherNo" class="form-control"></div>
+                <div class="form-group"><label>No. of Pax</label><input type="number" id="bPax" class="form-control" value="2" min="1"></div>
+            </div>
+            <div class="form-row">
+                <div class="form-group"><label>Cost Price (₹)</label><input type="number" id="bCostPrice" class="form-control" placeholder="What we pay vendor"></div>
+                <div class="form-group"><label>Sell Price (₹)</label><input type="number" id="bSellPrice" class="form-control" placeholder="What we charge client"></div>
+            </div>
+            <div class="form-group"><label>Notes</label><textarea id="bNotes" class="form-control" rows="2"></textarea></div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-secondary" id="cancelBookingBtn">Cancel</button>
+            <button class="btn-primary" id="saveBookingBtn">Save Booking</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/bookings.js"></script>
+</body>
+</html>
