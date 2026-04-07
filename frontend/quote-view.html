@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Travel Quotation</title>
+    <style>
+        :root { --primary: #3b82f6; --success: #10b981; --danger: #ef4444; --warning: #f59e0b; --bg: #f8fafc; --card: #fff; --text: #0f172a; --muted: #64748b; --border: #e2e8f0; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+        .container { max-width: 800px; margin: 0 auto; padding: 20px; }
+        .brand-bar { background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%); color: #fff; padding: 24px 32px; border-radius: 16px 16px 0 0; }
+        .brand-bar h1 { font-size: 1.4rem; font-weight: 800; }
+        .brand-bar p { font-size: 0.88rem; opacity: 0.85; margin-top: 4px; }
+        .quote-card { background: var(--card); border-radius: 0 0 16px 16px; box-shadow: 0 8px 32px rgba(0,0,0,0.08); overflow: hidden; }
+        .quote-body { padding: 24px 32px; }
+        .cover-img { width: 100%; max-height: 300px; object-fit: cover; }
+        .meta-row { display: flex; flex-wrap: wrap; gap: 16px; margin: 16px 0; padding: 14px; background: #f0f9ff; border-radius: 10px; }
+        .meta-item { font-size: 0.88rem; }
+        .meta-item strong { display: block; font-size: 0.78rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+        .highlights { display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0; }
+        .highlight-chip { background: #eff6ff; color: #1d4ed8; padding: 6px 14px; border-radius: 20px; font-size: 0.82rem; font-weight: 600; }
+        h2 { font-size: 1.1rem; font-weight: 700; margin: 24px 0 12px; padding-bottom: 6px; border-bottom: 2px solid var(--primary); display: inline-block; }
+        .inclusion-list { list-style: none; padding: 0; }
+        .inclusion-list li { padding: 6px 0; font-size: 0.9rem; }
+        .inclusion-list li::before { content: '✓ '; color: var(--success); font-weight: 700; }
+        .day-card { background: #fafbfc; border: 1px solid var(--border); border-radius: 10px; padding: 16px; margin: 10px 0; }
+        .day-title { font-weight: 700; font-size: 1rem; color: var(--primary); margin-bottom: 8px; }
+        .day-detail { font-size: 0.88rem; color: #475569; margin: 4px 0; }
+        .activity-item { margin: 6px 0 6px 12px; padding: 8px 10px; background: #fff; border-radius: 6px; border-left: 3px solid var(--primary); font-size: 0.88rem; }
+        .flight-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 12px 0; }
+        .flight-card { background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 14px; border-left: 3px solid var(--primary); }
+        .flight-card strong { display: block; margin-bottom: 6px; }
+        .pricing-box { background: linear-gradient(135deg, #1e3a5f, #2563eb); color: #fff; border-radius: 12px; padding: 20px; margin: 24px 0; text-align: center; }
+        .pricing-box .total { font-size: 2rem; font-weight: 800; }
+        .pricing-box .per-pax { font-size: 0.9rem; opacity: 0.85; }
+        .response-section { background: #fff; border: 2px solid var(--border); border-radius: 12px; padding: 24px; margin: 24px 0; text-align: center; }
+        .response-section h3 { font-size: 1.1rem; margin-bottom: 14px; }
+        .response-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 16px; }
+        .rbtn { padding: 12px 28px; border: none; border-radius: 10px; font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: transform 0.1s, box-shadow 0.15s; }
+        .rbtn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+        .rbtn-accept { background: var(--success); color: #fff; }
+        .rbtn-changes { background: var(--warning); color: #fff; }
+        .rbtn-reject { background: var(--danger); color: #fff; }
+        .rbtn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
+        .msg-input { width: 100%; padding: 10px 14px; border: 1px solid var(--border); border-radius: 8px; font-size: 0.9rem; font-family: inherit; resize: vertical; display: none; margin-top: 12px; }
+        .badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 0.82rem; font-weight: 700; }
+        .badge-accepted { background: #d1fae5; color: #065f46; }
+        .badge-rejected { background: #fecaca; color: #991b1b; }
+        .badge-changes { background: #fef3c7; color: #92400e; }
+        .expired { text-align: center; padding: 60px 20px; }
+        .expired h2 { color: var(--danger); border: none; display: block; }
+        .terms { font-size: 0.78rem; color: var(--muted); margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--border); }
+        @media (max-width: 640px) {
+            .container { padding: 12px; }
+            .quote-body { padding: 16px; }
+            .brand-bar { padding: 18px 16px; }
+            .flight-grid { grid-template-columns: 1fr; }
+            .meta-row { flex-direction: column; gap: 8px; }
+            .response-btns { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="loading" style="text-align:center;padding:60px"><p>Loading your quotation...</p></div>
+        <div id="quoteContent" style="display:none"></div>
+        <div id="errorState" class="expired" style="display:none">
+            <h2>Quotation Not Available</h2>
+            <p>This link may have expired or been revoked. Please contact your travel agent.</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // ── Minimal Supabase init (anon access) ──────────────
+        const SUPABASE_URL = 'YOUR_SUPABASE_URL';
+        const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+        const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        const esc = s => { const d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; };
+        const fmtDate = d => d ? new Date(d).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : '—';
+        const fmtINR = n => n != null ? '₹' + Number(n).toLocaleString('en-IN') : '—';
+
+        (async () => {
+            const token = new URLSearchParams(window.location.search).get('token');
+            if (!token) { showError(); return; }
+
+            // Fetch share link
+            const { data: link } = await sb.from('itinerary_share_links').select('*').eq('share_token', token).single();
+            if (!link || !link.is_active) { showError(); return; }
+
+            // Check expiry
+            if (link.expires_at && new Date(link.expires_at) < new Date()) { showError(); return; }
+
+            // Increment view count
+            await sb.from('itinerary_share_links').update({
+                view_count: (link.view_count || 0) + 1,
+                last_viewed_at: new Date().toISOString()
+            }).eq('id', link.id);
+
+            // Fetch itinerary
+            const { data: itin } = await sb.from('itineraries').select('*').eq('id', link.itinerary_id).single();
+            if (!itin) { showError(); return; }
+
+            // Fetch days + activities
+            const { data: days } = await sb.from('itinerary_days').select('*').eq('itinerary_id', itin.id).order('day_number');
+            const { data: activities } = await sb.from('itinerary_activities').select('*').eq('itinerary_id', itin.id).order('day_number').order('sort_order');
+
+            // Fetch agency branding
+            let agency = {};
+            try {
+                const { data } = await sb.from('agency_settings').select('agency_name, tagline, phone, email, logo_url').limit(1).single();
+                if (data) agency = data;
+            } catch (_) {}
+
+            renderQuote(itin, days || [], activities || [], link, agency);
+        })();
+
+        function showError() {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('errorState').style.display = 'block';
+        }
+
+        function renderQuote(itin, days, activities, link, agency) {
+            document.getElementById('loading').style.display = 'none';
+            const el = document.getElementById('quoteContent');
+            el.style.display = 'block';
+
+            // Group activities by day
+            const actByDay = {};
+            activities.forEach(a => { if (!actByDay[a.day_number]) actByDay[a.day_number] = []; actByDay[a.day_number].push(a); });
+
+            // Highlights
+            const hlParts = [];
+            if (itin.highlight_flights) hlParts.push(`✈ ${itin.highlight_flights} Flights`);
+            if (itin.highlight_hotels) hlParts.push(`🏨 ${itin.highlight_hotels} Hotels`);
+            if (itin.highlight_activities) hlParts.push(`📍 ${itin.highlight_activities} Activities`);
+            if (itin.highlight_transfers) hlParts.push(`🚗 ${itin.highlight_transfers} Transfers`);
+
+            // Inclusions
+            const incl = [];
+            if (itin.include_flights) incl.push('International/Domestic Flights');
+            incl.push(`${itin.nights} Nights Accommodation (${itin.hotel_category || 'Standard'})`);
+            if (itin.include_transfers) incl.push('Airport & Sightseeing Transfers');
+            if (itin.include_meals && itin.include_meals !== 'none') incl.push(`Meals: ${(itin.include_meals || '').toUpperCase()}`);
+            if (itin.include_visa) incl.push('Visa Assistance');
+            if (itin.insurance_provider) incl.push(`Travel Insurance — ${itin.insurance_provider}`);
+
+            // Already responded?
+            const responded = link.client_response && link.client_response !== 'pending';
+
+            el.innerHTML = `
+                <div class="brand-bar">
+                    <h1>${esc(agency.agency_name || 'Travel Agency')}</h1>
+                    <p>${esc(agency.tagline || 'Your trusted travel partner')}</p>
+                </div>
+                <div class="quote-card">
+                    ${itin.cover_image_url ? `<img class="cover-img" src="${esc(itin.cover_image_url)}" alt="${esc(itin.destination)}" onerror="this.style.display='none'">` : ''}
+                    <div class="quote-body">
+                        <h1 style="font-size:1.5rem;margin-bottom:4px">${esc(itin.title)}</h1>
+                        <div class="meta-row">
+                            <div class="meta-item"><strong>Destination</strong>${esc(itin.destination)}</div>
+                            <div class="meta-item"><strong>Duration</strong>${itin.nights} Nights</div>
+                            <div class="meta-item"><strong>Guests</strong>${itin.pax_adults || 1} Adults${itin.pax_children ? ', ' + itin.pax_children + ' Children' : ''}</div>
+                            <div class="meta-item"><strong>Valid Until</strong>${fmtDate(itin.valid_until)}</div>
+                        </div>
+
+                        ${hlParts.length ? `<div class="highlights">${hlParts.map(h => `<span class="highlight-chip">${h}</span>`).join('')}</div>` : ''}
+
+                        <h2>Package Inclusions</h2>
+                        <ul class="inclusion-list">${incl.map(i => `<li>${esc(i)}</li>`).join('')}</ul>
+
+                        ${itin.include_flights && itin.flight_outbound_number ? `
+                        <h2>Flight Details</h2>
+                        <div class="flight-grid">
+                            <div class="flight-card">
+                                <strong>✈ Outbound</strong>
+                                ${esc(itin.flight_outbound_airline)} ${esc(itin.flight_outbound_number)}<br>
+                                <span style="color:var(--muted)">${esc(itin.flight_outbound_from)} → ${esc(itin.flight_outbound_to)}</span><br>
+                                ${itin.flight_outbound_depart ? `<small>${fmtDate(itin.flight_outbound_depart)}</small>` : ''}
+                                ${itin.flight_outbound_baggage ? `<br><small style="color:var(--muted)">🧳 ${esc(itin.flight_outbound_baggage)}</small>` : ''}
+                            </div>
+                            ${itin.flight_return_number ? `
+                            <div class="flight-card">
+                                <strong>✈ Return</strong>
+                                ${esc(itin.flight_return_airline)} ${esc(itin.flight_return_number)}<br>
+                                <span style="color:var(--muted)">${esc(itin.flight_return_from)} → ${esc(itin.flight_return_to)}</span><br>
+                                ${itin.flight_return_depart ? `<small>${fmtDate(itin.flight_return_depart)}</small>` : ''}
+                                ${itin.flight_return_baggage ? `<br><small style="color:var(--muted)">🧳 ${esc(itin.flight_return_baggage)}</small>` : ''}
+                            </div>` : ''}
+                        </div>` : ''}
+
+                        <h2>Day-by-Day Itinerary</h2>
+                        ${days.map(day => {
+                            const dayActs = actByDay[day.day_number] || [];
+                            return `
+                            <div class="day-card">
+                                <div class="day-title">Day ${day.day_number}: ${esc(day.title)}</div>
+                                ${day.hotel_name ? `<div class="day-detail">🏨 <strong>${esc(day.hotel_name)}</strong>${day.hotel_location ? ', ' + esc(day.hotel_location) : ''}${day.hotel_star_rating ? ' · ' + '★'.repeat(day.hotel_star_rating) : ''}${day.hotel_room_type ? ' · ' + esc(day.hotel_room_type) : ''}</div>` : ''}
+                                ${day.transport ? `<div class="day-detail">🚗 ${esc(day.transport)}${day.transfer_vehicle ? ' — ' + esc(day.transfer_vehicle) : ''}${day.transfer_vehicle_name ? ' (' + esc(day.transfer_vehicle_name) + ')' : ''}</div>` : ''}
+                                ${day.meals ? `<div class="day-detail">🍽 ${esc(day.meals)}${day.meal_details ? ' — ' + esc(day.meal_details) : ''}</div>` : ''}
+                                ${dayActs.length ? dayActs.map(a => `
+                                    <div class="activity-item">
+                                        <strong>${esc(a.name)}</strong>
+                                        ${a.time_slot && a.time_slot !== 'anytime' ? `<span style="font-size:0.78rem;background:#dbeafe;padding:1px 8px;border-radius:10px;margin-left:6px">${a.time_slot}</span>` : ''}
+                                        ${a.duration_hours ? `<span style="font-size:0.78rem;color:var(--muted);margin-left:6px">${a.duration_hours}h</span>` : ''}
+                                        ${a.description ? `<p style="margin:4px 0 0;font-size:0.85rem;color:#475569">${esc(a.description)}</p>` : ''}
+                                        ${(a.inclusions||[]).length ? `<p style="font-size:0.78rem;color:#15803d;margin:2px 0 0">✓ ${a.inclusions.map(t => esc(t)).join(', ')}</p>` : ''}
+                                    </div>
+                                `).join('') : ''}
+                                ${day.notes ? `<div class="day-detail" style="font-style:italic;color:var(--muted)">${esc(day.notes)}</div>` : ''}
+                            </div>`;
+                        }).join('')}
+
+                        ${itin.insurance_provider ? `
+                        <h2>Travel Insurance</h2>
+                        <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:12px;font-size:0.9rem">
+                            <strong>${esc(itin.insurance_provider)}</strong>${itin.insurance_cover_amount ? ` — Cover: ${fmtINR(itin.insurance_cover_amount)}` : ''}
+                        </div>` : ''}
+
+                        <div class="pricing-box">
+                            <div class="per-pax">Per Person: ${fmtINR(itin.total_price / ((itin.pax_adults || 1) + (itin.pax_children || 0)))}</div>
+                            <div class="total">${fmtINR(itin.total_price)}</div>
+                            <div class="per-pax">Total for ${(itin.pax_adults || 1) + (itin.pax_children || 0)} Guest${((itin.pax_adults||1)+(itin.pax_children||0))>1?'s':''} · Inclusive of GST</div>
+                        </div>
+
+                        <div class="response-section" id="responseSection">
+                            ${responded ? `
+                                <h3>Your Response</h3>
+                                <span class="badge badge-${link.client_response === 'accepted' ? 'accepted' : link.client_response === 'rejected' ? 'rejected' : 'changes'}">${link.client_response === 'accepted' ? '✓ Accepted' : link.client_response === 'rejected' ? '✗ Rejected' : '✎ Changes Requested'}</span>
+                                ${link.client_message ? `<p style="margin-top:8px;font-style:italic;color:var(--muted)">"${esc(link.client_message)}"</p>` : ''}
+                            ` : `
+                                <h3>What would you like to do?</h3>
+                                <div class="response-btns">
+                                    <button class="rbtn rbtn-accept" onclick="respond('accepted')">✓ Accept Quotation</button>
+                                    <button class="rbtn rbtn-changes" onclick="respond('changes_requested')">✎ Request Changes</button>
+                                    <button class="rbtn rbtn-reject" onclick="respond('rejected')">✗ Decline</button>
+                                </div>
+                                <textarea id="clientMsg" class="msg-input" rows="3" placeholder="Tell us what changes you'd like..."></textarea>
+                                <button id="submitResponseBtn" class="rbtn rbtn-accept" style="display:none;margin-top:10px" onclick="submitResponse()">Submit Response</button>
+                            `}
+                        </div>
+
+                        <div class="terms">
+                            <p>50% advance to confirm booking. Balance due 7 days before departure.</p>
+                            <p>Cancellation policies apply. Prices subject to change based on availability and exchange rates.</p>
+                            ${agency.phone ? `<p style="margin-top:8px">Contact: ${esc(agency.phone)}${agency.email ? ' · ' + esc(agency.email) : ''}</p>` : ''}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        let selectedResponse = null;
+        function respond(type) {
+            selectedResponse = type;
+            const msgBox = document.getElementById('clientMsg');
+            const submitBtn = document.getElementById('submitResponseBtn');
+            if (type === 'changes_requested') {
+                msgBox.style.display = 'block';
+                msgBox.placeholder = 'Please describe what changes you would like...';
+                msgBox.focus();
+            } else if (type === 'rejected') {
+                msgBox.style.display = 'block';
+                msgBox.placeholder = 'Optional: Let us know why (helps us improve)';
+            } else {
+                msgBox.style.display = 'block';
+                msgBox.placeholder = 'Optional: Any additional notes';
+            }
+            submitBtn.style.display = 'inline-block';
+            // Highlight selected button
+            document.querySelectorAll('.response-btns .rbtn').forEach(b => b.style.opacity = '0.5');
+            document.querySelector(`.rbtn-${type === 'accepted' ? 'accept' : type === 'rejected' ? 'reject' : 'changes'}`).style.opacity = '1';
+        }
+
+        async function submitResponse() {
+            if (!selectedResponse) return;
+            const token = new URLSearchParams(window.location.search).get('token');
+            const message = document.getElementById('clientMsg')?.value.trim() || null;
+
+            document.getElementById('submitResponseBtn').disabled = true;
+            document.getElementById('submitResponseBtn').textContent = 'Submitting...';
+
+            const { error } = await sb.from('itinerary_share_links').update({
+                client_response: selectedResponse,
+                client_message: message,
+                responded_at: new Date().toISOString(),
+            }).eq('share_token', token);
+
+            if (error) {
+                alert('Failed to submit. Please try again.');
+                document.getElementById('submitResponseBtn').disabled = false;
+                document.getElementById('submitResponseBtn').textContent = 'Submit Response';
+                return;
+            }
+
+            // Refresh the response section
+            const section = document.getElementById('responseSection');
+            const labels = { accepted: '✓ Accepted', rejected: '✗ Rejected', changes_requested: '✎ Changes Requested' };
+            const classes = { accepted: 'accepted', rejected: 'rejected', changes_requested: 'changes' };
+            section.innerHTML = `
+                <h3>Thank you for your response!</h3>
+                <span class="badge badge-${classes[selectedResponse]}">${labels[selectedResponse]}</span>
+                ${message ? `<p style="margin-top:8px;font-style:italic;color:var(--muted)">"${esc(message)}"</p>` : ''}
+                <p style="margin-top:12px;font-size:0.88rem;color:var(--muted)">Your travel agent has been notified and will follow up shortly.</p>
+            `;
+        }
+    </script>
+</body>
+</html>

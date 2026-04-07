@@ -386,9 +386,9 @@ async function renderSlaDashboard() {
                 return `<div class="sla-breach-item">
                     <div class="lead-name">${escHtml(lead?.name || 'Unknown')} — ${escHtml(lead?.destination || 'N/A')}</div>
                     <div class="breach-info">
-                        Stage: <strong>${escHtml(b.event.stage)}</strong> · 
-                        Elapsed: ${formatElapsed(b.elapsed)} · 
-                        Limit: ${formatElapsed(b.maxMs)} · 
+                        Stage: <strong>${escHtml(b.event.stage)}</strong> ·
+                        Elapsed: ${formatElapsed(b.elapsed)} ·
+                        Limit: ${formatElapsed(b.maxMs)} ·
                         Agent: ${escHtml(lead?.staff_profiles?.name || '—')}
                     </div>
                 </div>`;

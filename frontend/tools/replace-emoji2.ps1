@@ -12,7 +12,7 @@ $map2 = @{
     [string][char]0x2197 = "${i}trending-up${s}"     # ↗
 }
 
-# Multi-char emoji replacements using string literals  
+# Multi-char emoji replacements using string literals
 $replacements = @(
     @{ Find = '📉'; Replace = "${i}trending-down${s}" }
     @{ Find = '🔴'; Replace = '<span class="dot dot-danger"></span>' }
@@ -55,7 +55,7 @@ $totalFiles = 0
 Get-ChildItem -Path $jsDir -Filter "*.js" | Where-Object { $_.Name -ne "icons.js" } | ForEach-Object {
     $content = [System.IO.File]::ReadAllText($_.FullName)
     $original = $content
-    
+
     foreach ($r in $replacements) {
         if ($content.Contains($r.Find)) {
             $content = $content.Replace($r.Find, $r.Replace)
@@ -66,7 +66,7 @@ Get-ChildItem -Path $jsDir -Filter "*.js" | Where-Object { $_.Name -ne "icons.js
             $content = $content.Replace($emoji, $map2[$emoji])
         }
     }
-    
+
     if ($content -ne $original) {
         [System.IO.File]::WriteAllText($_.FullName, $content)
         $totalFiles++

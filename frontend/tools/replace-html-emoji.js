@@ -80,7 +80,7 @@ for (const file of files) {
     const filePath = path.join(frontDir, file);
     let content = fs.readFileSync(filePath, 'utf8');
     const original = content;
-    
+
     for (const map of allMaps) {
         for (const [find, replace] of Object.entries(map)) {
             if (content.includes(find)) {
@@ -88,7 +88,7 @@ for (const file of files) {
             }
         }
     }
-    
+
     if (content !== original) {
         fs.writeFileSync(filePath, content, 'utf8');
         totalFiles++;

@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/dashboard.css">
     <link rel="stylesheet" href="css/itinerary.css">
+    <link rel="stylesheet" href="css/mobile-responsive.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" integrity="sha512-qZvrmS2ekKPF2mSznTQsxqPgnpkI4DNTlrdUmTzrDgektczlKNRRhy5X5AAOnx5S09ydFYWWNSfdio1FsIDg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
@@ -75,6 +76,10 @@
                         <input type="text" id="iDestination" placeholder="e.g. Paris, Europe">
                     </div>
                     <div class="form-group">
+                        <label>Cover Image URL</label>
+                        <input type="url" id="iCoverImage" placeholder="https://... destination photo for PDF cover">
+                    </div>
+                    <div class="form-group">
                         <label>Vendor</label>
                         <select id="iVendor">
                             <option value="">Select vendor...</option>
@@ -128,6 +133,128 @@
                     </div>
                 </div>
 
+                <!-- Flight Details -->
+                <div class="config-card" id="flightDetailsCard" style="display:none">
+                    <h3>Flight Details</h3>
+                    <p style="font-size:0.75rem;color:var(--text-muted);margin-bottom:10px">Outbound Flight</p>
+                    <div class="form-group-row">
+                        <div class="mini-field">
+                            <label>Flight No.</label>
+                            <input type="text" id="iFlightOutNum" placeholder="6E-6305">
+                        </div>
+                        <div class="mini-field">
+                            <label>Airline</label>
+                            <input type="text" id="iFlightOutAirline" placeholder="IndiGo">
+                        </div>
+                    </div>
+                    <div class="form-group-row" style="margin-top:6px">
+                        <div class="mini-field">
+                            <label>From</label>
+                            <input type="text" id="iFlightOutFrom" placeholder="HYD" maxlength="4">
+                        </div>
+                        <div class="mini-field">
+                            <label>To</label>
+                            <input type="text" id="iFlightOutTo" placeholder="IXZ" maxlength="4">
+                        </div>
+                    </div>
+                    <div class="form-group-row" style="margin-top:6px">
+                        <div class="mini-field">
+                            <label>Depart</label>
+                            <input type="datetime-local" id="iFlightOutDepart">
+                        </div>
+                        <div class="mini-field">
+                            <label>Arrive</label>
+                            <input type="datetime-local" id="iFlightOutArrive">
+                        </div>
+                    </div>
+                    <div class="form-group-row" style="margin-top:6px">
+                        <div class="mini-field" style="flex:2">
+                            <label>Baggage</label>
+                            <input type="text" id="iFlightOutBaggage" placeholder="15kg check-in + 7kg cabin">
+                        </div>
+                        <div class="mini-field" style="flex:3">
+                            <label>Layover / Connection</label>
+                            <input type="text" id="iFlightOutLayover" placeholder="Via Chennai, 2h layover">
+                        </div>
+                    </div>
+                    <hr style="border:none;border-top:1px dashed var(--border);margin:12px 0">
+                    <p style="font-size:0.75rem;color:var(--text-muted);margin-bottom:10px">Return Flight</p>
+                    <div class="form-group-row">
+                        <div class="mini-field">
+                            <label>Flight No.</label>
+                            <input type="text" id="iFlightRetNum" placeholder="6E-6306">
+                        </div>
+                        <div class="mini-field">
+                            <label>Airline</label>
+                            <input type="text" id="iFlightRetAirline" placeholder="IndiGo">
+                        </div>
+                    </div>
+                    <div class="form-group-row" style="margin-top:6px">
+                        <div class="mini-field">
+                            <label>From</label>
+                            <input type="text" id="iFlightRetFrom" placeholder="IXZ" maxlength="4">
+                        </div>
+                        <div class="mini-field">
+                            <label>To</label>
+                            <input type="text" id="iFlightRetTo" placeholder="HYD" maxlength="4">
+                        </div>
+                    </div>
+                    <div class="form-group-row" style="margin-top:6px">
+                        <div class="mini-field">
+                            <label>Depart</label>
+                            <input type="datetime-local" id="iFlightRetDepart">
+                        </div>
+                        <div class="mini-field">
+                            <label>Arrive</label>
+                            <input type="datetime-local" id="iFlightRetArrive">
+                        </div>
+                    </div>
+                    <div class="form-group-row" style="margin-top:6px">
+                        <div class="mini-field" style="flex:2">
+                            <label>Baggage</label>
+                            <input type="text" id="iFlightRetBaggage" placeholder="15kg check-in + 7kg cabin">
+                        </div>
+                        <div class="mini-field" style="flex:3">
+                            <label>Layover / Connection</label>
+                            <input type="text" id="iFlightRetLayover" placeholder="Direct flight">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Insurance -->
+                <div class="config-card">
+                    <h3>Insurance</h3>
+                    <div class="form-group">
+                        <label>Provider</label>
+                        <input type="text" id="iInsuranceProvider" placeholder="e.g. Reliance, ICICI Lombard">
+                    </div>
+                    <div class="form-group">
+                        <label>Cover Amount</label>
+                        <input type="number" id="iInsuranceCover" placeholder="₹500000">
+                    </div>
+                    <div class="form-group">
+                        <label>Benefits (JSON)</label>
+                        <textarea id="iInsuranceBenefits" rows="2" placeholder='{"trip_delay":1500,"cancellation":10000,"baggage":8500}' style="font-family:monospace;font-size:0.78rem"></textarea>
+                    </div>
+                </div>
+
+                <!-- Cancellation Policy -->
+                <div class="config-card">
+                    <h3>Cancellation & Date Change</h3>
+                    <div class="form-group">
+                        <label>Cancellation Policy</label>
+                        <select id="iCancellationPolicy">
+                            <option value="standard_domestic">Standard Domestic</option>
+                            <option value="international_premium">International Premium</option>
+                            <option value="flexible">Flexible</option>
+                            <option value="non_refundable">Non-Refundable</option>
+                        </select>
+                    </div>
+                    <label class="toggle-row">
+                        <input type="checkbox" id="iDateChangeAllowed" checked> Date change allowed
+                    </label>
+                </div>
+
                 <div class="config-card">
                     <h3>Pricing</h3>
                     <div class="form-group">
@@ -155,6 +282,7 @@
                     <button class="btn-success full-width mt-8" id="generatePdfBtn"><i data-lucide="file" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Download PDF</button>
                     <button class="btn-whatsapp full-width mt-8" id="sendWhatsappBtn"><i data-lucide="message-circle" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Send via WhatsApp</button>
                     <button class="btn-secondary full-width mt-8" id="createInvoiceBtn"><i data-lucide="file-text" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Create Invoice</button>
+                    <button class="btn-secondary full-width mt-8" id="shareItineraryBtn" onclick="shareItinerary()"><i data-lucide="share-2" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Share with Client</button>
                 </div>
             </div>
 
@@ -189,6 +317,9 @@
     <script src="js/auth.js"></script>
     <script src="js/itinerary.js"></script>
     <script src="js/itinerary-pdf.js"></script>
+    <script src="js/quote-share.js"></script>
+    <script src="js/multi-currency.js"></script>
+    <script src="js/approval-workflow.js"></script>
         <script src="js/theme-toggle.js"></script>
     <script src="js/icons.js"></script>
 </body>

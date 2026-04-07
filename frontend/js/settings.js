@@ -7,23 +7,23 @@ const FIELDS = [
     'stGstin','stPan','stTan','stIata','stDefaultGst','stDefaultTcs','stFyMonth','stState',
     'stBankName','stAccNo','stIfsc','stAccType','stUpi',
     'stInvPrefix','stInvFooter','stPayTerms','stCurrency',
+    'stApprovalRequired','stApprovalThresholdQuote','stApprovalThresholdDiscount','stApprovalThresholdRefund',
 ];
 
 const DB_KEYS = {
     stAgencyName: 'agency_name', stTagline: 'tagline', stPhone: 'phone', stEmail: 'email',
     stAddress: 'address', stWebsite: 'website', stLogoUrl: 'logo_url',
     stGstin: 'gstin', stPan: 'pan_number', stTan: 'tan_number', stIata: 'iata_number',
-    stDefaultGst: 'default_gst_percent', stDefaultTcs: 'default_tcs_percent',
+    stDefaultGst: 'default_gst_percent', stDefaultTcs: 'default_tcs_percent',   
     stFyMonth: 'financial_year_start_month', stState: 'state',
     stBankName: 'bank_name', stAccNo: 'bank_account_number', stIfsc: 'bank_ifsc',
     stAccType: 'bank_account_type', stUpi: 'upi_id',
     stInvPrefix: 'invoice_prefix', stInvFooter: 'invoice_footer',
     stPayTerms: 'payment_terms_days', stCurrency: 'currency',
-};
-
-document.addEventListener('DOMContentLoaded', () => {
-    loadSettings();
-    document.getElementById('saveSettingsBtn')?.addEventListener('click', saveSettings);
+    stApprovalRequired: 'approval_required',
+    stApprovalThresholdQuote: 'approval_threshold_quote',
+    stApprovalThresholdDiscount: 'approval_threshold_discount',
+    stApprovalThresholdRefund: 'approval_threshold_refund',
     // Init workflow rules panel
     if (typeof loadWorkflowRules === 'function') loadWorkflowRules();
     // Init audit trail panel
@@ -47,7 +47,8 @@ async function loadSettings() {
         const key = DB_KEYS[id];
         const el  = document.getElementById(id);
         if (el && key && data[key] !== null && data[key] !== undefined) {
-            el.value = data[key];
+            if (el.type === 'checkbox') el.checked = data[key] === 'true' || data[key] === true;
+            else el.value = data[key];
         }
     });
 }
@@ -58,11 +59,10 @@ async function saveSettings() {
     FIELDS.forEach(id => {
         const key = DB_KEYS[id];
         const el  = document.getElementById(id);
-        if (el && key) payload[key] = el.value.trim() || null;
-    });
-
-    const { error } = await window.supabase
-        .from('agency_settings')
+        if (el && key) {
+            if (el.type === 'checkbox') payload[key] = el.checked ? 'true' : 'false';
+            else payload[key] = el.value.trim() || null;
+        }
         .upsert(payload, { onConflict: 'user_id' });
 
     if (error) { showToast('Failed to save: ' + error.message, 'error'); return; }

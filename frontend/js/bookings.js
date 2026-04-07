@@ -190,8 +190,10 @@ async function openBookingDrawer(bookingId) {
                     ${s.check_in ? `<br>${formatDate(s.check_in)} → ${formatDate(s.check_out)}` : ''}
                     ${s.cost_price ? `<br>Cost: ${formatINR(s.cost_price)}` : ''}
                     <span class="badge badge-${s.status}" style="margin-left:6px">${s.status}</span>
+                    <button class="btn-secondary" style="padding:2px 8px;font-size:0.75rem;margin-left:6px" onclick="handleGenerateVoucher('${b.id}','${s.id}')"><i data-lucide="file-badge" style="width:12px;height:12px;display:inline-block;vertical-align:middle"></i> Voucher</button>
                 </div>
             `).join('') || '<p style="color:var(--text-muted)">No services added</p>'}
+            ${(b.booking_services || []).length > 1 ? `<button class="btn-primary" style="margin-top:8px;font-size:0.8rem;padding:6px 14px;width:100%" onclick="handleGenerateAllVouchers('${b.id}')"><i data-lucide="files" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Generate All Vouchers</button>` : ''}
         </div>
         ${b.notes ? `<div class="drawer-section"><h4>Notes</h4><p>${escHtml(b.notes)}</p></div>` : ''}
         <div class="drawer-section">
@@ -297,4 +299,21 @@ function renderTripTimeline(booking) {
             ${isCancelled ? '<div style="margin-left:12px"><span class="badge badge-cancelled"><i data-lucide="x-circle" style="width:14px;height:14px;display:inline-block;vertical-align:middle"></i> Cancelled</span></div>' : ''}
         </div>
     `;
+}
+
+// ============================================================
+// Voucher Generation Handlers
+// ============================================================
+async function handleGenerateVoucher(bookingId, serviceId) {
+    const b = allBookings.find(x => x.id === bookingId);
+    if (!b) { showToast('Booking not found', 'error'); return; }
+    const svc = (b.booking_services || []).find(s => s.id === serviceId);
+    if (!svc) { showToast('Service not found', 'error'); return; }
+    await generateVoucher(b, svc);
+}
+
+async function handleGenerateAllVouchers(bookingId) {
+    const b = allBookings.find(x => x.id === bookingId);
+    if (!b) { showToast('Booking not found', 'error'); return; }
+    await generateAllVouchers(b);
 }

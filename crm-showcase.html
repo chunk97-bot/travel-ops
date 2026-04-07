@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Travel Ops CRM — Product Showcase</title>
+<style>
+/* ── Print & PDF optimized ── */
+@page { size: A4; margin: 18mm 15mm 18mm 15mm; }
+@media print {
+    body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .page-break { page-break-before: always; }
+    .no-print { display: none !important; }
+}
+
+/* ── Base ── */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    color: #1e293b; background: #fff; line-height: 1.6; font-size: 11pt;
+}
+h1 { font-size: 28pt; font-weight: 800; letter-spacing: -0.5px; }
+h2 { font-size: 18pt; font-weight: 700; color: #0f172a; margin-bottom: 10px; border-bottom: 3px solid #3b82f6; padding-bottom: 6px; }
+h3 { font-size: 13pt; font-weight: 700; color: #1e40af; margin: 14px 0 6px; }
+h4 { font-size: 11pt; font-weight: 600; color: #334155; margin: 8px 0 4px; }
+p { margin-bottom: 8px; }
+a { color: #2563eb; text-decoration: none; }
+
+/* ── Cover ── */
+.cover {
+    height: 100vh; display: flex; flex-direction: column; justify-content: center;
+    align-items: center; text-align: center;
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 50%, #1e40af 100%);
+    color: #fff; padding: 40px;
+}
+.cover .logo { font-size: 48pt; font-weight: 900; letter-spacing: 2px; margin-bottom: 8px; }
+.cover .logo span { color: #60a5fa; }
+.cover .tagline { font-size: 16pt; color: #94a3b8; font-weight: 300; margin-bottom: 40px; }
+.cover .stats-row {
+    display: flex; gap: 30px; margin-top: 30px; flex-wrap: wrap; justify-content: center;
+}
+.cover .stat-box {
+    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 12px; padding: 20px 28px; text-align: center; min-width: 120px;
+}
+.cover .stat-box .num { font-size: 28pt; font-weight: 800; color: #60a5fa; }
+.cover .stat-box .label { font-size: 9pt; text-transform: uppercase; letter-spacing: 1px; color: #94a3b8; }
+.cover .version { margin-top: 50px; font-size: 9pt; color: #64748b; }
+
+/* ── Content pages ── */
+.content { padding: 0 10px; }
+.section { margin-bottom: 24px; }
+
+/* ── Tables ── */
+table { width: 100%; border-collapse: collapse; margin: 8px 0 16px; font-size: 9.5pt; }
+th, td { padding: 7px 10px; text-align: left; border: 1px solid #e2e8f0; }
+th { background: #f1f5f9; font-weight: 700; color: #334155; font-size: 9pt; text-transform: uppercase; letter-spacing: 0.3px; }
+tr:nth-child(even) { background: #f8fafc; }
+.amount { text-align: right; font-family: 'Consolas', monospace; font-weight: 600; }
+.badge {
+    display: inline-block; padding: 2px 8px; border-radius: 10px;
+    font-size: 8pt; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px;
+}
+.badge-green { background: #dcfce7; color: #166534; }
+.badge-blue { background: #dbeafe; color: #1e40af; }
+.badge-yellow { background: #fef9c3; color: #854d0e; }
+.badge-red { background: #fee2e2; color: #991b1b; }
+.badge-purple { background: #f3e8ff; color: #6b21a8; }
+.badge-gray { background: #f1f5f9; color: #475569; }
+.badge-orange { background: #ffedd5; color: #9a3412; }
+
+/* ── Mock screens ── */
+.mock-screen {
+    border: 1px solid #e2e8f0; border-radius: 10px; overflow: hidden;
+    margin: 10px 0 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+.mock-header {
+    background: #0f172a; color: #fff; padding: 8px 14px; font-size: 9pt;
+    display: flex; justify-content: space-between; align-items: center;
+}
+.mock-header .dots { display: flex; gap: 5px; }
+.mock-header .dot { width: 8px; height: 8px; border-radius: 50%; }
+.mock-header .dot-r { background: #ef4444; } .mock-header .dot-y { background: #f59e0b; } .mock-header .dot-g { background: #22c55e; }
+.mock-body { padding: 14px; background: #fff; }
+
+/* ── KPI cards ── */
+.kpi-row { display: flex; gap: 10px; margin: 10px 0; flex-wrap: wrap; }
+.kpi-card {
+    flex: 1; min-width: 100px; background: #f8fafc; border: 1px solid #e2e8f0;
+    border-radius: 8px; padding: 10px 14px; text-align: center;
+}
+.kpi-card .kpi-val { font-size: 20pt; font-weight: 800; color: #1e40af; }
+.kpi-card .kpi-label { font-size: 8pt; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; }
+
+/* ── Feature grid ── */
+.feat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 10px 0; }
+.feat-card {
+    border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px 14px;
+    background: #fafbfc;
+}
+.feat-card .feat-icon { font-size: 18pt; margin-bottom: 4px; }
+.feat-card .feat-title { font-weight: 700; font-size: 10pt; margin-bottom: 3px; }
+.feat-card .feat-desc { font-size: 8.5pt; color: #64748b; line-height: 1.4; }
+
+/* ── Kanban ── */
+.kanban { display: flex; gap: 8px; margin: 10px 0; }
+.kanban-col { flex: 1; background: #f8fafc; border-radius: 8px; padding: 8px; min-width: 0; }
+.kanban-col-title { font-size: 8pt; font-weight: 700; text-transform: uppercase; color: #64748b; margin-bottom: 6px; text-align: center; }
+.kanban-card {
+    background: #fff; border: 1px solid #e2e8f0; border-radius: 6px;
+    padding: 6px 8px; margin-bottom: 5px; font-size: 8pt;
+}
+.kanban-card .kc-name { font-weight: 600; }
+.kanban-card .kc-dest { color: #64748b; font-size: 7.5pt; }
+
+/* ── Timeline ── */
+.timeline { position: relative; padding-left: 20px; margin: 10px 0; }
+.timeline::before { content:''; position: absolute; left: 6px; top: 0; bottom: 0; width: 2px; background: #e2e8f0; }
+.tl-item { position: relative; margin-bottom: 10px; }
+.tl-item::before {
+    content: ''; position: absolute; left: -17px; top: 4px;
+    width: 10px; height: 10px; border-radius: 50%; background: #3b82f6; border: 2px solid #fff;
+}
+.tl-item .tl-date { font-size: 8pt; color: #94a3b8; }
+.tl-item .tl-text { font-size: 9pt; }
+
+/* ── Flowchart ── */
+.flow-row { display: flex; align-items: center; gap: 6px; margin: 10px 0; flex-wrap: wrap; justify-content: center; }
+.flow-box {
+    background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px;
+    padding: 6px 14px; font-size: 9pt; font-weight: 600; text-align: center;
+}
+.flow-arrow { font-size: 14pt; color: #94a3b8; }
+
+/* ── Two column ── */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.two-col > div { min-width: 0; }
+
+/* ── Highlight box ── */
+.highlight {
+    background: linear-gradient(135deg, #eff6ff, #f0f9ff);
+    border-left: 4px solid #3b82f6; border-radius: 0 8px 8px 0;
+    padding: 12px 16px; margin: 10px 0;
+}
+.highlight .hl-title { font-weight: 700; font-size: 10pt; color: #1e40af; }
+.highlight .hl-text { font-size: 9pt; color: #475569; }
+
+/* ── Footer ── */
+.page-footer {
+    text-align: center; padding: 10px; font-size: 8pt; color: #94a3b8;
+    border-top: 1px solid #e2e8f0; margin-top: 20px;
+}
+
+/* ── Pricing table ── */
+.pricing-row { display: flex; gap: 12px; margin: 12px 0; }
+.price-card {
+    flex: 1; border: 1px solid #e2e8f0; border-radius: 10px; padding: 16px;
+    text-align: center; position: relative;
+}
+.price-card.featured { border-color: #3b82f6; box-shadow: 0 4px 16px rgba(59,130,246,0.15); }
+.price-card .price-name { font-weight: 700; font-size: 12pt; margin-bottom: 4px; }
+.price-card .price-val { font-size: 22pt; font-weight: 800; color: #1e40af; }
+.price-card .price-period { font-size: 8pt; color: #94a3b8; }
+.price-card ul { text-align: left; list-style: none; margin-top: 10px; font-size: 8.5pt; }
+.price-card ul li { padding: 3px 0; }
+.price-card ul li::before { content: '✓ '; color: #22c55e; font-weight: 700; }
+
+/* ── Print button ── */
+.print-btn {
+    position: fixed; bottom: 20px; right: 20px; z-index: 999;
+    background: #3b82f6; color: #fff; border: none; border-radius: 10px;
+    padding: 12px 24px; font-size: 11pt; font-weight: 700; cursor: pointer;
+    box-shadow: 0 4px 16px rgba(59,130,246,0.4);
+}
+.print-btn:hover { background: #2563eb; }
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════ -->
+<!-- COVER PAGE -->
+<!-- ════════════════════════════════════════ -->
+<div class="cover">
+    <div class="logo">Travel<span>Ops</span></div>
+    <div class="tagline">AI-Powered Travel Agency CRM & Operations Platform</div>
+    <p style="font-size:11pt; color:#cbd5e1; max-width:600px; line-height:1.7;">
+        End-to-end management for leads, clients, itineraries, bookings, invoices, vendors,
+        commissions, and multi-currency operations — all in one unified platform.
+    </p>
+    <div class="stats-row">
+        <div class="stat-box"><div class="num">37</div><div class="label">Pages</div></div>
+        <div class="stat-box"><div class="num">59</div><div class="label">Database Tables</div></div>
+        <div class="stat-box"><div class="num">52</div><div class="label">JS Modules</div></div>
+        <div class="stat-box"><div class="num">20+</div><div class="label">Currencies</div></div>
+        <div class="stat-box"><div class="num">4</div><div class="label">Staff Roles</div></div>
+    </div>
+    <div class="version">Product Showcase — April 2026 &nbsp;|&nbsp; Version 1.0 &nbsp;|&nbsp; Confidential</div>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- TABLE OF CONTENTS -->
+<!-- ════════════════════════════════════════ -->
+<div class="content page-break">
+<h2>Table of Contents</h2>
+<table style="border:none; max-width: 500px;">
+    <tr style="background:none;"><td style="border:none; padding:5px 0;"><strong>1.</strong> Executive Summary</td><td style="border:none; text-align:right; color:#94a3b8;">3</td></tr>
+    <tr style="background:none;"><td style="border:none; padding:5px 0;"><strong>2.</strong> Dashboard & KPIs</td><td style="border:none; text-align:right; color:#94a3b8;">4</td></tr>
+    <tr style="background:none;"><td style="border:none; padding:5px 0;"><strong>3.</strong> Lead Pipeline Management</td><td style="border:none; text-align:right; color:#94a3b8;">5</td></tr>
+    <tr style="background:none;"><td style="border:none; padding:5px 0;"><strong>4.</strong> Quotations & Itinerary Builder</td><td style="border:none; text-align:right; color:#94a3b8;">7</td></tr>
+    <tr style="background:none;"><td style="border:none; padding:5px 0;"><strong>5.</strong> Invoicing & Finance</td><td style="border:none; text-align:right; color:#94a3b8;">9</td></tr>
+    <tr style="background:none;"><td style="border:none; padding:5px 0;"><strong>6.</strong> Bookings & Operations</td><td style="border:none; text-align:right; color:#94a3b8;">11</td></tr>
+    <tr style="background:none;"><td style="border:none; padding:5px 0;"><strong>7.</strong> Vendor Management</td><td style="border:none; text-align:right; color:#94a3b8;">13</td></tr>
+    <tr style="background:none;"><td style="border:none; padding:5px 0;"><strong>8.</strong> Client 360° Management</td><td style="border:none; text-align:right; color:#94a3b8;">15</td></tr>
+    <tr style="background:none;"><td style="border:none; padding:5px 0;"><strong>9.</strong> Staff & Commissions</td><td style="border:none; text-align:right; color:#94a3b8;">17</td></tr>
+    <tr style="background:none;"><td style="border:none; padding:5px 0;"><strong>10.</strong> Communications & Campaigns</td><td style="border:none; text-align:right; color:#94a3b8;">19</td></tr>
+    <tr style="background:none;"><td style="border:none; padding:5px 0;"><strong>11.</strong> Automation & SLA Engine</td><td style="border:none; text-align:right; color:#94a3b8;">20</td></tr>
+    <tr style="background:none;"><td style="border:none; padding:5px 0;"><strong>12.</strong> Reports & Analytics</td><td style="border:none; text-align:right; color:#94a3b8;">21</td></tr>
+    <tr style="background:none;"><td style="border:none; padding:5px 0;"><strong>13.</strong> Security & Architecture</td><td style="border:none; text-align:right; color:#94a3b8;">22</td></tr>
+    <tr style="background:none;"><td style="border:none; padding:5px 0;"><strong>14.</strong> Deployment & Pricing</td><td style="border:none; text-align:right; color:#94a3b8;">23</td></tr>
+</table>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- 1. EXECUTIVE SUMMARY -->
+<!-- ════════════════════════════════════════ -->
+<div class="content page-break">
+<h2>1. Executive Summary</h2>
+<p><strong>TravelOps</strong> is a comprehensive, cloud-native CRM and operations platform purpose-built for travel agencies. It replaces spreadsheets, WhatsApp groups, and manual ledgers with a unified digital workspace — from the first lead enquiry to post-trip feedback.</p>
+
+<h3>The Problem</h3>
+<div class="two-col">
+<div>
+    <div class="feat-card" style="border-left:3px solid #ef4444;">
+        <div class="feat-title">Scattered Data</div>
+        <div class="feat-desc">Leads in WhatsApp, invoices in Tally, itineraries in Word docs, payments in Excel</div>
+    </div>
+    <div class="feat-card" style="border-left:3px solid #ef4444;">
+        <div class="feat-title">No Lead Tracking</div>
+        <div class="feat-desc">No visibility into which leads are hot, cold, or lost — sales follows gut feeling</div>
+    </div>
+</div>
+<div>
+    <div class="feat-card" style="border-left:3px solid #ef4444;">
+        <div class="feat-title">Manual Follow-ups</div>
+        <div class="feat-desc">Missed callbacks, forgotten birthdays, no SLA enforcement</div>
+    </div>
+    <div class="feat-card" style="border-left:3px solid #ef4444;">
+        <div class="feat-title">Revenue Blind Spots</div>
+        <div class="feat-desc">No real-time P&L per trip, no vendor aging, no commission tracking</div>
+    </div>
+</div>
+</div>
+
+<h3>The Solution — TravelOps CRM</h3>
+<div class="feat-grid">
+    <div class="feat-card"><div class="feat-icon">🎯</div><div class="feat-title">Lead Pipeline</div><div class="feat-desc">Kanban board, auto-scoring, web capture, SLA timers, deduplication</div></div>
+    <div class="feat-card"><div class="feat-icon">📋</div><div class="feat-title">Quotes → Invoices</div><div class="feat-desc">Versioned quotes, proforma, GST invoices, TCS compliance, PDF export</div></div>
+    <div class="feat-card"><div class="feat-icon">✈️</div><div class="feat-title">Itinerary Builder</div><div class="feat-desc">Day-by-day planner, vendor pricing, dynamic costing, brochure PDF</div></div>
+    <div class="feat-card"><div class="feat-icon">🏨</div><div class="feat-title">Booking Manager</div><div class="feat-desc">PNR tracking, vouchers, group bookings, cancellation policies</div></div>
+    <div class="feat-card"><div class="feat-icon">🤝</div><div class="feat-title">Vendor Ledger</div><div class="feat-desc">Rate cards, TDS, multi-currency payments, 30/60/90 day aging</div></div>
+    <div class="feat-card"><div class="feat-icon">👤</div><div class="feat-title">Client 360°</div><div class="feat-desc">Family profiles, visa tracking, RFM segmentation, travel history</div></div>
+    <div class="feat-card"><div class="feat-icon">💬</div><div class="feat-title">WhatsApp & Email</div><div class="feat-desc">Bulk campaigns, templates, auto-reminders, birthday greetings</div></div>
+    <div class="feat-card"><div class="feat-icon">📊</div><div class="feat-title">Analytics</div><div class="feat-desc">Revenue trends, booking funnel, staff KPIs, expense breakdown, P&L</div></div>
+</div>
+
+<h3>Tech Stack</h3>
+<table>
+<tr><th>Layer</th><th>Technology</th><th>Why</th></tr>
+<tr><td>Frontend</td><td>Vanilla JS + HTML + CSS</td><td>Zero dependencies, instant load, no build step</td></tr>
+<tr><td>Database</td><td>Supabase (PostgreSQL)</td><td>Managed DB, real-time, built-in auth, S3 storage</td></tr>
+<tr><td>Workers</td><td>Cloudflare Workers</td><td>API keys server-side, <50ms latency, zero cold starts</td></tr>
+<tr><td>Messaging</td><td>MSG91 (WhatsApp) + Resend (Email)</td><td>Reliable delivery, template support, bulk capability</td></tr>
+<tr><td>PDF</td><td>html2canvas + jsPDF</td><td>Client-side PDF generation, no server needed</td></tr>
+</table>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- 2. DASHBOARD & KPIs -->
+<!-- ════════════════════════════════════════ -->
+<div class="content page-break">
+<h2>2. Dashboard & KPIs</h2>
+<p>The main dashboard provides a real-time operational snapshot the moment staff logs in. Role-aware — sales see leads, accounts see invoices, admin sees everything.</p>
+
+<div class="mock-screen">
+<div class="mock-header">
+    <div class="dots"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div></div>
+    <span>TravelOps — Dashboard</span>
+    <span style="font-size:8pt; color:#94a3b8;">Logged in: Priya Sharma (Admin)</span>
+</div>
+<div class="mock-body">
+    <div class="kpi-row">
+        <div class="kpi-card"><div class="kpi-val">23</div><div class="kpi-label">New Leads Today</div></div>
+        <div class="kpi-card"><div class="kpi-val">8</div><div class="kpi-label">Follow-ups Due</div></div>
+        <div class="kpi-card"><div class="kpi-val">14</div><div class="kpi-label">Confirmed Bookings</div></div>
+        <div class="kpi-card"><div class="kpi-val" style="color:#22c55e;">₹18.4L</div><div class="kpi-label">Revenue This Month</div></div>
+        <div class="kpi-card"><div class="kpi-val" style="color:#f59e0b;">5</div><div class="kpi-label">Overdue Invoices</div></div>
+    </div>
+    <div class="two-col" style="margin-top:12px;">
+        <div>
+            <h4>📅 Today's Agenda</h4>
+            <table>
+                <tr><td>09:30</td><td>Call back — Rajesh Gupta (Bali trip)</td><td><span class="badge badge-yellow">Overdue</span></td></tr>
+                <tr><td>11:00</td><td>Send quote — Mehra family (Europe)</td><td><span class="badge badge-blue">Pending</span></td></tr>
+                <tr><td>14:00</td><td>Payment follow-up — INV-2026-0089</td><td><span class="badge badge-red">₹2.4L Due</span></td></tr>
+                <tr><td>16:30</td><td>Birthday WhatsApp — Sunita Jain</td><td><span class="badge badge-green">Auto</span></td></tr>
+            </table>
+        </div>
+        <div>
+            <h4>🎂 Upcoming Birthdays</h4>
+            <table>
+                <tr><td>Apr 8</td><td>Sunita Jain</td><td>+91 98765 43210</td></tr>
+                <tr><td>Apr 10</td><td>Rahul Verma</td><td>+91 87654 32109</td></tr>
+                <tr><td>Apr 12</td><td>Ananya Desai</td><td>+91 76543 21098</td></tr>
+            </table>
+            <h4 style="margin-top:10px;">🔔 Notifications (3 unread)</h4>
+            <div style="font-size:8.5pt; padding:4px 0; border-bottom:1px solid #f1f5f9;">⚠️ Lead "Vikram Patel" breached 24h SLA in Contacted stage</div>
+            <div style="font-size:8.5pt; padding:4px 0; border-bottom:1px solid #f1f5f9;">✅ Invoice INV-2026-0085 — full payment received ₹3,15,000</div>
+            <div style="font-size:8.5pt; padding:4px 0;">📋 New lead captured from website: "Honeymoon Maldives"</div>
+        </div>
+    </div>
+</div>
+</div>
+
+<h3>Key Dashboard Features</h3>
+<div class="feat-grid">
+    <div class="feat-card"><div class="feat-title">Role-Aware Views</div><div class="feat-desc">Admin sees all KPIs. Sales sees their own pipeline. Accounts sees financial summary. Operations sees departing trips.</div></div>
+    <div class="feat-card"><div class="feat-title">Global Search (Ctrl+K)</div><div class="feat-desc">Search across leads, clients, invoices, bookings, vendors, quotations — instant results</div></div>
+    <div class="feat-card"><div class="feat-title">Real-Time Notifications</div><div class="feat-desc">Bell badge with unread count, dropdown list, mark-all-read, click-to-navigate</div></div>
+    <div class="feat-card"><div class="feat-title">Dark / Light Theme</div><div class="feat-desc">User preference persisted. All 37 pages support both themes with CSS variables.</div></div>
+</div>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- 3. LEAD PIPELINE -->
+<!-- ════════════════════════════════════════ -->
+<div class="content page-break">
+<h2>3. Lead Pipeline Management</h2>
+<p>Multi-channel lead capture, automated scoring, Kanban board visualization, SLA enforcement, and conversion tracking.</p>
+
+<h3>3.1 Lead Sources & Auto-Capture</h3>
+<table>
+<tr><th>Source</th><th>Capture Method</th><th>Auto-Assigned To</th><th>Example</th></tr>
+<tr><td>Website</td><td>Web form → lead_captures table → auto-create lead</td><td>Round-robin</td><td>Honeymoon enquiry from whereto.travel/plan</td></tr>
+<tr><td>Instagram</td><td>Manual entry with source tag</td><td>Social media handler</td><td>DM about Kashmir trip packages</td></tr>
+<tr><td>WhatsApp</td><td>Manual entry with phone pre-filled</td><td>Assigned telecaller</td><td>+91 98765 XXXXX asking for Bali quote</td></tr>
+<tr><td>Referral</td><td>Manual with referrer name tracked</td><td>Original agent</td><td>Referred by Rajesh Gupta (existing client)</td></tr>
+<tr><td>Walk-in</td><td>Reception creates on iPad</td><td>Next available agent</td><td>Walk-in couple asking about Europe tours</td></tr>
+<tr><td>Facebook</td><td>UTM-tagged web form</td><td>Marketing team</td><td>Ad campaign "Summer Europe 2026"</td></tr>
+</table>
+
+<h3>3.2 Lead Scoring Algorithm (0–100)</h3>
+<div class="mock-screen">
+<div class="mock-header"><span>Lead Score Breakdown — Vikram Patel</span><span><span class="badge badge-green">Score: 78/100</span></span></div>
+<div class="mock-body">
+<table>
+<tr><th>Factor</th><th>Weight</th><th>Value</th><th>Points</th></tr>
+<tr><td>Budget Range</td><td>0–30 pts</td><td>₹5,00,000+ (Luxury)</td><td class="amount" style="color:#22c55e;"><strong>30</strong></td></tr>
+<tr><td>Source Quality</td><td>0–20 pts</td><td>Referral (highest quality)</td><td class="amount" style="color:#22c55e;"><strong>20</strong></td></tr>
+<tr><td>Pipeline Stage</td><td>0–25 pts</td><td>Negotiating (4th stage)</td><td class="amount" style="color:#22c55e;"><strong>18</strong></td></tr>
+<tr><td>Activity Count</td><td>0–15 pts</td><td>6 activities in 5 days</td><td class="amount" style="color:#22c55e;"><strong>7</strong></td></tr>
+<tr><td>Pax Count</td><td>0–10 pts</td><td>4 adults + 1 child</td><td class="amount" style="color:#22c55e;"><strong>3</strong></td></tr>
+<tr><th colspan="3">Total Lead Score</th><th class="amount" style="font-size:14pt; color:#1e40af;">78</th></tr>
+</table>
+</div>
+</div>
+
+<h3>3.3 Kanban Board View</h3>
+<div class="kanban">
+    <div class="kanban-col" style="border-top:3px solid #3b82f6;">
+        <div class="kanban-col-title">New (7)</div>
+        <div class="kanban-card"><div class="kc-name">Ananya Desai</div><div class="kc-dest">Maldives · 2 pax · ₹3L</div></div>
+        <div class="kanban-card"><div class="kc-name">Rohan Mehta</div><div class="kc-dest">Thailand · 4 pax · ₹2L</div></div>
+        <div class="kanban-card"><div class="kc-name">Pooja Singh</div><div class="kc-dest">Kerala · 6 pax · ₹1.5L</div></div>
+    </div>
+    <div class="kanban-col" style="border-top:3px solid #f59e0b;">
+        <div class="kanban-col-title">Contacted (5)</div>
+        <div class="kanban-card"><div class="kc-name">Amit Sharma</div><div class="kc-dest">Europe · 2 pax · ₹8L</div></div>
+        <div class="kanban-card"><div class="kc-name">Neha Kapoor</div><div class="kc-dest">Bali · 2 pax · ₹4L</div></div>
+    </div>
+    <div class="kanban-col" style="border-top:3px solid #8b5cf6;">
+        <div class="kanban-col-title">Quoted (4)</div>
+        <div class="kanban-card"><div class="kc-name">Rajesh Gupta</div><div class="kc-dest">Japan · 3 pax · ₹12L</div></div>
+        <div class="kanban-card"><div class="kc-name">Mehra Family</div><div class="kc-dest">Europe · 5 pax · ₹15L</div></div>
+    </div>
+    <div class="kanban-col" style="border-top:3px solid #ec4899;">
+        <div class="kanban-col-title">Negotiating (3)</div>
+        <div class="kanban-card"><div class="kc-name">Vikram Patel</div><div class="kc-dest">Swiss · 2 pax · ₹6L ⭐78</div></div>
+    </div>
+    <div class="kanban-col" style="border-top:3px solid #22c55e;">
+        <div class="kanban-col-title">Confirmed (2)</div>
+        <div class="kanban-card"><div class="kc-name">Sunita Jain</div><div class="kc-dest">Dubai · 4 pax · ₹3.5L ✅</div></div>
+    </div>
+</div>
+
+<h3>3.4 Lead Activity Log (Mock)</h3>
+<div class="timeline">
+    <div class="tl-item"><div class="tl-date">Apr 7, 2026 — 10:15 AM</div><div class="tl-text"><strong>Stage changed</strong> Negotiating → Confirmed by Priya Sharma</div></div>
+    <div class="tl-item"><div class="tl-date">Apr 5, 2026 — 3:30 PM</div><div class="tl-text"><strong>WhatsApp sent</strong> "Hi Vikram, here's the updated Switzerland itinerary with Jungfraujoch added..."</div></div>
+    <div class="tl-item"><div class="tl-date">Apr 4, 2026 — 11:00 AM</div><div class="tl-text"><strong>Call — 12 min</strong> Discussed budget, agreed on ₹5.8L for 7N/8D. Wants to add Lucerne day trip.</div></div>
+    <div class="tl-item"><div class="tl-date">Apr 2, 2026 — 9:45 AM</div><div class="tl-text"><strong>Quote sent</strong> QT-2026-0134 — Switzerland 7N/8D — ₹5,60,000 (incl. GST)</div></div>
+    <div class="tl-item"><div class="tl-date">Apr 1, 2026 — 4:15 PM</div><div class="tl-text"><strong>Lead created</strong> via Referral (referred by Rajesh Gupta). Destination: Switzerland, 2 pax, ₹5-6L budget</div></div>
+</div>
+
+<h3>3.5 SLA Enforcement</h3>
+<table>
+<tr><th>Pipeline Stage</th><th>Max Response Time</th><th>Warning At</th><th>Escalation</th></tr>
+<tr><td><span class="badge badge-blue">New</span></td><td>2 hours</td><td>1 hour</td><td>Auto-assign to next available agent</td></tr>
+<tr><td><span class="badge badge-yellow">Contacted</span></td><td>24 hours</td><td>18 hours</td><td>Notify admin + lead reassignment</td></tr>
+<tr><td><span class="badge badge-purple">Quoted</span></td><td>48 hours</td><td>36 hours</td><td>Auto follow-up WhatsApp reminder</td></tr>
+<tr><td><span class="badge badge-orange">Negotiating</span></td><td>72 hours</td><td>48 hours</td><td>Manager notification + call reminder</td></tr>
+<tr><td><span class="badge badge-green">Confirmed</span></td><td>24 hours</td><td>12 hours</td><td>Auto-generate booking + invoice</td></tr>
+</table>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- 4. QUOTATIONS & ITINERARY -->
+<!-- ════════════════════════════════════════ -->
+<div class="content page-break">
+<h2>4. Quotations & Itinerary Builder</h2>
+
+<h3>4.1 Quotation Management</h3>
+<p>Full lifecycle: Draft → Sent → Accepted → Converted to Invoice. Supports versioning — every edit creates a snapshot.</p>
+
+<div class="mock-screen">
+<div class="mock-header"><span>Quotation QT-2026-0134 — v3</span><span><span class="badge badge-yellow">Sent</span></span></div>
+<div class="mock-body">
+<table>
+<tr><td style="width:140px;"><strong>Client</strong></td><td>Vikram Patel &amp; Family</td><td style="width:140px;"><strong>Quote #</strong></td><td>QT-2026-0134</td></tr>
+<tr><td><strong>Destination</strong></td><td>Switzerland (Zurich–Interlaken–Lucerne–Geneva)</td><td><strong>Version</strong></td><td>v3 (Apr 5)</td></tr>
+<tr><td><strong>Travel Date</strong></td><td>May 15 – May 22, 2026</td><td><strong>Valid Until</strong></td><td>Apr 20, 2026</td></tr>
+<tr><td><strong>Pax</strong></td><td>2 Adults</td><td><strong>Nights</strong></td><td>7N / 8D</td></tr>
+</table>
+
+<h4 style="margin-top:12px;">Line Items</h4>
+<table>
+<tr><th>Item</th><th>Description</th><th>Qty</th><th>Unit Cost</th><th class="amount">Total</th></tr>
+<tr><td>Hotel</td><td>Hotel Bellevue Palace, Interlaken (4★) — 4 nights</td><td>4</td><td class="amount">₹18,500</td><td class="amount">₹74,000</td></tr>
+<tr><td>Hotel</td><td>Hotel Metropole, Geneva (4★) — 3 nights</td><td>3</td><td class="amount">₹16,200</td><td class="amount">₹48,600</td></tr>
+<tr><td>Flights</td><td>DEL–ZRH–DEL (Swiss Air, Economy)</td><td>2</td><td class="amount">₹62,000</td><td class="amount">₹1,24,000</td></tr>
+<tr><td>Transfers</td><td>Private airport + intercity (Zurich→Interlaken→Geneva)</td><td>1</td><td class="amount">₹45,000</td><td class="amount">₹45,000</td></tr>
+<tr><td>Sightseeing</td><td>Jungfraujoch Top of Europe + Rhine Falls + Lucerne</td><td>2</td><td class="amount">₹28,500</td><td class="amount">₹57,000</td></tr>
+<tr><td>Visa</td><td>Schengen Visa processing (2 pax)</td><td>2</td><td class="amount">₹8,500</td><td class="amount">₹17,000</td></tr>
+<tr><td>Insurance</td><td>Travel insurance 8 days (2 pax)</td><td>2</td><td class="amount">₹3,200</td><td class="amount">₹6,400</td></tr>
+<tr><th colspan="4">Sub-Total</th><th class="amount">₹3,72,000</th></tr>
+<tr><td colspan="4">Discount (5% loyalty)</td><td class="amount" style="color:#ef4444;">– ₹18,600</td></tr>
+<tr><td colspan="4">GST @ 5%</td><td class="amount">₹17,670</td></tr>
+<tr><td colspan="4">TCS @ 5% (overseas, above ₹7L threshold — <em>not applicable here</em>)</td><td class="amount">₹0</td></tr>
+<tr style="background:#eff6ff;"><th colspan="4" style="font-size:12pt;">Grand Total</th><th class="amount" style="font-size:12pt; color:#1e40af;">₹3,71,070</th></tr>
+</table>
+
+<div style="font-size:8pt; color:#64748b; margin-top:8px;">
+<strong>Inclusions:</strong> Hotels, Flights, Transfers, Sightseeing, Visa, Insurance, Daily Breakfast<br>
+<strong>Exclusions:</strong> Lunch & Dinner, Personal expenses, Optional excursions, Porterage
+</div>
+</div>
+</div>
+
+<h3>4.2 Version History</h3>
+<table>
+<tr><th>Version</th><th>Date</th><th>Change</th><th>By</th><th class="amount">Total</th></tr>
+<tr><td>v1</td><td>Apr 2</td><td>Initial quote — 5N Zurich + Interlaken only</td><td>Priya S.</td><td class="amount">₹3,10,000</td></tr>
+<tr><td>v2</td><td>Apr 3</td><td>Added Geneva (3N), upgraded hotel to 4★</td><td>Priya S.</td><td class="amount">₹3,85,000</td></tr>
+<tr><td>v3</td><td>Apr 5</td><td>Applied 5% loyalty discount, added Lucerne day trip</td><td>Priya S.</td><td class="amount">₹3,71,070</td></tr>
+</table>
+
+<h3>4.3 Itinerary Builder (Day-by-Day)</h3>
+<div class="mock-screen">
+<div class="mock-header"><span>Itinerary — Switzerland 7N/8D</span><span style="font-size:8pt;">PDF Export Ready</span></div>
+<div class="mock-body" style="font-size:9pt;">
+<table>
+<tr><th style="width:80px;">Day</th><th>Activities</th><th>Hotel</th><th>Meals</th></tr>
+<tr><td><strong>Day 1</strong><br><span style="font-size:8pt;color:#94a3b8;">May 15</span></td><td>Arrive Zurich → Private transfer to Interlaken (2h). Evening free for lakeside stroll.</td><td>Hotel Bellevue Palace</td><td>Dinner</td></tr>
+<tr><td><strong>Day 2</strong><br><span style="font-size:8pt;color:#94a3b8;">May 16</span></td><td>🏔️ <strong>Jungfraujoch</strong> — Top of Europe excursion. Sphinx Observatory, Ice Palace. Return by 5 PM.</td><td>Hotel Bellevue Palace</td><td>Breakfast</td></tr>
+<tr><td><strong>Day 3</strong><br><span style="font-size:8pt;color:#94a3b8;">May 17</span></td><td>Lake Brienz cruise + Giessbach Falls. Afternoon: Interlaken adventure sports (optional paragliding).</td><td>Hotel Bellevue Palace</td><td>Breakfast</td></tr>
+<tr><td><strong>Day 4</strong><br><span style="font-size:8pt;color:#94a3b8;">May 18</span></td><td>Day trip to <strong>Lucerne</strong> — Chapel Bridge, Lion Monument, Lake Lucerne boat ride.</td><td>Hotel Bellevue Palace</td><td>Breakfast</td></tr>
+<tr><td><strong>Day 5</strong><br><span style="font-size:8pt;color:#94a3b8;">May 19</span></td><td>Transfer Interlaken → Geneva (3h scenic train via GoldenPass). Evening: Jet d'Eau, Old Town.</td><td>Hotel Metropole</td><td>Breakfast</td></tr>
+<tr><td><strong>Day 6</strong><br><span style="font-size:8pt;color:#94a3b8;">May 20</span></td><td>Day trip to <strong>Chamonix-Mont Blanc</strong> (France). Cable car to Aiguille du Midi (3,842m).</td><td>Hotel Metropole</td><td>Breakfast</td></tr>
+<tr><td><strong>Day 7</strong><br><span style="font-size:8pt;color:#94a3b8;">May 21</span></td><td>🛍️ Geneva: UN Palace, CERN guided tour, Carouge artisan quarter shopping.</td><td>Hotel Metropole</td><td>Breakfast</td></tr>
+<tr><td><strong>Day 8</strong><br><span style="font-size:8pt;color:#94a3b8;">May 22</span></td><td>Airport transfer → Fly GVA–DEL. Arrive Delhi late evening.</td><td>—</td><td>Breakfast</td></tr>
+</table>
+</div>
+</div>
+
+<div class="flow-row">
+    <div class="flow-box">Lead Created</div><div class="flow-arrow">→</div>
+    <div class="flow-box">Quote Sent</div><div class="flow-arrow">→</div>
+    <div class="flow-box">Itinerary Built</div><div class="flow-arrow">→</div>
+    <div class="flow-box">Proforma Issued</div><div class="flow-arrow">→</div>
+    <div class="flow-box">Payment Received</div><div class="flow-arrow">→</div>
+    <div class="flow-box" style="background:#dcfce7; border-color:#86efac;">Booking Confirmed</div>
+</div>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- 5. INVOICING & FINANCE -->
+<!-- ════════════════════════════════════════ -->
+<div class="content page-break">
+<h2>5. Invoicing & Finance</h2>
+
+<h3>5.1 GST Invoice</h3>
+<div class="mock-screen">
+<div class="mock-header"><span>Invoice INV-2026-0089</span><span><span class="badge badge-yellow">Partial</span></span></div>
+<div class="mock-body">
+<div class="two-col" style="margin-bottom:10px;">
+<div style="font-size:9pt;">
+    <strong>From:</strong> WhereTo Travel Pvt. Ltd.<br>
+    GSTIN: 29AABCW4568L1ZP<br>
+    #45, 1st Floor, MG Road, Bangalore 560001
+</div>
+<div style="font-size:9pt; text-align:right;">
+    <strong>Invoice #:</strong> INV-2026-0089<br>
+    <strong>Date:</strong> April 7, 2026<br>
+    <strong>Due Date:</strong> April 14, 2026
+</div>
+</div>
+<div style="font-size:9pt; margin-bottom:8px;">
+    <strong>Bill To:</strong> Vikram Patel &amp; Family<br>
+    PAN: ABCPV1234L &nbsp;|&nbsp; Phone: +91 98765 43210
+</div>
+<table>
+<tr><th>Description</th><th>SAC</th><th class="amount">Amount</th></tr>
+<tr><td>Switzerland 7N/8D Package (2 pax) — Hotels, Flights, Transfers, Sightseeing, Visa, Insurance</td><td>998551</td><td class="amount">₹3,53,400</td></tr>
+<tr><td colspan="2">CGST @ 2.5%</td><td class="amount">₹8,835</td></tr>
+<tr><td colspan="2">SGST @ 2.5%</td><td class="amount">₹8,835</td></tr>
+<tr><td colspan="2">TCS @ 5% (Overseas tour, Section 206C)</td><td class="amount">₹0</td></tr>
+<tr style="background:#eff6ff;"><th colspan="2" style="font-size:11pt;">Total</th><th class="amount" style="font-size:11pt; color:#1e40af;">₹3,71,070</th></tr>
+</table>
+
+<h4 style="margin-top:10px;">Payment History</h4>
+<table>
+<tr><th>Date</th><th>Mode</th><th>Reference</th><th class="amount">Amount</th><th>Status</th></tr>
+<tr><td>Apr 3, 2026</td><td>NEFT</td><td>UTR: SBIN3456789012</td><td class="amount">₹1,50,000</td><td><span class="badge badge-green">Received</span></td></tr>
+<tr><td>Apr 7, 2026</td><td>UPI</td><td>UPI Ref: 609876543210</td><td class="amount">₹1,00,000</td><td><span class="badge badge-green">Received</span></td></tr>
+<tr style="background:#fef9c3;"><td colspan="3"><strong>Balance Due</strong></td><td class="amount" style="color:#dc2626;"><strong>₹1,21,070</strong></td><td><span class="badge badge-yellow">Pending</span></td></tr>
+</table>
+</div>
+</div>
+
+<h3>5.2 TCS Compliance Tracker</h3>
+<p>Automatic TCS calculation for overseas packages above ₹7,00,000 (Section 206C(1G)). Quarterly filing with challan tracking.</p>
+<table>
+<tr><th>Quarter</th><th>Client</th><th>Invoice</th><th>Package Value</th><th class="amount">TCS @5%</th><th>Deposited</th><th>Challan</th></tr>
+<tr><td>Q4 FY26</td><td>Mehra Family</td><td>INV-2026-0072</td><td class="amount">₹15,40,000</td><td class="amount">₹77,000</td><td><span class="badge badge-green">Yes</span></td><td>CRN-2026-Q4-001</td></tr>
+<tr><td>Q4 FY26</td><td>Agarwal Group</td><td>INV-2026-0078</td><td class="amount">₹22,00,000</td><td class="amount">₹1,10,000</td><td><span class="badge badge-green">Yes</span></td><td>CRN-2026-Q4-002</td></tr>
+<tr><td>Q1 FY27</td><td>Rathod Corp</td><td>INV-2026-0091</td><td class="amount">₹8,50,000</td><td class="amount">₹42,500</td><td><span class="badge badge-yellow">Pending</span></td><td>—</td></tr>
+</table>
+
+<h3>5.3 Multi-Currency Support</h3>
+<p>20 currencies with live rates. Invoices can be generated in any currency with auto INR conversion.</p>
+<table>
+<tr><th>Currency</th><th>Symbol</th><th>Rate (₹)</th><th>Currency</th><th>Symbol</th><th>Rate (₹)</th></tr>
+<tr><td>USD</td><td>$</td><td>85.50</td><td>EUR</td><td>€</td><td>92.30</td></tr>
+<tr><td>GBP</td><td>£</td><td>108.20</td><td>AED</td><td>د.إ</td><td>23.30</td></tr>
+<tr><td>SGD</td><td>S$</td><td>63.50</td><td>THB</td><td>฿</td><td>2.45</td></tr>
+<tr><td>JPY</td><td>¥</td><td>0.57</td><td>AUD</td><td>A$</td><td>55.20</td></tr>
+<tr><td>CHF</td><td>CHF</td><td>96.50</td><td>MYR</td><td>RM</td><td>18.90</td></tr>
+</table>
+
+<h3>5.4 Expense Tracking</h3>
+<table>
+<tr><th>Date</th><th>Category</th><th>Description</th><th>Paid To</th><th>Mode</th><th class="amount">Amount</th></tr>
+<tr><td>Apr 1</td><td>Salaries</td><td>Staff salary — March 2026</td><td>All Staff (6)</td><td>NEFT</td><td class="amount">₹3,60,000</td></tr>
+<tr><td>Apr 3</td><td>Marketing</td><td>Instagram ads — Summer Europe campaign</td><td>Meta Ads</td><td>Card</td><td class="amount">₹28,000</td></tr>
+<tr><td>Apr 5</td><td>Rent</td><td>Office rent — MG Road, April</td><td>Lakshmi Properties</td><td>NEFT</td><td class="amount">₹45,000</td></tr>
+<tr><td>Apr 6</td><td>Software</td><td>Supabase Pro + Cloudflare</td><td>Stripe</td><td>Card</td><td class="amount">₹4,200</td></tr>
+<tr><td>Apr 7</td><td>Travel</td><td>Site inspection — Maldives (Priya)</td><td>SpiceJet + Resort</td><td>UPI</td><td class="amount">₹65,000</td></tr>
+<tr style="background:#eff6ff;"><th colspan="5">April Total</th><th class="amount" style="color:#1e40af;">₹5,02,200</th></tr>
+</table>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- 6. BOOKINGS & OPERATIONS -->
+<!-- ════════════════════════════════════════ -->
+<div class="content page-break">
+<h2>6. Bookings & Operations</h2>
+
+<h3>6.1 Active Bookings</h3>
+<div class="mock-screen">
+<div class="mock-header"><span>Bookings — April 2026</span><span>14 Active Bookings</span></div>
+<div class="mock-body">
+<table>
+<tr><th>Ref</th><th>Client</th><th>Destination</th><th>Travel Date</th><th>Pax</th><th>Status</th><th class="amount">Revenue</th></tr>
+<tr><td>BK-0234</td><td>Sunita Jain</td><td>Dubai 5N/6D</td><td>Apr 10</td><td>4</td><td><span class="badge badge-green">Confirmed</span></td><td class="amount">₹3,56,000</td></tr>
+<tr><td>BK-0235</td><td>Vikram Patel</td><td>Switzerland 7N/8D</td><td>May 15</td><td>2</td><td><span class="badge badge-blue">Tentative</span></td><td class="amount">₹3,71,070</td></tr>
+<tr><td>BK-0236</td><td>Mehra Family</td><td>Europe 14N/15D</td><td>Jun 1</td><td>5</td><td><span class="badge badge-green">Confirmed</span></td><td class="amount">₹15,40,000</td></tr>
+<tr><td>BK-0237</td><td>Rathod Corp</td><td>Thailand 4N/5D</td><td>Apr 18</td><td>8</td><td><span class="badge badge-purple">On Trip</span></td><td class="amount">₹4,80,000</td></tr>
+<tr><td>BK-0238</td><td>Ananya Desai</td><td>Maldives 3N/4D</td><td>Apr 25</td><td>2</td><td><span class="badge badge-green">Confirmed</span></td><td class="amount">₹2,85,000</td></tr>
+</table>
+</div>
+</div>
+
+<h3>6.2 Booking Services (PNR & Voucher Tracking)</h3>
+<table>
+<tr><th>Booking</th><th>Service</th><th>Vendor</th><th>PNR/Conf#</th><th>Check-in</th><th>Check-out</th><th>Status</th></tr>
+<tr><td>BK-0234</td><td>Flight DEL–DXB</td><td>Emirates</td><td>EK512 / XHKJT7</td><td>Apr 10</td><td>—</td><td><span class="badge badge-green">Confirmed</span></td></tr>
+<tr><td>BK-0234</td><td>Hotel JW Marriott</td><td>Marriott Dubai</td><td>CONF-8834521</td><td>Apr 10</td><td>Apr 15</td><td><span class="badge badge-green">Confirmed</span></td></tr>
+<tr><td>BK-0234</td><td>Desert Safari</td><td>Arabian Adventures</td><td>VCH-AA-4521</td><td>Apr 12</td><td>—</td><td><span class="badge badge-green">Confirmed</span></td></tr>
+<tr><td>BK-0234</td><td>Dhow Cruise</td><td>Dubai Marina Tours</td><td>VCH-DM-1123</td><td>Apr 13</td><td>—</td><td><span class="badge badge-yellow">Pending</span></td></tr>
+</table>
+
+<h3>6.3 Cancellation Policy Engine</h3>
+<p>Three policy templates with tiered charges based on days before departure.</p>
+<table>
+<tr><th>Policy</th><th>>60 days</th><th>30–60 days</th><th>15–30 days</th><th>7–15 days</th><th>&lt;7 days</th></tr>
+<tr><td><strong>Standard Domestic</strong></td><td>10%</td><td>25%</td><td>50%</td><td>75%</td><td>100%</td></tr>
+<tr><td><strong>International Premium</strong></td><td>15%</td><td>30%</td><td>50%</td><td>75%</td><td>100%</td></tr>
+<tr><td><strong>Flexible</strong></td><td>0%</td><td>10%</td><td>25%</td><td>50%</td><td>75%</td></tr>
+</table>
+
+<div class="highlight">
+    <div class="hl-title">Mock Cancellation — BK-0239 (Rohan Mehta, Thailand)</div>
+    <div class="hl-text">
+        Cancelled 22 days before departure. Policy: Standard Domestic (30–60 day tier = 25% charge).<br>
+        Package Value: ₹2,10,000 → Cancellation Charge: ₹52,500 → <strong>Refund: ₹1,57,500</strong> → Status: Processing
+    </div>
+</div>
+
+<h3>6.4 Group Booking Module</h3>
+<table>
+<tr><th>Group</th><th>Client</th><th>Destination</th><th>Pax</th><th>Status</th></tr>
+<tr><td colspan="5" style="background:#f1f5f9;"><strong>Rathod Corp — Thailand Team Outing (BK-0237)</strong></td></tr>
+</table>
+<table>
+<tr><th>#</th><th>Name</th><th>Phone</th><th>Room Type</th><th>Meal Pref</th><th>Special Needs</th></tr>
+<tr><td>1</td><td>Sanjay Rathod</td><td>+91 99887 76655</td><td>Single</td><td>Vegetarian</td><td>—</td></tr>
+<tr><td>2</td><td>Deepa Nair</td><td>+91 88776 65544</td><td>Single</td><td>Non-Veg</td><td>Wheelchair access</td></tr>
+<tr><td>3</td><td>Arjun + Kavita</td><td>+91 77665 54433</td><td>Double</td><td>Jain</td><td>—</td></tr>
+<tr><td>4</td><td>Ravi Kumar</td><td>+91 66554 43322</td><td>Single</td><td>Non-Veg</td><td>—</td></tr>
+<tr><td>5</td><td>Prachi Shah</td><td>+91 55443 32211</td><td>Single</td><td>Vegan</td><td>Gluten-free meals</td></tr>
+<tr><td>6-8</td><td>3 more members</td><td>—</td><td>Triple</td><td>Mixed</td><td>—</td></tr>
+</table>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- 7. VENDOR MANAGEMENT -->
+<!-- ════════════════════════════════════════ -->
+<div class="content page-break">
+<h2>7. Vendor Management</h2>
+
+<h3>7.1 Vendor Directory</h3>
+<table>
+<tr><th>Vendor</th><th>Category</th><th>Region</th><th>Contact</th><th>Rating</th><th>Commission</th><th>Bookings</th></tr>
+<tr><td>Taj Hotels Group</td><td>Hotel</td><td>Pan-India</td><td>Ashok Kumar — +91 98765 11111</td><td>⭐⭐⭐⭐⭐</td><td>12%</td><td>45</td></tr>
+<tr><td>Emirates GSA</td><td>Airline</td><td>International</td><td>Sarah Ahmed — +971 50 1234567</td><td>⭐⭐⭐⭐</td><td>3%</td><td>38</td></tr>
+<tr><td>Swiss Tours AG</td><td>DMC</td><td>Europe</td><td>Hans Weber — +41 79 123 4567</td><td>⭐⭐⭐⭐⭐</td><td>8%</td><td>12</td></tr>
+<tr><td>Maldives Resorts Co.</td><td>Hotel</td><td>Maldives</td><td>Ibrahim Hassan — +960 7654321</td><td>⭐⭐⭐⭐</td><td>15%</td><td>22</td></tr>
+<tr><td>Bangkok Transfers</td><td>Transport</td><td>Thailand</td><td>Somchai P. — +66 81 234 5678</td><td>⭐⭐⭐</td><td>5%</td><td>30</td></tr>
+<tr><td>Arabian Adventures</td><td>Activity</td><td>Dubai/UAE</td><td>Mohammed Ali — +971 55 9876543</td><td>⭐⭐⭐⭐⭐</td><td>10%</td><td>28</td></tr>
+</table>
+
+<h3>7.2 Vendor Rate Card (Swiss Tours AG — Europe)</h3>
+<table>
+<tr><th>Destination</th><th>Category</th><th>Hotel/Night</th><th>Transfer</th><th>Sightseeing</th><th>Season</th><th>Valid</th></tr>
+<tr><td>Zurich</td><td>Luxury</td><td>CHF 320</td><td>CHF 150</td><td>CHF 95</td><td>Peak</td><td>Jun–Sep</td></tr>
+<tr><td>Zurich</td><td>Mid-Range</td><td>CHF 180</td><td>CHF 120</td><td>CHF 85</td><td>Off-Peak</td><td>Oct–May</td></tr>
+<tr><td>Interlaken</td><td>Luxury</td><td>CHF 280</td><td>CHF 200</td><td>CHF 120</td><td>Peak</td><td>Jun–Sep</td></tr>
+<tr><td>Geneva</td><td>Mid-Range</td><td>CHF 200</td><td>CHF 130</td><td>CHF 90</td><td>All</td><td>Year-round</td></tr>
+</table>
+
+<h3>7.3 Vendor Ledger (Aging Analysis)</h3>
+<table>
+<tr><th>Vendor</th><th class="amount">Total Billed</th><th class="amount">Total Paid</th><th class="amount">Balance Due</th><th class="amount">0–30 days</th><th class="amount">31–60 days</th><th class="amount">61–90 days</th><th class="amount">90+ days</th></tr>
+<tr><td>Taj Hotels Group</td><td class="amount">₹24,50,000</td><td class="amount">₹21,30,000</td><td class="amount" style="color:#dc2626;">₹3,20,000</td><td class="amount">₹1,80,000</td><td class="amount">₹1,40,000</td><td class="amount">₹0</td><td class="amount">₹0</td></tr>
+<tr><td>Emirates GSA</td><td class="amount">₹18,75,000</td><td class="amount">₹18,75,000</td><td class="amount" style="color:#22c55e;">₹0</td><td class="amount">₹0</td><td class="amount">₹0</td><td class="amount">₹0</td><td class="amount">₹0</td></tr>
+<tr><td>Swiss Tours AG</td><td class="amount">₹8,60,000</td><td class="amount">₹5,40,000</td><td class="amount" style="color:#dc2626;">₹3,20,000</td><td class="amount">₹2,10,000</td><td class="amount">₹1,10,000</td><td class="amount">₹0</td><td class="amount">₹0</td></tr>
+<tr><td>Maldives Resorts</td><td class="amount">₹12,00,000</td><td class="amount">₹10,50,000</td><td class="amount" style="color:#f59e0b;">₹1,50,000</td><td class="amount">₹1,50,000</td><td class="amount">₹0</td><td class="amount">₹0</td><td class="amount">₹0</td></tr>
+<tr style="background:#eff6ff;"><th>TOTALS</th><th class="amount">₹63,85,000</th><th class="amount">₹55,95,000</th><th class="amount" style="color:#dc2626;">₹7,90,000</th><th class="amount">₹5,40,000</th><th class="amount">₹2,50,000</th><th class="amount">₹0</th><th class="amount">₹0</th></tr>
+</table>
+
+<h3>7.4 Vendor Payment with TDS</h3>
+<div class="highlight">
+    <div class="hl-title">Payment to Swiss Tours AG — BK-0235 (Vikram Patel, Switzerland)</div>
+    <div class="hl-text">
+        Gross Amount: CHF 4,200 (₹4,05,300 @ ₹96.50/CHF)<br>
+        TDS @ 5% (Sec 195 — overseas payment): ₹20,265<br>
+        <strong>Net Payable: ₹3,85,035</strong> &nbsp;|&nbsp; Due: May 10, 2026 &nbsp;|&nbsp; Status: Scheduled
+    </div>
+</div>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- 8. CLIENT 360° -->
+<!-- ════════════════════════════════════════ -->
+<div class="content page-break">
+<h2>8. Client 360° Management</h2>
+
+<h3>8.1 Client Profile</h3>
+<div class="mock-screen">
+<div class="mock-header"><span>Client Profile — Rajesh Gupta</span><span><span class="badge badge-purple">VIP · Champion</span></span></div>
+<div class="mock-body">
+<div class="two-col">
+<div>
+    <h4>Personal Details</h4>
+    <table style="font-size:9pt;">
+        <tr><td><strong>Name</strong></td><td>Rajesh Gupta</td></tr>
+        <tr><td><strong>Phone</strong></td><td>+91 98765 00001</td></tr>
+        <tr><td><strong>Email</strong></td><td>rajesh.gupta@example.com</td></tr>
+        <tr><td><strong>DOB</strong></td><td>March 15, 1978</td></tr>
+        <tr><td><strong>Anniversary</strong></td><td>November 22</td></tr>
+        <tr><td><strong>Passport</strong></td><td>T1234567 (Exp: Mar 2032)</td></tr>
+        <tr><td><strong>Tags</strong></td><td><span class="badge badge-purple">VIP</span> <span class="badge badge-blue">Corporate</span> <span class="badge badge-green">Repeat</span></td></tr>
+        <tr><td><strong>Preferences</strong></td><td>Air India Business, 5★ Hotels, Suite rooms</td></tr>
+    </table>
+</div>
+<div>
+    <h4>Travel Summary</h4>
+    <div class="kpi-row">
+        <div class="kpi-card"><div class="kpi-val">8</div><div class="kpi-label">Total Trips</div></div>
+        <div class="kpi-card"><div class="kpi-val" style="color:#22c55e;">₹32L</div><div class="kpi-label">Total Spend</div></div>
+    </div>
+    <h4 style="margin-top:8px;">RFM Score</h4>
+    <table style="font-size:9pt;">
+        <tr><td>Recency</td><td>15 days ago</td><td><strong>Score: 5</strong></td></tr>
+        <tr><td>Frequency</td><td>8 trips in 3 years</td><td><strong>Score: 5</strong></td></tr>
+        <tr><td>Monetary</td><td>₹32,00,000 total</td><td><strong>Score: 5</strong></td></tr>
+        <tr><td colspan="2"><strong>Segment</strong></td><td><span class="badge badge-green">Champion</span></td></tr>
+    </table>
+</div>
+</div>
+
+<h4>Family Members</h4>
+<table style="font-size:9pt;">
+<tr><th>Name</th><th>Relation</th><th>DOB</th><th>Passport</th><th>Passport Expiry</th></tr>
+<tr><td>Priya Gupta</td><td>Spouse</td><td>Jun 22, 1980</td><td>T7654321</td><td>Jun 2031</td></tr>
+<tr><td>Aarav Gupta</td><td>Son</td><td>Aug 5, 2010</td><td>T9876543</td><td>Aug 2030</td></tr>
+<tr><td>Diya Gupta</td><td>Daughter</td><td>Dec 12, 2013</td><td>T8765432</td><td>Dec 2033</td></tr>
+</table>
+</div>
+</div>
+
+<h3>8.2 RFM Segmentation</h3>
+<table>
+<tr><th>Segment</th><th>Criteria</th><th>Count</th><th>Action</th></tr>
+<tr><td><span class="badge badge-green">Champions</span></td><td>Recent, frequent, high spenders (RFM 555, 554, 545)</td><td>12</td><td>VIP perks, early access, personal calls</td></tr>
+<tr><td><span class="badge badge-blue">Loyal</span></td><td>Frequent bookers, moderate recency (RFM 434, 443)</td><td>28</td><td>Loyalty rewards, anniversary greetings</td></tr>
+<tr><td><span class="badge badge-purple">Potential</span></td><td>Recent first-timers with high spend (RFM 514, 513)</td><td>15</td><td>Upsell premium packages, follow-up calls</td></tr>
+<tr><td><span class="badge badge-yellow">At Risk</span></td><td>Were frequent, now inactive 6+ months (RFM 231, 222)</td><td>19</td><td>Re-engagement campaign, special offers</td></tr>
+<tr><td><span class="badge badge-orange">Needs Attention</span></td><td>Moderate engagement, declining (RFM 332, 323)</td><td>22</td><td>WhatsApp check-in, seasonal promotions</td></tr>
+<tr><td><span class="badge badge-red">Lost</span></td><td>No activity in 12+ months (RFM 111, 112)</td><td>35</td><td>Win-back email campaign</td></tr>
+</table>
+
+<h3>8.3 Visa Tracking</h3>
+<table>
+<tr><th>Client</th><th>Country</th><th>Type</th><th>Applied</th><th>Status</th><th>Expiry</th></tr>
+<tr><td>Rajesh Gupta</td><td>Schengen (Switzerland)</td><td>Tourist</td><td>Mar 28</td><td><span class="badge badge-green">Approved</span></td><td>Sep 2026</td></tr>
+<tr><td>Priya Gupta</td><td>Schengen (Switzerland)</td><td>Tourist</td><td>Mar 28</td><td><span class="badge badge-green">Approved</span></td><td>Sep 2026</td></tr>
+<tr><td>Sunita Jain</td><td>UAE</td><td>Tourist</td><td>Apr 1</td><td><span class="badge badge-blue">Applied</span></td><td>—</td></tr>
+<tr><td>Mehra Family (5)</td><td>Schengen (France)</td><td>Tourist</td><td>Apr 5</td><td><span class="badge badge-yellow">Processing</span></td><td>—</td></tr>
+</table>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- 9. STAFF & COMMISSIONS -->
+<!-- ════════════════════════════════════════ -->
+<div class="content page-break">
+<h2>9. Staff & Commissions</h2>
+
+<h3>9.1 Team Overview</h3>
+<table>
+<tr><th>Name</th><th>Role</th><th>Phone</th><th>Joined</th><th>Tier</th><th class="amount">Revenue (Apr)</th><th class="amount">Target</th><th>Progress</th></tr>
+<tr><td>Priya Sharma</td><td><span class="badge badge-red">Admin</span></td><td>+91 98765 00001</td><td>Jan 2023</td><td>Platinum</td><td class="amount">₹8,50,000</td><td class="amount">₹10,00,000</td><td>85% ████████░░</td></tr>
+<tr><td>Arjun Nair</td><td><span class="badge badge-blue">Sales</span></td><td>+91 87654 00002</td><td>Mar 2024</td><td>Gold</td><td class="amount">₹5,20,000</td><td class="amount">₹6,00,000</td><td>87% ████████░░</td></tr>
+<tr><td>Kavita Reddy</td><td><span class="badge badge-blue">Sales</span></td><td>+91 76543 00003</td><td>Jul 2024</td><td>Silver</td><td class="amount">₹3,10,000</td><td class="amount">₹5,00,000</td><td>62% ██████░░░░</td></tr>
+<tr><td>Deepak Iyer</td><td><span class="badge badge-green">Accounts</span></td><td>+91 65432 00004</td><td>Sep 2024</td><td>—</td><td class="amount">—</td><td class="amount">—</td><td>—</td></tr>
+<tr><td>Megha Rao</td><td><span class="badge badge-yellow">Operations</span></td><td>+91 54321 00005</td><td>Nov 2024</td><td>—</td><td class="amount">—</td><td class="amount">—</td><td>—</td></tr>
+<tr><td>Ravi Telecaller</td><td><span class="badge badge-gray">Telecaller</span></td><td>+91 43210 00006</td><td>Jan 2025</td><td>Bronze</td><td class="amount">₹1,80,000</td><td class="amount">₹3,00,000</td><td>60% ██████░░░░</td></tr>
+</table>
+
+<h3>9.2 Commission Tier System</h3>
+<table>
+<tr><th>Tier</th><th>Monthly Revenue</th><th>Commission %</th><th>Current Members</th></tr>
+<tr><td style="background:#fbbf24;color:#78350f;font-weight:700;">🥉 Bronze</td><td>₹0 – ₹5,00,000</td><td>3%</td><td>Ravi (₹1.8L)</td></tr>
+<tr><td style="background:#d1d5db;color:#374151;font-weight:700;">🥈 Silver</td><td>₹5,00,001 – ₹15,00,000</td><td>5%</td><td>Kavita (₹3.1L → auto-upgrade pending)</td></tr>
+<tr><td style="background:#fcd34d;color:#78350f;font-weight:700;">🥇 Gold</td><td>₹15,00,001 – ₹30,00,000</td><td>7%</td><td>Arjun (₹5.2L MTD → projected ₹18L)</td></tr>
+<tr><td style="background:#a78bfa;color:#3b0764;font-weight:700;">💎 Platinum</td><td>₹30,00,001+</td><td>10%</td><td>Priya (₹8.5L MTD → projected ₹35L)</td></tr>
+</table>
+
+<h3>9.3 Commission Ledger (April 2026)</h3>
+<table>
+<tr><th>Staff</th><th>Booking</th><th>Invoice</th><th>Base Amount</th><th>%</th><th class="amount">Commission</th><th>Status</th></tr>
+<tr><td>Priya Sharma</td><td>BK-0236</td><td>INV-2026-0091</td><td class="amount">₹15,40,000</td><td>10%</td><td class="amount">₹1,54,000</td><td><span class="badge badge-green">Approved</span></td></tr>
+<tr><td>Arjun Nair</td><td>BK-0234</td><td>INV-2026-0085</td><td class="amount">₹3,56,000</td><td>7%</td><td class="amount">₹24,920</td><td><span class="badge badge-green">Paid</span></td></tr>
+<tr><td>Arjun Nair</td><td>BK-0235</td><td>INV-2026-0089</td><td class="amount">₹3,71,070</td><td>7%</td><td class="amount">₹25,975</td><td><span class="badge badge-yellow">Pending</span></td></tr>
+<tr><td>Kavita Reddy</td><td>BK-0238</td><td>INV-2026-0092</td><td class="amount">₹2,85,000</td><td>5%</td><td class="amount">₹14,250</td><td><span class="badge badge-yellow">Pending</span></td></tr>
+<tr><td>Ravi</td><td>BK-0237</td><td>INV-2026-0090</td><td class="amount">₹4,80,000</td><td>3%</td><td class="amount">₹14,400</td><td><span class="badge badge-green">Approved</span></td></tr>
+<tr style="background:#eff6ff;"><th colspan="5">April Total Commissions</th><th class="amount" style="color:#1e40af;">₹2,33,545</th><th></th></tr>
+</table>
+
+<h3>9.4 Approval Workflow</h3>
+<p>High-value actions require manager/admin approval before processing.</p>
+<table>
+<tr><th>Action Type</th><th>Threshold</th><th>Example</th></tr>
+<tr><td>Expense</td><td>Above ₹50,000</td><td>Site inspection trip — ₹65,000 → Needs admin approval</td></tr>
+<tr><td>Vendor Payment</td><td>Above ₹2,00,000</td><td>Swiss Tours AG — ₹3,85,035 → Needs admin approval</td></tr>
+<tr><td>Invoice</td><td>Above ₹5,00,000</td><td>Mehra Family — ₹15,40,000 → Needs admin approval</td></tr>
+<tr><td>Quotation Discount</td><td>Above 15%</td><td>20% corporate discount → Needs admin approval</td></tr>
+<tr><td>Refund</td><td>Above ₹1,00,000</td><td>₹1,57,500 cancellation refund → Needs admin approval</td></tr>
+<tr><td>Commission</td><td>Above ₹25,000</td><td>₹1,54,000 Platinum commission → Needs admin approval</td></tr>
+</table>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- 10. COMMUNICATIONS -->
+<!-- ════════════════════════════════════════ -->
+<div class="content page-break">
+<h2>10. Communications & Campaigns</h2>
+
+<h3>10.1 Message Templates</h3>
+<table>
+<tr><th>Template</th><th>Channel</th><th>Category</th><th>Preview</th></tr>
+<tr><td>Booking Confirmation</td><td>WhatsApp</td><td>Booking</td><td style="font-size:8.5pt;">Hi {{name}}! Your {{destination}} trip is confirmed 🎉 Booking Ref: {{booking_ref}}. Travel: {{travel_date}}. We'll send your detailed itinerary shortly!</td></tr>
+<tr><td>Payment Reminder</td><td>WhatsApp</td><td>Finance</td><td style="font-size:8.5pt;">Hi {{name}}, this is a gentle reminder that ₹{{amount}} is due for your {{destination}} trip (Invoice: {{invoice_number}}). Please pay by {{due_date}}.</td></tr>
+<tr><td>Welcome Email</td><td>Email</td><td>Onboard</td><td style="font-size:8.5pt;">Dear {{name}}, Welcome to WhereTo Travel! We're excited to plan your next adventure. Your dedicated agent is {{agent_name}} ({{agent_phone}}).</td></tr>
+<tr><td>Birthday Greeting</td><td>WhatsApp</td><td>CRM</td><td style="font-size:8.5pt;">Happy Birthday, {{name}}! 🎂 Wishing you a wonderful year ahead. As a birthday treat, enjoy 10% off your next trip with us!</td></tr>
+<tr><td>Itinerary Share</td><td>Email</td><td>Quote</td><td style="font-size:8.5pt;">Dear {{name}}, Please find your detailed {{destination}} itinerary attached. Valid until {{valid_date}}. Contact us for any modifications.</td></tr>
+</table>
+
+<h3>10.2 Bulk Campaign (Mock)</h3>
+<div class="mock-screen">
+<div class="mock-header"><span>Campaign: Summer Europe 2026 🌍</span><span><span class="badge badge-green">Completed</span></span></div>
+<div class="mock-body">
+<table style="margin-bottom:8px;">
+    <tr><td><strong>Channel</strong></td><td>WhatsApp</td><td><strong>Audience</strong></td><td>All Clients (HNI + Corporate)</td></tr>
+    <tr><td><strong>Sent</strong></td><td>Apr 5, 2026</td><td><strong>Recipients</strong></td><td>156</td></tr>
+</table>
+<div class="kpi-row">
+    <div class="kpi-card"><div class="kpi-val" style="color:#22c55e;">148</div><div class="kpi-label">Delivered</div></div>
+    <div class="kpi-card"><div class="kpi-val" style="color:#3b82f6;">42</div><div class="kpi-label">Responded</div></div>
+    <div class="kpi-card"><div class="kpi-val" style="color:#8b5cf6;">9</div><div class="kpi-label">Leads Created</div></div>
+    <div class="kpi-card"><div class="kpi-val" style="color:#ef4444;">8</div><div class="kpi-label">Failed</div></div>
+</div>
+</div>
+</div>
+
+<h3>10.3 Communication Channels</h3>
+<div class="feat-grid">
+    <div class="feat-card"><div class="feat-icon">💬</div><div class="feat-title">WhatsApp (MSG91)</div><div class="feat-desc">Bulk sends, template messages, auto-reminders, birthday greetings. Rate-limited for compliance.</div></div>
+    <div class="feat-card"><div class="feat-icon">📧</div><div class="feat-title">Email (Resend)</div><div class="feat-desc">HTML emails, itinerary PDFs, payment receipts, campaign newsletters. Open tracking.</div></div>
+    <div class="feat-card"><div class="feat-icon">📞</div><div class="feat-title">Call Logging</div><div class="feat-desc">Log inbound/outbound calls with duration, outcome, and notes. Per-lead history.</div></div>
+    <div class="feat-card"><div class="feat-icon">🔔</div><div class="feat-title">In-App Notifications</div><div class="feat-desc">Bell icon with badge, dropdown list, auto-generated for SLA breach, payment, birthdays.</div></div>
+</div>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- 11. AUTOMATION -->
+<!-- ════════════════════════════════════════ -->
+<div class="content page-break">
+<h2>11. Automation & Workflow Engine</h2>
+<p>Event-driven rule engine: When X happens → Check conditions → Execute actions automatically.</p>
+
+<h3>11.1 Pre-Built Automation Rules</h3>
+<table>
+<tr><th>Trigger</th><th>Condition</th><th>Action</th><th>Status</th></tr>
+<tr><td>Lead created</td><td>Source = Website</td><td>Auto-assign to next available agent + create follow-up (1 hour)</td><td><span class="badge badge-green">Active</span></td></tr>
+<tr><td>Lead stage → Contacted</td><td>Budget > ₹5L</td><td>Create follow-up in 24h + notify admin</td><td><span class="badge badge-green">Active</span></td></tr>
+<tr><td>Lead stage → Confirmed</td><td>Any</td><td>Auto-create booking draft + send WhatsApp confirmation</td><td><span class="badge badge-green">Active</span></td></tr>
+<tr><td>Invoice overdue</td><td>3 days past due</td><td>Send payment reminder WhatsApp + notify accounts team</td><td><span class="badge badge-green">Active</span></td></tr>
+<tr><td>Follow-up missed</td><td>Overdue by 4 hours</td><td>Escalate to manager + create urgent notification</td><td><span class="badge badge-green">Active</span></td></tr>
+<tr><td>Client birthday</td><td>DOB = today</td><td>Send birthday WhatsApp template + log activity</td><td><span class="badge badge-green">Active</span></td></tr>
+<tr><td>Booking status → On Trip</td><td>Any</td><td>Send "Have a great trip!" WhatsApp + create Day 3 feedback follow-up</td><td><span class="badge badge-blue">Draft</span></td></tr>
+</table>
+
+<h3>11.2 Workflow Execution Log (Mock)</h3>
+<div class="timeline">
+    <div class="tl-item" style="--tl-color:#22c55e;"><div class="tl-date">Apr 7, 10:22 AM</div><div class="tl-text">✅ <strong>Birthday auto-greet</strong> — Sent WhatsApp to Sunita Jain (+91 98765 43210)</div></div>
+    <div class="tl-item"><div class="tl-date">Apr 7, 09:15 AM</div><div class="tl-text">✅ <strong>Invoice overdue</strong> — Sent payment reminder for INV-2026-0082 to Pooja Singh</div></div>
+    <div class="tl-item"><div class="tl-date">Apr 6, 04:30 PM</div><div class="tl-text">⚠️ <strong>SLA breach</strong> — Lead "Amit Sharma" exceeded 24h in Contacted stage. Escalated to Priya Sharma.</div></div>
+    <div class="tl-item"><div class="tl-date">Apr 6, 11:00 AM</div><div class="tl-text">✅ <strong>Lead confirmed</strong> — Auto-created booking BK-0234 for Sunita Jain (Dubai 5N/6D)</div></div>
+</div>
+
+<h3>11.3 Document Management</h3>
+<table>
+<tr><th>Client</th><th>Document</th><th>Type</th><th>Uploaded</th><th>Expiry</th><th>Alert</th></tr>
+<tr><td>Rajesh Gupta</td><td>Passport T1234567</td><td>Passport</td><td>Jan 2024</td><td>Mar 2032</td><td><span class="badge badge-green">OK</span></td></tr>
+<tr><td>Sunita Jain</td><td>Passport T8765432</td><td>Passport</td><td>Feb 2024</td><td>Aug 2026</td><td><span class="badge badge-yellow">4 months</span></td></tr>
+<tr><td>Mehra Family</td><td>Schengen Visa (5x)</td><td>Visa</td><td>Apr 2026</td><td>Oct 2026</td><td><span class="badge badge-green">OK</span></td></tr>
+<tr><td>Vikram Patel</td><td>Travel Insurance</td><td>Insurance</td><td>Apr 2026</td><td>Jun 2026</td><td><span class="badge badge-green">OK</span></td></tr>
+</table>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- 12. REPORTS -->
+<!-- ════════════════════════════════════════ -->
+<div class="content page-break">
+<h2>12. Reports & Analytics</h2>
+
+<h3>12.1 Revenue Dashboard (April 2026)</h3>
+<div class="kpi-row">
+    <div class="kpi-card"><div class="kpi-val" style="color:#22c55e;">₹32.5L</div><div class="kpi-label">Revenue (Apr)</div></div>
+    <div class="kpi-card"><div class="kpi-val" style="color:#3b82f6;">₹5.0L</div><div class="kpi-label">Expenses (Apr)</div></div>
+    <div class="kpi-card"><div class="kpi-val" style="color:#8b5cf6;">₹27.5L</div><div class="kpi-label">Gross Profit</div></div>
+    <div class="kpi-card"><div class="kpi-val" style="color:#f59e0b;">84.6%</div><div class="kpi-label">Margin</div></div>
+</div>
+
+<h3>12.2 Monthly Revenue Trend (FY 2025-26)</h3>
+<table>
+<tr><th>Month</th><th class="amount">Revenue</th><th class="amount">Expenses</th><th class="amount">Profit</th><th>Bookings</th><th>Trend</th></tr>
+<tr><td>Apr 2025</td><td class="amount">₹18,50,000</td><td class="amount">₹4,20,000</td><td class="amount">₹14,30,000</td><td>9</td><td style="color:#22c55e;">—</td></tr>
+<tr><td>May 2025</td><td class="amount">₹22,00,000</td><td class="amount">₹4,80,000</td><td class="amount">₹17,20,000</td><td>12</td><td style="color:#22c55e;">▲ 19%</td></tr>
+<tr><td>Jun 2025</td><td class="amount">₹35,00,000</td><td class="amount">₹6,50,000</td><td class="amount">₹28,50,000</td><td>18</td><td style="color:#22c55e;">▲ 59%</td></tr>
+<tr><td>Jul 2025</td><td class="amount">₹28,00,000</td><td class="amount">₹5,10,000</td><td class="amount">₹22,90,000</td><td>15</td><td style="color:#ef4444;">▼ 20%</td></tr>
+<tr><td>Aug–Sep</td><td class="amount">₹20,00,000</td><td class="amount">₹4,40,000</td><td class="amount">₹15,60,000</td><td>11</td><td style="color:#ef4444;">▼ Off-season</td></tr>
+<tr><td>Oct 2025</td><td class="amount">₹42,00,000</td><td class="amount">₹7,00,000</td><td class="amount">₹35,00,000</td><td>22</td><td style="color:#22c55e;">▲ 110% 🔥</td></tr>
+<tr><td>Nov–Dec</td><td class="amount">₹38,00,000</td><td class="amount">₹6,80,000</td><td class="amount">₹31,20,000</td><td>20</td><td style="color:#f59e0b;">▬ Steady</td></tr>
+<tr><td>Jan–Mar 2026</td><td class="amount">₹55,00,000</td><td class="amount">₹9,50,000</td><td class="amount">₹45,50,000</td><td>28</td><td style="color:#22c55e;">▲ Q4 peak</td></tr>
+<tr style="background:#eff6ff;"><th>FY Total</th><th class="amount" style="color:#1e40af;">₹2,58,50,000</th><th class="amount">₹48,30,000</th><th class="amount" style="color:#22c55e;">₹2,10,20,000</th><th>135</th><th></th></tr>
+</table>
+
+<h3>12.3 Booking Funnel</h3>
+<div style="font-size:9pt; line-height:1.8;">
+    <div style="background:#dbeafe; padding:6px 12px; border-radius:4px; width:100%;">📥 <strong>Leads Created:</strong> 342 (100%)</div>
+    <div style="background:#bfdbfe; padding:6px 12px; border-radius:4px; width:78%; margin-top:3px;">📞 <strong>Contacted:</strong> 267 (78%)</div>
+    <div style="background:#93c5fd; padding:6px 12px; border-radius:4px; width:52%; margin-top:3px; color:#fff;">📋 <strong>Quoted:</strong> 178 (52%)</div>
+    <div style="background:#60a5fa; padding:6px 12px; border-radius:4px; width:38%; margin-top:3px; color:#fff;">🤝 <strong>Negotiating:</strong> 130 (38%)</div>
+    <div style="background:#3b82f6; padding:6px 12px; border-radius:4px; width:28%; margin-top:3px; color:#fff;">✅ <strong>Confirmed:</strong> 96 (28%)</div>
+    <div style="background:#1e40af; padding:6px 12px; border-radius:4px; width:20%; margin-top:3px; color:#fff;">💰 <strong>Invoiced:</strong> 89 (26%)</div>
+</div>
+
+<h3>12.4 Top Destinations (Revenue)</h3>
+<table>
+<tr><th>#</th><th>Destination</th><th>Bookings</th><th class="amount">Revenue</th><th>Avg. Value</th></tr>
+<tr><td>1</td><td>Europe (Multi-country)</td><td>28</td><td class="amount">₹82,00,000</td><td class="amount">₹2,93,000</td></tr>
+<tr><td>2</td><td>Maldives</td><td>22</td><td class="amount">₹44,00,000</td><td class="amount">₹2,00,000</td></tr>
+<tr><td>3</td><td>Dubai &amp; Abu Dhabi</td><td>25</td><td class="amount">₹37,50,000</td><td class="amount">₹1,50,000</td></tr>
+<tr><td>4</td><td>Thailand</td><td>20</td><td class="amount">₹30,00,000</td><td class="amount">₹1,50,000</td></tr>
+<tr><td>5</td><td>Bali</td><td>18</td><td class="amount">₹27,00,000</td><td class="amount">₹1,50,000</td></tr>
+<tr><td>6</td><td>Kashmir &amp; Ladakh</td><td>15</td><td class="amount">₹18,00,000</td><td class="amount">₹1,20,000</td></tr>
+<tr><td>7</td><td>Japan</td><td>7</td><td class="amount">₹20,00,000</td><td class="amount">₹2,86,000</td></tr>
+</table>
+
+<h3>12.5 Staff Performance Leaderboard</h3>
+<table>
+<tr><th>#</th><th>Staff</th><th>Leads Handled</th><th>Confirmed</th><th>Conversion</th><th class="amount">Revenue</th><th class="amount">Commission</th></tr>
+<tr><td>🥇</td><td>Priya Sharma</td><td>85</td><td>32</td><td>37.6%</td><td class="amount">₹98,00,000</td><td class="amount">₹9,80,000</td></tr>
+<tr><td>🥈</td><td>Arjun Nair</td><td>72</td><td>24</td><td>33.3%</td><td class="amount">₹52,00,000</td><td class="amount">₹3,64,000</td></tr>
+<tr><td>🥉</td><td>Kavita Reddy</td><td>65</td><td>18</td><td>27.7%</td><td class="amount">₹28,00,000</td><td class="amount">₹1,40,000</td></tr>
+<tr><td>4</td><td>Ravi (Telecaller)</td><td>120</td><td>22</td><td>18.3%</td><td class="amount">₹18,50,000</td><td class="amount">₹55,500</td></tr>
+</table>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- 13. SECURITY & ARCHITECTURE -->
+<!-- ════════════════════════════════════════ -->
+<div class="content page-break">
+<h2>13. Security & Architecture</h2>
+
+<h3>13.1 Security Architecture</h3>
+<table>
+<tr><th>Layer</th><th>Protection</th><th>Implementation</th></tr>
+<tr><td>Authentication</td><td>Supabase Auth (PKCE flow)</td><td>Magic link + password, session tokens, auto-expire</td></tr>
+<tr><td>Authorization</td><td>Role-Based Access (RBAC)</td><td>4 roles: admin, sales, accounts, operations</td></tr>
+<tr><td>Database</td><td>Row-Level Security (RLS)</td><td>All 59 tables protected. Per-operation policies.</td></tr>
+<tr><td>API Keys</td><td>Server-side only</td><td>MSG91, Resend, Stripe keys stored in Cloudflare Worker secrets — never in browser</td></tr>
+<tr><td>CORS</td><td>Whitelisted origins</td><td>Only localhost + production domain. No wildcards.</td></tr>
+<tr><td>Input</td><td>XSS Prevention</td><td>escHtml() helper on all user-rendered content</td></tr>
+<tr><td>Audit</td><td>Complete audit trail</td><td>Every data change logged — user, timestamp, old/new values, IP</td></tr>
+<tr><td>Approval</td><td>Threshold-based workflows</td><td>High-value actions (>₹50K expenses, >₹2L payments) need admin approval</td></tr>
+</table>
+
+<h3>13.2 System Architecture</h3>
+<div style="text-align:center; margin:16px 0;">
+<div class="flow-row">
+    <div class="flow-box" style="background:#fef3c7;">👤 Staff Browser<br><span style="font-size:7pt;">(37 HTML pages)</span></div>
+    <div class="flow-arrow">⇄</div>
+    <div class="flow-box" style="background:#dbeafe;">Supabase Client SDK<br><span style="font-size:7pt;">PostgREST API</span></div>
+    <div class="flow-arrow">⇄</div>
+    <div class="flow-box" style="background:#dcfce7;">PostgreSQL<br><span style="font-size:7pt;">59 tables + RLS</span></div>
+</div>
+<div class="flow-row" style="margin-top:8px;">
+    <div class="flow-box" style="background:#fef3c7;">👤 Staff Browser</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-box" style="background:#fce7f3;">Cloudflare Workers<br><span style="font-size:7pt;">WhatsApp + Email</span></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-box" style="background:#f3e8ff;">MSG91 / Resend<br><span style="font-size:7pt;">Message Delivery</span></div>
+</div>
+</div>
+
+<h3>13.3 Database Schema Summary</h3>
+<div class="two-col">
+<div>
+<table>
+<tr><th>Category</th><th>Tables</th></tr>
+<tr><td>Auth & Staff</td><td>staff_profiles, commission_tiers, staff_targets, staff_commissions</td></tr>
+<tr><td>Leads & Pipeline</td><td>leads, lead_activities, follow_ups, lead_captures, lead_sla_events</td></tr>
+<tr><td>Clients</td><td>clients, client_family, client_visas, client_tags</td></tr>
+<tr><td>Itineraries</td><td>itineraries, itinerary_days, itinerary_items</td></tr>
+<tr><td>Bookings</td><td>bookings, booking_services, group_bookings, group_members</td></tr>
+</table>
+</div>
+<div>
+<table>
+<tr><th>Category</th><th>Tables</th></tr>
+<tr><td>Invoicing</td><td>quotations, quote_versions, proforma_invoices, invoices, invoice_payments, receipts</td></tr>
+<tr><td>Vendors</td><td>vendors, vendor_pricing, vendor_payments, vendor_reviews</td></tr>
+<tr><td>Operations</td><td>expenses, tcs_entries, cancellations, documents, tasks</td></tr>
+<tr><td>Communications</td><td>message_templates, campaigns, call_logs, email_logs, notifications</td></tr>
+<tr><td>Intelligence</td><td>workflow_rules, sla_config, approval_requests, audit_log, feedback, brochures</td></tr>
+</table>
+</div>
+</div>
+
+<h3>13.4 Role Permissions Matrix</h3>
+<table>
+<tr><th>Feature</th><th><span class="badge badge-red">Admin</span></th><th><span class="badge badge-blue">Sales</span></th><th><span class="badge badge-green">Accounts</span></th><th><span class="badge badge-yellow">Operations</span></th></tr>
+<tr><td>Lead Pipeline</td><td>✅ Full</td><td>✅ Full</td><td>👁️ View</td><td>👁️ View</td></tr>
+<tr><td>Quotations</td><td>✅ Full</td><td>✅ Full</td><td>👁️ View</td><td>👁️ View</td></tr>
+<tr><td>Invoices & Payments</td><td>✅ Full</td><td>👁️ View</td><td>✅ Full</td><td>👁️ View</td></tr>
+<tr><td>Bookings</td><td>✅ Full</td><td>✅ Create</td><td>👁️ View</td><td>✅ Full</td></tr>
+<tr><td>Vendor Payments</td><td>✅ Full</td><td>❌ None</td><td>✅ Full</td><td>👁️ View</td></tr>
+<tr><td>Staff Management</td><td>✅ Full</td><td>❌ None</td><td>❌ None</td><td>❌ None</td></tr>
+<tr><td>Reports</td><td>✅ Full</td><td>📊 Own KPIs</td><td>💰 Financial</td><td>📋 Operations</td></tr>
+<tr><td>Settings</td><td>✅ Full</td><td>❌ None</td><td>❌ None</td><td>❌ None</td></tr>
+</table>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- 14. DEPLOYMENT & PRICING -->
+<!-- ════════════════════════════════════════ -->
+<div class="content page-break">
+<h2>14. Deployment & Pricing</h2>
+
+<h3>14.1 Deployment Architecture</h3>
+<table>
+<tr><th>Component</th><th>Service</th><th>Free Tier</th><th>Monthly Cost</th></tr>
+<tr><td>Frontend (37 pages)</td><td>Vercel / Netlify (static)</td><td>Unlimited</td><td class="amount">₹0</td></tr>
+<tr><td>Database (59 tables)</td><td>Supabase (PostgreSQL)</td><td>500MB, 50K rows</td><td class="amount">₹0 – ₹500</td></tr>
+<tr><td>Auth & Storage</td><td>Supabase Auth + Storage</td><td>50K users, 1GB</td><td class="amount">₹0</td></tr>
+<tr><td>WhatsApp Worker</td><td>Cloudflare Workers</td><td>100K req/day</td><td class="amount">₹250</td></tr>
+<tr><td>Email Worker</td><td>Cloudflare Workers</td><td>100K req/day</td><td class="amount">Included above</td></tr>
+<tr><td>WhatsApp Messages</td><td>MSG91</td><td>Pay-per-message</td><td class="amount">~₹1,000</td></tr>
+<tr><td>Email Sending</td><td>Resend</td><td>3,000/month free</td><td class="amount">₹0 – ₹500</td></tr>
+<tr><td>Domain + DNS</td><td>Cloudflare</td><td>Free DNS</td><td class="amount">~₹100</td></tr>
+<tr style="background:#eff6ff;"><th colspan="3">Total Monthly</th><th class="amount" style="font-size:14pt; color:#1e40af;">₹1,500 – ₹3,000</th></tr>
+</table>
+
+<h3>14.2 Zero-Dependency Stack</h3>
+<div class="highlight">
+    <div class="hl-title">No npm install. No build step. No framework lock-in.</div>
+    <div class="hl-text">
+        The entire frontend is vanilla HTML + JS + CSS. Deploy by copying files to any static host.
+        No React, Vue, Angular, Next.js, or Webpack. Just open index.html and it works.
+    </div>
+</div>
+
+<h3>14.3 Feature Summary (All Included)</h3>
+<div class="feat-grid">
+    <div class="feat-card"><div class="feat-title">🎯 Lead Pipeline</div><div class="feat-desc">Kanban + table, 0-100 scoring, web capture, SLA timers, dedup</div></div>
+    <div class="feat-card"><div class="feat-title">📋 Quotations</div><div class="feat-desc">Versioned quotes, GST calc, PDF export, auto-convert to invoice</div></div>
+    <div class="feat-card"><div class="feat-title">✈️ Itinerary Builder</div><div class="feat-desc">Day-by-day, vendor pricing, brochure PDF, public sharing</div></div>
+    <div class="feat-card"><div class="feat-title">🏨 Bookings</div><div class="feat-desc">PNR, vouchers, group trips, cancellation policy engine</div></div>
+    <div class="feat-card"><div class="feat-title">💰 Invoicing</div><div class="feat-desc">GST invoices, proforma, receipts, TCS tracking, multi-currency</div></div>
+    <div class="feat-card"><div class="feat-title">🤝 Vendors</div><div class="feat-desc">Rate cards, TDS calc, aging ledger, payment tracking</div></div>
+    <div class="feat-card"><div class="feat-title">👤 Client 360°</div><div class="feat-desc">Family, visas, RFM segmentation, preferences, travel history</div></div>
+    <div class="feat-card"><div class="feat-title">👥 Staff</div><div class="feat-desc">4 roles, commission tiers (3-10%), targets, leaderboard</div></div>
+    <div class="feat-card"><div class="feat-title">💬 Messaging</div><div class="feat-desc">WhatsApp + Email, templates, bulk campaigns, auto-reminders</div></div>
+    <div class="feat-card"><div class="feat-title">⚡ Automation</div><div class="feat-desc">Workflow rules, SLA breach alerts, birthday greetings, escalations</div></div>
+    <div class="feat-card"><div class="feat-title">📊 Analytics</div><div class="feat-desc">Revenue trends, funnel, P&L, staff KPIs, destination breakdown</div></div>
+    <div class="feat-card"><div class="feat-title">🔒 Security</div><div class="feat-desc">RLS, RBAC, audit trail, CORS whitelist, server-side API keys</div></div>
+</div>
+
+<div style="text-align:center; margin-top:30px; padding:30px; background:linear-gradient(135deg, #0f172a, #1e3a5f); border-radius:12px; color:#fff;">
+    <h2 style="border:none; color:#fff; font-size:20pt; margin-bottom:8px;">TravelOps CRM</h2>
+    <p style="color:#94a3b8; font-size:11pt;">Built for travel agencies that want to run like a tech company.</p>
+    <p style="font-size:10pt; margin-top:16px;">
+        <strong>59 tables</strong> &nbsp;·&nbsp; <strong>37 pages</strong> &nbsp;·&nbsp; <strong>52 modules</strong> &nbsp;·&nbsp; <strong>20+ currencies</strong> &nbsp;·&nbsp; <strong>₹1,500/month</strong>
+    </p>
+    <p style="color:#64748b; font-size:8pt; margin-top:20px;">© 2026 WhereTo Travel Pvt. Ltd. — All rights reserved. Confidential.</p>
+</div>
+</div>
+
+<!-- Print button (hidden in PDF) -->
+<button class="print-btn no-print" onclick="window.print()">📄 Print / Save as PDF</button>
+
+</body>
+</html>

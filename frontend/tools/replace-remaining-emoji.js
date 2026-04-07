@@ -80,7 +80,7 @@ jsFiles.forEach(f => {
   }
 });
 
-// Process HTML files  
+// Process HTML files
 const htmlFiles = fs.readdirSync(dir).filter(f =>
   f.endsWith('.html') && !f.startsWith('batch') && f !== 'login.html' && f !== 'lead-capture.html' && f !== 'catalog-standalone.html'
 );

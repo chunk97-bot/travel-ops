@@ -6,6 +6,7 @@
     <title>Travel Ops — Settings</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/mobile-responsive.css">
     <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
 </head>
 <body>
@@ -220,6 +221,33 @@
                             <option value="USD">USD — US Dollar</option>
                             <option value="EUR">EUR — Euro</option>
                         </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Approval Workflow Rules -->
+            <div class="section-card">
+                <h3>Approval Workflow</h3>
+                <div class="form-grid">
+                    <div class="form-group" style="grid-column:1/-1">
+                        <label class="toggle-row">
+                            <input type="checkbox" id="stApprovalRequired"> Enable approval workflow for large quotes
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label>Quote Threshold (₹)</label>
+                        <input type="number" id="stApprovalThresholdQuote" class="form-input" value="200000" min="0" step="10000" placeholder="200000">
+                        <small style="color:var(--text-muted);font-size:0.72rem">Quotes above this need approval</small>
+                    </div>
+                    <div class="form-group">
+                        <label>Discount Threshold (%)</label>
+                        <input type="number" id="stApprovalThresholdDiscount" class="form-input" value="10" min="0" max="100" placeholder="10">
+                        <small style="color:var(--text-muted);font-size:0.72rem">Discounts above this % need approval</small>
+                    </div>
+                    <div class="form-group">
+                        <label>Refund Threshold (₹)</label>
+                        <input type="number" id="stApprovalThresholdRefund" class="form-input" value="50000" min="0" step="5000" placeholder="50000">
+                        <small style="color:var(--text-muted);font-size:0.72rem">Refunds above this need approval</small>
                     </div>
                 </div>
             </div>

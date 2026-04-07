@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trip Feedback</title>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 50%, #0f0f23 100%);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px 16px;
+        }
+        .card {
+            background: rgba(255,255,255,0.06);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            max-width: 560px;
+            width: 100%;
+            padding: 32px;
+        }
+        .brand { text-align: center; margin-bottom: 24px; }
+        .brand h1 { font-size: 1.5rem; font-weight: 700; }
+        .brand p { color: rgba(255,255,255,0.6); font-size: 0.88rem; margin-top: 4px; }
+        .trip-info {
+            background: rgba(0,212,255,0.06);
+            border: 1px solid rgba(0,212,255,0.15);
+            border-radius: 10px;
+            padding: 14px 18px;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+        .trip-info .dest { font-size: 1.15rem; font-weight: 700; color: #00d4ff; }
+        .trip-info .ref { font-size: 0.78rem; color: rgba(255,255,255,0.5); margin-top: 2px; }
+        h3 { font-size: 1rem; margin-bottom: 12px; }
+        .section { margin-bottom: 24px; }
+        /* NPS */
+        .nps-row { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; }
+        .nps-btn {
+            width: 42px; height: 42px;
+            border-radius: 50%;
+            border: 2px solid rgba(255,255,255,0.15);
+            background: transparent;
+            color: #fff;
+            font-size: 0.92rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .nps-btn:hover { border-color: #00d4ff; }
+        .nps-btn.selected { background: #00d4ff; border-color: #00d4ff; color: #0f0f23; }
+        .nps-labels { display: flex; justify-content: space-between; font-size: 0.72rem; color: rgba(255,255,255,0.4); margin-top: 6px; }
+        /* Star ratings */
+        .star-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
+        .star-row:last-child { border-bottom: none; }
+        .star-label { font-size: 0.88rem; }
+        .stars { display: flex; gap: 4px; }
+        .star {
+            width: 32px; height: 32px;
+            cursor: pointer;
+            font-size: 1.3rem;
+            background: none;
+            border: none;
+            color: rgba(255,255,255,0.2);
+            transition: color 0.15s;
+        }
+        .star.active { color: #f59e0b; }
+        .star:hover { color: #fbbf24; }
+        /* Textarea */
+        textarea {
+            width: 100%;
+            min-height: 100px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 10px;
+            padding: 12px;
+            color: #fff;
+            font-size: 16px;
+            font-family: inherit;
+            resize: vertical;
+        }
+        textarea:focus { outline: none; border-color: #00d4ff; }
+        textarea::placeholder { color: rgba(255,255,255,0.35); }
+        .char-count { text-align: right; font-size: 0.72rem; color: rgba(255,255,255,0.35); margin-top: 4px; }
+        /* Submit */
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            border: none;
+            background: linear-gradient(135deg, #00d4ff 0%, #8b5cf6 100%);
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+        .submit-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(0,212,255,0.3); }
+        .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+        .success-msg {
+            text-align: center;
+            padding: 40px 20px;
+        }
+        .success-msg h2 { font-size: 1.4rem; margin-bottom: 8px; }
+        .success-msg p { color: rgba(255,255,255,0.6); }
+        .error-msg { color: #ef4444; font-size: 0.85rem; padding: 10px; text-align: center; }
+        @media (max-width: 480px) {
+            body { padding: 20px 10px; }
+            .card { padding: 20px; }
+            .nps-btn { width: 36px; height: 36px; font-size: 0.82rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="card" id="feedbackCard">
+        <div class="brand">
+            <h1>✈️ Trip Feedback</h1>
+            <p>We'd love to hear about your experience</p>
+        </div>
+        <div class="trip-info" id="tripInfo">
+            <div class="dest" id="tripDest">Loading...</div>
+            <div class="ref" id="tripRef"></div>
+        </div>
+
+        <form id="feedbackForm" onsubmit="submitFeedback(event)">
+            <!-- NPS -->
+            <div class="section">
+                <h3>How likely are you to recommend us? (0-10)</h3>
+                <div class="nps-row" id="npsRow"></div>
+                <div class="nps-labels"><span>Not likely</span><span>Very likely</span></div>
+            </div>
+
+            <!-- Category Ratings -->
+            <div class="section">
+                <h3>Rate your experience</h3>
+                <div id="categories">
+                    <div class="star-row" data-cat="overall"><span class="star-label">Overall Experience</span><div class="stars"></div></div>
+                    <div class="star-row" data-cat="hotel"><span class="star-label">Hotels & Stays</span><div class="stars"></div></div>
+                    <div class="star-row" data-cat="transport"><span class="star-label">Transport & Transfers</span><div class="stars"></div></div>
+                    <div class="star-row" data-cat="activities"><span class="star-label">Activities & Sightseeing</span><div class="stars"></div></div>
+                    <div class="star-row" data-cat="value"><span class="star-label">Value for Money</span><div class="stars"></div></div>
+                    <div class="star-row" data-cat="communication"><span class="star-label">Communication & Support</span><div class="stars"></div></div>
+                </div>
+            </div>
+
+            <!-- Comment -->
+            <div class="section">
+                <h3>Any comments or suggestions?</h3>
+                <textarea id="comment" placeholder="Tell us what went well or what we can improve..." maxlength="1000" oninput="updateCharCount()"></textarea>
+                <div class="char-count"><span id="charCount">0</span>/1000</div>
+            </div>
+
+            <button type="submit" class="submit-btn" id="submitBtn">Submit Feedback</button>
+        </form>
+        <div id="statusMsg"></div>
+    </div>
+
+    <script>
+        // ── Config (replace with your Supabase values) ──
+        const SUPABASE_URL = 'YOUR_SUPABASE_URL';
+        const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+
+        let feedbackData = null;
+        let npsScore = null;
+        const ratings = {};
+
+        // ── Init ────────────────────────────────────────
+        async function init() {
+            const params = new URLSearchParams(window.location.search);
+            const token = params.get('token');
+            if (!token || token.length < 10) {
+                showError('Invalid feedback link');
+                return;
+            }
+
+            // Load Supabase
+            const script = document.createElement('script');
+            script.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js';
+            script.onload = async () => {
+                const { createClient } = supabase;
+                window.sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+                const { data, error } = await sb.from('customer_feedback')
+                    .select('*, bookings(booking_ref, destination, travel_date), clients(name)')
+                    .eq('token', token)
+                    .single();
+
+                if (error || !data) { showError('Feedback link expired or invalid'); return; }
+                if (data.status === 'submitted') { showSuccess('You\'ve already submitted feedback. Thank you!'); return; }
+
+                feedbackData = data;
+                document.getElementById('tripDest').textContent = data.bookings?.destination || 'Your Trip';
+                document.getElementById('tripRef').textContent = `Ref: ${data.bookings?.booking_ref || '—'}`;
+                buildNps();
+                buildStars();
+            };
+            document.body.appendChild(script);
+        }
+
+        // ── Build NPS buttons ───────────────────────────
+        function buildNps() {
+            const row = document.getElementById('npsRow');
+            for (let i = 0; i <= 10; i++) {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'nps-btn';
+                btn.textContent = i;
+                btn.onclick = () => selectNps(i);
+                row.appendChild(btn);
+            }
+        }
+
+        function selectNps(score) {
+            npsScore = score;
+            document.querySelectorAll('.nps-btn').forEach((b, i) => {
+                b.classList.toggle('selected', i === score);
+            });
+        }
+
+        // ── Build star ratings ──────────────────────────
+        function buildStars() {
+            document.querySelectorAll('.star-row').forEach(row => {
+                const cat = row.dataset.cat;
+                const container = row.querySelector('.stars');
+                for (let i = 1; i <= 5; i++) {
+                    const star = document.createElement('button');
+                    star.type = 'button';
+                    star.className = 'star';
+                    star.textContent = '★';
+                    star.onclick = () => setRating(cat, i);
+                    container.appendChild(star);
+                }
+            });
+        }
+
+        function setRating(cat, value) {
+            ratings[cat] = value;
+            const row = document.querySelector(`.star-row[data-cat="${cat}"]`);
+            row.querySelectorAll('.star').forEach((s, i) => {
+                s.classList.toggle('active', i < value);
+            });
+        }
+
+        function updateCharCount() {
+            const len = document.getElementById('comment').value.length;
+            document.getElementById('charCount').textContent = len;
+        }
+
+        // ── Submit ──────────────────────────────────────
+        async function submitFeedback(e) {
+            e.preventDefault();
+            if (npsScore === null) { alert('Please select an NPS score'); return; }
+            if (!ratings.overall) { alert('Please rate your overall experience'); return; }
+
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true;
+            btn.textContent = 'Submitting...';
+
+            const comment = document.getElementById('comment').value.trim().slice(0, 1000);
+
+            const { error } = await sb.from('customer_feedback')
+                .update({
+                    nps_score: npsScore,
+                    overall_rating: ratings.overall || null,
+                    value_rating: ratings.value || null,
+                    categories: ratings,
+                    comment: comment || null,
+                    status: 'submitted',
+                    submitted_at: new Date().toISOString(),
+                })
+                .eq('id', feedbackData.id);
+
+            if (error) {
+                btn.disabled = false;
+                btn.textContent = 'Submit Feedback';
+                showError('Something went wrong. Please try again.');
+                return;
+            }
+
+            // Update client NPS score
+            if (feedbackData.client_id) {
+                await sb.from('clients')
+                    .update({
+                        nps_score: npsScore,
+                        last_feedback_date: new Date().toISOString(),
+                    })
+                    .eq('id', feedbackData.client_id);
+            }
+
+            showSuccess('Thank you for your feedback! 🎉');
+        }
+
+        function showError(msg) {
+            document.getElementById('feedbackForm').style.display = 'none';
+            document.getElementById('statusMsg').innerHTML = `<div class="error-msg">${msg}</div>`;
+        }
+
+        function showSuccess(msg) {
+            document.getElementById('feedbackForm').style.display = 'none';
+            document.getElementById('tripInfo').style.display = 'none';
+            document.getElementById('statusMsg').innerHTML = `
+                <div class="success-msg">
+                    <h2>🙏 Thank You!</h2>
+                    <p>${msg}</p>
+                </div>`;
+        }
+
+        init();
+    </script>
+</body>
+</html>

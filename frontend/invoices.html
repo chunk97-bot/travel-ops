@@ -6,6 +6,7 @@
     <title>Travel Ops — Invoices</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/mobile-responsive.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" integrity="sha512-qZvrmS2ekKPF2mSznTQsxqPgnpkI4DNTlrdUmTzrDgektczlKNRRhy5X5AAOnx5S09ydFYWWNSfdio1FsIDg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
@@ -107,6 +108,7 @@
                 <button class="modal-close" id="closeInvoiceModal">&times;</button>
             </div>
             <div id="invoiceFormArea">
+                <div id="invoiceFormTop"></div>
                 <div class="form-grid">
                     <div class="form-group">
                         <label>Client *</label>
@@ -213,6 +215,7 @@
     <script src="js/supabase-config.js"></script>
     <script src="js/auth.js"></script>
     <script src="js/invoices.js"></script>
+    <script src="js/multi-currency.js"></script>
     <script src="js/payment-reminders.js"></script>
     <script src="js/comments.js"></script>
     <script src="js/bulk-operations.js"></script>

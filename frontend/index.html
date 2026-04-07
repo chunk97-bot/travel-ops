@@ -6,6 +6,7 @@
     <title>Travel Ops — Dashboard</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/mobile-responsive.css">
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#3b82f6">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -181,6 +182,22 @@
             <div id="feedbackWidget"></div>
         </section>
 
+        <!-- Pending Approvals -->
+        <section class="dashboard-section">
+            <div class="section-header">
+                <h2>Pending Approvals</h2>
+            </div>
+            <div id="approvalQueue"></div>
+        </section>
+
+        <!-- NPS Overview -->
+        <section class="dashboard-section">
+            <div class="section-header">
+                <h2>Customer NPS</h2>
+            </div>
+            <div id="npsDashboard"></div>
+        </section>
+
         <!-- Pipeline Summary -->
         <section class="dashboard-section">
             <div class="section-header">
@@ -212,6 +229,10 @@
     <script src="js/birthday-greet.js"></script>
     <script src="js/revenue-trends.js"></script>
     <script src="js/feedback.js"></script>
+    <script src="js/approval-workflow.js"></script>
+    <script src="js/pre-travel-reminders.js"></script>
+    <script src="js/feedback-nps.js"></script>
+    <script src="js/booking-pnl.js"></script>
     <script src="js/dashboard.js"></script>
     <script>
         // PWA Service Worker registration
@@ -225,6 +246,9 @@
             if (typeof initBirthdayGreet === 'function') initBirthdayGreet('birthdayGreetWidget');
             if (typeof initPipelineValue === 'function') initPipelineValue('pipelineValueWidget');
             if (typeof loadFeedbackWidget === 'function') loadFeedbackWidget('feedbackWidget');
+            if (typeof loadApprovalQueue === 'function') loadApprovalQueue('approvalQueue');
+            if (typeof loadNpsDashboard === 'function') loadNpsDashboard('npsDashboard');
+            if (typeof checkAndSendReminders === 'function') checkAndSendReminders();
         });
     </script>
     <script src="js/icons.js"></script>

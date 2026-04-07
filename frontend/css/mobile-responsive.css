@@ -1,0 +1,362 @@
+/* ============================================================
+   mobile-responsive.css — Enhanced Mobile Responsive Overhaul
+   Supplements style.css with CRM-specific responsive rules
+   for tables, forms, drawers, modals, and touch targets.
+   ============================================================ */
+
+/* ── Touch-friendly base sizes ─────────────────────────── */
+@media (max-width: 768px) {
+
+    /* Buttons: 44px minimum touch target */
+    .btn, .action-btn, button[type="submit"], button[type="button"] {
+        min-height: 44px;
+        min-width: 44px;
+        font-size: 0.88rem;
+        padding: 10px 16px;
+    }
+
+    .btn-sm {
+        min-height: 36px;
+        min-width: 36px;
+        font-size: 0.82rem;
+        padding: 8px 12px;
+    }
+
+    /* Form inputs: 16px font to prevent iOS zoom */
+    .form-input, .form-select, .form-textarea,
+    input[type="text"], input[type="number"], input[type="email"],
+    input[type="tel"], input[type="date"], input[type="search"],
+    select, textarea {
+        font-size: 16px !important;
+        min-height: 44px;
+        padding: 10px 12px;
+    }
+
+    .form-label {
+        font-size: 0.82rem;
+        margin-bottom: 4px;
+    }
+
+    .form-group {
+        margin-bottom: 14px;
+    }
+
+    /* ── Page layout ─────────────────────────────────── */
+    .page-content, .main-content {
+        padding: 12px;
+        margin-left: 0 !important;
+        width: 100% !important;
+    }
+
+    .page-header {
+        flex-direction: column;
+        gap: 10px;
+        padding: 12px 0;
+    }
+
+    .page-header h1 {
+        font-size: 1.3rem;
+    }
+
+    .page-header .header-actions {
+        width: 100%;
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    .page-header .header-actions .btn {
+        flex: 1;
+        min-width: 0;
+        text-align: center;
+    }
+
+    /* ── Stat cards grid ─────────────────────────────── */
+    .stats-grid, .stat-cards {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 8px;
+    }
+
+    .stat-card {
+        padding: 12px;
+    }
+
+    .stat-card .stat-value {
+        font-size: 1.2rem;
+    }
+
+    .stat-card .stat-label {
+        font-size: 0.72rem;
+    }
+
+    /* ── Tables: horizontal scroll ──────────────────── */
+    .table-container {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        margin: 0 -12px;
+        padding: 0 12px;
+    }
+
+    .data-table {
+        min-width: 600px;
+        font-size: 0.82rem;
+    }
+
+    .data-table th, .data-table td {
+        padding: 8px 10px;
+        white-space: nowrap;
+    }
+
+    .data-table th:first-child, .data-table td:first-child {
+        position: sticky;
+        left: 0;
+        background: var(--bg-card, #1a1a3e);
+        z-index: 1;
+    }
+
+    /* ── Modals: full-width on mobile ──────────────── */
+    .modal-content, .modal-body {
+        width: 95vw !important;
+        max-width: 95vw !important;
+        max-height: 85vh;
+        border-radius: 12px 12px 0 0;
+        margin: auto auto 0;
+    }
+
+    .modal-header {
+        padding: 14px 16px;
+    }
+
+    .modal-body {
+        padding: 12px 16px;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .modal-footer {
+        padding: 10px 16px;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .modal-footer .btn {
+        flex: 1;
+        min-width: 0;
+    }
+
+    /* ── Drawers: full-width on mobile ─────────────── */
+    .drawer, .detail-drawer {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    .drawer-header {
+        padding: 14px 16px;
+    }
+
+    .drawer-body {
+        padding: 12px 16px;
+    }
+
+    .drawer-section {
+        margin-bottom: 16px;
+    }
+
+    /* ── Forms: single column ──────────────────────── */
+    .form-row, .form-grid {
+        grid-template-columns: 1fr !important;
+        gap: 10px;
+    }
+
+    .form-row-2col, .form-row-3col {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* ── Tabs: horizontal scroll ───────────────────── */
+    .tabs, .tab-bar {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        white-space: nowrap;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        gap: 0;
+    }
+
+    .tabs::-webkit-scrollbar, .tab-bar::-webkit-scrollbar {
+        display: none;
+    }
+
+    .tab, .tab-item {
+        flex-shrink: 0;
+        padding: 10px 14px;
+        font-size: 0.82rem;
+    }
+
+    /* ── Kanban board: vertical stack ──────────────── */
+    .kanban-board {
+        flex-direction: column !important;
+    }
+
+    .kanban-column {
+        width: 100% !important;
+        min-width: 0 !important;
+    }
+
+    /* ── Card layout ───────────────────────────────── */
+    .card-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .card {
+        padding: 14px;
+    }
+
+    /* ── Quick action buttons row ──────────────────── */
+    .quick-actions, .action-row {
+        flex-wrap: wrap;
+        gap: 6px;
+    }
+
+    .quick-actions .btn, .action-row .btn {
+        flex: 1 1 calc(50% - 4px);
+        min-width: 0;
+    }
+
+    /* ── Pricing breakdown in itinerary ────────────── */
+    .pricing-breakdown {
+        font-size: 0.85rem;
+    }
+
+    .pricing-breakdown .row {
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 6px 0;
+    }
+
+    /* ── Badge & status pills ──────────────────────── */
+    .status-badge, .badge {
+        font-size: 0.72rem;
+        padding: 3px 8px;
+    }
+
+    /* ── Timeline in booking drawer ────────────────── */
+    .trip-timeline {
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .timeline-step {
+        flex-direction: row;
+        gap: 8px;
+    }
+
+    /* ── Floating action button ────────────────────── */
+    .fab, .floating-btn {
+        bottom: 20px;
+        right: 16px;
+        width: 52px;
+        height: 52px;
+    }
+
+    /* ── Service rows in booking form ─────────────── */
+    .service-row {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .service-row .form-input, .service-row .form-select {
+        width: 100%;
+    }
+
+    /* ── P&L grid in drawer ───────────────────────── */
+    .drawer-section > div[style*="grid-template-columns: 1fr 1fr"] {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* ── Invoice/PDF preview ──────────────────────── */
+    .pdf-preview-container {
+        max-width: 100%;
+        overflow-x: auto;
+    }
+}
+
+/* ── Extra-small phones (≤ 480px) ─────────────────────── */
+@media (max-width: 480px) {
+    .stats-grid, .stat-cards {
+        grid-template-columns: 1fr !important;
+    }
+
+    .page-header h1 {
+        font-size: 1.15rem;
+    }
+
+    .modal-content, .modal-body {
+        width: 100vw !important;
+        max-width: 100vw !important;
+        border-radius: 12px 12px 0 0;
+    }
+
+    .quick-actions .btn, .action-row .btn {
+        flex: 1 1 100%;
+    }
+}
+
+/* ── Landscape phone / small tablet ───────────────────── */
+@media (min-width: 481px) and (max-width: 768px) and (orientation: landscape) {
+    .stats-grid, .stat-cards {
+        grid-template-columns: repeat(3, 1fr) !important;
+    }
+
+    .form-row, .form-grid {
+        grid-template-columns: 1fr 1fr !important;
+    }
+}
+
+/* ── Medium tablets (769px – 1024px) ──────────────────── */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .stats-grid, .stat-cards {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .drawer, .detail-drawer {
+        width: 55% !important;
+    }
+
+    .card-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* ── Print: clean output ──────────────────────────────── */
+@media print {
+    .app-nav, .menu-toggle, .nav-overlay, .fab, .floating-btn,
+    .quick-actions, .action-row, .tabs, .tab-bar {
+        display: none !important;
+    }
+
+    .page-content, .main-content {
+        margin-left: 0 !important;
+        padding: 0 !important;
+    }
+
+    .data-table {
+        min-width: auto;
+        font-size: 10px;
+    }
+}
+
+/* ── Disable hover effects on touch devices ───────────── */
+@media (hover: none) and (pointer: coarse) {
+    .btn:hover, .action-btn:hover, .card:hover,
+    .stat-card:hover, .nav-item:hover {
+        transform: none !important;
+        box-shadow: none !important;
+    }
+}
+
+/* ── Reduced motion ───────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+    .drawer, .detail-drawer, .modal-content, .app-nav {
+        transition-duration: 0.01ms !important;
+    }
+}
